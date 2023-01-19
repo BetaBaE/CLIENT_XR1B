@@ -2,9 +2,11 @@ import { makeStyles } from "@material-ui/core";
 import {
   Edit,
   required,
+  SaveButton,
   SelectInput,
   SimpleForm,
   TextInput,
+  Toolbar,
 } from "react-admin";
 const useStyles = makeStyles(() => ({
   autocomplete: {
@@ -14,11 +16,18 @@ const useStyles = makeStyles(() => ({
     fontWeight: "bold",
   },
 }));
+
+const EditToolbar = (props) => (
+  <Toolbar {...props}>
+    <SaveButton id="save" />
+  </Toolbar>
+);
+
 export const RibfournisseurEdit = () => {
   const classes = useStyles();
   return (
     <Edit>
-      <SimpleForm>
+      <SimpleForm toolbar={<EditToolbar />}>
         {/* <TextInput source="id" /> */}
         <TextInput
           className={classes.autocomplete}

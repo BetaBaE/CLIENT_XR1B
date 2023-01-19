@@ -1,5 +1,12 @@
 import { makeStyles } from "@material-ui/core";
-import { Edit, required, SimpleForm, TextInput } from "react-admin";
+import {
+  Edit,
+  required,
+  SaveButton,
+  SimpleForm,
+  TextInput,
+  Toolbar,
+} from "react-admin";
 
 const useStyles = makeStyles(() => ({
   autocomplete: {
@@ -9,12 +16,17 @@ const useStyles = makeStyles(() => ({
     fontWeight: "bold",
   },
 }));
+const EditToolbar = (props) => (
+  <Toolbar {...props}>
+    <SaveButton id="save" />
+  </Toolbar>
+);
 
-export const RibatnerEdit = () => {
+export const RibatnerEdit = (props) => {
   const classes = useStyles();
   return (
-    <Edit>
-      <SimpleForm>
+    <Edit {...props}>
+      <SimpleForm toolbar={<EditToolbar />}>
         {/* <TextInput source="id" /> */}
         <TextInput
           validate={required("Le nom est obligatoire")}
