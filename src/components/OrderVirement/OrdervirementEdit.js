@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const UserEditToolbar = (props) => (
+const EditToolbar = (props) => (
   <Toolbar {...props}>
     <SaveButton id="save" />
   </Toolbar>
@@ -103,7 +103,7 @@ export const OrdervirementEdit = (props) => {
   const classes = useStyles();
   return (
     <Edit {...props}>
-      <SimpleForm toolbar={<UserEditToolbar />}>
+      <SimpleForm toolbar={<EditToolbar />}>
         <TextInput className={classes.autocomplete} source="id" disabled />
         <FormDataConsumer>
           {({ formData, ...rest }) =>

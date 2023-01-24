@@ -23,6 +23,11 @@ export const auth = (type, params) => {
       .then(({ token, role }) => {
         localStorage.setItem("token", token);
         localStorage.setItem("role", role);
+        setTimeout(() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("role");
+          document.location.reload();
+        }, "28800000");
       });
   }
   if (type === AUTH_LOGOUT) {

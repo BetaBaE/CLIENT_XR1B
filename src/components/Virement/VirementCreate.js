@@ -107,6 +107,7 @@ export const VirementCreate = () => {
       });
     // console.log(facture);
   };
+
   const getFournisseurFilteredByOv = (id) => {
     fetch(
       `http://10.111.1.95:8080/fournisseursribvalid?ordervirment={"id":"${id}"}`
