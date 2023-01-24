@@ -27,7 +27,7 @@ export const auth = (type, params) => {
           localStorage.removeItem("token");
           localStorage.removeItem("role");
           document.location.reload();
-        }, "28800000");
+        }, "7200000");
       });
   }
   if (type === AUTH_LOGOUT) {
