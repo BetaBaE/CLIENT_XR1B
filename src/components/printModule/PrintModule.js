@@ -23,8 +23,12 @@ const PrintModule = () => {
   const showLoadingPdf = (json) => {
     Swal.fire({
       title: "Pdf est prêt",
-      text: `Path: ${json.path}`,
+      html: `Path: <a href=${json.path}" target="\\_blank">${json.path}</a>`,
       icon: "success",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+    }).then(function () {
+      window.open(json.path, "_blank");
     });
   };
 
@@ -57,6 +61,8 @@ const PrintModule = () => {
             Swal.fire({
               title: "Preparation du pdf en cours",
               html: "Merci de patienter",
+              allowOutsideClick: false,
+              allowEscapeKey: false,
               timer: 600000,
               timerProgressBar: true,
               didOpen: () => {
@@ -69,6 +75,8 @@ const PrintModule = () => {
                   icon: "error",
                   title: "Oops...",
                   text: "Quelque chose s'est mal passé!",
+                  allowOutsideClick: false,
+                  allowEscapeKey: false,
                   // footer: '<a href="">Why do I have this issue?</a>',
                 });
               }
