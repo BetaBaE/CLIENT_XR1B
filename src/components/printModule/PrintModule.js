@@ -23,7 +23,7 @@ const PrintModule = () => {
   const showLoadingPdf = (json) => {
     Swal.fire({
       title: "Pdf est prêt",
-      html: `Path: <a href=${json.path}" target="\\_blank">${json.path}</a>`,
+      html: `<a href=${json.path}" target="\\_blank">Click ici pour ouvrire pdf de order de virement</a>`,
       icon: "success",
       allowOutsideClick: false,
       allowEscapeKey: false,
