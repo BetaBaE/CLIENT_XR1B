@@ -21,14 +21,15 @@ const PrintModule = () => {
   }, []);
 
   const showLoadingPdf = (json) => {
+    let jsonPath = "file:" + json.path.replaceAll("\\", "/");
     Swal.fire({
       title: "Pdf est prêt",
-      html: `<a href=${json.path}" target="\\_blank">Click ici pour ouvrire pdf de order de virement</a>`,
+      html: `${jsonPath}<br/> <a href=${jsonPath}" target="\\_blank">Click ici pour ouvrire pdf de order de virement</a>`,
       icon: "success",
       allowOutsideClick: false,
       allowEscapeKey: false,
     }).then(function () {
-      window.open(json.path, "_blank");
+      window.open(jsonPath, "_blank");
     });
   };
 
@@ -38,12 +39,12 @@ const PrintModule = () => {
         <select
           required="required"
           onChange={(e) => {
-            console.log(e.target.value);
+            // console.log(e.target.value);
             setSelctov(e.target.value);
           }}
         >
           <option disabled="disabled" selected={true} value="">
-            choix order de virement{" "}
+            choix order de virement
           </option>
           {orderVirement.map((order) => {
             return (
@@ -56,41 +57,54 @@ const PrintModule = () => {
         <button
           type="submit"
           onClick={(e) => {
-            e.preventDefault();
+            if (selctov !== undefined) {
+              e.preventDefault();
 
-            Swal.fire({
-              title: "Preparation du pdf en cours",
-              html: "Merci de patienter",
-              allowOutsideClick: false,
-              allowEscapeKey: false,
-              timer: 600000,
-              timerProgressBar: true,
-              didOpen: () => {
-                Swal.showLoading();
-              },
-            }).then((result) => {
-              /* Read more about handling dismissals below */
-              if (result.dismiss === Swal.DismissReason.timer) {
-                Swal.fire({
-                  icon: "error",
-                  title: "Oops...",
-                  text: "Quelque chose s'est mal passé!",
-                  allowOutsideClick: false,
-                  allowEscapeKey: false,
-                  // footer: '<a href="">Why do I have this issue?</a>',
-                });
-              }
-            });
-
-            console.log(selctov);
-            fetch(
-              `http://10.111.1.95:8080/oneordervirement?ordervirment={"id":"${selctov}"}`
-            )
-              .then((response) => response.json())
-              .then((json) => {
-                console.log(json);
-                showLoadingPdf(json);
+              Swal.fire({
+                title: "Preparation du pdf en cours",
+                html: "Merci de patienter",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                timer: 600000,
+                timerProgressBar: true,
+                didOpen: () => {
+                  Swal.showLoading();
+                },
+              }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Quelque chose s'est mal passé!",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    // footer: '<a href="">Why do I have this issue?</a>',
+                  });
+                }
               });
+
+              // console.log(selctov);
+
+              fetch(
+                `http://10.111.1.95:8080/oneordervirement?ordervirment={"id":"${selctov}"}`
+              )
+                .then((response) => response.json())
+                .then((json) => {
+                  console.log(json);
+                  showLoadingPdf(json);
+                });
+            } else {
+              e.preventDefault();
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Veuillez choisir un order de virement",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                // footer: '<a href="">Why do I have this issue?</a>',
+              });
+            }
           }}
         >
           Submit
