@@ -24,12 +24,10 @@ const PrintModule = () => {
     let jsonPath = "file:" + json.path.replaceAll("\\", "/");
     Swal.fire({
       title: "Pdf est prêt",
-      html: `${jsonPath}<br/> <a href=${jsonPath}" target="\\_blank">Click ici pour ouvrire pdf de order de virement</a>`,
+      html: `${jsonPath}`,
       icon: "success",
       allowOutsideClick: false,
       allowEscapeKey: false,
-    }).then(function () {
-      window.open(jsonPath, "_blank");
     });
   };
 

@@ -54,6 +54,7 @@ export const VirementCreate = () => {
       DATEDOC: "1960-01-01T00:00:00.000Z",
       nom: "",
       NETAPAYER: 0.0,
+      MontantFacture: 0.0,
     },
   ]);
   // const [factureFilter, setFactureFilter] = useState([
@@ -132,10 +133,14 @@ export const VirementCreate = () => {
     name: rib,
   }));
 
-  let facture_choices = facture.map(({ id, DATEDOC, nom, NETAPAYER }) => ({
-    id: id,
-    name: `${id} | ${DATEDOC.split("T")[0]} | ${nom} | ${NETAPAYER}`,
-  }));
+  let facture_choices = facture.map(
+    ({ id, chantier, FN, DATEDOC, nom, NETAPAYER, MontantFacture }) => ({
+      id: id,
+      name: `${id} | ${chantier} | FN ${FN} | ${
+        DATEDOC.split("T")[0]
+      } | ${nom} | ${MontantFacture != null ? MontantFacture : NETAPAYER}`,
+    })
+  );
 
   const classes = useStyles();
   return (
@@ -196,7 +201,11 @@ export const VirementCreate = () => {
           onChange={(e) => {
             let sum = 0;
             e.forEach((fa) => {
-              sum += facture.find((facture) => facture.id === fa).NETAPAYER;
+              sum +=
+                facture.find((facture) => facture.id === fa).MontantFacture !=
+                null
+                  ? facture.find((facture) => facture.id === fa).MontantFacture
+                  : facture.find((facture) => facture.id === fa).NETAPAYER;
             });
             // console.log(sum.toFixed(3));
             setSum(sum.toFixed(3));

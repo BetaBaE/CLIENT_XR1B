@@ -15,6 +15,7 @@ export const LogfactureList = (props) => {
         <NumberField source="TOTTVANET" label="TVA" />
         <NumberField source="TOTALTTC" label="TTC" />
         <NumberField source="NETAPAYER" label="Net a payer" />
+        <NumberField source="MontanFacture" />
         <TextField source="orderVirementId" />
         <TextField source="etat" />
       </Datagrid>

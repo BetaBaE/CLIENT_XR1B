@@ -30,6 +30,7 @@ function App(props) {
   return (
     <Admin
       {...props}
+      // dataProvider={restProvider("http://10.111.1.217:8080")}
       dataProvider={restProvider("http://10.111.1.95:8080")}
       authProvider={auth}
       layout={CustomLayout}
