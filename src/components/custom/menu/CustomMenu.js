@@ -17,63 +17,89 @@ export const CustomMenu = (props) => {
 
   return (
     <Menu {...props}>
-      {(permissions === "admin" || permissions === "normal user") && (
+      {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable") && (
         <Menu.Item
           to="/fournisseurs"
           primaryText="Fournisseurs"
           leftIcon={<FaTruck />}
         />
       )}
-
-      <Menu.Item
-        to="/ribtempo"
-        primaryText="RIB Temporaire"
-        leftIcon={<FaCreditCard />}
-      />
-
-      {(permissions === "admin" || permissions === "normal user") && (
+      {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable") && (
+        <Menu.Item
+          to="/ribtempo"
+          primaryText="RIB Temporaire"
+          leftIcon={<FaCreditCard />}
+        />
+      )}
+      {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite") && (
         <Menu.Item
           to="/ribfournisseurs"
           primaryText="RIB Validé"
           leftIcon={<FaCreditCard />}
         />
       )}
-      {(permissions === "admin" || permissions === "normal user") && (
+      {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable") && (
         <Menu.Item
           to="/ribatner"
           primaryText="RIB Atner"
           leftIcon={<FaBuilding />}
         />
       )}
-      {(permissions === "admin" || permissions === "normal user") && (
+      {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable") && (
         <Menu.Item
           to="/factures"
           primaryText="Factures"
           leftIcon={<FaFileInvoice />}
         />
       )}
-      {(permissions === "admin" || permissions === "normal user") && (
+      {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable") && (
         <Menu.Item
           to="/ordervirement"
           primaryText="Order Virement"
           leftIcon={<FaPager />}
         />
       )}
-      {(permissions === "admin" || permissions === "normal user") && (
+      {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable") && (
         <Menu.Item
           to="/virements"
           primaryText="Virements"
           leftIcon={<MdPayments />}
         />
       )}
-      {(permissions === "admin" || permissions === "normal user") && (
+      {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable") && (
         <Menu.Item
           to="/logfactures"
           primaryText="Log Factures"
           leftIcon={<FaRegListAlt />}
         />
       )}
-      {(permissions === "admin" || permissions === "normal user") && (
+      {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable") && (
         <Menu.Item
           to="/print"
           primaryText="Print Order Virement"

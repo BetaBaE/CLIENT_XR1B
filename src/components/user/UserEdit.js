@@ -48,7 +48,12 @@ export const UserEdit = (props) => {
           source="Role"
           choices={[
             { id: "admin", name: "Admin" },
-            { id: "normal user", name: "normal user" },
+            { id: "normal user", name: "Normal user" },
+            {
+              id: "superviseur comptabilite",
+              name: "Superviseur Comptabilité",
+            },
+            { id: "comptable", name: "Comptable" },
             //   { id: "photography", name: "Photography" },
           ]}
         />

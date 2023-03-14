@@ -20,6 +20,11 @@ export const UserCreate = () => (
         choices={[
           { id: "admin", name: "Admin" },
           { id: "normal user", name: "Normal user" },
+          {
+            id: "superviseur comptabilite",
+            name: "Superviseur Comptabilité",
+          },
+          { id: "comptable", name: "Comptable" },
           //   { id: "photography", name: "Photography" },
         ]}
       />

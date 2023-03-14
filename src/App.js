@@ -36,7 +36,10 @@ function App(props) {
       layout={CustomLayout}
     >
       {(permissions) => [
-        permissions === "admin" || permissions === "normal user" ? (
+        permissions === "admin" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
           <Resource
             name="fournisseurs"
             list={FournisseurList}
@@ -44,7 +47,9 @@ function App(props) {
             icon={FaTruck}
           />
         ) : null,
-        permissions === "admin" || permissions === "normal user" ? (
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ? (
           <Resource
             name="ribfournisseurs"
             list={RibfournisseurList}
@@ -52,7 +57,10 @@ function App(props) {
             icon={FaCreditCard}
           />
         ) : null,
-        permissions === "admin" || permissions === "normal user" ? (
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
           <Resource
             name="ribatner"
             list={RibatnerList}
@@ -61,7 +69,10 @@ function App(props) {
             icon={FaCreditCard}
           />
         ) : null,
-        permissions === "admin" || permissions === "normal user" ? (
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
           <Resource
             name="ribtempo"
             list={RibtempoList}
@@ -70,7 +81,10 @@ function App(props) {
             icon={FaCreditCard}
           />
         ) : null,
-        permissions === "admin" || permissions === "normal user" ? (
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
           <Resource
             name="ordervirement"
             list={OrdervirementList}
@@ -79,7 +93,10 @@ function App(props) {
             icon={FaCreditCard}
           />
         ) : null,
-        permissions === "admin" || permissions === "normal user" ? (
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
           <Resource
             name="factures"
             list={FactureList}
@@ -88,7 +105,10 @@ function App(props) {
             icon={FaCreditCard}
           />
         ) : null,
-        permissions === "admin" || permissions === "normal user" ? (
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
           <Resource
             name="virements"
             list={VirementList}
@@ -97,10 +117,16 @@ function App(props) {
             icon={FaCreditCard}
           />
         ) : null,
-        permissions === "admin" || permissions === "normal user" ? (
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
           <Resource name="logfactures" list={LogfactureList} />
         ) : null,
-        permissions === "admin" || permissions === "normal user" ? (
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
           <CustomRoutes>
             <Route path="/print" element={<PrintModule />} />
           </CustomRoutes>
