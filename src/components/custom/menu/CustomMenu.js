@@ -102,7 +102,7 @@ export const CustomMenu = (props) => {
         permissions === "comptable") && (
         <Menu.Item
           to="/print"
-          primaryText="Print Order Virement"
+          primaryText="Imp. Order Virement"
           leftIcon={<FaPrint />}
         />
       )}

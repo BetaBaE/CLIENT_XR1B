@@ -37,7 +37,7 @@ function App(props) {
     >
       {(permissions) => [
         permissions === "admin" ||
-        permissions === "superviseur comptabilite" ||
+        permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <Resource

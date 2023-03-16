@@ -2,7 +2,7 @@ import { Datagrid, DateField, List, NumberField, TextField } from "react-admin";
 import OrderVirementFilter from "./OrderVirementFilter";
 
 export const OrdervirementList = () => (
-  <List filters={<OrderVirementFilter />}>
+  <List filters={<OrderVirementFilter />} title="Order Virement">
     <Datagrid rowClick="edit" bulkActionButtons={false}>
       <TextField source="id" />
       <TextField source="nom" />

@@ -5,7 +5,7 @@ import FilterRIBTempo from "./FilterRIBTempo";
 // https://stackoverflow.com/questions/62073384/autocomplete-input-with-two-fields-in-react-admin
 export const RibtempoList = (props) => {
   return (
-    <List filters={<FilterRIBTempo />}>
+    <List filters={<FilterRIBTempo />} title="RIB Temporaire">
       <Datagrid bulkActionButtons={false} {...props}>
         <TextField source="fournisseur" />
         <TextField source="rib" label="RIB" />
