@@ -1,6 +1,7 @@
 import { Box } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import "./styles.css";
 // import Swal from "sweetalert2";
 // import withReactContent from "sweetalert2-react-content";
 const PrintModule = () => {
@@ -35,6 +36,7 @@ const PrintModule = () => {
     <Box component="span" display="flex" justifyContent="center" m={1}>
       <form>
         <select
+          className="select-css"
           required="required"
           onChange={(e) => {
             // console.log(e.target.value);
@@ -42,7 +44,7 @@ const PrintModule = () => {
           }}
         >
           <option disabled="disabled" selected={true} value="">
-            choix order de virement
+            choisir un order de virement
           </option>
           {orderVirement.map((order) => {
             return (
@@ -52,61 +54,64 @@ const PrintModule = () => {
             );
           })}
         </select>
-        <button
-          type="submit"
-          onClick={(e) => {
-            if (selctov !== undefined) {
-              e.preventDefault();
+        <div className="button-container">
+          <button
+            className="button-6 "
+            type="submit"
+            onClick={(e) => {
+              if (selctov !== undefined) {
+                e.preventDefault();
 
-              Swal.fire({
-                title: "Preparation du pdf en cours",
-                html: "Merci de patienter",
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                timer: 600000,
-                timerProgressBar: true,
-                didOpen: () => {
-                  Swal.showLoading();
-                },
-              }).then((result) => {
-                /* Read more about handling dismissals below */
-                if (result.dismiss === Swal.DismissReason.timer) {
-                  Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Quelque chose s'est mal passé!",
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    // footer: '<a href="">Why do I have this issue?</a>',
-                  });
-                }
-              });
-
-              // console.log(selctov);
-
-              fetch(
-                `http://10.111.1.95:8080/oneordervirement?ordervirment={"id":"${selctov}"}`
-              )
-                .then((response) => response.json())
-                .then((json) => {
-                  console.log(json);
-                  showLoadingPdf(json);
+                Swal.fire({
+                  title: "Preparation du pdf en cours",
+                  html: "Merci de patienter",
+                  allowOutsideClick: false,
+                  allowEscapeKey: false,
+                  timer: 600000,
+                  timerProgressBar: true,
+                  didOpen: () => {
+                    Swal.showLoading();
+                  },
+                }).then((result) => {
+                  /* Read more about handling dismissals below */
+                  if (result.dismiss === Swal.DismissReason.timer) {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: "Quelque chose s'est mal passé!",
+                      allowOutsideClick: false,
+                      allowEscapeKey: false,
+                      // footer: '<a href="">Why do I have this issue?</a>',
+                    });
+                  }
                 });
-            } else {
-              e.preventDefault();
-              Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Veuillez choisir un order de virement",
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                // footer: '<a href="">Why do I have this issue?</a>',
-              });
-            }
-          }}
-        >
-          Submit
-        </button>
+
+                // console.log(selctov);
+
+                fetch(
+                  `http://10.111.1.95:8080/oneordervirement?ordervirment={"id":"${selctov}"}`
+                )
+                  .then((response) => response.json())
+                  .then((json) => {
+                    console.log(json);
+                    showLoadingPdf(json);
+                  });
+              } else {
+                e.preventDefault();
+                Swal.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: "Veuillez choisir un order de virement",
+                  allowOutsideClick: false,
+                  allowEscapeKey: false,
+                  // footer: '<a href="">Why do I have this issue?</a>',
+                });
+              }
+            }}
+          >
+            Submit
+          </button>
+        </div>
       </form>
     </Box>
   );
