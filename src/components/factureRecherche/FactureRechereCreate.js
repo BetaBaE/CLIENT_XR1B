@@ -45,7 +45,7 @@ export const FactureRechereCreate = (props) => {
       });
   }, [dataProvider]);
   const getFactureByFourniseur = (nom) => {
-    let url = "http://localhost:8080/facturebyfournisseur/" + nom;
+    let url = "http://10.111.1.95:8080/facturebyfournisseur/" + nom;
     fetch(url)
       .then((response) => response.json())
       .then((json) => setFacture(json));
