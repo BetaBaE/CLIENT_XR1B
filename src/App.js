@@ -1,4 +1,3 @@
-// import Dashboard from "./Admin/Dashboard";
 import { Admin, Resource, CustomRoutes } from "react-admin";
 import restProvider from "ra-data-simple-rest";
 import { FournisseurList } from "./components/Fournisseur/ListFournisseurs";
@@ -26,29 +25,97 @@ import { VirementList } from "./components/Virement/VirementList";
 import { VirementEdit } from "./components/Virement/VirementEdit";
 import { LogfactureList } from "./components/logfacture/logfactureList";
 import CreateFournisseur from "./components/Fournisseur/CreateFournisseur";
+import { FactureRes } from "./components/FactureResptionner/FactureRes";
+import { FactureResCreate } from "./components/FactureResptionner/FactureResCreate";
+
+import { FactureRechereCreate } from "./components/factureRecherche/FactureRechereCreate";
+import { FactureResEdit } from "./components/FactureResptionner/FactureResEdit";
+import { FactureRecherche } from "./components/factureRecherche/FactureRechere";
+
+import { historiquefacture } from "./components/historiquefacture/historiquefacture";
+
+import { FactureValider } from "./components/Facturevalider/FactureValider";
+import { FactureValiderEdit } from "./components/Facturevalider/FactureValiderEdit";
+
+import { FactureRechereEdit } from "./components/factureRecherche/FactureRechereEdit";
+import { HttpError } from "react-admin";
+
+import { All } from "./components/all/All";
+const fetchJson = async (url, options = {}) => {
+  const requestHeaders =
+    options.headers ||
+    new Headers({
+      Accept: "application/json",
+    });
+  if (
+    !requestHeaders.has("Content-Type") &&
+    !(options && options.body && options.body instanceof FormData)
+  ) {
+    requestHeaders.set("Content-Type", "application/json");
+  }
+
+  const response = await fetch(url, { ...options, headers: requestHeaders });
+  const text = await response.text();
+  const o = {
+    status: response.status,
+    statusText: response.statusText,
+    headers: response.headers,
+    body: text,
+  };
+  let status = o.status,
+    statusText = o.statusText,
+    headers = o.headers,
+    body = o.body;
+  let json;
+  try {
+    json = JSON.parse(body);
+  } catch (e) {
+    // not json, no big deal
+  }
+  if (status < 200 || status >= 300) {
+    return Promise.reject(body);
+  }
+  return Promise.resolve({
+    status: status,
+    headers: headers,
+    body: body,
+    json: json,
+  });
+};
 function App(props) {
+  const dataProvider = restProvider("http://localhost:8080", fetchJson);
   return (
     <Admin
       {...props}
       // dataProvider={restProvider("http://10.111.1.217:8080")}
-      dataProvider={restProvider("http://10.111.1.95:8080")}
+      dataProvider={dataProvider}
       authProvider={auth}
       layout={CustomLayout}
     >
       {(permissions) => [
         permissions === "admin" ||
         permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <Resource
             name="fournisseurs"
             list={FournisseurList}
-            create={permissions === "admin" ? CreateFournisseur : null}
+            create={
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "admin"
+                ? CreateFournisseur
+                : null
+            }
             icon={FaTruck}
           />
         ) : null,
         permissions === "admin" ||
         permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ? (
           <Resource
             name="ribfournisseurs"
@@ -59,6 +126,8 @@ function App(props) {
         ) : null,
         permissions === "admin" ||
         permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <Resource
@@ -71,6 +140,8 @@ function App(props) {
         ) : null,
         permissions === "admin" ||
         permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <Resource
@@ -82,7 +153,65 @@ function App(props) {
           />
         ) : null,
         permissions === "admin" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ? (
+          <Resource
+            name="facturesres"
+            list={FactureRes}
+            edit={FactureResEdit}
+            create={FactureResCreate}
+            icon={FaTruck}
+          ></Resource>
+        ) : null,
+
+        permissions === "admin" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ? (
+          <Resource
+            name="facturevalider"
+            list={FactureValider}
+            edit={
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt"
+                ? FactureValiderEdit
+                : null
+            }
+            icon={FaTruck}
+          ></Resource>
+        ) : null,
+
+        permissions === "admin" ||
+        permissions === "comptable midelt" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ? (
+          <Resource
+            name="historiquefacture"
+            list={historiquefacture}
+            icon={FaCreditCard}
+          />
+        ) : null,
+
+        permissions === "admin" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ? (
+          <Resource
+            name="factureRech"
+            list={FactureRecherche}
+            create={FactureRechereCreate}
+            edit={FactureRechereEdit}
+          />
+        ) : null,
+
+        permissions === "admin" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ? (
+          <Resource name="all" list={All} icon={FaTruck}></Resource>
+        ) : null,
+
+        permissions === "admin" ||
         permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <Resource
@@ -95,6 +224,8 @@ function App(props) {
         ) : null,
         permissions === "admin" ||
         permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <Resource
@@ -107,6 +238,8 @@ function App(props) {
         ) : null,
         permissions === "admin" ||
         permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <Resource
@@ -125,6 +258,8 @@ function App(props) {
         ) : null,
         permissions === "admin" ||
         permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <CustomRoutes>

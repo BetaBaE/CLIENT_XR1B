@@ -1,5 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import {
+  DateInput,
   Edit,
   FormDataConsumer,
   NumberInput,
@@ -94,6 +95,12 @@ export const VirementEdit = (props) => {
             )
           }
         </FormDataConsumer>
+
+        <DateInput
+          source="dateOperation"
+          label="dateOperation"
+          className={classes.autocomplete}
+        ></DateInput>
       </SimpleForm>
     </Edit>
   );

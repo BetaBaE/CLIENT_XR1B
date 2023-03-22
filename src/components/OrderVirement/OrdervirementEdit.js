@@ -105,6 +105,18 @@ export const OrdervirementEdit = (props) => {
     <Edit {...props}>
       <SimpleForm toolbar={<EditToolbar />}>
         <TextInput className={classes.autocomplete} source="id" disabled />
+
+        <SelectInput
+          validate={required("Le directeur est obligatoire")}
+          emptyText="selectionnez le directeur"
+          source="directeursigne"
+          choices={[
+            { id: "Youness ZAMANI", name: "Youness ZAMANI" },
+            { id: "Mohamed ZAMANI", name: "Mohamed ZAMANI" },
+          ]}
+          initialValue="" // This line can be omitted
+        />
+
         <FormDataConsumer>
           {({ formData, ...rest }) =>
             formData.etat !== "Reglee" &&

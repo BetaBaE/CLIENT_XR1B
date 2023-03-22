@@ -49,6 +49,16 @@ export const OrdervirementCreate = () => {
           source="ribAtner"
           choices={rib_choices}
         />
+        <SelectInput
+          validate={required("Le directeur est obligatoire")}
+          emptyText="selectionnez le directeur"
+          source="directeursigne"
+          choices={[
+            { id: "Youness ZAMANI", name: "Youness ZAMANI" },
+            { id: "Mohamed ZAMANI", name: "Mohamed ZAMANI" },
+          ]}
+          initialValue="" // This line can be omitted
+        />
       </SimpleForm>
     </Create>
   );

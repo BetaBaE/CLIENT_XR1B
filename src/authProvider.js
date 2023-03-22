@@ -1,14 +1,7 @@
-import {
-  AUTH_LOGIN,
-  AUTH_LOGOUT,
-  AUTH_ERROR,
-  AUTH_CHECK,
-  AUTH_GET_PERMISSIONS,
-} from "react-admin";
-export const auth = (type, params) => {
-  if (type === AUTH_LOGIN) {
-    const { username, password } = params;
-    const request = new Request("http://10.111.1.95:8080/auth", {
+export const auth = {
+  // authentication
+  login: ({ username, password }) => {
+    const request = new Request("http://localhost:8080/auth", {
       method: "POST",
       body: JSON.stringify({ username, password }),
       headers: new Headers({ "Content-Type": "application/json" }),
@@ -20,37 +13,54 @@ export const auth = (type, params) => {
         }
         return response.json();
       })
-      .then(({ token, role }) => {
+      .then(({ auth, token, role }) => {
+        localStorage.setItem(
+          "auth",
+          JSON.stringify({ ...auth, fullName: username })
+        );
         localStorage.setItem("token", token);
         localStorage.setItem("role", role);
+
         setTimeout(() => {
           localStorage.removeItem("token");
           localStorage.removeItem("role");
+          localStorage.removeItem(
+            "auth",
+            JSON.stringify({ ...auth, fullName: username })
+          );
           document.location.reload();
-        }, "7200000");
+        }, "30200000");
       });
-  }
-  if (type === AUTH_LOGOUT) {
+  },
+
+  checkError: (error) => {
+    const status = error.status;
+    if (status === 401 || status === 403) {
+      localStorage.removeItem("auth");
+      return Promise.reject();
+    }
+    // other error code (404, 500, etc): no need to log out
+    return Promise.resolve();
+  },
+  checkAuth: () =>
+    localStorage.getItem("auth")
+      ? Promise.resolve()
+      : Promise.reject({ message: "login required" }),
+  logout: () => {
+    localStorage.removeItem("auth");
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     return Promise.resolve();
-  }
-  if (type === AUTH_ERROR) {
-    const status = params.status;
-    if (status === 401 || status === 403) {
-      localStorage.removeItem("token");
-      return Promise.reject();
-    }
-    return Promise.resolve();
-  }
-  if (type === AUTH_CHECK) {
-    return localStorage.getItem("token")
-      ? Promise.resolve()
-      : Promise.reject({ redirectTo: "/login" });
-  }
-  if (type === AUTH_GET_PERMISSIONS) {
+  },
+  getIdentity: () => {
+    const { fullName } = JSON.parse(localStorage.getItem("auth"));
+    return Promise.resolve({ fullName });
+  },
+  getPermissions: () => {
     const role = localStorage.getItem("role");
-    return role ? Promise.resolve(role) : Promise.reject();
-  }
-  return Promise.reject("Unknown method");
+
+    return role
+      ? Promise.resolve(role)
+      : Promise.reject({ redirectTo: "/login" });
+  },
 };

@@ -9,6 +9,11 @@ import {
   FaPager,
   FaFileInvoice,
   FaRegListAlt,
+  FaSearch,
+  FaHistory,
+  FaEnvelope,
+  FaTrash,
+  FaBorderAll,
 } from "react-icons/fa";
 import { MdPayments } from "react-icons/md";
 
@@ -20,6 +25,8 @@ export const CustomMenu = (props) => {
       {(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
         <Menu.Item
           to="/fournisseurs"
@@ -30,6 +37,8 @@ export const CustomMenu = (props) => {
       {(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
         <Menu.Item
           to="/ribtempo"
@@ -39,6 +48,8 @@ export const CustomMenu = (props) => {
       )}
       {(permissions === "admin" ||
         permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite") && (
         <Menu.Item
           to="/ribfournisseurs"
@@ -49,6 +60,8 @@ export const CustomMenu = (props) => {
       {(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
         <Menu.Item
           to="/ribatner"
@@ -59,6 +72,8 @@ export const CustomMenu = (props) => {
       {(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
         <Menu.Item
           to="/factures"
@@ -69,6 +84,8 @@ export const CustomMenu = (props) => {
       {(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
         <Menu.Item
           to="/ordervirement"
@@ -79,6 +96,8 @@ export const CustomMenu = (props) => {
       {(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
         <Menu.Item
           to="/virements"
@@ -97,13 +116,61 @@ export const CustomMenu = (props) => {
         />
       )}
       {(permissions === "admin" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt") && (
+        <Menu.Item
+          to="/facturesres"
+          primaryText="Facture Saisie"
+          leftIcon={<FaEnvelope />}
+        />
+      )}
+      {(permissions === "admin" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt") && (
+        <Menu.Item
+          to="/FactureValider"
+          primaryText="Archivage Facture"
+          leftIcon={<FaHistory />}
+        />
+      )}
+
+      {(permissions === "admin" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt") && (
+        <Menu.Item
+          to="/factureRech"
+          primaryText="Fiche Navette"
+          leftIcon={<FaSearch />}
+        />
+      )}
+      {(permissions === "admin" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt") && (
+        <Menu.Item
+          to="/historiquefacture"
+          primaryText="Historique Facture"
+          leftIcon={<FaTrash />}
+        />
+      )}
+      {(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
         <Menu.Item
           to="/print"
           primaryText="Imp. Order Virement"
           leftIcon={<FaPrint />}
+        />
+      )}
+      {(permissions === "admin" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt") && (
+        <Menu.Item
+          to="/all"
+          primaryText="Log Facture Saisie"
+          leftIcon={<FaBorderAll />}
         />
       )}
       {permissions === "admin" && (

@@ -5,6 +5,7 @@ export const OrdervirementList = () => (
   <List filters={<OrderVirementFilter />} title="Order Virement">
     <Datagrid rowClick="edit" bulkActionButtons={false}>
       <TextField source="id" />
+      <TextField source="directeursigne" label="signature" />
       <TextField source="nom" />
       <TextField source="rib" />
       <NumberField source="total" />
