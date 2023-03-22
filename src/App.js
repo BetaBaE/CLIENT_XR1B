@@ -104,8 +104,7 @@ function App(props) {
             list={FournisseurList}
             create={
               permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite" ||
-              permissions === "admin"
+              permissions === "superviseur comptabilite"
                 ? CreateFournisseur
                 : null
             }
@@ -120,7 +119,12 @@ function App(props) {
           <Resource
             name="ribfournisseurs"
             list={RibfournisseurList}
-            edit={RibfournisseurEdit}
+            edit={
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite"
+                ? RibfournisseurEdit
+                : null
+            }
             icon={FaCreditCard}
           />
         ) : null,
@@ -133,8 +137,22 @@ function App(props) {
           <Resource
             name="ribatner"
             list={RibatnerList}
-            edit={RibatnerEdit}
-            create={RIBAtnerCreate}
+            edit={
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable midelt" ||
+              permissions === "comptable"
+                ? RibatnerEdit
+                : null
+            }
+            create={
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable midelt" ||
+              permissions === "comptable"
+                ? RIBAtnerCreate
+                : null
+            }
             icon={FaCreditCard}
           />
         ) : null,
@@ -147,25 +165,51 @@ function App(props) {
           <Resource
             name="ribtempo"
             list={RibtempoList}
-            // edit={RibatnerEdit}
-            create={RibtempoCreate}
+            create={
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable midelt" ||
+              permissions === "comptable"
+                ? RibtempoCreate
+                : null
+            }
             icon={FaCreditCard}
           />
         ) : null,
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ||
+        permissions === "normal user" ||
         permissions === "admin" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ? (
           <Resource
             name="facturesres"
             list={FactureRes}
-            edit={FactureResEdit}
-            create={FactureResCreate}
+            edit={
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable" ||
+              permissions === "superviseur comptabilite midelt"
+                ? FactureResEdit
+                : null
+            }
+            create={
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable" ||
+              permissions === "superviseur comptabilite midelt"
+                ? FactureResCreate
+                : null
+            }
             icon={FaTruck}
           ></Resource>
         ) : null,
 
         permissions === "admin" ||
+        permissions === "normal user" ||
         permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ||
         permissions === "superviseur comptabilite midelt" ? (
           <Resource
             name="facturevalider"
@@ -192,18 +236,38 @@ function App(props) {
         ) : null,
 
         permissions === "admin" ||
+        permissions === "normal user" ||
         permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ||
         permissions === "superviseur comptabilite midelt" ? (
           <Resource
             name="factureRech"
+            create={
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
+                ? FactureRechereCreate
+                : null
+            }
             list={FactureRecherche}
-            create={FactureRechereCreate}
-            edit={FactureRechereEdit}
+            edit={
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
+                ? FactureRechereEdit
+                : null
+            }
           />
         ) : null,
 
         permissions === "admin" ||
+        permissions === "normal user" ||
         permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ||
         permissions === "superviseur comptabilite midelt" ? (
           <Resource name="all" list={All} icon={FaTruck}></Resource>
         ) : null,
@@ -217,9 +281,23 @@ function App(props) {
           <Resource
             name="ordervirement"
             list={OrdervirementList}
-            edit={OrdervirementEdit}
-            create={OrdervirementCreate}
             icon={FaCreditCard}
+            create={
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
+                ? OrdervirementCreate
+                : null
+            }
+            edit={
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
+                ? OrdervirementEdit
+                : null
+            }
           />
         ) : null,
         permissions === "admin" ||
@@ -245,14 +323,30 @@ function App(props) {
           <Resource
             name="virements"
             list={VirementList}
-            edit={VirementEdit}
-            create={VirementCreate}
+            create={
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
+                ? VirementCreate
+                : null
+            }
+            edit={
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
+                ? VirementEdit
+                : null
+            }
             icon={FaCreditCard}
           />
         ) : null,
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable" ? (
           <Resource name="logfactures" list={LogfactureList} />
         ) : null,
@@ -266,7 +360,7 @@ function App(props) {
             <Route path="/print" element={<PrintModule />} />
           </CustomRoutes>
         ) : null,
-        permissions === "admin" ? (
+        permissions === "admin" || permissions === "normal user" ? (
           <Resource
             name="users"
             list={UserList}

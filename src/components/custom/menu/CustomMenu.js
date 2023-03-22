@@ -108,6 +108,8 @@ export const CustomMenu = (props) => {
       {(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
         <Menu.Item
           to="/logfactures"
@@ -116,8 +118,11 @@ export const CustomMenu = (props) => {
         />
       )}
       {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt") && (
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable") && (
         <Menu.Item
           to="/facturesres"
           primaryText="Facture Saisie"
@@ -125,8 +130,11 @@ export const CustomMenu = (props) => {
         />
       )}
       {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt") && (
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable") && (
         <Menu.Item
           to="/FactureValider"
           primaryText="Archivage Facture"
@@ -135,8 +143,11 @@ export const CustomMenu = (props) => {
       )}
 
       {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt") && (
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable") && (
         <Menu.Item
           to="/factureRech"
           primaryText="Fiche Navette"
@@ -144,8 +155,11 @@ export const CustomMenu = (props) => {
         />
       )}
       {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt") && (
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable") && (
         <Menu.Item
           to="/historiquefacture"
           primaryText="Historique Facture"
@@ -165,17 +179,21 @@ export const CustomMenu = (props) => {
         />
       )}
       {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt") && (
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable") && (
         <Menu.Item
           to="/all"
           primaryText="Log Facture Saisie"
           leftIcon={<FaBorderAll />}
         />
       )}
-      {permissions === "admin" && (
-        <Menu.Item to="/users" primaryText="Users" leftIcon={<FaUser />} />
-      )}
+      {permissions === "admin" ||
+        (permissions === "normal user" && (
+          <Menu.Item to="/users" primaryText="Users" leftIcon={<FaUser />} />
+        ))}
     </Menu>
   );
 };

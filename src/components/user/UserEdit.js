@@ -54,6 +54,12 @@ export const UserEdit = (props) => {
               name: "Superviseur Comptabilité",
             },
             { id: "comptable", name: "Comptable" },
+
+            { id: "comptable midelt", name: "comptable midelt" },
+            {
+              id: "superviseur comptabilite midelt",
+              name: "superviseur comptabilite midelt",
+            },
             //   { id: "photography", name: "Photography" },
           ]}
         />
