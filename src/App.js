@@ -226,7 +226,8 @@ function App(props) {
 
         permissions === "admin" ||
         permissions === "comptable midelt" ||
-        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ||
         permissions === "superviseur comptabilite midelt" ? (
           <Resource
             name="historiquefacture"
