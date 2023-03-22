@@ -190,7 +190,7 @@ export const CustomMenu = (props) => {
           leftIcon={<FaBorderAll />}
         />
       )}
-      {(permissions === "admin" ||permissions === "normal user" && (
+      {(permissions === "admin" || permissions === "normal user" && (
           <Menu.Item to="/users" primaryText="Users" leftIcon={<FaUser />} />
         ))}
     </Menu>
