@@ -104,10 +104,13 @@ function App(props) {
             list={FournisseurList}
             create={
               permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite"
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable midelt" ||
+              permissions === "comptable" 
                 ? CreateFournisseur
                 : null
             }
+
             icon={FaTruck}
           />
         ) : null,
