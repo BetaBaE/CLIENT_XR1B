@@ -110,7 +110,6 @@ function App(props) {
                 ? CreateFournisseur
                 : null
             }
-
             icon={FaTruck}
           />
         ) : null,
@@ -124,7 +123,9 @@ function App(props) {
             list={RibfournisseurList}
             edit={
               permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite"
+              permissions === "superviseur comptabilite"||
+              permissions === "comptable"||
+              permissions === "comptable midelt"
                 ? RibfournisseurEdit
                 : null
             }
