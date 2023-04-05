@@ -23,14 +23,34 @@ const useStyles = makeStyles(() => ({
 export const FactureResCreate = () => {
   const classes = useStyles();
   const dataProvider1 = useDataProvider();
+  const dataProvider2 = useDataProvider();
   const dataProvider = useDataProvider();
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
   const [designation, setDesignation] = useState([]);
   // const [newIdentity, setNewIdentity] = useState('');
   const [tva, setTVA] = useState([]);
   const [fournisseur, setFournisseur] = useState([]);
-
+  const [chantier, setChantier] = useState([]);
   const { identity, isLoading: identityLoading } = useGetIdentity();
+ 
+  useEffect(() => {
+    dataProvider2
+        .getList("chantier", {
+            pagination: { page: 1, perPage: 3000 },
+            sort: { field: "LIBELLE", order: "ASC" },
+        })
+        .then(({ data }) => {
+            setChantier(data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}, [dataProvider2]);
+let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
+    id: id,
+    name: `${LIBELLE} | ${CODEAFFAIRE} `,
+}));
+ 
   useEffect(() => {
     dataProvider1
       .getList("designation", {
@@ -71,7 +91,7 @@ export const FactureResCreate = () => {
     name: `${designation} `,
   }));
   const getTVA = (id) => {
-    let url = "http://10.111.1.95:8080/designationbycode/" + id;
+    let url = "http://localhost:8080/designationbycode/" + id;
     // console.log(url);
     fetch(url)
       .then((response) => response.json())
@@ -161,6 +181,12 @@ export const FactureResCreate = () => {
           validate={required("date obligatoire")}
           className={classes.autocomplete}
         />
+        <AutocompleteInput label = "chantier"
+        validate = { required("Le chantier est obligatoire") }
+        className = { classes.autocomplete }
+        source = "codechantier"
+        choices = { chantier_choices }
+        /> 
       </SimpleForm>
     </Create>
   );

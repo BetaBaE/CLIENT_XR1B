@@ -5,6 +5,7 @@ export const FactureRes = () => {
     <List filters={<FactureResFilter />} title="Saisir une facture">
       <Datagrid rowClick="edit" bulkActionButtons={false}>
         <TextField source="designation" label="designation" />
+        <TextField source="LIBELLE" label="chantier" />
         <TextField source="numeroFacture" label="numeroFacture" />
         <TextField source="TTC" label="TTC" />
         <TextField source="HT" label="HT" />

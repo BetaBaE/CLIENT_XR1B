@@ -3,8 +3,12 @@ import {  DateInput, Filter, TextInput } from "react-admin";
 const FactureResFilter = (props) => (
 
    <Filter {...props } >
+   <TextInput source = "LIBELLE"
+    label = "chantier" />
+  
   <TextInput source = "BonCommande"
     label = "BonCommande" />
+
     <TextInput source = "fournisseur"
     label = "fournisseur" />
     <TextInput source = "designation"

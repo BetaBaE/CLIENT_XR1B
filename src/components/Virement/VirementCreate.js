@@ -75,7 +75,7 @@ export const VirementCreate = () => {
   const [onchangefournisseur, setOnchangefournisseur] = useState([]);
 
   useEffect(() => {
-    fetch("http://10.111.1.95:8080/ordervirementencours")
+    fetch("http:/localhost:8080/ordervirementencours")
       .then((response) => response.json())
       .then((json) => setOrderVirement(json));
   }, []);
@@ -103,7 +103,7 @@ export const VirementCreate = () => {
   }, [onchangefournisseur, fournisseur]);
 
   const getFactureByFourniseurId = (id) => {
-    let url = "http://10.111.1.95:8080/getfacturebyfournisseurid/" + id;
+    let url = "http://localhost:8080/getfacturebyfournisseurid/" + id;
     // console.log(url);
     fetch(url)
       .then((response) => response.json())
@@ -116,7 +116,7 @@ export const VirementCreate = () => {
 
   const getFournisseurFilteredByOv = (id) => {
     fetch(
-      `http://10.111.1.95:8080/fournisseursribvalid?ordervirment={"id":"${id}"}`
+      `http://localhost:8080/fournisseursribvalid?ordervirment={"id":"${id}"}`
     )
       .then((response) => response.json())
       .then((json) => setFournisseur(json));
