@@ -115,10 +115,13 @@ export const FactureRechereCreate = (props) => {
                     choices={facture_choices}
                     label="facture"
                     emptyValue={true}
-                /> <TextInput label="montant d'avance "
-
+                />
+                 <NumberInput
+                    label="montant "
+                        VALUE='0'
                     className={classes.autocomplete}
                     source="montantAvance" />
+
 
                 <TextInput label="Fiche navette"
                     validate={required("La confirmation est obligatoire")}
