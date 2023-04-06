@@ -91,7 +91,7 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
     name: `${designation} `,
   }));
   const getTVA = (id) => {
-    let url = "http://localhost:8080/designationbycode/" + id;
+    let url = "http://10.111.1.95:8080/designationbycode/" + id;
     // console.log(url);
     fetch(url)
       .then((response) => response.json())
