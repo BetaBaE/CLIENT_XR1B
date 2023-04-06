@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
     AutocompleteInput,
     Create,
+    NumberInput,
     required,
     SelectInput,
     SimpleForm,

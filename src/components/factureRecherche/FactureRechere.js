@@ -1,8 +1,7 @@
 import { makeStyles } from "@material-ui/core";
-import { Datagrid, DateField, List, TextField,useGetOne  } from "react-admin";
+import { Datagrid, DateField, List, TextField  } from "react-admin";
 import FactureRechereFilter from "./FactureRechereFilter";
-import { useRef } from "react";
-import { useState } from "react";
+
 
 const useStyles = makeStyles({
     headerCell: {
