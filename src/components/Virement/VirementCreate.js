@@ -75,7 +75,7 @@ export const VirementCreate = () => {
   const [onchangefournisseur, setOnchangefournisseur] = useState([]);
 
   useEffect(() => {
-    fetch("http:/10.111.1.95:8080/ordervirementencours")
+    fetch("http://10.111.1.95:8080/ordervirementencours")
       .then((response) => response.json())
       .then((json) => setOrderVirement(json));
   }, []);
