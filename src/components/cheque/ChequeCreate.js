@@ -50,7 +50,7 @@ export const ChequeCreate = (props) => {
   const [sum, setSum] = useState("0.000");
    
   useEffect(() => {
-    fetch("http://localhost:8080/ribatner")
+    fetch("http://10.111.1.95:8080:8080/ribatner")
       .then((response) => response.json())
       .then((json) => setOrderVirement(json));
   }, []);
