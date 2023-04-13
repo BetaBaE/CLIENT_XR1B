@@ -3,9 +3,12 @@ import {
   AutocompleteArrayInput,
   AutocompleteInput,
   Create,
+  DateInput,
+  regex,
   required,
   SelectInput,
   SimpleForm,
+  TextInput,
 } from "react-admin";
 
 import { makeStyles } from "@material-ui/styles";
@@ -19,12 +22,8 @@ const useStyles = makeStyles(() => ({
     fontWeight: "bold",
   },
 }));
-export const VirementCreate = () => {
-  function formatDate(string) {
-    var options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(string).toLocaleDateString([], options);
-  }
-
+export const ChequeAvanceCreate = () => {
+ 
   const [orderVirement, setOrderVirement] = useState([
     {
       id: "null",
@@ -62,20 +61,22 @@ export const VirementCreate = () => {
       MontantFacture: 0.0,
     },
   ]);
-  // const [factureFilter, setFactureFilter] = useState([
-  //   { id: "", DATEDOC: "1960-01-01T00:00:00.000Z", nom: "", NETAPAYER: 0.0 },
-  // ]);
+
 
   const [sum, setSum] = useState("0.000");
 
   const [orderVirementField, setOrderVirementField] = useState(true);
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
-  const [fournisseurRibField, setFournisseurRibField] = useState(true);
+
 
   const [onchangefournisseur, setOnchangefournisseur] = useState([]);
 
+  const validatecheque = regex(
+    /^[a-zA-Z]+ [0-9]{8}$/,
+    "ce  numero de cheque est invalid "
+    );
   useEffect(() => {
-    fetch("http://10.111.1.95:8080/ordervirementencours")
+    fetch("http://10.111.1.95:8080/ribatner")
       .then((response) => response.json())
       .then((json) => setOrderVirement(json));
   }, []);
@@ -103,8 +104,8 @@ export const VirementCreate = () => {
   }, [onchangefournisseur, fournisseur]);
 
   const getFactureByFourniseurId = (id) => {
-    let url = "http://10.111.1.95:8080/getfacturebyfournisseurid/"+id;
-   console.log(url);
+    let url = "http://10.111.1.95:8080/getficheNavettebyfournisseur/" + id;
+    // console.log(url);
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
@@ -114,56 +115,50 @@ export const VirementCreate = () => {
     // console.log(facture);
   };
 
-  const getFournisseurFilteredByOv = (id) => {
+  const getFournisseurFilteredByOv = () => {
     fetch(
-      `http://10.111.1.95:8080/fournisseursribvalid?ordervirment={"id":"${id}"}`
+      `http://10.111.1.95:8080/ribfournisseurs/`
     )
       .then((response) => response.json())
       .then((json) => setFournisseur(json));
   };
 
-  let orderVirement_choices = orderVirement.map(({ id }) => ({
+  let orderVirement_choices = orderVirement.map(({ id,nom }) => ({
     id: id,
-    name: id,
+    name: nom,
   }));
   let fournisseurs_choices = fournisseur.map(
-    ({ FournisseurId, nom, CodeFournisseur }) => ({
+    ({ FournisseurId,fournisseur}) => ({
       id: FournisseurId,
-      name: `${nom} ${CodeFournisseur}`,
+      name: `${fournisseur} `,
     })
   );
 
-  let ribfournisseurs_choices = ribFournisseur.map(({ id, rib }) => ({
-    id: id,
-    name: rib,
-  }));
 
   let facture_choices = facture.map(
     ({
-      id,
-      chantier,
-      nom,
-      ficheNavette,
-      DateFacture,
-      CODEDOCUTIL,
-      TTC,
-      MontantFacture,
+        id,
+        chantier,
+        nom,
+        ficheNavette,
+        montantAvance,
     }) => ({
-      id: id,
-      name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${
-        DateFacture?.split("T")[0]
-      } | ${nom} |${MontantFacture != null ? MontantFacture : TTC}`,
+        id: id,
+        name: `${chantier} | FN ${ficheNavette} | id ${
+            id
+  } | ${nom} |${montantAvance}`,
     })
-  );
+);
 
   const classes = useStyles();
   return (
     <Create>
       <SimpleForm>
-        <SelectInput
+      <SelectInput
           validate={required("Ce champ est obligatoire")}
           className={classes.autocomplete}
           source="orderVirementId"
+          label ="banque"
           onChange={(e) => {
             // console.log(e.target.value);
             if (e.target.value === "") {
@@ -192,23 +187,20 @@ export const VirementCreate = () => {
             }
           }}
         />
-        <SelectInput
-          validate={required("Ce champ est obligatoire")}
-          disabled={fournisseurIdField}
-          className={classes.autocomplete}
-          onChange={(e) => {
-            if (e.target.value === "") {
-              setFournisseurRibField(true);
-            } else {
-              setFournisseurRibField(false);
-            }
-          }}
-          source="ribFournisseurId"
-          choices={ribfournisseurs_choices}
-        />
+     <DateInput source="datecheque" label="datecheque"  className={classes.autocomplete}></DateInput> 
+
+     <DateInput source="dateecheance" label="dateecheance"  className={classes.autocomplete}></DateInput> 
+     
+     <TextInput source="numerocheque" label="numerocheque" 
+     
+     validate={[required("Ce champ est obligatoire")]}
+     
+     className={classes.autocomplete}>
+      
+      </TextInput> 
         <AutocompleteArrayInput
           validate={required("Ce champ est obligatoire")}
-          disabled={fournisseurRibField}
+          disabled={fournisseurIdField}
           className={classes.autocomplete}
           source="facturelist"
           choices={facture_choices}
@@ -216,10 +208,10 @@ export const VirementCreate = () => {
             let sum = 0;
             e.forEach((fa) => {
               sum +=
-                facture.find((facture) => facture.id === fa).MontantFacture !=
+                facture.find((facture) => facture.id === fa).montantAvance !=
                 null
-                  ? facture.find((facture) => facture.id === fa).MontantFacture
-                  : facture.find((facture) => facture.id === fa).TTC;
+                  ? facture.find((facture) => facture.id === fa).montantAvance
+                  : facture.find((facture) => facture.id === fa).montantAvance;
             });
             // console.log(sum.toFixed(3));
             setSum(sum.toFixed(3));

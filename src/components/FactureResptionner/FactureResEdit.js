@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/core";
+import { useEffect, useState } from "react";
 import {
+  AutocompleteInput,
   DateInput,
   Edit,
   required,
@@ -10,6 +12,7 @@ import {
   useNotify,
   useRedirect,
   useRefresh,
+  useDataProvider,
 } from "react-admin";
 const useStyles = makeStyles(() => ({
   autocomplete: {
@@ -20,6 +23,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 export const FactureResEdit = () => {
+ 
+  const dataProvider1 = useDataProvider();
+  const dataProvider2 = useDataProvider();
+  const [chantier, setChantier] = useState([]);
   const notify = useNotify();
   const refresh = useRefresh();
   const redirect = useRedirect();
@@ -29,6 +36,26 @@ export const FactureResEdit = () => {
     redirect("/facturesres");
     refresh();
   };
+  useEffect(() => {
+    dataProvider2
+        .getList("chantier", {
+            pagination: { page: 1, perPage: 3000 },
+            sort: { field: "LIBELLE", order: "ASC" },
+        })
+        .then(({ data }) => {
+            setChantier(data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}, [dataProvider2]);
+let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
+    id: id,
+    name: `${LIBELLE} | ${CODEAFFAIRE} `,
+}));
+
+
+
   const UserEditToolbar = (props) => (
     <Toolbar {...props}>
       <SaveButton id="save" />
@@ -38,46 +65,13 @@ export const FactureResEdit = () => {
   return (
     <Edit mutationOptions={{ onSuccess }}>
       <SimpleForm toolbar={<UserEditToolbar />}>
-        <TextInput
-          source="numeroFacture"
-          label="numeroFacture"
-          validate={required("Le numeroFacture est obligatoire")}
-          className={classes.autocomplete}
-        />
-        <TextInput
-          source="TTC"
-          label="TTC"
-          validate={required("Le MontantApayer est obligatoire")}
-          className={classes.autocomplete}
-        />
-        <TextInput
-          label="designation"
-          validate={required(" selectionnez la designation")}
-          className={classes.autocomplete}
-          source="designation"
-          disabled={true}
-        />
-        <TextInput
-          source="BonCommande"
-          label="BonCommande"
-          validate={required("BonCommande obligatoire")}
-          className={classes.autocomplete}
-        />
-        <TextInput
-          label="fournisseur"
-          validate={required("choisir le fournisseur")}
-          className={classes.autocomplete}
-          source="nom"
-          disabled={true}
-        />
-        <DateInput
-          source="DateFacture"
-          label="date de la facture"
-          validate={required("date obligatoire")}
-          className={classes.autocomplete}
-        >
-          {" "}
-        </DateInput>
+      <AutocompleteInput label = "chantier"
+        validate = { required("Le chantier est obligatoire") }
+        className = { classes.autocomplete }
+        source = "codechantier"
+        choices = { chantier_choices }
+        /> 
+  
       </SimpleForm>
     </Edit>
   );

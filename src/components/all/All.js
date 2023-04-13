@@ -6,40 +6,50 @@ export const All = () => {
     <List filters={<AllFilter />} title="Log Facture Saisie">
       <Datagrid bulkActionButtons={false}>
         <TextField source="chantier" label="chantier" />
+        <TextField source="ficheNavette" label="ficheNavette" />
+
         <TextField source="designation" label="designation" />
 
+
         <TextField source="BonCommande" label="BonCommande" />
-
-        <TextField source="numeroFacture" label="numeroFacture" />
-
         <DateField source="DateFacture" label="datefactue" />
+  
+        <TextField source="numeroFacture" label="numeroFacture" />
+     
 
-        <DateField
-          showTime
-          source="Dateexecution"
-          options={{ timeZone: "UTC" }}
-        />
         <TextField source="CodeFournisseur" label="codefournisseur" />
-        <TextField source="fournisseur" label="fournisseur" />
-        <TextField source="rib" label="ribfournisseur" />
-        <TextField source="TTC" label="ttc" />
-
+        <TextField source="nom" label="fournisseur" />
         <TextField source="HT" label="horstaxe" />
-
         <TextField source="MontantTVA" label="récupération tva" />
-
-        <TextField source="etat" label="etat" />
-
-        <TextField source="orderVirementId" label="ordervirement" />
-
-        <TextField source="ficheNavette" label="ficheNavette" />
-        <TextField source="banque" label="banque" />
-
+        <TextField source="TTC" label="ttc" />
+        <TextField source="montantAvance" label="montantAvance" />
         <DateField
           showTime
           source="dateOperation"
           options={{ timeZone: "UTC" }}
         />
+
+   
+
+        <TextField source="modepaiement" label="modepaiement" />
+
+        <TextField source="banque" label="banque" />
+    <TextField source="numerocheque" label="numerocheque"></TextField>
+        <DateField
+          showTime
+          source="datecheque"
+          options={{ timeZone: "UTC" }}
+        />
+
+<DateField
+          showTime
+          source="dateecheance"
+          options={{ timeZone: "UTC" }}
+        />
+  
+     
+
+       
       </Datagrid>
     </List>
   );

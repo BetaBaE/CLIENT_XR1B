@@ -14,6 +14,11 @@ import {
   FaEnvelope,
   FaTrash,
   FaBorderAll,
+  FaAndroid,
+  FaMonero,
+  FaAngleLeft,
+  FaAngleDoubleDown,
+  FaAngleDoubleUp,
 } from "react-icons/fa";
 import { MdPayments } from "react-icons/md";
 
@@ -93,6 +98,7 @@ export const CustomMenu = (props) => {
           leftIcon={<FaPager />}
         />
       )}
+
       {(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
@@ -103,6 +109,33 @@ export const CustomMenu = (props) => {
           to="/virements"
           primaryText="Virements"
           leftIcon={<MdPayments />}
+        />
+      )}
+ {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable") && (
+        <Menu.Item
+          to="/cheque"
+          primaryText="cheque"
+          leftIcon={<FaAndroid />}
+        />
+      )}
+
+
+
+{(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable") && (
+        <Menu.Item
+          to="/espece"
+          primaryText="espece"
+          leftIcon={<FaMonero />}
         />
       )}
       {(permissions === "admin" ||

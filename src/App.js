@@ -41,6 +41,19 @@ import { FactureRechereEdit } from "./components/factureRecherche/FactureRechere
 import { HttpError } from "react-admin";
 
 import { All } from "./components/all/All";
+
+import { ChequeCreate } from "./components/cheque/ChequeCreate";
+import { ChequeList } from "./components/cheque/chequeList";
+import { EspeceList } from "./components/espece/EspeceList";
+import { EspeceCreate } from "./components/espece/EspeceCreate";
+import { ChequeEdit } from "./components/cheque/ChequeEdit";
+import { VirementAvanceCreate } from "./components/VirementAvance/VirementAvanceCreate";
+import { VirementAvanceList } from "./components/VirementAvance/VirementAvanceList";
+import { ChequeAvanceList } from "./components/chequeAvance/ChequeAvanceList";
+import { ChequeAvanceCreate } from "./components/chequeAvance/ChequeAvanceCreate";
+import { ChequeAvanceEdit } from "./components/chequeAvance/ChequeAvanceEdit";
+import { EspeceAvanceList } from "./components/especeAvance/EspeceAvanceList";
+import { EspeceAvanceCreate } from "./components/especeAvance/EspeceAvanceCreate";
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
     options.headers ||
@@ -209,6 +222,17 @@ function App(props) {
           ></Resource>
         ) : null,
 
+       
+
+
+
+
+
+
+
+
+
+
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
@@ -303,6 +327,61 @@ function App(props) {
                 ? OrdervirementEdit
                 : null
             }
+          />
+        ) : null,
+
+
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <Resource
+            name="cheque"
+            list={ChequeList}
+            icon={FaCreditCard}
+            create={
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
+                ? ChequeCreate
+                : null
+            }
+            edit={
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
+                ? ChequeEdit
+                : null
+            } 
+        
+          />
+        ) : null,
+
+
+
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <Resource
+            name="espece"
+            list={EspeceList}
+            icon={FaCreditCard}
+            create={
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
+                ? EspeceCreate
+                : null
+            }
+        
           />
         ) : null,
         permissions === "admin" ||

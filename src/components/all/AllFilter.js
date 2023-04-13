@@ -30,8 +30,8 @@ const AllFilter = (props) => (
     <TextInput source = "fournisseur"
     label = "fournisseur" />
 
-    <TextInput source = "ordervirement"
-    label = "ordervirement" />
+    <TextInput source = "modepaiement"
+    label = "mode de paiement" />
 
     <TextInput source = "ficheNavette"
     label = "ficheNavette" />

@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import {
+  AutocompleteArrayInput,
     AutocompleteInput,
     Create,
-    NumberInput,
+
     required,
-    SelectInput,
+
     SimpleForm,
-    TextInput,
+
     useDataProvider,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
+
+import { Chip } from "@material-ui/core";
 const useStyles = makeStyles(() => ({
     autocomplete: {
         width: "650px",
@@ -18,20 +21,21 @@ const useStyles = makeStyles(() => ({
         fontWeight: "bold",
     },
 }));
-export const FactureRechereCreate = (props) => {
-    const dataProvider1 = useDataProvider();
+export const EspeceAvanceCreate = (props) => {
+
     const [fournisseur, setFournisseur] = useState([]);
     const [facture, setFacture] = useState([{ id: "", BonCommande: "" }]);
     const dataProvider = useDataProvider();
 
     const [fournisseurIdField, setFournisseurIdField] = useState(true);
-    const [chantier, setChantier] = useState([]);
-    // const [onchangefacture, setOnchangefacture] = useState([]);
-    // const [BCommande, setBcommande] = useState([{ id: '', BonCommande: '' }]);
+
     function formatDate(string) {
         var options = { year: "numeric", month: "long", day: "numeric" };
         return new Date(string).toLocaleDateString([], options);
     }
+   
+  const [sum, setSum] = useState("0.000");
+   
     useEffect(() => {
         dataProvider
             .getList("fournisseurs", {
@@ -46,55 +50,41 @@ export const FactureRechereCreate = (props) => {
             });
     }, [dataProvider]);
     const getFactureByFourniseur = (id) => {
-        let url = "http://10.111.1.95:8080/facturebyfournisseur/" + id;
+        let url = "http://10.111.1.95:8080/getficheNavettebyfournisseur/" + id;
         fetch(url)
             .then((response) => response.json())
             .then((json) => setFacture(json));
     };
-    let facture_choices = { id: "", BonCommande: "" };
+
     let fournisseurs_choices = fournisseur.map(({ id, nom, CodeFournisseur }) => ({
         id: id,
         name: `${nom} | ${CodeFournisseur} `,
     }));
-    facture_choices = facture.map(({ id, numeroFacture, TTC, DateFacture }) => ({
-        id: id,
-        name: `${numeroFacture} | ${TTC} DH | ${formatDate(DateFacture)}`,
-    }));
-    useEffect(() => {
-        dataProvider1
-            .getList("chantier", {
-                pagination: { page: 1, perPage: 3000 },
-                sort: { field: "LIBELLE", order: "ASC" },
-            })
-            .then(({ data }) => {
-                setChantier(data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, [dataProvider1]);
-    let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
-        id: id,
-        name: `${LIBELLE} | ${CODEAFFAIRE} `,
-    }));
-    // const validateBc = regex(
-    //   /^CF[0-9]{3}[0-9]{3}$/,
-    //   "ce bon commande n'est pas valide"
-    // );
+    let facture_choices = facture.map(
+        ({
+            id,
+            chantier,
+            nom,
+            ficheNavette,
+            montantAvance,
+        }) => ({
+            id: id,
+            name: `${chantier} | FN ${ficheNavette} | id ${
+                id
+      } | ${nom} |${montantAvance}`,
+        })
+    );
+    
+    
     const classes = useStyles();
     return (
         <Create>
             <SimpleForm>
-                <AutocompleteInput label="chantier"
-                
-                    className={classes.autocomplete}
-                    source="codechantier"
-                    choices={chantier_choices}
-                />
+              
                 <AutocompleteInput label="Fournisseur"
                     validate={required("Le fournisseur est obligatoire")}
                     className={classes.autocomplete}
-                    source="idfournisseur"
+                    source="fournisseurId"
                     choices={fournisseurs_choices}
                     onChange={
                         (e) => {
@@ -108,26 +98,28 @@ export const FactureRechereCreate = (props) => {
                         }
                     }
                 />
-                <SelectInput
+                <AutocompleteArrayInput
+          validate={required("Ce champ est obligatoire")}
+          disabled={fournisseurIdField}
+          className={classes.autocomplete}
+          source="facturelist"
+          choices={facture_choices}
+          onChange={(e) => {
+            let sum = 0;
+            e.forEach((fa) => {
+              sum +=
+                facture.find((facture) => facture.id === fa).montantAvance !=
+                null
+                  ? facture.find((facture) => facture.id === fa).montantAvance
+                  : facture.find((facture) => facture.id === fa).montantAvance;
+            });
+            // console.log(sum.toFixed(3));
+            setSum(sum.toFixed(3));
+          }}
+        />
+        <Chip className={classes.chip} label={`Total : ${sum}`} />
 
-                    disabled={fournisseurIdField}
-                    className={classes.autocomplete}
-                    source="idFacture"
-                    choices={facture_choices}
-                    label="facture"
-                    emptyValue={true}
-                />
-                 <NumberInput
-                    label="montant "
-                        value='0'
-                    className={classes.autocomplete}
-                    source="montantAvance" />
-
-
-                <TextInput label="Fiche navette"
-                    validate={required("La confirmation est obligatoire")}
-                    className={classes.autocomplete}
-                    source="ficheNavette" />
+                
             </SimpleForm>
         </Create>
     );
