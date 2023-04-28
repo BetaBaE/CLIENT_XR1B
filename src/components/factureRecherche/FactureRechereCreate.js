@@ -46,7 +46,7 @@ export const FactureRechereCreate = (props) => {
             });
     }, [dataProvider]);
     const getFactureByFourniseur = (id) => {
-        let url = "http://10.111.1.95:8080/facturebyfournisseur/" + id;
+        let url = "http://localhost:8080/facturebyfournisseur/" + id;
         fetch(url)
             .then((response) => response.json())
             .then((json) => setFacture(json));
@@ -86,7 +86,7 @@ export const FactureRechereCreate = (props) => {
         <Create>
             <SimpleForm>
                 <AutocompleteInput label="chantier"
-                
+                    validate={required("Le chantier est obligatoire")}
                     className={classes.autocomplete}
                     source="codechantier"
                     choices={chantier_choices}

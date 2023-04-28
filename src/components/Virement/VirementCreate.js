@@ -20,10 +20,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 export const VirementCreate = () => {
-  function formatDate(string) {
-    var options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(string).toLocaleDateString([], options);
-  }
+ 
 
   const [orderVirement, setOrderVirement] = useState([
     {

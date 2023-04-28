@@ -1,5 +1,5 @@
 import React from "react";
-import { Filter, TextInput } from "react-admin";
+import { Filter,  TextInput } from "react-admin";
 
 const FactureRechereFilter = (props) => {
   return (
@@ -19,6 +19,8 @@ const FactureRechereFilter = (props) => {
 
     <TextInput source = "ficheNavette"
     label = "ficheNavette" />
+
+
 
     </Filter>
   );

@@ -96,7 +96,7 @@ const fetchJson = async (url, options = {}) => {
   });
 };
 function App(props) {
-  const dataProvider = restProvider("http://10.111.1.95:8080", fetchJson);
+  const dataProvider = restProvider("http://localhost:8080", fetchJson);
   return (
     <Admin
       {...props}
@@ -351,9 +351,8 @@ function App(props) {
             }
             edit={
               permissions === "comptable midelt" ||
-              permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite" ||
-              permissions === "comptable"
+              permissions === "superviseur comptabilite midelt"
+        
                 ? ChequeEdit
                 : null
             } 
@@ -417,9 +416,7 @@ function App(props) {
             }
             edit={
               permissions === "comptable midelt" ||
-              permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite" ||
-              permissions === "comptable"
+              permissions === "superviseur comptabilite midelt"
                 ? VirementEdit
                 : null
             }

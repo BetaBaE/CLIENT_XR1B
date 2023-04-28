@@ -30,7 +30,7 @@ export const FactureRecherche = ({props}) => {
         classes = {
             { headerCell: classes.headerCell, row: classes.row }
         } >
-        <TextField source = "LIBELLE"
+        <TextField source = "libelle"
         label = "chantier" />
         <TextField source = "designation"
         label = "designation" />

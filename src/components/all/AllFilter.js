@@ -1,4 +1,4 @@
-import { DateInput, Filter, TextInput } from "react-admin";
+import { DateInput, Filter,  TextInput } from "react-admin";
 
 const AllFilter = (props) => (
 
