@@ -1,4 +1,4 @@
-import { Datagrid, DateField, List, TextField } from "react-admin";
+import { Datagrid, DateField, List, NumberField, TextField } from "react-admin";
 import FactureResFilter from "./FactureResFilter";
 export const FactureRes = () => {
   return (
@@ -7,9 +7,9 @@ export const FactureRes = () => {
         <TextField source="designation" label="designation" />
         <TextField source="LIBELLE" label="chantier" />
         <TextField source="numeroFacture" label="numeroFacture" />
-        <TextField source="TTC" label="TTC" />
-        <TextField source="HT" label="HT" />
-        <TextField source="MontantTVA" label="MontantTVA" />
+        <NumberField source="TTC" label="TTC" />
+        <NumberField source="HT" label="HT" />
+        <NumberField source="MontantTVA" label="MontantTVA" />
         <TextField source="BonCommande" label="BonCommande" />
         <DateField source="DateFacture" label="DateFacture" />
         <TextField source="nom" label="fournisseur" />

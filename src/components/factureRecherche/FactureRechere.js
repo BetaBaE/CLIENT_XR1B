@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import { Datagrid, DateField, List, TextField  } from "react-admin";
+import { Datagrid, DateField, List, NumberField, TextField  } from "react-admin";
 import FactureRechereFilter from "./FactureRechereFilter";
 
 
@@ -36,11 +36,11 @@ export const FactureRecherche = ({props}) => {
         label = "designation" />
         <TextField source = "numeroFacture"
         label = "numeroFacture" />
-        <TextField source = "TTC"
+        <NumberField source = "TTC"
         label = "TTC" />
-        <TextField source = "HT"
+        <NumberField source = "HT"
         label = "HT" />
-        <TextField source = "MontantTVA"
+        <NumberField source = "MontantTVA"
         label = "MontantTVA" />
         <TextField source = "BonCommande"
         label = "BonCommande" />
@@ -53,7 +53,7 @@ export const FactureRecherche = ({props}) => {
         <TextField source = "ficheNavette"
         label = "fiche navette" />
 
-        <TextField source = "montantAvance"
+        <NumberField source = "montantAvance"
         label = "montantAvance" />
         </Datagrid> 
         </List>

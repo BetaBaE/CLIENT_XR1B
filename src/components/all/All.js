@@ -1,4 +1,4 @@
-import { Datagrid, DateField, List, TextField } from "react-admin";
+import { Datagrid, DateField, List, NumberField, TextField } from "react-admin";
 import AllFilter from "./AllFilter";
 
 export const All = () => {
@@ -19,9 +19,10 @@ export const All = () => {
 
         <TextField source="CodeFournisseur" label="codefournisseur" />
         <TextField source="nom" label="fournisseur" />
+ 
         <TextField source="HT" label="horstaxe" />
         <TextField source="MontantTVA" label="récupération tva" />
-        <TextField source="TTC" label="ttc" />
+        <TextField source="TTC" label="TTC" />
         <TextField source="montantAvance" label="montantAvance" />
         <DateField
           showTime
