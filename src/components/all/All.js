@@ -1,10 +1,16 @@
-import { Datagrid, DateField, List, NumberField, TextField } from "react-admin";
+import { Datagrid, DateField, List,  TextField,useRecordContext } from "react-admin";
 import AllFilter from "./AllFilter";
 
-export const All = () => {
+export const All = ( props) => {
+ 
+  const CustomRowStyle = (record) => ({
+    backgroundColor: record.ficheNavette !== null ? 'green' : 'red',
+  });
   return (
     <List filters={<AllFilter />} title="Log Facture Saisie">
-      <Datagrid bulkActionButtons={false}>
+      <Datagrid bulkActionButtons={false} rowStyle={CustomRowStyle}
+      {...props}
+      >
         <TextField source="chantier" label="chantier" />
         <TextField source="ficheNavette" label="ficheNavette" />
 
