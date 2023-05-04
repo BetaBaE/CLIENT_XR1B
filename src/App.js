@@ -54,6 +54,7 @@ import { ChequeAvanceCreate } from "./components/chequeAvance/ChequeAvanceCreate
 import { ChequeAvanceEdit } from "./components/chequeAvance/ChequeAvanceEdit";
 import { EspeceAvanceList } from "./components/especeAvance/EspeceAvanceList";
 import { EspeceAvanceCreate } from "./components/especeAvance/EspeceAvanceCreate";
+
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
     options.headers ||
@@ -95,8 +96,14 @@ const fetchJson = async (url, options = {}) => {
     json: json,
   });
 };
+
+
+
 function App(props) {
   const dataProvider = restProvider("http://10.111.1.95:8080", fetchJson);
+
+ 
+  
   return (
     <Admin
       {...props}

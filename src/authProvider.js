@@ -29,7 +29,7 @@ export const auth = {
             JSON.stringify({ ...auth, fullName: username })
           );
           document.location.reload();
-        }, "30200000");
+        }, "18000000");
       });
   },
 
