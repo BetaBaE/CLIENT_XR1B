@@ -112,6 +112,10 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
     /[+-]?([0-9]*[.])?[0-9]+/,
     "ce prix  n'est pas au bon format"
   );
+  const numerofacturevalidation = regex(
+    /^\S+$/,
+    "la facture ne doit pas contenir des espaces"
+  );
   return (
     <Create label="ajouter">
       <SimpleForm>
@@ -126,7 +130,7 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
         <TextInput
           source="numeroFacture"
           label="numeroFacture"
-          validate={required("Le numeroFacture est obligatoire")}
+          validate={[required("Le numeroFacture est obligatoire"),numerofacturevalidation]}
           className={classes.autocomplete}
         />
         <TextInput
