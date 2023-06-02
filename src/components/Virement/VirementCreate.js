@@ -110,7 +110,7 @@ export const VirementCreate = () => {
   }, [onchangefournisseur, fournisseur]);
 
   const getFactureByFourniseurId = (id) => {
-    let url = `${apiUrl}getfacturebyfournisseurid/`+id;
+    let url = `${apiUrl}/getfacturebyfournisseurid/`+id;
    console.log(url);
     fetch(url)
       .then((response) => response.json())
