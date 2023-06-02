@@ -13,6 +13,7 @@ import {
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import { useEffect, useState } from "react";
+import apiUrl from "../../config";
 const useStyles = makeStyles(() => ({
   autocomplete: {
     width: "580px",
@@ -92,7 +93,7 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
     name: `${designation} `,
   }));
   const getTVA = (id) => {
-    let url = "http://10.111.1.95:8080/designationbycode/" + id;
+    let url = `${apiUrl}/designationbycode/` + id;
     // console.log(url);
     fetch(url)
       .then((response) => response.json())
@@ -115,16 +116,8 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
   );
   return (
     <Edit label="ajouter">
-      <SimpleForm>
-        <TextInput
-          defaultValue={identity.fullName}
-          label="vous êtes"
-          hidden={false}
-          className={classes.autocomplete}
-          disabled={true}
-          source="fullName"
-        ></TextInput>
-        <TextInput
+     <SimpleForm>
+      <TextInput
           source="numeroFacture"
           label="numeroFacture"
           validate={required("Le numeroFacture est obligatoire")}
@@ -133,60 +126,37 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
         <TextInput
           source="TTC"
           label="TTC"
-          validate={[
-            required("Le MontantApayer est obligatoire"),
-            validateprice,
-          ]}
+          validate={required("Le MontantApayer est obligatoire")}
           className={classes.autocomplete}
         />
-        <AutocompleteInput
+        <TextInput
           label="designation"
           validate={required(" selectionnez la designation")}
           className={classes.autocomplete}
-          source="codechantier"
-          choices={designation_choices}
-          onChange={(e) => {
-            if (!e) {
-              setFournisseurIdField(true);
-            } else {
-              setFournisseurIdField(false);
-              getTVA(e);
-            }
-          }}
-        />
-        <SelectInput
-          validate={required("Ce champ est obligatoire")}
-          disabled={fournisseurIdField}
-          className={classes.autocomplete}
-          source="iddesignation"
-          choices={tva_choices}
-          label="Pourcentage TVA"
+          source="designation"
+          disabled={true}
         />
         <TextInput
           source="BonCommande"
           label="BonCommande"
+          validate={required("BonCommande obligatoire")}
           className={classes.autocomplete}
         />
-
-        <AutocompleteInput
+        <TextInput
           label="fournisseur"
           validate={required("choisir le fournisseur")}
           className={classes.autocomplete}
-          source="idfournisseur"
-          choices={fournisseur_choices}
+          source="nom"
+          disabled={true}
         />
         <DateInput
           source="DateFacture"
           label="date de la facture"
           validate={required("date obligatoire")}
           className={classes.autocomplete}
-        />
-        <AutocompleteInput label = "chantier"
-        validate = { required("Le chantier est obligatoire") }
-        className = { classes.autocomplete }
-        source = "codechantier"
-        choices = { chantier_choices }
-        /> 
+        >
+ 
+        </DateInput>
       </SimpleForm>
     </Edit>
   );

@@ -12,6 +12,8 @@ import {
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import apiUrl from "../../config";
 const useStyles = makeStyles(() => ({
   autocomplete: {
     width: "580px",
@@ -32,7 +34,8 @@ export const FactureResCreate = () => {
   const [fournisseur, setFournisseur] = useState([]);
   const [chantier, setChantier] = useState([]);
   const { identity, isLoading: identityLoading } = useGetIdentity();
- 
+
+
   useEffect(() => {
     dataProvider2
         .getList("chantier", {
@@ -90,9 +93,13 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
     id: id,
     name: `${designation} `,
   }));
+
+ 
+
+
   const getTVA = (id) => {
-    let url = "http://10.111.1.95:8080/designationbycode/" + id;
-    // console.log(url);
+    let url = `${apiUrl}/designationbycode/` + id;
+ 
     fetch(url)
       .then((response) => response.json())
       .then((json) => setTVA(json));
@@ -116,6 +123,40 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
     /^\S+$/,
     "la facture ne doit pas contenir des espaces"
   );
+  const affichage = async (id) => {
+    try {
+      const avance_choices = await getavancebyfournisseur(id);
+      if (avance_choices.length === 0)  {
+        Swal.fire({
+          text: 'Aucune avance trouvée',
+        });
+      } else {
+        const choicesText = avance_choices
+      
+        .map(({ codechantier, montantAvance, Bcommande }) =>
+          `Les avances : ${codechantier} | ${montantAvance} | ${Bcommande}`
+        )
+        .join("<br/>");
+  
+    
+        Swal.fire({
+          html: choicesText,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching avance_choices:", error);
+    }
+  };
+  
+
+  const getavancebyfournisseur = (idfournisseur) => {
+    let url = `${apiUrl}/getavancebyfournisseur/` + idfournisseur;
+    return fetch(url)
+      .then((response) => response.json())
+      .then((json) => json);
+  };
+
+
   return (
     <Create label="ajouter">
       <SimpleForm>
@@ -146,7 +187,7 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
           label="designation"
           validate={required(" selectionnez la designation")}
           className={classes.autocomplete}
-          source="codechantier"
+          source="iddesignation"
           choices={designation_choices}
           onChange={(e) => {
             if (!e) {
@@ -171,13 +212,17 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
           validate={validateBc}
           className={classes.autocomplete}
         />
-
-        <AutocompleteInput
+  <AutocompleteInput
           label="fournisseur"
           validate={required("choisir le fournisseur")}
           className={classes.autocomplete}
           source="idfournisseur"
           choices={fournisseur_choices}
+          onChange={async (e) => {
+            if (e) {
+              await affichage(e);
+            }
+          }}
         />
         <DateInput
           source="DateFacture"
@@ -186,7 +231,6 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
           className={classes.autocomplete}
         />
         <AutocompleteInput label = "chantier"
-        validate = { required("Le chantier est obligatoire") }
         className = { classes.autocomplete }
         source = "codechantier"
         choices = { chantier_choices }

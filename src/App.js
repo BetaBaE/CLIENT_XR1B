@@ -54,6 +54,7 @@ import { ChequeAvanceCreate } from "./components/chequeAvance/ChequeAvanceCreate
 import { ChequeAvanceEdit } from "./components/chequeAvance/ChequeAvanceEdit";
 import { EspeceAvanceList } from "./components/especeAvance/EspeceAvanceList";
 import { EspeceAvanceCreate } from "./components/especeAvance/EspeceAvanceCreate";
+import apiUrl from "./config";
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
     options.headers ||
@@ -96,7 +97,8 @@ const fetchJson = async (url, options = {}) => {
   });
 };
 function App(props) {
-  const dataProvider = restProvider("http://10.111.1.95:8080", fetchJson);
+  const dataProvider = restProvider(apiUrl, fetchJson);
+ 
   return (
     <Admin
       {...props}
@@ -401,6 +403,48 @@ function App(props) {
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ? (
+          <Resource
+            name="VirementAvance"
+            list={VirementAvanceList}
+            create={
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite"||
+              permissions === "comptable"||
+              permissions === "comptable midelt"
+                ? VirementAvanceCreate
+                : null
+            }
+            icon={FaCreditCard}
+          />
+        ) : null,
+      
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ? (
+          <Resource
+            name="VirementAvance"
+            list={VirementAvanceList}
+            create={
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite"||
+              permissions === "comptable"||
+              permissions === "comptable midelt"
+                ? VirementAvanceCreate
+                : null
+            }
+            icon={FaCreditCard}
+          />
+        ) : null,
+
+
+
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <Resource
@@ -450,6 +494,9 @@ function App(props) {
             icon={FaCreditCard}
           />
         ) : null,
+
+
+        
       ]}
     </Admin>
   );

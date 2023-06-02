@@ -50,7 +50,7 @@ export const EspeceAvanceCreate = (props) => {
             });
     }, [dataProvider]);
     const getFactureByFourniseur = (id) => {
-        let url = "http://10.111.1.95:8080/getficheNavettebyfournisseur/" + id;
+        let url = "http://localhost:8080/getficheNavettebyfournisseur/" + id;
         fetch(url)
             .then((response) => response.json())
             .then((json) => setFacture(json));

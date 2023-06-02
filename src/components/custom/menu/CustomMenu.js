@@ -19,8 +19,9 @@ import {
   FaAngleLeft,
   FaAngleDoubleDown,
   FaAngleDoubleUp,
+  FaCreativeCommonsZero,
 } from "react-icons/fa";
-import { MdPayments } from "react-icons/md";
+import { Md1XMobiledata, MdPayments } from "react-icons/md";
 
 export const CustomMenu = (props) => {
   const { permissions } = usePermissions();
@@ -111,6 +112,26 @@ export const CustomMenu = (props) => {
           leftIcon={<MdPayments />}
         />
       )}
+
+{(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable") && (
+        <Menu.Item
+          to="/VirementAvance"
+          primaryText="AvanceVirement"
+          leftIcon={<FaCreativeCommonsZero />}
+        />
+      )}
+
+
+
+
+
+
+
  {(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||

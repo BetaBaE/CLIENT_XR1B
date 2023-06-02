@@ -9,6 +9,7 @@ import {
     useDataProvider,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
+import apiUrl from "../../config";
 const useStyles = makeStyles(() => ({
     autocomplete: {
         width: "650px",
@@ -45,7 +46,7 @@ export const FactureRechereEdit = (props) => {
             });
     }, [dataProvider]);
     const getFactureByFourniseur = (id) => {
-        let url = "http://10.111.1.95:8080/facturebyfournisseur/" + id;
+        let url = `${apiUrl}/facturebyfournisseur/` + id;
         fetch(url)
             .then((response) => response.json())
             .then((json) => setFacture(json));

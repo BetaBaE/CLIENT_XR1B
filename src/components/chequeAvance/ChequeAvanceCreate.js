@@ -71,12 +71,9 @@ export const ChequeAvanceCreate = () => {
 
   const [onchangefournisseur, setOnchangefournisseur] = useState([]);
 
-  const validatecheque = regex(
-    /^[a-zA-Z]+ [0-9]{8}$/,
-    "ce  numero de cheque est invalid "
-    );
+
   useEffect(() => {
-    fetch("http://10.111.1.95:8080/ribatner")
+    fetch("http://localhost:8080/ribatner")
       .then((response) => response.json())
       .then((json) => setOrderVirement(json));
   }, []);
@@ -104,7 +101,7 @@ export const ChequeAvanceCreate = () => {
   }, [onchangefournisseur, fournisseur]);
 
   const getFactureByFourniseurId = (id) => {
-    let url = "http://10.111.1.95:8080/getficheNavettebyfournisseur/" + id;
+    let url = "http://localhost:8080/getficheNavettebyfournisseur/" + id;
     // console.log(url);
     fetch(url)
       .then((response) => response.json())
@@ -117,7 +114,7 @@ export const ChequeAvanceCreate = () => {
 
   const getFournisseurFilteredByOv = () => {
     fetch(
-      `http://10.111.1.95:8080/ribfournisseurs/`
+      `http://localhost:8080/ribfournisseurs/`
     )
       .then((response) => response.json())
       .then((json) => setFournisseur(json));

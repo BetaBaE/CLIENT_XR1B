@@ -6,10 +6,12 @@ import {
   required,
   SelectInput,
   SimpleForm,
+
 } from "react-admin";
 
 import { makeStyles } from "@material-ui/styles";
 import { Chip } from "@material-ui/core";
+import apiUrl from "../../config";
 
 const useStyles = makeStyles(() => ({
   autocomplete: {
@@ -68,11 +70,19 @@ export const VirementCreate = () => {
   const [orderVirementField, setOrderVirementField] = useState(true);
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
   const [fournisseurRibField, setFournisseurRibField] = useState(true);
+  const [sumfacturewithfn, setSumfacturewithfn] = useState([]);
+  const [sumfacturewithoutfn, setSumfacturewithoutfn] = useState([]);
+  
+  const sumfactureValue = sumfacturewithfn.length > 0 ? sumfacturewithfn[0].sum : "";
+
+  
+  const sumfacturenotfnValue = sumfacturewithoutfn.length > 0 ? sumfacturewithoutfn[0].sum : "";
+
 
   const [onchangefournisseur, setOnchangefournisseur] = useState([]);
 
   useEffect(() => {
-    fetch("http://10.111.1.95:8080/ordervirementencours")
+    fetch(`${apiUrl}/ordervirementencours`)
       .then((response) => response.json())
       .then((json) => setOrderVirement(json));
   }, []);
@@ -100,7 +110,7 @@ export const VirementCreate = () => {
   }, [onchangefournisseur, fournisseur]);
 
   const getFactureByFourniseurId = (id) => {
-    let url = "http://10.111.1.95:8080/getfacturebyfournisseurid/"+id;
+    let url = `${apiUrl}getfacturebyfournisseurid/`+id;
    console.log(url);
     fetch(url)
       .then((response) => response.json())
@@ -111,9 +121,38 @@ export const VirementCreate = () => {
     // console.log(facture);
   };
 
+
+
+  const getsumfacturewithfnByFourniseurId = (id) => {
+    let url = `${apiUrl}/getsumfacturebyfournisseurwithfn/` + id;
+    console.log(url);
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        setSumfacturewithfn(json)
+      })
+      .catch((error) => {
+        console.error("Error fetching sumfacture:", error);
+      });
+  };
+
+  const getsumfacturewithoutByFourniseurId = (id) => {
+    let url = `${apiUrl}/getsumfacturebyfournisseurwithoutfn/`+ id;
+    console.log(url);
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        setSumfacturewithoutfn(json);
+      })
+      .catch((error) => {
+        console.error("Error fetching sumfacture:", error);
+      });
+  };
+
+
   const getFournisseurFilteredByOv = (id) => {
     fetch(
-      `http://10.111.1.95:8080/fournisseursribvalid?ordervirment={"id":"${id}"}`
+      `${apiUrl}/fournisseursribvalid?ordervirment={"id":"${id}"}`
     )
       .then((response) => response.json())
       .then((json) => setFournisseur(json));
@@ -181,6 +220,8 @@ export const VirementCreate = () => {
           onChange={(e) => {
             setOnchangefournisseur(e);
             getFactureByFourniseurId(e);
+            getsumfacturewithfnByFourniseurId(e);
+            getsumfacturewithoutByFourniseurId(e);
             // console.log(e);
             if (!e) {
               setFournisseurIdField(true);
@@ -189,6 +230,13 @@ export const VirementCreate = () => {
             }
           }}
         />
+     {sumfactureValue ? <div>La somme des montants des factures qui ont FN par fournisseur est de : {sumfactureValue} DH</div> : ''}
+     <br></br>
+     {sumfacturenotfnValue ? <div>la somme des montants factures qui n'ont pas FN par fournisseur value : {sumfacturenotfnValue} DH</div> : ''}
+
+
+
+      
         <SelectInput
           validate={required("Ce champ est obligatoire")}
           disabled={fournisseurIdField}
@@ -223,6 +271,9 @@ export const VirementCreate = () => {
           }}
         />
         <Chip className={classes.chip} label={`Total : ${sum}`} />
+      
+       
+
       </SimpleForm>
     </Create>
   );

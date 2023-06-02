@@ -10,6 +10,9 @@ import {
     useDataProvider,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
+import apiUrl from "../../config";
+
+
 const useStyles = makeStyles(() => ({
     autocomplete: {
         width: "650px",
@@ -19,12 +22,26 @@ const useStyles = makeStyles(() => ({
     },
 }));
 export const FactureRechereCreate = (props) => {
+
     const dataProvider1 = useDataProvider();
     const [fournisseur, setFournisseur] = useState([]);
     const [facture, setFacture] = useState([{ id: "", BonCommande: "" }]);
     const dataProvider = useDataProvider();
-
+    let facture_choices = [];
+    if (facture && facture.length > 0) {
+        facture_choices = facture.map(({ id, numeroFacture, TTC, DateFacture }) => ({
+            id: id,
+            name: `${numeroFacture} | ${TTC} DH | ${formatDate(DateFacture)}`,
+        }));
+    }
     const [fournisseurIdField, setFournisseurIdField] = useState(true);
+   
+
+    const [factureidField, setfactureidField] = useState(true);
+   
+
+
+
     const [chantier, setChantier] = useState([]);
     // const [onchangefacture, setOnchangefacture] = useState([]);
     // const [BCommande, setBcommande] = useState([{ id: '', BonCommande: '' }]);
@@ -46,12 +63,36 @@ export const FactureRechereCreate = (props) => {
             });
     }, [dataProvider]);
     const getFactureByFourniseur = (id) => {
-        let url = "http://10.111.1.95:8080/facturebyfournisseur/" + id;
+        let url = `${apiUrl}/facturebyfournisseur/` + id;
         fetch(url)
             .then((response) => response.json())
             .then((json) => setFacture(json));
     };
-    let facture_choices = { id: "", BonCommande: "" };
+    const getChantier = () => {
+        let url = `${apiUrl}/Chantier`;
+        fetch(url)
+          .then((response) => response.json())
+          .then((json) => setChantier(json));
+      };
+      
+      const getChantierByFactureId = (id) => {
+        let url = `${apiUrl}/getchantierbyfactureid/` + id;
+        fetch(url)
+          .then((response) => response.json())
+          .then((json) => {
+            if (json && json.length > 0) {
+              // Si la facture a un chantier associé, mettez à jour le state avec les données du chantier
+              setChantier(json);
+            } else {
+              getChantier();
+              setChantier([]);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+
     let fournisseurs_choices = fournisseur.map(({ id, nom, CodeFournisseur }) => ({
         id: id,
         name: `${nom} | ${CodeFournisseur} `,
@@ -59,43 +100,28 @@ export const FactureRechereCreate = (props) => {
     facture_choices = facture.map(({ id, numeroFacture, TTC, DateFacture }) => ({
         id: id,
         name: `${numeroFacture} | ${TTC} DH | ${formatDate(DateFacture)}`,
-    }));
-    useEffect(() => {
-        dataProvider1
-            .getList("chantier", {
-                pagination: { page: 1, perPage: 3000 },
-                sort: { field: "LIBELLE", order: "ASC" },
-            })
-            .then(({ data }) => {
-                setChantier(data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, [dataProvider1]);
+      }));
+     
+    
+
+      
+  
     let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
         id: id,
         name: `${LIBELLE} | ${CODEAFFAIRE} `,
     }));
-    // const validateBc = regex(
-    //   /^CF[0-9]{3}[0-9]{3}$/,
-    //   "ce bon commande n'est pas valide"
-    // );
+
     const classes = useStyles();
     return (
         <Create>
             <SimpleForm>
-                <AutocompleteInput label="chantier"
-                    validate={required("Le chantier est obligatoire")}
-                    className={classes.autocomplete}
-                    source="codechantier"
-                    choices={chantier_choices}
-                />
+           
                 <AutocompleteInput label="Fournisseur"
                     validate={required("Le fournisseur est obligatoire")}
                     className={classes.autocomplete}
                     source="idfournisseur"
                     choices={fournisseurs_choices}
+
                     onChange={
                         (e) => {
                             // setOnchangefournisseur(e);
@@ -116,10 +142,65 @@ export const FactureRechereCreate = (props) => {
                     choices={facture_choices}
                     label="facture"
                     emptyValue={true}
+                    onChange={
+                        (e) => {
+                      
+                        if (!e) {
+                            setfactureidField(true);
+                        } else {
+                            setfactureidField(false);
+                            getChantierByFactureId(e.target.value)
+                        }
+                    }
+                    }
                 />
-                 <NumberInput
-                    label="montant "
-                        value='0'
+ {facture_choices && facture_choices.length > 0 ? (
+  <AutocompleteInput
+  disabled={factureidField}
+    label="chantier"
+    validate={required("Le chantier est obligatoire")}
+    className={classes.autocomplete}
+    source="codechantier"
+    choices={chantier_choices.map(({ id, name }) => ({
+      id: id,
+      name: name,
+    }))}
+  />
+) : (
+  chantier_choices && chantier_choices.length > 0 && (
+    <AutocompleteInput
+    disabled={factureidField}
+    label="chantier"
+    validate={required("Le chantier est obligatoire")}
+    className={classes.autocomplete}
+    source="codechantier"
+    choices={
+      facture_choices && facture_choices.length > 0
+        ? facture_choices.map(({ id, name }) => ({
+            id: id,
+            name: name,
+          }))
+        : chantier_choices && chantier_choices.length > 0
+        ? chantier_choices.map(({ id, name }) => ({
+            id: id,
+            name: name,
+          }))
+        : []
+    }
+  />
+  
+  
+  
+  )
+)}
+
+
+
+
+
+                <NumberInput
+                    label="montant d'avance"
+                    value='0'
                     className={classes.autocomplete}
                     source="montantAvance" />
 
@@ -128,6 +209,16 @@ export const FactureRechereCreate = (props) => {
                     validate={required("La confirmation est obligatoire")}
                     className={classes.autocomplete}
                     source="ficheNavette" />
+
+
+                <TextInput label="Bon commande"
+           
+                    className={classes.autocomplete}
+                    source="Bcommande" />
+
+
+
+
             </SimpleForm>
         </Create>
     );
