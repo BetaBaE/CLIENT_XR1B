@@ -403,6 +403,7 @@ function App(props) {
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable" ||
         permissions === "superviseur comptabilite" ? (
           <Resource
             name="VirementAvance"
