@@ -69,7 +69,7 @@ export const FactureRechereCreate = (props) => {
             .then((json) => setFacture(json));
     };
     const getChantier = () => {
-        let url = `${apiUrl}/Chantier`;
+        let url = `${apiUrl}/Chantier?range=[0,1000]`; // Récupérer les 1000 premières lignes de chantiers (vous pouvez ajuster cette valeur selon vos besoins)
         fetch(url)
           .then((response) => response.json())
           .then((json) => setChantier(json));
@@ -174,18 +174,12 @@ export const FactureRechereCreate = (props) => {
     validate={required("Le chantier est obligatoire")}
     className={classes.autocomplete}
     source="codechantier"
-    choices={
-      facture_choices && facture_choices.length > 0
-        ? facture_choices.map(({ id, name }) => ({
-            id: id,
-            name: name,
-          }))
-        : chantier_choices && chantier_choices.length > 0
-        ? chantier_choices.map(({ id, name }) => ({
-            id: id,
-            name: name,
-          }))
-        : []
+    choices={chantier_choices && chantier_choices.length > 0
+      ? chantier_choices.map(({ id, name }) => ({
+          id: id,
+          name: name,
+        }))
+      : []
     }
   />
   
