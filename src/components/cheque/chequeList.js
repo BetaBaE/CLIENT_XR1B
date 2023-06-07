@@ -5,7 +5,8 @@ export const ChequeList = () => {
   return (
     <List filters={<ChequeFilter />}>
       <Datagrid  bulkActionButtons={false} rowClick = "edit">
-        {/* <TextField source="id" /> */}
+
+
      
         <TextField source="nom" label="banque" />
         <TextField source="numerocheque" label="numero cheque" />

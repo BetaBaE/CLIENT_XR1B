@@ -1,5 +1,4 @@
 import { Layout } from "react-admin";
-// import { CustomAppBar } from "../appBar/CustomAppBar";
 import { CustomMenu } from "../menu/CustomMenu";
 
 export const CustomLayout = (props) => (
