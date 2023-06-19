@@ -39,7 +39,8 @@ export const FactureRechereCreate = (props) => {
 
     const [factureidField, setfactureidField] = useState(true);
    
-
+    const [chantierIdField, setChantierIdField] = useState(false);
+   
 
 
     const [chantier, setChantier] = useState([]);
@@ -69,7 +70,7 @@ export const FactureRechereCreate = (props) => {
             .then((json) => setFacture(json));
     };
     const getChantier = () => {
-        let url = `${apiUrl}/Chantier?range=[0,1000]`; // Récupérer les 1000 premières lignes de chantiers (vous pouvez ajuster cette valeur selon vos besoins)
+        let url = `${apiUrl}/Chantier?range=[0,1000]`; 
         fetch(url)
           .then((response) => response.json())
           .then((json) => setChantier(json));
@@ -81,7 +82,6 @@ export const FactureRechereCreate = (props) => {
           .then((response) => response.json())
           .then((json) => {
             if (json && json.length > 0) {
-              // Si la facture a un chantier associé, mettez à jour le state avec les données du chantier
               setChantier(json);
             } else {
               getChantier();
@@ -115,50 +115,61 @@ export const FactureRechereCreate = (props) => {
     return (
         <Create>
             <SimpleForm>
-           
-                <AutocompleteInput label="Fournisseur"
-                    validate={required("Le fournisseur est obligatoire")}
-                    className={classes.autocomplete}
-                    source="idfournisseur"
-                    choices={fournisseurs_choices}
+            <AutocompleteInput
+  label="Fournisseur"
+  validate={required("Le fournisseur est obligatoire")}
+  className={classes.autocomplete}
+  source="idfournisseur"
+  choices={fournisseurs_choices}
+  onChange={(e) => {
+    if (!e) {
+      setFournisseurIdField(true);
+      setChantierIdField(false);
+    } else {
+      setFournisseurIdField(false);
+      setChantierIdField(true);
+      getFactureByFourniseur(e);
+      getChantier()
+    }
+  }}
+/>
 
-                    onChange={
-                        (e) => {
-                            // setOnchangefournisseur(e);
-                            if (!e) {
-                                setFournisseurIdField(true);
-                            } else {
-                                setFournisseurIdField(false);
-                                getFactureByFourniseur(e);
-                            }
-                        }
-                    }
-                />
-                <SelectInput
+<SelectInput
+  disabled={fournisseurIdField}
+  className={classes.autocomplete}
+  source="idFacture"
+  choices={facture_choices}
+  label="Facture"
+  emptyValue={true}
+  onChange={(e) => {
+    if (!e) {
+      setfactureidField(true);
+ 
+      setChantierIdField(false);
+    } else {
+      setfactureidField(false);
+      setChantierIdField(true);
+      getChantierByFactureId(e.target.value);
+    }
+  }}
+/>
 
-                    disabled={fournisseurIdField}
-                    className={classes.autocomplete}
-                    source="idFacture"
-                    choices={facture_choices}
-                    label="facture"
-                    emptyValue={true}
-                    onChange={
-                        (e) => {
-                      
-                        if (!e) {
-                            setfactureidField(true);
-                        } else {
-                            setfactureidField(false);
-                            getChantierByFactureId(e.target.value)
-                        }
-                    }
-                    }
-                />
- {facture_choices && facture_choices.length > 0 ? (
+{!factureidField ? (
   <AutocompleteInput
-  disabled={factureidField}
-    label="chantier"
+   
+    label="Chantier"
     validate={required("Le chantier est obligatoire")}
+    className={classes.autocomplete}
+    source="codechantier"
+    choices={chantier_choices.map(({ id, name }) => ({
+        id: id,
+        name: name,
+      }))}
+  />
+) : (
+  <AutocompleteInput
+  validate={required("Le chantier est obligatoire")}
+    label="Chantier"
     className={classes.autocomplete}
     source="codechantier"
     choices={chantier_choices.map(({ id, name }) => ({
@@ -166,33 +177,11 @@ export const FactureRechereCreate = (props) => {
       name: name,
     }))}
   />
-) : (
-  chantier_choices && chantier_choices.length > 0 && (
-    <AutocompleteInput
-    disabled={factureidField}
-    label="chantier"
-    validate={required("Le chantier est obligatoire")}
-    className={classes.autocomplete}
-    source="codechantier"
-    choices={chantier_choices && chantier_choices.length > 0
-      ? chantier_choices.map(({ id, name }) => ({
-          id: id,
-          name: name,
-        }))
-      : []
-    }
-  />
-  
-  
-  
-  )
 )}
 
 
 
-
-
-                <NumberInput
+                <TextInput
                     label="montant d'avance"
                     value='0'
                     className={classes.autocomplete}
@@ -205,7 +194,7 @@ export const FactureRechereCreate = (props) => {
                     source="ficheNavette" />
 
 
-                <TextInput label="Bon commande"
+                <TextInput label="Bon de commande d'avance"
            
                     className={classes.autocomplete}
                     source="Bcommande" />
