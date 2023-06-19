@@ -353,8 +353,9 @@ function App(props) {
             }
             edit={
               permissions === "comptable midelt" ||
-              permissions === "superviseur comptabilite midelt"
-        
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
                 ? ChequeEdit
                 : null
             } 
@@ -461,7 +462,9 @@ function App(props) {
             }
             edit={
               permissions === "comptable midelt" ||
-              permissions === "superviseur comptabilite midelt"
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
                 ? VirementEdit
                 : null
             }

@@ -10,6 +10,8 @@ import {
   TextInput,
   useDataProvider,
   useGetIdentity,
+  useNotify,
+  useTranslate,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import { useEffect, useState } from "react";
@@ -34,7 +36,16 @@ export const FactureResEdit = () => {
   const [fournisseur, setFournisseur] = useState([]);
   const [chantier, setChantier] = useState([]);
   const { identity, isLoading: identityLoading } = useGetIdentity();
- 
+  const notify = useNotify();
+  const translate = useTranslate();
+
+  // Intercepter la réponse de modification
+  const handleOnSuccess = () => {
+    // Personnaliser le message de succès
+    const successMessage = translate('custom.messages.edit_success');
+    notify(successMessage, 'success');
+  };
+
   useEffect(() => {
     dataProvider2
         .getList("chantier", {
@@ -115,8 +126,8 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
     "ce prix  n'est pas au bon format"
   );
   return (
-    <Edit label="ajouter">
-     <SimpleForm>
+    <Edit label="ajouter"undoable={false}>
+     <SimpleForm   redirect="list" saveOnEnter={false} onSuccess={handleOnSuccess}>
       <TextInput
           source="numeroFacture"
           label="numeroFacture"

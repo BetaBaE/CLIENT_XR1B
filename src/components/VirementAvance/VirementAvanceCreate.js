@@ -10,6 +10,7 @@ import {
 
 import { makeStyles } from "@material-ui/styles";
 import { Chip } from "@material-ui/core";
+import apiUrl from "../../config";
 
 const useStyles = makeStyles(() => ({
     autocomplete: {
@@ -64,7 +65,7 @@ export const VirementAvanceCreate = () => {
     const [onchangefournisseur, setOnchangefournisseur] = useState([]);
 
     useEffect(() => {
-        fetch("http://10.111.1.95:8080/ordervirementencours")
+        fetch(`${apiUrl}/ordervirementencours`)
             .then((response) => response.json())
             .then((json) => setOrderVirement(json));
     }, []);
@@ -92,7 +93,7 @@ export const VirementAvanceCreate = () => {
     }, [onchangefournisseur, fournisseur]);
 
     const getFactureByFourniseurId = (id) => {
-        let url = "http://10.111.1.95:8080/getficheNavettebyfournisseur/" + id;
+        let url = `${apiUrl}/getficheNavettebyfournisseur/` + id;
         // console.log(url);
         fetch(url)
             .then((response) => response.json())
@@ -102,14 +103,13 @@ export const VirementAvanceCreate = () => {
             });
         // console.log(facture);
     };
-
     const getFournisseurFilteredByOv = (id) => {
         fetch(
-                `http://10.111.1.95:8080/fournisseursribvalid?ordervirment={"id":"${id}"}`
-            )
-            .then((response) => response.json())
-            .then((json) => setFournisseur(json));
-    };
+          `${apiUrl}/fournisseursribvalid?ordervirment={"id":"${id}"}`
+        )
+          .then((response) => response.json())
+          .then((json) => setFournisseur(json));
+      };
 
     let orderVirement_choices = orderVirement.map(({ id }) => ({
         id: id,
@@ -130,6 +130,7 @@ export const VirementAvanceCreate = () => {
     let facture_choices = facture.map(
         ({
             id,
+            BonCommande,
             chantier,
             nom,
             ficheNavette,
@@ -138,7 +139,7 @@ export const VirementAvanceCreate = () => {
             id: id,
             name: `${chantier} | FN ${ficheNavette} | id ${
                 id
-      } | ${nom} |${montantAvance}`,
+      } | ${nom} |${montantAvance}|${BonCommande}`,
         })
     );
 
