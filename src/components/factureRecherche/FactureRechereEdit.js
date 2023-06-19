@@ -125,6 +125,7 @@ export const FactureRechereEdit = (props) => {
           label="Montant d'avance"
           className={classes.autocomplete}
           source="montantAvance"
+          defaultValue={0}
         />
         <TextInput
           label="Fiche navette"
