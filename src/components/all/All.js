@@ -26,7 +26,7 @@ export const All = (props) => {
           <TextField source="MontantTVA" label="récupération tva" />
           <TextField source="TTC" label="TTC" />
           <TextField source="montantAvance" label="montantAvance" />
-          <DateField showTime source="dateOperation" options={{ timeZone: "UTC" }} />
+          <DateField showTime source="dateOperation" options={{ timeZone: "UTC" }} label="confirmation relevé"/>
           <TextField source="modepaiement" label="modepaiement" />
           <TextField source="banque" label="banque" />
           <TextField source="numerocheque" label="numerocheque" />

@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const FactureRecherche = ({props}) => {
+export const FactureRecherche = (props) => {
     const classes = useStyles();
 
     return ( 
@@ -34,18 +34,21 @@ export const FactureRecherche = ({props}) => {
         label = "chantier" />
         <TextField source = "designation"
         label = "designation" />
+        <DateField source = "DateFacture"
+        label = "DateFacture" />
         <TextField source = "numeroFacture"
         label = "numeroFacture" />
-        <NumberField source = "TTC"
-        label = "TTC" />
-        <NumberField source = "HT"
+          <NumberField source = "HT"
         label = "HT" />
         <NumberField source = "MontantTVA"
         label = "MontantTVA" />
+        
+        <NumberField source = "TTC"
+        label = "TTC" />
+      
         <TextField source = "BonCommande"
         label = "BonCommande" />
-        <DateField source = "DateFacture"
-        label = "DateFacture" />
+ 
         <TextField source = "nom"
         label = "nom" />
         <TextField source = "CodeFournisseur"

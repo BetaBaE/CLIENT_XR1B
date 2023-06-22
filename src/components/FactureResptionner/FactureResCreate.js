@@ -72,7 +72,7 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
   useEffect(() => {
     dataProvider
       .getList("fournisseurs", {
-        pagination: { page: 1, perPage: 3000 },
+        pagination: { page: 1, perPage: 10000 },
         sort: { field: "id", order: "ASC" },
       })
 

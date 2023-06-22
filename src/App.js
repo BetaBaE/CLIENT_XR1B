@@ -108,26 +108,26 @@ function App(props) {
       layout={CustomLayout}
     >
       {(permissions) => [
-        permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable" ? (
-          <Resource
-            name="fournisseurs"
-            list={FournisseurList}
-            create={
-              permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite" ||
-              permissions === "comptable midelt" ||
-              permissions === "comptable" 
-                ? CreateFournisseur
-                : null
-            }
-            icon={FaTruck}
-          />
-        ) : null,
+               
+               permissions === "normal user" ||
+               permissions === "comptable midelt" ||
+               permissions === "superviseur comptabilite midelt" ||
+               permissions === "superviseur comptabilite" ||
+               permissions === "comptable" ? (
+                 <Resource
+                   name="fournisseurs"
+                   list={FournisseurList}
+                   create={
+                     (permissions === "superviseur comptabilite midelt" ||
+                     permissions === "superviseur comptabilite" ||
+                     permissions === "comptable midelt" ||
+                     permissions === "comptable")
+                       ? CreateFournisseur
+                       : null
+                   }
+                   icon={FaTruck}
+                 />
+               ) : null,
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||

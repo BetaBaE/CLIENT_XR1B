@@ -181,11 +181,12 @@ export const FactureRechereCreate = (props) => {
 
 
 
-                <TextInput
-                    label="montant d'avance"
-                    value='0'
-                    className={classes.autocomplete}
-                    source="montantAvance" />
+<TextInput
+          label="Montant d'avance"
+          className={classes.autocomplete}
+          source="montantAvance"
+          defaultValue={0}
+        />
 
 
                 <TextInput label="Fiche navette"
