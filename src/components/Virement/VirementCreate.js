@@ -191,7 +191,11 @@ export const VirementCreate = () => {
       } | ${nom} |${MontantFacture != null ? MontantFacture : TTC}`,
     })
   );
-
+  const maxChoice = (max, errorMessage) => (value) => {
+    if (value && value.length > max) {
+      return errorMessage;
+    }
+  };
   const classes = useStyles();
   return (
     <Create>
@@ -251,25 +255,25 @@ export const VirementCreate = () => {
           source="ribFournisseurId"
           choices={ribfournisseurs_choices}
         />
-        <AutocompleteArrayInput
-          validate={required("Ce champ est obligatoire")}
-          disabled={fournisseurRibField}
-          className={classes.autocomplete}
-          source="facturelist"
-          choices={facture_choices}
-          onChange={(e) => {
-            let sum = 0;
-            e.forEach((fa) => {
-              sum +=
-                facture.find((facture) => facture.id === fa).MontantFacture !=
-                null
-                  ? facture.find((facture) => facture.id === fa).MontantFacture
-                  : facture.find((facture) => facture.id === fa).TTC;
-            });
-            // console.log(sum.toFixed(3));
-            setSum(sum.toFixed(3));
-          }}
-        />
+     <AutocompleteArrayInput
+  validate={[required("Ce champ est obligatoire"), maxChoice(10, "Maximum 10 choices allowed")]}
+  disabled={fournisseurRibField}
+  className={classes.autocomplete}
+  source="facturelist"
+  choices={facture_choices}
+  onChange={(e) => {
+    let sum = 0;
+    e.forEach((fa) => {
+      sum +=
+        facture.find((facture) => facture.id === fa).MontantFacture != null
+          ? facture.find((facture) => facture.id === fa).MontantFacture
+          : facture.find((facture) => facture.id === fa).TTC;
+    });
+    // console.log(sum.toFixed(3));
+    setSum(sum.toFixed(3));
+  }}
+/>
+      
         <Chip className={classes.chip} label={`Total : ${sum}`} />
       
        
