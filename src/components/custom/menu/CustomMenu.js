@@ -113,9 +113,6 @@ export const CustomMenu = (props) => {
         />
       )}
 
-
-
-
  {(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
