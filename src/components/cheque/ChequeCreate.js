@@ -48,9 +48,12 @@ export const ChequeCreate = (props) => {
   const [sumfacturewithoutfn, setSumfacturewithoutfn] = useState([]);
   
   const sumfactureValue = sumfacturewithfn.length > 0 ? sumfacturewithfn[0].sum : "";
-
+  const [sumavance, setSumavance] = useState([]);
   
   const sumfacturenotfnValue = sumfacturewithoutfn.length > 0 ? sumfacturewithoutfn[0].sum : "";
+
+  const sumAvanceValue = sumavance.length > 0 ? sumavance[0].sum : "";
+
 
   useEffect(() => {
     fetch(`${apiUrl}/ribatner`)
@@ -85,7 +88,18 @@ export const ChequeCreate = (props) => {
       });
   };
 
-
+  const getsumavanceByFourniseurId = (id) => {
+    let url = `${apiUrl}/getsumavancebyfournisseur/` + id;
+    console.log(url);
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        setSumavance(json)
+      })
+      .catch((error) => {
+        console.error("Error fetching sumavance:", error);
+      });
+  };
 
     useEffect(() => {
         dataProvider
@@ -113,18 +127,19 @@ export const ChequeCreate = (props) => {
         name: `${nom} | ${CodeFournisseur} `,
     }));
     facture_choices = facture.map(({  id,
-        chantier,
-        nom,
-        ficheNavette,
-        DateFacture,
-        CODEDOCUTIL,
-        TTC,
-        MontantFacture, }) => ({
-        id: id,
-        name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${
-            DateFacture?.split("T")[0]
-          } | ${nom} |${MontantFacture != null ? MontantFacture : TTC}`,
-    }));
+      chantier,
+      nom,
+      ficheNavette,
+      DateFacture,
+      CODEDOCUTIL,
+      TTC,
+      MontantFacture, }) => ({
+      id: id,
+      name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${
+        DateFacture === null ? 'avance' : DateFacture?.split("T")[0]
+
+        } | ${nom} |${MontantFacture != null ? MontantFacture : TTC}`,
+  }));
     
     let orderVirement_choices = orderVirement.map(({ id,nom }) => ({
       id: id,
@@ -171,6 +186,7 @@ export const ChequeCreate = (props) => {
                                 getFactureByFourniseur(e);
                                 getsumfacturewithfnByFourniseurId(e);
                                 getsumfacturewithoutByFourniseurId(e);
+                                getsumavanceByFourniseurId(e)
                             }
                         }
                     }
@@ -179,6 +195,9 @@ export const ChequeCreate = (props) => {
                                 {sumfactureValue ? <div>La somme des montants des factures qui ont FN par fournisseur est de : {sumfactureValue} DH</div> : ''}
      <br></br>
      {sumfacturenotfnValue ? <div>la somme des montants factures qui n'ont pas FN par fournisseur value : {sumfacturenotfnValue} DH</div> : ''}
+     <br></br>
+     {sumAvanceValue ? <div>la somme des montants des avances par fournisseur value : {sumAvanceValue} DH</div> : ''}
+
 
 
                 <AutocompleteArrayInput

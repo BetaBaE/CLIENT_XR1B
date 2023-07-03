@@ -78,7 +78,10 @@ export const VirementCreate = () => {
   
   const sumfacturenotfnValue = sumfacturewithoutfn.length > 0 ? sumfacturewithoutfn[0].sum : "";
 
+  const [sumavance, setSumavance] = useState([]);
 
+  const sumAvanceValue = sumavance.length > 0 ? sumavance[0].sum : "";
+ 
   const [onchangefournisseur, setOnchangefournisseur] = useState([]);
 
   useEffect(() => {
@@ -121,7 +124,18 @@ export const VirementCreate = () => {
     // console.log(facture);
   };
 
-
+  const getsumavanceByFourniseurId = (id) => {
+    let url = `${apiUrl}/getsumavancebyfournisseur/` + id;
+    console.log(url);
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        setSumavance(json)
+      })
+      .catch((error) => {
+        console.error("Error fetching sumavance:", error);
+      });
+  };
 
   const getsumfacturewithfnByFourniseurId = (id) => {
     let url = `${apiUrl}/getsumfacturebyfournisseurwithfn/` + id;
@@ -148,8 +162,6 @@ export const VirementCreate = () => {
         console.error("Error fetching sumfacture:", error);
       });
   };
-
-
   const getFournisseurFilteredByOv = (id) => {
     fetch(
       `${apiUrl}/fournisseursribvalid?ordervirment={"id":"${id}"}`
@@ -174,28 +186,11 @@ export const VirementCreate = () => {
     name: rib,
   }));
 
-  let facture_choices = facture.map(
-    ({
-      id,
-      chantier,
-      nom,
-      ficheNavette,
-      DateFacture,
-      CODEDOCUTIL,
-      TTC,
-      MontantFacture,
-    }) => ({
-      id: id,
-      name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${
-        DateFacture?.split("T")[0]
-      } | ${nom} |${MontantFacture != null ? MontantFacture : TTC}`,
-    })
-  );
-  const maxChoice = (max, errorMessage) => (value) => {
-    if (value && value.length > max) {
-      return errorMessage;
-    }
-  };
+  let facture_choices = facture.map(({ id, chantier, nom, ficheNavette, DateFacture, CODEDOCUTIL, TTC, MontantFacture, NETAPAYER }) => ({
+    id: id,
+    name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${DateFacture === null ? 'avance' : DateFacture?.split("T")[0]} | ${nom} | ${MontantFacture !== null ? MontantFacture : TTC} DH | ${NETAPAYER === null ? 'vous avez choisi avance' : (NETAPAYER === 0 ? 'pas d\'avance' : 'avance :'+ NETAPAYER +'DH' )}`
+  }));
+  
   const classes = useStyles();
   return (
     <Create>
@@ -226,6 +221,7 @@ export const VirementCreate = () => {
             getFactureByFourniseurId(e);
             getsumfacturewithfnByFourniseurId(e);
             getsumfacturewithoutByFourniseurId(e);
+            getsumavanceByFourniseurId(e)
             // console.log(e);
             if (!e) {
               setFournisseurIdField(true);
@@ -238,6 +234,8 @@ export const VirementCreate = () => {
      <br></br>
      {sumfacturenotfnValue ? <div>la somme des montants factures qui n'ont pas FN par fournisseur value : {sumfacturenotfnValue} DH</div> : ''}
 
+     <br></br>
+     {sumAvanceValue ? <div>la somme des montants des avances par fournisseur value : {sumAvanceValue} DH</div> : ''}
 
 
       
@@ -256,7 +254,7 @@ export const VirementCreate = () => {
           choices={ribfournisseurs_choices}
         />
      <AutocompleteArrayInput
-  validate={[required("Ce champ est obligatoire"), maxChoice(10, "Maximum 10 choices allowed")]}
+  validate={[required("Ce champ est obligatoire")]}
   disabled={fournisseurRibField}
   className={classes.autocomplete}
   source="facturelist"
@@ -273,11 +271,7 @@ export const VirementCreate = () => {
     setSum(sum.toFixed(3));
   }}
 />
-      
         <Chip className={classes.chip} label={`Total : ${sum}`} />
-      
-       
-
       </SimpleForm>
     </Create>
   );

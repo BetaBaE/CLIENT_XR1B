@@ -47,13 +47,8 @@ import { ChequeList } from "./components/cheque/chequeList";
 import { EspeceList } from "./components/espece/EspeceList";
 import { EspeceCreate } from "./components/espece/EspeceCreate";
 import { ChequeEdit } from "./components/cheque/ChequeEdit";
-import { VirementAvanceCreate } from "./components/VirementAvance/VirementAvanceCreate";
-import { VirementAvanceList } from "./components/VirementAvance/VirementAvanceList";
-import { ChequeAvanceList } from "./components/chequeAvance/ChequeAvanceList";
-import { ChequeAvanceCreate } from "./components/chequeAvance/ChequeAvanceCreate";
-import { ChequeAvanceEdit } from "./components/chequeAvance/ChequeAvanceEdit";
-import { EspeceAvanceList } from "./components/especeAvance/EspeceAvanceList";
-import { EspeceAvanceCreate } from "./components/especeAvance/EspeceAvanceCreate";
+
+
 import apiUrl from "./config";
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -109,6 +104,7 @@ function App(props) {
     >
       {(permissions) => [
                
+               permissions === "admin" ||
                permissions === "normal user" ||
                permissions === "comptable midelt" ||
                permissions === "superviseur comptabilite midelt" ||
@@ -158,17 +154,14 @@ function App(props) {
             list={RibatnerList}
             edit={
               permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite" ||
-              permissions === "comptable midelt" ||
-              permissions === "comptable"
+              permissions === "superviseur comptabilite"
                 ? RibatnerEdit
                 : null
             }
             create={
               permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite" ||
-              permissions === "comptable midelt" ||
-              permissions === "comptable"
+              permissions === "superviseur comptabilite" 
+    
                 ? RIBAtnerCreate
                 : null
             }
@@ -186,15 +179,14 @@ function App(props) {
             list={RibtempoList}
             create={
               permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite" ||
-              permissions === "comptable midelt" ||
-              permissions === "comptable"
+              permissions === "superviseur comptabilite" 
                 ? RibtempoCreate
                 : null
             }
             icon={FaCreditCard}
           />
         ) : null,
+        permissions === "admin" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ||
         permissions === "normal user" ||
@@ -223,18 +215,6 @@ function App(props) {
             icon={FaTruck}
           ></Resource>
         ) : null,
-
-       
-
-
-
-
-
-
-
-
-
-
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
@@ -331,8 +311,6 @@ function App(props) {
             }
           />
         ) : null,
-
-
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
@@ -362,9 +340,6 @@ function App(props) {
         
           />
         ) : null,
-
-
-
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
@@ -400,46 +375,7 @@ function App(props) {
             icon={FaCreditCard}
           />
         ) : null,
-        permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable" ||
-        permissions === "superviseur comptabilite" ? (
-          <Resource
-            name="VirementAvance"
-            list={VirementAvanceList}
-            create={
-              permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite"||
-              permissions === "comptable"||
-              permissions === "comptable midelt"
-                ? VirementAvanceCreate
-                : null
-            }
-            icon={FaCreditCard}
-          />
-        ) : null,
-      
-        permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "superviseur comptabilite" ? (
-          <Resource
-            name="VirementAvance"
-            list={VirementAvanceList}
-            create={
-              permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite"||
-              permissions === "comptable"||
-              permissions === "comptable midelt"
-                ? VirementAvanceCreate
-                : null
-            }
-            icon={FaCreditCard}
-          />
-        ) : null,
+     
 
 
 

@@ -2,6 +2,7 @@ import { Box } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import "./styles.css";
+import apiUrl from "../../config";
 // import Swal from "sweetalert2";
 // import withReactContent from "sweetalert2-react-content";
 const PrintModule = () => {
@@ -16,7 +17,9 @@ const PrintModule = () => {
   const [selctov, setSelctov] = useState();
   // const MySwal = withReactContent(Swal);
   useEffect(() => {
-    fetch("http://10.111.1.95:8080/ordervirementetat")
+
+    fetch(`${apiUrl}/ordervirementetat`)
+
       .then((response) => response.json())
       .then((json) => setOrderVirement(json));
   }, []);
@@ -89,7 +92,7 @@ const PrintModule = () => {
                 // console.log(selctov);
 
                 fetch(
-                  `http://10.111.1.95:8080/oneordervirement?ordervirment={"id":"${selctov}"}`
+                  `http://localhost:8080/oneordervirement?ordervirment={"id":"${selctov}"}`
                 )
                   .then((response) => response.json())
                   .then((json) => {

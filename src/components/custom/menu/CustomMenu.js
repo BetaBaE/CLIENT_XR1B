@@ -113,22 +113,6 @@ export const CustomMenu = (props) => {
         />
       )}
 
-{(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/VirementAvance"
-          primaryText="AvanceVirement"
-          leftIcon={<FaCreativeCommonsZero />}
-        />
-      )}
-
-
-
-
 
 
 
@@ -167,7 +151,7 @@ export const CustomMenu = (props) => {
         permissions === "comptable") && (
         <Menu.Item
           to="/logfactures"
-          primaryText="Log Factures"
+          primaryText="les avances payé"
           leftIcon={<FaRegListAlt />}
         />
       )}
