@@ -3,7 +3,7 @@ import {
   DateInput,
   Edit,
   FormDataConsumer,
-  NumberInput,
+
   required,
   SaveButton,
   SelectInput,
@@ -28,6 +28,7 @@ const UserEditToolbar = (props) => (
     <SaveButton id="save" />
   </Toolbar>
 );
+
 export const ChequeEdit = (props) => {
   const redirect = useRedirect();
 
@@ -35,62 +36,76 @@ export const ChequeEdit = (props) => {
     if (params === "Annuler") {
       Swal.fire({
         title: "Êtes-vous sûr?",
-        text: "Voulez-vous vraiment Annule cette virement?",
+        text: "Voulez-vous vraiment annuler ce chèque?",
         icon: "warning",
         showCancelButton: true,
         cancelButtonText: "Non!",
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Oui, Annule!",
+        confirmButtonText: "Oui, annuler!",
       }).then((result) => {
         if (result.isConfirmed) {
           document.querySelector("#save").click();
-          Swal.fire("Annule!", "Virement Annuler", "success");
+          Swal.fire("Annulé!", "Chèque annulé", "success");
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire(
             "Modification annulée",
-            "Virement pour ne pas changer.",
+            "Le chèque n'a pas été modifié.",
             "error"
           );
-          redirect("list", "virements");
+          redirect("list", "cheque");
         }
       });
     }
   }
+  const EditToolbar = (props) => (
+    <Toolbar {...props}>
+      <SaveButton id="save" />
+    </Toolbar>
+  );
   const classes = useStyles();
-  return (
-    <Edit {...props}>
-      <SimpleForm toolbar={<UserEditToolbar />}>
-      
-        <FormDataConsumer>
-          {({ formData, ...rest }) =>
 
-            formData.Etat !== "Annuler" && (
-              <SelectInput
-                // disabled={etatDisaibled}
-                {...rest}
-                source="Etat"
-                className={classes.autocomplete}
-                onChange={(e) => {
-                  console.log(e.target.value);
-                  annuleAlert(e.target.value);
-                }}
-                validate={required()}
-                choices={[
-                  { id: "Reglee", name: "Reglee" },
-                  { id: "En cours", name: "En cours" },
-                  { id: "Annuler", name: "Annuler" },
-                ]}
-              />
-            )
-          }
+  return (
+    <Edit {...props} >
+      <SimpleForm toolbar={<UserEditToolbar />}>
+        <FormDataConsumer>
+          {({ formData, ...rest }) => (
+            <>
+              {(formData.Etat !== "Reglee" && formData.Etat !== "Annuler") && (
+                <>
+                  <SelectInput
+                    {...rest}
+                    source="Etat"
+                    className={classes.autocomplete}
+                    onChange={(e) => {
+                      console.log(e.target.value);
+                      annuleAlert(e.target.value);
+                    }}
+                    validate={required()}
+                    choices={[
+                      { id: "Reglee", name: "Reglee" },
+                      { id: "En cours", name: "En cours" },
+                      { id: "Annuler", name: "Annuler" },
+                    ]}
+                  />
+
+                  <DateInput
+                    source="dateOperation"
+                    label="Date d'opération"
+                    className={classes.autocomplete}
+                  />
+                </>
+              )}
+            </>
+          )}
         </FormDataConsumer>
 
-        <DateInput
-          source="dateOperation"
-          label="dateOperation"
+        <TextInput
+          source="numerocheque"
+          label="Numéro de chèque"
+          disabled
           className={classes.autocomplete}
-        ></DateInput>
+        />
       </SimpleForm>
     </Edit>
   );

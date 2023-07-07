@@ -1,4 +1,4 @@
-import { DateInput, Filter,  TextInput } from "react-admin";
+import { DateInput, Filter,  SelectInput,  TextInput } from "react-admin";
 
 const AllFilter = (props) => (
 
@@ -30,7 +30,16 @@ const AllFilter = (props) => (
     <TextInput source = "fournisseur"
     label = "fournisseur" />
 
-    <TextInput source = "modepaiement"
+    <SelectInput source = "modepaiement"
+ choices={[
+    { id: "paiement espece", name: "paiement espece" },
+    { id: "paiement cheque", name: "paiement cheque" },
+    { id: "paiement virement", name: "paiement virement" },
+    { id: "non payé", name: "non payé" }
+   
+
+  ]}
+
     label = "mode de paiement" />
 
     <TextInput source = "ficheNavette"
@@ -48,6 +57,16 @@ const AllFilter = (props) => (
     label = "banque" />
 
 
+
+<SelectInput source = "etat"
+ choices={[
+    { id: "Reglee", name: "Reglee" },
+    { id: "En cours", name: "En cours" },
+   
+
+  ]}
+
+    label = "mode de paiement" />
     </Filter>
 
 );
