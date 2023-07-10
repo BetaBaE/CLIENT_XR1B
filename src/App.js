@@ -97,7 +97,6 @@ function App(props) {
   return (
     <Admin
       {...props}
-      // dataProvider={restProvider("http://10.111.1.217:8080")}
       dataProvider={dataProvider}
       authProvider={auth}
       layout={CustomLayout}
@@ -134,9 +133,7 @@ function App(props) {
             list={RibfournisseurList}
             edit={
               permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite"||
-              permissions === "comptable"||
-              permissions === "comptable midelt"
+              permissions === "superviseur comptabilite"
                 ? RibfournisseurEdit
                 : null
             }
@@ -179,7 +176,9 @@ function App(props) {
             list={RibtempoList}
             create={
               permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite" 
+              permissions === "superviseur comptabilite" ||      
+              permissions === "comptable midelt" ||
+              permissions === "comptable"
                 ? RibtempoCreate
                 : null
             }
