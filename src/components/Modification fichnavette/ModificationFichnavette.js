@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 import { Datagrid, DateField, List, NumberField, TextField  } from "react-admin";
-import FactureRechereFilter from "./FactureRechereFilter";
+import ModificationFichnavetteFilter from "./ModificationFichnavetteFilter";
+
 
 
 const useStyles = makeStyles({
@@ -19,11 +20,11 @@ const useStyles = makeStyles({
     },
 });
 
-export const FactureRecherche = (props) => {
+export const ModificationFichnavette = (props) => {
     const classes = useStyles();
 
     return ( 
-      <List filters = { <FactureRechereFilter/> }
+      <List filters = { <ModificationFichnavetteFilter/> }
         title = "Fiche Navette" >
         <Datagrid rowClick = "edit"
         bulkActionButtons = { false }

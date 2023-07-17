@@ -9,6 +9,7 @@ import {
   SimpleForm,
   TextInput,
   useDataProvider,
+  useGetIdentity,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import apiUrl from "../../config";
@@ -30,7 +31,7 @@ export const FactureRechereCreate = (props) => {
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
   const [factureidField, setFactureidField] = useState(true);
   const [chantierIdField, setChantierIdField] = useState(false);
-
+  const { identity, isLoading: identityLoading } = useGetIdentity();
   const classes = useStyles();
 
   const formatDate = (string) => {
@@ -104,6 +105,15 @@ export const FactureRechereCreate = (props) => {
   return (
     <Create>
       <SimpleForm>
+      <TextInput
+          defaultValue={identity.fullName}
+          label="vous êtes"
+          hidden={false}
+          className={classes.autocomplete}
+          disabled={true}
+          source="fullName"
+        ></TextInput>
+
         <AutocompleteInput
           label="Fournisseur"
           validate={required("Le fournisseur est obligatoire")}

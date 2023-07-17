@@ -50,6 +50,8 @@ import { ChequeEdit } from "./components/cheque/ChequeEdit";
 
 
 import apiUrl from "./config";
+import { ModificationFichnavette } from "./components/Modification fichnavette/ModificationFichnavette";
+import { ModificationFichnavetteEdit } from "./components/Modification fichnavette/ModificationFichnavetteEdit";
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
     options.headers ||
@@ -375,8 +377,24 @@ function App(props) {
           />
         ) : null,
      
-
-
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <Resource
+            name="ModificationFichnavette"
+            list={ModificationFichnavette}
+            edit={
+           
+                 ModificationFichnavetteEdit
+           
+            }
+          
+            icon={FaCreditCard}
+          />
+          ) : null,
 
         permissions === "admin" ||
         permissions === "normal user" ||

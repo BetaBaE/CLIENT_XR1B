@@ -20,6 +20,7 @@ import {
   FaAngleDoubleDown,
   FaAngleDoubleUp,
   FaCreativeCommonsZero,
+  FaConfluence,
 } from "react-icons/fa";
 import { Md1XMobiledata, MdPayments } from "react-icons/md";
 
@@ -125,6 +126,24 @@ export const CustomMenu = (props) => {
           leftIcon={<FaAndroid />}
         />
       )}
+
+
+
+{(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable") && (
+        <Menu.Item
+          to="/ModificationFichnavette"
+          primaryText="Modification Fichnavette"
+          leftIcon={<FaConfluence />}
+        />
+      )}
+
+
+
 
 
 

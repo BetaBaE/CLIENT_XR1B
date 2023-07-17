@@ -209,7 +209,7 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
         <TextInput
           source="BonCommande"
           label="BonCommande"
-          validate={validateBc}
+          
           className={classes.autocomplete}
         />
   <AutocompleteInput

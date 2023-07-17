@@ -1,51 +1,76 @@
 import {
+  AutocompleteInput,
   Edit,
   regex,
   SelectInput,
   SimpleForm,
   TextInput,
+  useDataProvider,
   useGetIdentity,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
+import { useEffect, useState } from "react";
+
 const useStyles = makeStyles(() => ({
   autocomplete: {
     width: "580px",
   },
-  chip: {
-    fontWeight: "bold",
-  },
 }));
+
 export const FactureValiderEdit = () => {
+  const [chantier, setChantier] = useState([]);
   const classes = useStyles();
   const { identity, isLoading: identityLoading } = useGetIdentity();
-  const { isLoading, error } = useGetIdentity();
-  if (isLoading) return <>Loading</>;
-  if (error) return <>Error</>;
+  const dataProvider = useDataProvider();
+
+  useEffect(() => {
+    dataProvider
+      .getList("chantier", {
+        pagination: { page: 1, perPage: 3000 },
+        sort: { field: "LIBELLE", order: "ASC" },
+      })
+      .then(({ data }) => {
+        setChantier(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [dataProvider]);
+
   const validateBc = regex(
     /^CF[0-9]{3}[0-9]{3}$/,
-    "ce bon commande n'est pas valide"
+    "Ce bon de commande n'est pas valide"
   );
+
+  const chantierChoices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
+    id: id,
+    name: `${LIBELLE} | ${CODEAFFAIRE}`,
+  }));
+
   return (
     <Edit>
       <SimpleForm>
         <TextInput
           defaultValue={identity.fullName}
-          label="vous êtes"
-          hidden={false}
-          className={classes.autocomplete}
+          label="Vous êtes"
           disabled={true}
           source="updatedBy"
-        ></TextInput>
+        />
         <SelectInput
           source="verifiyMidelt"
           choices={[{ id: "verifié", name: "verifié" }]}
         />
         <TextInput
           source="BonCommande"
-          label="BonCommande"
-          validate={validateBc}
-          className={classes.autocomplete}
+          label="Bon de Commande"
+          
           resettable
+        />
+        <AutocompleteInput
+          label="Chantier"
+          source="codechantier"
+          choices={chantierChoices}
+          className={classes.autocomplete}
         />
       </SimpleForm>
     </Edit>

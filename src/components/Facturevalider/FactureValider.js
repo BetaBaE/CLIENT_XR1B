@@ -6,6 +6,7 @@ export const FactureValider = () => {
   return (
     <List filters={<FacturevaliderFilter />} title="Archivage Facture">
       <Datagrid rowClick="edit" bulkActionButtons={false}>
+      <TextField source="LIBELLE" label="chantier" />
         <TextField source="designation" label="designation" />
         <TextField source="numeroFacture" label="numeroFacture" />
         <TextField source="TTC" label="TTC" />
