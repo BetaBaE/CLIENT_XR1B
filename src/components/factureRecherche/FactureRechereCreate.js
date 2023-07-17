@@ -98,6 +98,9 @@ export const FactureRechereCreate = (props) => {
     id: id,
     name: `${LIBELLE} | ${CODEAFFAIRE} `,
   }));
+  const { isLoading, error } = useGetIdentity();
+  if (isLoading) return <>Loading</>;
+  if (error) return <>Error</>;
   const validateBc = regex(
     /^CF[0-9]{3}[0-9]{3}$/,
     "ce bon commande n'est pas valide"

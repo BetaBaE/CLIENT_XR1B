@@ -64,7 +64,7 @@ export const FactureValiderEdit = () => {
           source="BonCommande"
           label="Bon de Commande"
           
-          resettable
+          
         />
         <AutocompleteInput
           label="Chantier"
