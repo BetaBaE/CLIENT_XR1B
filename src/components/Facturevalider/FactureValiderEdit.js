@@ -51,7 +51,7 @@ export const FactureValiderEdit = () => {
     <Edit>
       <SimpleForm>
         <TextInput
-          defaultValue={identity.fullName}
+          defaultValue={identity?.fullName}
           label="Vous êtes"
           disabled={true}
           source="updatedBy"
