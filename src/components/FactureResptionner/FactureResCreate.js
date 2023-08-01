@@ -232,7 +232,7 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
         <DateInput
           source="DateFacture"
           label="date de la facture"
-          validate={[required("Date obligatoire"), validateDate]}
+          validate={required("Date obligatoire")}
           className={classes.autocomplete}
         />
         <AutocompleteInput label = "chantier"
