@@ -115,6 +115,11 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
     /^CF[0-9]{3}[0-9]{3}$/,
     "ce bon commande n'est pas valide"
   );
+
+  const validateDate = regex(
+    /^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/[0-9]{4}$/,
+    "le format des dates doit être conforme à la norme "
+  );
   const validateprice = regex(
     /[+-]?([0-9]*[.])?[0-9]+/,
     "ce prix  n'est pas au bon format"
@@ -227,7 +232,7 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
         <DateInput
           source="DateFacture"
           label="date de la facture"
-          validate={required("date obligatoire")}
+          validate={[required("Date obligatoire"), validateDate]}
           className={classes.autocomplete}
         />
         <AutocompleteInput label = "chantier"
