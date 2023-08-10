@@ -117,7 +117,7 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
   );
 
   const validateDate = regex(
-    /^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/[0-9]{4}$/,
+    /[1-9]\d{3}-(0[1-9]|1[0-2])-([12]\d|0[1-9]|3[01])/,
     "le format des dates doit être conforme à la norme "
   );
   const validateprice = regex(
@@ -128,6 +128,10 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
     /^\S+$/,
     "la facture ne doit pas contenir des espaces"
   );
+
+ 
+
+
   const affichage = async (id) => {
     try {
       const avance_choices = await getavancebyfournisseur(id);
@@ -232,7 +236,7 @@ let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
         <DateInput
           source="DateFacture"
           label="date de la facture"
-          validate={required("Date obligatoire")}
+          validate={[required("Date obligatoire"),validateDate]}
           className={classes.autocomplete}
         />
         <AutocompleteInput label = "chantier"
