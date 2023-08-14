@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AutocompleteInput,
   Create,
-  NumberInput,
   required,
   SelectInput,
   regex,
@@ -23,6 +22,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const formatDate = (string) => {
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  return new Date(string).toLocaleDateString([], options);
+};
+
 export const FactureRechereCreate = (props) => {
   const dataProvider = useDataProvider();
   const [fournisseur, setFournisseur] = useState([]);
@@ -31,51 +35,49 @@ export const FactureRechereCreate = (props) => {
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
   const [factureidField, setFactureidField] = useState(true);
   const [chantierIdField, setChantierIdField] = useState(false);
+  const [selectedCodeChantier, setSelectedCodeChantier] = useState("");
   const { identity, isLoading: identityLoading } = useGetIdentity();
   const classes = useStyles();
 
-  const formatDate = (string) => {
-    var options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(string).toLocaleDateString([], options);
-  };
-
   useEffect(() => {
-    dataProvider
-      .getList("fournisseurs", {
-        pagination: { page: 1, perPage: 3000 },
-        sort: { field: "nom", order: "ASC" },
-      })
-      .then(({ data }) => {
-        setFournisseur(data);
-      })
-      .catch((error) => {
+    const fetchFournisseurs = async () => {
+      try {
+        const response = await dataProvider.getList("fournisseurs", {
+          pagination: { page: 1, perPage: 3000 },
+          sort: { field: "nom", order: "ASC" },
+        });
+        setFournisseur(response.data);
+      } catch (error) {
         console.log(error);
-      });
+      }
+    };
+    fetchFournisseurs();
   }, [dataProvider]);
 
-  const getFactureByFournisseur = (id) => {
-    let url = `${apiUrl}/facturebyfournisseur/` + id;
-    fetch(url)
+  const fetchChantier = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/Chantier?range=[0,1000]`);
+      const json = await response.json();
+      setChantier(json);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchFactureByFournisseur = (id) => {
+    fetch(`${apiUrl}/facturebyfournisseur/${id}`)
       .then((response) => response.json())
       .then((json) => setFacture(json));
   };
 
-  const getChantier = () => {
-    let url = `${apiUrl}/Chantier?range=[0,1000]`;
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => setChantier(json));
-  };
-
-  const getChantierByFactureId = (id) => {
-    let url = `${apiUrl}/getchantierbyfactureid/` + id;
-    fetch(url)
+  const fetchChantierByFactureId = (id) => {
+    fetch(`${apiUrl}/getchantierbyfactureid/${id}`)
       .then((response) => response.json())
       .then((json) => {
         if (json && json.length > 0) {
           setChantier(json);
         } else {
-          getChantier();
+          fetchChantier();
           setChantier([]);
         }
       })
@@ -98,24 +100,27 @@ export const FactureRechereCreate = (props) => {
     id: id,
     name: `${LIBELLE} | ${CODEAFFAIRE} `,
   }));
+  
   const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
   if (error) return <>Error</>;
+  
   const validateBc = regex(
     /^CF[0-9]{3}[0-9]{3}$/,
     "ce bon commande n'est pas valide"
   );
+
   return (
     <Create>
       <SimpleForm>
-      <TextInput
+        <TextInput
           defaultValue={identity.fullName}
           label="vous êtes"
           hidden={false}
           className={classes.autocomplete}
           disabled={true}
           source="fullName"
-        ></TextInput>
+        />
 
         <AutocompleteInput
           label="Fournisseur"
@@ -130,8 +135,8 @@ export const FactureRechereCreate = (props) => {
             } else {
               setFournisseurIdField(false);
               setChantierIdField(true);
-              getFactureByFournisseur(e);
-              getChantier();
+              fetchFactureByFournisseur(e);
+              fetchChantier();
             }
           }}
         />
@@ -150,30 +155,35 @@ export const FactureRechereCreate = (props) => {
             } else {
               setFactureidField(false);
               setChantierIdField(true);
-              getChantierByFactureId(e.target.value);
+              fetchChantierByFactureId(e.target.value);
             }
           }}
         />
 
-        {!factureidField ? (
-          <AutocompleteInput
-            validate={required("Le chantier est obligatoire")}
-            className={classes.autocomplete}
-            source="codechantier"
-            choices={chantier_choices.map(({ id, name }) => ({
-              id: id,
-              name: name,
-            }))}
-          />
-        ) : (
-          <AutocompleteInput
-            validate={required("Le chantier est obligatoire")}
-            className={classes.autocomplete}
-            source="codechantier"
-            choices={chantier_choices.map(({ id, name }) => ({
-              id: id,
-              name: name,
-            }))}
+        <AutocompleteInput
+          validate={required("Le chantier est obligatoire")}
+          className={classes.autocomplete}
+          source="codechantier"
+          choices={chantier_choices.map(({ id, name }) => ({
+            id: id,
+            name: name,
+          }))}
+          onChange={(e) => {
+            setSelectedCodeChantier(e);
+          }}
+        />
+
+        {selectedCodeChantier === "A-9999" && (
+          <SelectInput
+            className={classes.autocomplete} 
+            source="service"
+            choices={[
+              { id: 'comm', name: 'Communication' },
+              { id: 'SI', name: 'Service informatique' },
+              { id: 'RH', name: 'Ressource Humaine' },
+              { id: 'QUALITE', name: 'QUALITE' },
+              { id: 'MC', name: 'Moyen commun' },
+            ]}
           />
         )}
 
@@ -201,3 +211,5 @@ export const FactureRechereCreate = (props) => {
     </Create>
   );
 };
+
+
