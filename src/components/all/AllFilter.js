@@ -63,10 +63,11 @@ const AllFilter = (props) => (
     { id: "Reglee", name: "Reglee" },
     { id: "En cours", name: "En cours" },
    
-
   ]}
-
     label = "mode de paiement" />
+   <TextInput source = "numerocheque"
+    label = "numerocheque" />
+
     </Filter>
 
 );
