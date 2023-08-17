@@ -33,7 +33,7 @@ export const All = (props) => {
           <DateField showTime source="datecheque" options={{ timeZone: "UTC" }} />
           <DateField showTime source="dateecheance" options={{ timeZone: "UTC" }} />
           <TextField source="etat" label="etat" />
-          <TextField source="dateechancefacture" label="dateechancefacture" />
+          <TextField source="nbrJour" label="nbrJour" />
         </Datagrid>
       </List>
      
