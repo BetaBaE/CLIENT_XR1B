@@ -141,37 +141,6 @@ export const FactureRechereCreate = (props) => {
             }
           }}
         />
-
-<AutocompleteArrayInput
-  validate={[required("Ce champ est obligatoire")]}
-  disabled={fournisseurIdField}
-  className={classes.autocomplete}
-  source="idFacture"
-  choices={facture_choices}
-  onChange={(e) => {
-    let sum = 0;
-    e.forEach((fa) => {
-      sum +=
-        facture.find((facture) => facture.id === fa).MontantFacture != null
-          ? facture.find((facture) => facture.id === fa).MontantFacture
-          : facture.find((facture) => facture.id === fa).TTC;
-    });
-    // console.log(sum.toFixed(3));
- 
-  }}
-/>
-
-
-
-
-
-
-
-
-
-
-
-
         <SelectInput
           disabled={fournisseurIdField}
           className={classes.autocomplete}
