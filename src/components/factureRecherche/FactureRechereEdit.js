@@ -73,9 +73,9 @@ export const FactureRechereEdit = (props) => {
                 console.log(error);
             });
     }, [dataProvider1]);
-    let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
+    let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
         id: id,
-        name: `${LIBELLE} | ${CODEAFFAIRE} `,
+        name: `${LIBELLE} | ${id} `,
     }));
  
     const classes = useStyles();

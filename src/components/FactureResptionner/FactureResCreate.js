@@ -49,9 +49,9 @@ export const FactureResCreate = () => {
             console.log(error);
         });
 }, [dataProvider2]);
-let chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
+let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
     id: id,
-    name: `${LIBELLE} | ${CODEAFFAIRE} `,
+    name: `${LIBELLE} | ${id} `,
 }));
  
   useEffect(() => {

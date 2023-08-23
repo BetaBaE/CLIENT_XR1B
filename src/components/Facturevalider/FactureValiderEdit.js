@@ -42,9 +42,9 @@ export const FactureValiderEdit = () => {
     "Ce bon de commande n'est pas valide"
   );
 
-  const chantierChoices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
+  const chantierChoices = chantier.map(({ id, LIBELLE }) => ({
     id: id,
-    name: `${LIBELLE} | ${CODEAFFAIRE}`,
+    name: `${LIBELLE} | ${id}`,
   }));
 
   return (

@@ -9,6 +9,7 @@ import {
   TextInput,
   useDataProvider,
   useGetIdentity,
+  AutocompleteArrayInput,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import apiUrl from "../../config";
@@ -96,9 +97,9 @@ export const FactureRechereCreate = (props) => {
     name: `${numeroFacture} | ${TTC} DH | ${formatDate(DateFacture)}`,
   }));
 
-  const chantier_choices = chantier.map(({ id, LIBELLE, CODEAFFAIRE }) => ({
+  const chantier_choices = chantier.map(({ id, LIBELLE }) => ({
     id: id,
-    name: `${LIBELLE} | ${CODEAFFAIRE} `,
+    name: `${LIBELLE} | ${id} `,
   }));
   
   const { isLoading, error } = useGetIdentity();
@@ -140,6 +141,36 @@ export const FactureRechereCreate = (props) => {
             }
           }}
         />
+
+<AutocompleteArrayInput
+  validate={[required("Ce champ est obligatoire")]}
+  disabled={fournisseurIdField}
+  className={classes.autocomplete}
+  source="idFacture"
+  choices={facture_choices}
+  onChange={(e) => {
+    let sum = 0;
+    e.forEach((fa) => {
+      sum +=
+        facture.find((facture) => facture.id === fa).MontantFacture != null
+          ? facture.find((facture) => facture.id === fa).MontantFacture
+          : facture.find((facture) => facture.id === fa).TTC;
+    });
+    // console.log(sum.toFixed(3));
+ 
+  }}
+/>
+
+
+
+
+
+
+
+
+
+
+
 
         <SelectInput
           disabled={fournisseurIdField}
