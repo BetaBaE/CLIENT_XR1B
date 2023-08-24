@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
-import { Create, regex, required, SimpleForm, TextInput } from "react-admin";
+import { Create, DateInput, regex, required, SimpleForm, TextInput } from "react-admin";
 
 const useStyles = makeStyles(() => ({
   autocomplete: {
@@ -30,6 +30,11 @@ const CreateFournisseur = (props) => {
           className={classes.autocomplete}
           source="nom"
         />
+        <DateInput  className={classes.autocomplete}
+          source="DateEcheance"
+          >
+            
+          </DateInput>
       </SimpleForm>
     </Create>
   );

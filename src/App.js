@@ -52,6 +52,8 @@ import { ChequeEdit } from "./components/cheque/ChequeEdit";
 import apiUrl from "./config";
 import { ModificationFichnavette } from "./components/Modification fichnavette/ModificationFichnavette";
 import { ModificationFichnavetteEdit } from "./components/Modification fichnavette/ModificationFichnavetteEdit";
+import { EditFournisseur } from "./components/Fournisseur/EditFournisseur";
+import { Allechu } from "./components/allechu/allechu";
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
     options.headers ||
@@ -122,6 +124,14 @@ function App(props) {
                        ? CreateFournisseur
                        : null
                    }
+                   edit={
+                    (permissions === "superviseur comptabilite midelt" ||
+                    permissions === "superviseur comptabilite" ||
+                    permissions === "comptable midelt" ||
+                    permissions === "comptable")
+                      ? EditFournisseur
+                      : null
+                  }
                    icon={FaTruck}
                  />
                ) : null,
@@ -283,6 +293,22 @@ function App(props) {
         permissions === "superviseur comptabilite midelt" ? (
           <Resource name="all" list={All} icon={FaTruck}></Resource>
         ) : null,
+
+
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ||
+        permissions === "superviseur comptabilite midelt" ? (
+          <Resource name="allechu" list={Allechu} icon={FaTruck}></Resource>
+        ) : null,
+
+
+
+
+
+
 
         permissions === "admin" ||
         permissions === "normal user" ||
