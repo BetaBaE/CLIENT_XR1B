@@ -92,7 +92,7 @@ const PrintModule = () => {
                 // console.log(selctov);
 
                 fetch(
-                  `http://10.111.1.95:8080/oneordervirement?ordervirment={"id":"${selctov}"}`
+                  `${apiUrl}/oneordervirement?ordervirment={"id":"${selctov}"}`
                 )
                   .then((response) => response.json())
                   .then((json) => {
