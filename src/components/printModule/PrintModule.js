@@ -91,14 +91,38 @@ const PrintModule = () => {
 
                 // console.log(selctov);
 
-                fetch(
-                  `${apiUrl}/oneordervirement?ordervirment={"id":"${selctov}"}`
-                )
-                  .then((response) => response.json())
-                  .then((json) => {
-                    console.log(json);
-                    showLoadingPdf(json);
+                try {
+                  fetch(`${apiUrl}/oneordervirement?ordervirment={"id":"${selctov}"}`)
+                    .then((response) => {
+                      if (!response.ok) {
+                        throw new Error("Réponse réseau non valide");
+                      }
+                      return response.json();
+                    })
+                    .then((json) => {
+                      console.log(json);
+                      showLoadingPdf(json);
+                    })
+                    .catch((error) => {
+                      console.error("Erreur lors de la requête fetch :", error);
+                      Swal.fire({
+                        icon: "error",
+                        title: "Erreur",
+                        text: "Une erreur s'est produite lors de la récupération des données.",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                      });
+                    });
+                } catch (error) {
+                  console.error("Erreur lors de la requête fetch :", error);
+                  Swal.fire({
+                    icon: "error",
+                    title: "Erreur",
+                    text: "Une erreur s'est produite lors de la requête.",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
                   });
+                }
               } else {
                 e.preventDefault();
                 Swal.fire({

@@ -6,9 +6,18 @@ import ColorfulText from "../custom/layout/ColorfulText";
 import AllechuFilter from "./AllechuFilter";
 
 export const Allechu = (props) => {
-  const CustomRowStyle = (record) => ({
-    backgroundColor: record.ficheNavette !== null ? "#ACDF87" : "#ffd6d6",
-  });
+ 
+  const CustomRowStyle = (record) => {
+    const currentDate = new Date();
+    const futureDate = new Date(record.datefacture);
+    futureDate.setDate(futureDate.getDate() + 45);
+  
+    if (futureDate.getTime() > currentDate.getTime()  ) {
+      return { backgroundColor: "#FF4933" }; 
+    } else {
+      return { backgroundColor: "#FFCE33" };
+    }
+  };
 
   return (
     <>
@@ -34,7 +43,10 @@ export const Allechu = (props) => {
           <DateField showTime source="datecheque" options={{ timeZone: "UTC" }} />
           <DateField showTime source="dateecheance" options={{ timeZone: "UTC" }} />
           <TextField source="etat" label="etat" />
-          <TextField source="nbrJour" label="nbrJour" />
+          <DateField
+          source="dateechu"
+           label="dateechu"
+                              />
         </Datagrid>
       </List>
      
