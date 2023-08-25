@@ -1,27 +1,29 @@
 import React from "react";
 import { Datagrid, DateField, List, TextField } from "react-admin";
-import AllFilter from "./AllechuFilter";
-
-import ColorfulText from "../custom/layout/ColorfulText";
 import AllechuFilter from "./AllechuFilter";
 
 export const Allechu = (props) => {
- 
-  const CustomRowStyle = (record) => {
-    const currentDate = new Date();
-    const futureDate = new Date(record.datefacture);
-    futureDate.setDate(futureDate.getDate() + 45);
   
-    if (futureDate.getTime() > currentDate.getTime()  ) {
-      return { backgroundColor: "#FF4933" }; 
+  const CustomRowStyle = (record) => {
+    let today = new Date();
+    
+    const futureDate = new Date(record.DateFacture);
+    futureDate.setDate(futureDate.getDate() + 45); 
+  
+    let nbDay = (futureDate - today) / (1000 * 24 * 60 * 60);
+  
+    console.log(nbDay);
+  
+    if (nbDay < 0) {
+      return { backgroundColor: "#FFBB33" }; 
     } else {
-      return { backgroundColor: "#FFCE33" };
+      return { backgroundColor: "#B7BAAF" };
     }
   };
-
+  
   return (
-    <>
-     <ColorfulText className="pskch"  />
+
+
       <List filters={<AllechuFilter />} title="Log Facture Saisie">
         <Datagrid bulkActionButtons={false} rowStyle={CustomRowStyle} {...props}>
           <TextField source="chantier" label="chantier" />
@@ -50,15 +52,9 @@ export const Allechu = (props) => {
         </Datagrid>
       </List>
      
-      <style>
-  {`
- #pskch {
-      marginBottom: "-80px"
-    }
-  `}
-</style>
+    
 
 
-    </>
+  
   );
 };
