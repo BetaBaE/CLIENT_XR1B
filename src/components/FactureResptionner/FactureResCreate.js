@@ -83,14 +83,20 @@ let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
         console.log(error);
       });
   }, [dataProvider]);
+
   let fournisseur_choices = fournisseur.map(({ id, nom, CodeFournisseur }) => ({
     id: id,
     name: `${nom} | ${CodeFournisseur} `,
   }));
+
   let designation_choices = designation.map(({ id, designation }) => ({
     id: id,
     name: `${designation} `,
   }));
+
+ 
+
+
   const getTVA = (id) => {
     let url = `${apiUrl}/designationbycode/` + id;
  
@@ -123,14 +129,8 @@ let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
     "la facture ne doit pas contenir des espaces"
   );
 
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = (today.getMonth() + 1).toString().padStart(2, '0');
-  const day = today.getDate().toString().padStart(2, '0');
-  console.log(year,month,day)
-  const dateRegex = new regex(
-    `^(?:${year}-${month}-${day}|\\d{4}-\\d{2}-\\d{2})$`
-  );
+ 
+
 
   const affichage = async (id) => {
     try {
@@ -236,7 +236,7 @@ let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
         <DateInput
           source="DateFacture"
           label="date de la facture"
-          validate={[required("Date obligatoire"),dateRegex]}
+          validate={[required("Date obligatoire"),validateDate]}
           className={classes.autocomplete}
         />
         <AutocompleteInput label = "chantier"
