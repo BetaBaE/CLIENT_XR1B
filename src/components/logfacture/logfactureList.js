@@ -11,7 +11,7 @@ export const LogfactureList = (props) => {
   
         <TextField source="nom" label="fournisseur" />
         <TextField source="LIBELLE" label="chantier" />
-        <NumberField source="id" label="code chantier" />
+        <NumberField source="codechantier" label="code chantier" />
       
         <TextField source="montantAvance" label="montant Avance" />
         <TextField source="etat" />
