@@ -20,7 +20,6 @@ export const FactureValider = () => {
 
         <TextField source="fullName" label="crée par" />
         <TextField source="verifiyMidelt" label="verifiyMidelt" />
-        <TextField source="updatedBy" label="utilisateur vérifié" />
       </Datagrid>
     </List>
   );
