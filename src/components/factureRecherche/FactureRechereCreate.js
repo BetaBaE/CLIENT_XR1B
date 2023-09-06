@@ -9,7 +9,8 @@ import {
   TextInput,
   useDataProvider,
   useGetIdentity,
-  AutocompleteArrayInput,
+
+  useRedirect,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import apiUrl from "../../config";
@@ -106,6 +107,8 @@ export const FactureRechereCreate = (props) => {
   if (isLoading) return <>Loading</>;
   if (error) return <>Error</>;
   
+
+
   const validateBc = regex(
     /^CF[0-9]{3}[0-9]{3}$/,
     "ce bon commande n'est pas valide"
@@ -113,7 +116,7 @@ export const FactureRechereCreate = (props) => {
 
   return (
     <Create>
-      <SimpleForm>
+       <SimpleForm >
         <TextInput
           defaultValue={identity.fullName}
           label="vous êtes"
@@ -211,5 +214,4 @@ export const FactureRechereCreate = (props) => {
     </Create>
   );
 };
-
 

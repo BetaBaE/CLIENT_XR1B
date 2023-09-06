@@ -2,14 +2,19 @@ import { useEffect, useState } from "react";
 import {
     AutocompleteInput,
     Edit,
+    FormDataConsumer,
     required,
+    SaveButton,
     SelectInput,
     SimpleForm,
     TextInput,
+    Toolbar,
     useDataProvider,
+    useRedirect,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import apiUrl from "../../config";
+import Swal from "sweetalert2";
 const useStyles = makeStyles(() => ({
     autocomplete: {
         width: "650px",
@@ -19,14 +24,45 @@ const useStyles = makeStyles(() => ({
     },
 }));
 export const ModificationFichnavetteEdit = (props) => {
+    const UserEditToolbar = (props) => (
+        <Toolbar {...props}>
+          <SaveButton id="save" />
+        </Toolbar>
+      );
     const dataProvider1 = useDataProvider();
     const [fournisseur, setFournisseur] = useState([]);
     const [facture, setFacture] = useState([{ id: "", BonCommande: "" }]);
     const dataProvider = useDataProvider();
+    const redirect = useRedirect();
 
     const [fournisseurIdField, setFournisseurIdField] = useState(true);
     const [chantier, setChantier] = useState([]);
-
+    const annuleAlert = (params) => {
+        if (params === "Annuler") {
+          Swal.fire({
+            title: "Êtes-vous sûr?",
+            text: "Voulez-vous vraiment Annuler cette ficheNavette?",
+            icon: "warning",
+            showCancelButton: true,
+            cancelButtonText: "Non!",
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Oui, Annule!",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              document.querySelector("#save").click();
+              Swal.fire("Annulé!", "FicheNavette Annulée", "success");
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+              Swal.fire(
+                "Modification annulée",
+                "FicheNavette ne sera pas modifiée.",
+                "error"
+              );
+              redirect("list", "factureRech");
+            }
+          });
+        }
+      };
     function formatDate(string) {
         var options = { year: "numeric", month: "long", day: "numeric" };
         return new Date(string).toLocaleDateString([], options);
@@ -80,7 +116,7 @@ export const ModificationFichnavetteEdit = (props) => {
     const classes = useStyles();
     return (
         <Edit>
-            <SimpleForm>
+            <SimpleForm  toolbar={<UserEditToolbar />}>
                 <AutocompleteInput label="chantier"
                     validate={required("Le fournisseur est obligatoire")}
                     className={classes.autocomplete}
@@ -118,10 +154,31 @@ export const ModificationFichnavetteEdit = (props) => {
                     className={classes.autocomplete}
                     source="montantAvance" />
 
-                <TextInput label="Fiche navette"
-                    validate={required("La confirmation est obligatoire")}
-                    className={classes.autocomplete}
-                    source="ficheNavette" />
+<FormDataConsumer>
+          {({ formData }) =>
+            formData.ficheNavette !== "Annuler" && (
+              <>
+                <TextInput
+                  label="Fiche Navette"
+                  className={classes.autocomplete}
+                  source="ficheNavette"
+                />
+                <SelectInput
+                  source="annulation"
+                  className={classes.autocomplete}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    annuleAlert(e.target.value);
+                  }}
+                  validate={required()}
+                  choices={[
+                    { id: "Annuler", name: "Annuler" },
+                  ]}
+                />
+              </>
+            )
+          }
+        </FormDataConsumer>
 
                 <TextInput label="montant d'avance "
                     className={classes.autocomplete}
