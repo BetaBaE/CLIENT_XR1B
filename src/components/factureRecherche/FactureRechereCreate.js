@@ -9,8 +9,6 @@ import {
   TextInput,
   useDataProvider,
   useGetIdentity,
-
-  useRedirect,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import apiUrl from "../../config";
@@ -30,6 +28,7 @@ const formatDate = (string) => {
 };
 
 export const FactureRechereCreate = (props) => {
+  const [factureSelected, setFactureSelected] = useState(null); // Change to null
   const dataProvider = useDataProvider();
   const [fournisseur, setFournisseur] = useState([]);
   const [facture, setFacture] = useState([]);
@@ -50,7 +49,7 @@ export const FactureRechereCreate = (props) => {
         });
         setFournisseur(response.data);
       } catch (error) {
-        console.log(error);
+        console.error(error); // Use console.error for errors
       }
     };
     fetchFournisseurs();
@@ -62,14 +61,17 @@ export const FactureRechereCreate = (props) => {
       const json = await response.json();
       setChantier(json);
     } catch (error) {
-      console.log(error);
+      console.error(error); // Use console.error for errors
     }
   };
 
   const fetchFactureByFournisseur = (id) => {
     fetch(`${apiUrl}/facturebyfournisseur/${id}`)
       .then((response) => response.json())
-      .then((json) => setFacture(json));
+      .then((json) => setFacture(json))
+      .catch((error) => {
+        console.error(error); // Use console.error for errors
+      });
   };
 
   const fetchChantierByFactureId = (id) => {
@@ -84,7 +86,7 @@ export const FactureRechereCreate = (props) => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error); // Use console.error for errors
       });
   };
 
@@ -102,24 +104,19 @@ export const FactureRechereCreate = (props) => {
     id: id,
     name: `${LIBELLE} | ${id} `,
   }));
-  
+
   const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
   if (error) return <>Error</>;
-  
 
-
-  const validateBc = regex(
-    /^CF[0-9]{3}[0-9]{3}$/,
-    "ce bon commande n'est pas valide"
-  );
-
+  const validateBc = regex(/^CF[0-9]{3}[0-9]{3}$/, "Ce bon de commande n'est pas valide"); 
+console.log("la facture ",factureSelected)
   return (
     <Create>
-       <SimpleForm >
+      <SimpleForm>
         <TextInput
           defaultValue={identity.fullName}
-          label="vous êtes"
+          label="Vous êtes"
           hidden={false}
           className={classes.autocomplete}
           disabled={true}
@@ -136,6 +133,8 @@ export const FactureRechereCreate = (props) => {
             if (!e) {
               setFournisseurIdField(true);
               setChantierIdField(false);
+              setFacture([]); // Clear facture when changing fournisseur
+              setFactureSelected(null); // Clear selected facture
             } else {
               setFournisseurIdField(false);
               setChantierIdField(true);
@@ -150,15 +149,17 @@ export const FactureRechereCreate = (props) => {
           source="idFacture"
           choices={facture_choices}
           label="Facture"
-          emptyValue={true}
+          emptyValue={null} // Use null instead of true
           onChange={(e) => {
             if (!e) {
               setFactureidField(true);
               setChantierIdField(false);
+              setFactureSelected(null); // Clear selected facture
             } else {
               setFactureidField(false);
               setChantierIdField(true);
               fetchChantierByFactureId(e.target.value);
+              setFactureSelected(e.target.value); // Set selected facture
             }
           }}
         />
@@ -178,28 +179,22 @@ export const FactureRechereCreate = (props) => {
 
         {selectedCodeChantier === "A-9999" && (
           <SelectInput
-            className={classes.autocomplete} 
+            className={classes.autocomplete}
             source="service"
             choices={[
               { id: 'comm', name: 'Communication' },
               { id: 'SI', name: 'Service informatique' },
               { id: 'RH', name: 'Ressource Humaine' },
-              { id: 'QUALITE', name: 'QUALITE' },
+              { id: 'QUALITE', name: 'Qualité' }, // Fix typo
               { id: 'MC', name: 'Moyen commun' },
             ]}
           />
         )}
 
-        <TextInput
-          label="Montant d'avance"
-          className={classes.autocomplete}
-          source="montantAvance"
-          defaultValue={0}
-        />
-
+     
         <TextInput
           label="Fiche navette"
-          validate={required("La confirmation est obligatoire")}
+          validate={required("La fiche navette est obligatoire")}
           className={classes.autocomplete}
           source="ficheNavette"
         />
@@ -207,11 +202,48 @@ export const FactureRechereCreate = (props) => {
         <TextInput
           label="Bon de commande d'avance"
           className={classes.autocomplete}
+          validate={
+            factureSelected === null
+                ? required("Le bon de  commande est obligatoire")
+                : null
+            }
           source="Bcommande"
-          validate={validateBc}
+          disabled={factureSelected !== null}
         />
+<TextInput
+  label="Montant d'avance"
+  className={classes.autocomplete}
+  validate={(value) => {
+    const numericValue = parseFloat(value);
+    console.log("numericValue", numericValue);
+
+    if (factureSelected === null) {
+      return numericValue >= 1
+        ? null
+        : "Le montant d'avance doit être supérieur ou égal à 1";
+    }
+
+    if (facture.length === 0) {
+      return required("Le montant d'avance est obligatoire");
+    }
+
+    if (
+      factureSelected === null 
+    ) {
+      return "Le montant d'avance doit être supérieur à 0";
+    }
+
+    return null; 
+  }}
+  source="montantAvance"
+  defaultValue={factureSelected === null ? null : 0}
+  disabled={factureSelected !== null}
+/>
+
+
+
+
       </SimpleForm>
     </Create>
   );
 };
-
