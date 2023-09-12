@@ -163,6 +163,13 @@ export const FactureRechereEdit = (props) => {
           source="montantAvance"
         />
         
+        <TextInput
+          label="Fiche navette"
+          validate={required("La fiche navette est obligatoire")}
+          className={classes.autocomplete}
+          source="ficheNavette"
+        />
+
        
       </SimpleForm>
       </Edit>
