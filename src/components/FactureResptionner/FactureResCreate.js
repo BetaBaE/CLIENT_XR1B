@@ -35,7 +35,7 @@ export const FactureResCreate = () => {
   const [chantier, setChantier] = useState([]);
   const { identity, isLoading: identityLoading } = useGetIdentity();
 
-
+  const [libelleChantier, setLibelleChantier] = useState([]);
   useEffect(() => {
     dataProvider2
         .getList("chantier", {
@@ -95,6 +95,17 @@ let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
   }));
 
  
+  const getchantierByBCommande = (Boncommande) => {
+    let url = `${apiUrl}/getchantierbyBonCommande/` + Boncommande;
+console.log(url)
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => setLibelleChantier(json));
+  };
+
+
+
+
 
 
   const getTVA = (id) => {
@@ -156,7 +167,12 @@ let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
       console.error("Error fetching avance_choices:", error);
     }
   };
-  
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') { // Vérifie si la touche "Entrée" est pressée
+       getchantierByBCommande(event.target.value)
+       console.log(libelleChantier)
+    }
+  };
 
   const getavancebyfournisseur = (idfournisseur) => {
     let url = `${apiUrl}/getavancebyfournisseur/` + idfournisseur;
@@ -218,9 +234,15 @@ let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
         <TextInput
           source="BonCommande"
           label="BonCommande"
-          
+          onKeyDown={handleKeyDown}
           className={classes.autocomplete}
         />
+      {/* Afficher les données de libelleChantier ici */}
+      <div>
+      {libelleChantier.map((item, index) => (
+        <div key={index}>Libellé du Chantier : {item.libelleChantier}</div>
+      ))}
+    </div>
   <AutocompleteInput
           label="fournisseur"
           validate={required("choisir le fournisseur")}
