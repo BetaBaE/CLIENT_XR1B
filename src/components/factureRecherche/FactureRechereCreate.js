@@ -9,6 +9,8 @@ import {
   TextInput,
   useDataProvider,
   useGetIdentity,
+  ArrayInput,
+  SimpleFormIterator,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import apiUrl from "../../config";
@@ -240,8 +242,15 @@ console.log("la facture ",factureSelected)
   disabled={factureSelected !== null}
 />
 
-
-
+<ArrayInput source="BonLivraisons">
+          <SimpleFormIterator>
+            <TextInput
+              source="BonLivraison" 
+              label="BonLivraison"
+              validate={required()}
+            />
+  </SimpleFormIterator>
+        </ArrayInput>
 
       </SimpleForm>
     </Create>

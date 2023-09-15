@@ -240,7 +240,11 @@ console.log(url)
       {/* Afficher les données de libelleChantier ici */}
       <div>
       {libelleChantier.map((item, index) => (
-        <div key={index}>Libellé du Chantier : {item.libelleChantier}</div>
+        <div key={index}>Libellé du Chantier : {item.libelleChantier}
+        Redacteur du Chantier : {item.REDACTEUR}
+        
+        </div>
+        
       ))}
     </div>
   <AutocompleteInput

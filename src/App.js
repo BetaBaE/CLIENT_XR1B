@@ -54,6 +54,7 @@ import { ModificationFichnavette } from "./components/Modification fichnavette/M
 import { ModificationFichnavetteEdit } from "./components/Modification fichnavette/ModificationFichnavetteEdit";
 import { EditFournisseur } from "./components/Fournisseur/EditFournisseur";
 import { Allechu } from "./components/allechu/allechu";
+import { BonlivraisonList } from "./components/bonlivraisonList/BonlivraisonList";
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
     options.headers ||
@@ -256,7 +257,14 @@ function App(props) {
             icon={FaCreditCard}
           />
         ) : null,
-
+        <Admin
+>
+    <Resource
+      name="BonLivraison" 
+      list={BonlivraisonList} 
+      icon={FaTruck} 
+    />
+</Admin>,
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||

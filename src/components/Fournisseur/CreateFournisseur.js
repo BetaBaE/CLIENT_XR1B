@@ -36,6 +36,20 @@ const CreateFournisseur = (props) => {
     { id: '90', name: '90' },
     { id: '120', name: '120' },
 ]} />
+  <TextInput
+          // validate={required("Le registre de commerce est obligatoire")}
+          className={classes.autocomplete}
+          source="registrecommerce"
+          label="registre de commerce"
+        />
+
+<TextInput
+          // validate={required("ICE est obligatoire")}
+          className={classes.autocomplete}
+          source="ICE"
+          label="ICE"
+        />
+
 
       </SimpleForm>
     </Create>
