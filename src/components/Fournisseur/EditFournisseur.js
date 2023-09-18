@@ -3,6 +3,7 @@ import {
   Edit,
   required,
   SaveButton,
+  SelectInput,
   SimpleForm,
   TextInput,
   Toolbar,
@@ -37,15 +38,34 @@ export const EditFournisseur = () => {
      <SimpleForm 
  toolbar={<UserEditToolbar />}
   >
-    
-        <DateInput
-          source="DateEcheance"
-          label="DateEcheance"
-          validate={required("date obligatoire")}
+      <SelectInput source="Echeance"  label="Echeance" choices={[
+    { id: '30', name: '30' },
+    { id: '60', name: '60' },
+    { id: '90', name: '90' },
+    { id: '120', name: '120' },
+]} />
+  <TextInput
           className={classes.autocomplete}
-        >
- 
-        </DateInput>
+          source="registrecommerce"
+          label="registre de commerce"
+        />
+<TextInput
+      
+          className={classes.autocomplete}
+          source="ICE"
+          label="ICE"
+        />
+  <TextInput
+          className={classes.autocomplete}
+          source="adresse"
+          label="adresse"
+        />
+          <TextInput
+          className={classes.autocomplete}
+          source="mail"
+          label="mail"
+        />
+
       </SimpleForm>
     </Edit>
   );

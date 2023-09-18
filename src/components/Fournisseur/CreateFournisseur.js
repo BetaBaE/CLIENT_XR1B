@@ -30,26 +30,33 @@ const CreateFournisseur = (props) => {
           className={classes.autocomplete}
           source="nom"
         />
-    <SelectInput source="DateEcheance"  label="Echeance" choices={[
+    <SelectInput source="Echeance"  label="Echeance" choices={[
     { id: '30', name: '30' },
     { id: '60', name: '60' },
     { id: '90', name: '90' },
     { id: '120', name: '120' },
 ]} />
   <TextInput
-          // validate={required("Le registre de commerce est obligatoire")}
           className={classes.autocomplete}
           source="registrecommerce"
           label="registre de commerce"
         />
-
 <TextInput
-          // validate={required("ICE est obligatoire")}
+      
           className={classes.autocomplete}
           source="ICE"
           label="ICE"
         />
-
+  <TextInput
+          className={classes.autocomplete}
+          source="adresse"
+          label="adresse"
+        />
+          <TextInput
+          className={classes.autocomplete}
+          source="mail"
+          label="mail"
+        />
 
       </SimpleForm>
     </Create>
