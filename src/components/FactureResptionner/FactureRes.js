@@ -27,6 +27,9 @@ export const FactureRes = () => {
         label = "nom" />
         <TextField source = "CodeFournisseur"
         label = "CodeFournisseur" />
+     <TextField source = "echeancereel"
+        label = "echeance" />
+
         <TextField source="fullName" label="crée par" />
         <TextField source="verifiyMidelt" label="verifiyMidelt" />
         <TextField source="updatedBy" label="valider archivé" />
@@ -35,6 +38,12 @@ export const FactureRes = () => {
           source="createdDate"
           options={{ timeZone: "UTC" }}
         />
+        
+        <DateField
+          source="dateechu"
+         
+        />
+
       </Datagrid>
     </List>
   );

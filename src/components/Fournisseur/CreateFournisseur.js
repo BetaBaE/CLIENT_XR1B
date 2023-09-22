@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/styles";
-import React from "react";
+import React, { useState } from "react";
 import { Create, DateInput, regex, required, SelectInput, SimpleForm, TextInput } from "react-admin";
 
 const useStyles = makeStyles(() => ({
@@ -12,6 +12,11 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CreateFournisseur = (props) => {
+  const [echeanceType, setEcheanceType] = useState(null);
+
+  const handleEcheanceChange = (event) => {
+    setEcheanceType(event.target.value);
+  };
   const classes = useStyles();
   const validationcodefournisseur = regex(
     /^[0-9]+$/,
@@ -30,16 +35,51 @@ const CreateFournisseur = (props) => {
           className={classes.autocomplete}
           source="nom"
         />
-    <SelectInput source="Echeance"  label="Echeance" choices={[
-    { id: '30', name: '30' },
-    { id: '60', name: '60' },
-    { id: '90', name: '90' },
-    { id: '120', name: '120' },
-]} />
+           
+        
+
+          <SelectInput
+            source="echeanceloi"
+            className={classes.autocomplete}
+            label="Échéance loi conventionne"
+            choices={[
+              { id: '30', name: '30jour net' },
+              { id: '30fm', name: '30jour fin de mois' },
+              { id: '60', name: '60 NET' },
+              { id: '60fm', name: '30jour fin de mois' },
+              { id: '60', name: '60 NET' },
+              { id: '60fm', name: '60jour fin de mois' },
+              { id: '90', name: '90 NET' },
+              { id: '90fm', name: '90jour fin de mois' },
+              { id: '120', name: '120Net' },
+              { id: '120fm', name: '120jour fin de mois' },
+            ]}
+          />
+
+
+<SelectInput
+            source="echeancereel"
+            className={classes.autocomplete}
+            label="Échéance loi conventis"
+            choices={[
+              { id: '30', name: '30jour net' },
+              { id: '30fm', name: '30jour fin de mois' },
+              { id: '60', name: '60 NET' },
+              { id: '60fm', name: '30jour fin de mois' },
+              { id: '60', name: '60 NET' },
+              { id: '60fm', name: '60jour fin de mois' },
+              { id: '90', name: '90 NET' },
+              { id: '90fm', name: '90jour fin de mois' },
+              { id: '120', name: '120Net' },
+              { id: '120fm', name: '120jour fin de mois' },
+            ]}
+          />
+
+
   <TextInput
           className={classes.autocomplete}
-          source="registrecommerce"
-          label="registre de commerce"
+          source="IF"
+          label="Identifiant Fiscal"
         />
 <TextInput
       
@@ -49,13 +89,13 @@ const CreateFournisseur = (props) => {
         />
   <TextInput
           className={classes.autocomplete}
-          source="adresse"
-          label="adresse"
+          source="addresse"
+          label="Adresse"
         />
           <TextInput
           className={classes.autocomplete}
           source="mail"
-          label="mail"
+          label="Mail"
         />
 
       </SimpleForm>

@@ -11,8 +11,13 @@ export const FournisseurList = () => {
         {/* <TextField source="id" /> */}
         <TextField source="CodeFournisseur" />
         <TextField source="nom"></TextField>
-        <TextField  source="DateEcheance"  />
    
+        <TextField  source="ICE" label="ICE"  />
+        <TextField  source="Identifiantfiscal" label="identifiant fiscal"  />
+        <TextField  source="mail"  />
+        <TextField  source="addresse" label="adresse"  />
+        <TextField  source="echeancereel"  />
+        <TextField  source="echeanceloi" label="echeanceloi"  />
       </Datagrid>
     </List>
   );
