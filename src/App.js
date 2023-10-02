@@ -162,7 +162,8 @@ function App(props) {
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
-        permissions === "superviseur comptabilite" ? (
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable"  ? (
           <Resource
             name="EcheanceReel"
             list={EcheanceReelFournisseur}
@@ -172,10 +173,12 @@ function App(props) {
         ) : null,
 
 
+        permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
-        permissions === "superviseur comptabilite" ? (
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable"  ? (
           <Resource
             name="EcheanceLoi"
             list={EcheanceLoiFournisseur}
