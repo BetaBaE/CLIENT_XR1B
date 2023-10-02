@@ -45,10 +45,10 @@ export const Allechu = (props) => {
           <DateField showTime source="datecheque" options={{ timeZone: "UTC" }} />
           <DateField showTime source="dateecheance" options={{ timeZone: "UTC" }} />
           <TextField source="etat" label="etat" />
-          <DateField
+          {/* <DateField
           source="dateechu"
            label="dateechu"
-                              />
+                              /> */}
         </Datagrid>
       </List>
      
