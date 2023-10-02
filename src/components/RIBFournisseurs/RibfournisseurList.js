@@ -6,14 +6,9 @@ export const RibfournisseurList = () => (
     <Datagrid rowClick="edit" bulkActionButtons={false}>
       <TextField source="fournisseur" />
       <TextField source="rib" />
+      <TextField source="swift" />
       <TextField source="validation" />
-      {/* <TextField source="validation" /> */}
-
-      {/* <BooleanField
-        source="validation"
-        valueLabelTrue="true"
-        valueLabelFalse="false"
-      /> */}
+      <TextField source="banque" label="Banque"/>
     </Datagrid>
   </List>
 );

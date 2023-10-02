@@ -5,6 +5,7 @@ import {
   Create,
   regex,
   required,
+  SelectInput,
   SimpleForm,
   TextInput,
   useDataProvider,
@@ -66,6 +67,32 @@ export const RibtempoCreate = (props) => {
           className={classes.autocomplete}
           source="rib"
         />
+         <TextInput
+          className={classes.autocomplete}
+          source="swift"
+        />
+       <SelectInput
+           source="banque"
+           label="banque"
+           choices={[
+            { id: "ABB", name: "Al Barid Bank" },
+            { id: "AWB", name: "Attijari wafa banque" },
+            { id: "CDM", name: "Credit du Maroc" },
+            {id: "CAM",name: "Crédit agricole du Maroc"},
+            {id: "CIH", name: "CIH" },
+            {id: "BMCI", name: "Banque marocaine pour le commerce et l'industrie" },
+            {id: "BMCE",name: "BMCE"},
+            {id: "BCP",name: "Banque centrale populaire"},
+            {id: "Arab Bank", name: "Arab Bank Maroc" },
+            {id: "BAA", name: "Bank Al Amal" },
+            {id: "CitiBank", name: "Citibank Morocco" },
+            {id: "CFG", name: "CFG Bank" },
+            {id: "Société générale Maroc",name: "SGMB"},
+            {id: "Banco Sabadell",name: "Banco Sabadell Maroc"},
+            {id: "La Caixa", name: "Caixabank"}
+          ]}>
+        </SelectInput>
+      
       </SimpleForm>
     </Create>
   );

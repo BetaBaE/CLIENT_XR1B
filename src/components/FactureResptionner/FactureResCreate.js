@@ -14,6 +14,7 @@ import { makeStyles } from "@material-ui/styles";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import apiUrl from "../../config";
+import { format } from 'date-fns';
 const useStyles = makeStyles(() => ({
   autocomplete: {
     width: "580px",
@@ -24,6 +25,8 @@ const useStyles = makeStyles(() => ({
 }));
 export const FactureResCreate = () => {
   const classes = useStyles();
+   const [dateEcheance, setDateEcheance] = useState(null); 
+
   const dataProvider1 = useDataProvider();
   const dataProvider2 = useDataProvider();
   const dataProvider = useDataProvider();
@@ -34,7 +37,11 @@ export const FactureResCreate = () => {
   const [fournisseur, setFournisseur] = useState([]);
   const [chantier, setChantier] = useState([]);
   const { identity, isLoading: identityLoading } = useGetIdentity();
-
+  const [formData, setFormData] = useState({
+    idfournisseur: null,
+    DateFacture: null, // Initialize to null or the desired default value
+    Dateecheance: null, // Initialize to null or the desired default value
+  });
   const [libelleChantier, setLibelleChantier] = useState([]);
   useEffect(() => {
     dataProvider2
@@ -180,7 +187,63 @@ console.log(url)
       .then((response) => response.json())
       .then((json) => json);
   };
-
+  const getecheancebyfournisseur = (idfournisseur, DateFacture) => {
+    let url = `${apiUrl}/getEcheanceReelbyfournisseur/` + idfournisseur;
+  
+    return fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        // Check if data is empty or missing
+        if (!json || !json[0] || !json[0].modalitePaiement) {
+          throw new Error("Invalid or missing data");
+        }
+  
+        const modalitePaiement = json[0].modalitePaiement.toLowerCase();
+        console.log("Modalité de paiement : ", modalitePaiement);
+  
+        const modalitePaiementDays = parseInt(modalitePaiement, 10);
+  
+        // Parse modalitePaiement as number
+        if (isNaN(modalitePaiementDays)) {
+          throw new Error("Invalid payment terms");
+        }
+  
+        let dateFacture = new Date(Date.parse(DateFacture));
+        console.log("DateFacture : ", dateFacture);
+  
+        // Check if modalitePaiement ends with "fm"
+        if (modalitePaiement.endsWith("fm")) {
+          // Convertir la dateFacture à la fin du mois
+          dateFacture = new Date(dateFacture.getFullYear(), dateFacture.getMonth() + 1, 0);
+        }
+  
+        // Calculate the due date by adding modalitePaiementDays to the invoice date
+        let dueDate = new Date(dateFacture.getTime() + modalitePaiementDays * 24 * 60 * 60 * 1000); // Convert days to milliseconds
+  
+        console.log("Due Date : ", dueDate);
+  
+        // Format the due date using the desired format (e.g., 'yyyy-MM-dd')
+        const formattedDateEcheance = dueDate.toISOString().split('T')[0]; // Format as 'yyyy-MM-dd'
+  
+        console.log("Date d'échéance formatée : ", formattedDateEcheance);
+  
+        // Appeler votre fonction setDateEcheance(formattedDateEcheance) ici si nécessaire
+        setDateEcheance(formattedDateEcheance);
+  
+        return formattedDateEcheance; // Return the formatted date
+      })
+      .catch((error) => {
+        console.error("Error in getecheancebyfournisseur:", error);
+        return null; // Handle the error gracefully
+      });
+  };
+  
+  
+  const dateFormatRegex =regex(
+    /^\d{4}-\d{2}-\d{2}$/,
+    "veuillez saisir une date de format aaaa-mm-dd"
+  )
+  
 
   return (
     <Create label="ajouter">
@@ -247,29 +310,51 @@ console.log(url)
         
       ))}
     </div>
-  <AutocompleteInput
-          label="fournisseur"
-          validate={required("choisir le fournisseur")}
-          className={classes.autocomplete}
-          source="idfournisseur"
-          choices={fournisseur_choices}
-          onChange={async (e) => {
-            if (e) {
-              await affichage(e);
-            }
-          }}
-        />
-        <DateInput
-          source="DateFacture"
-          label="date de la facture"
-          validate={[required("Date obligatoire"),validateDate]}
-          className={classes.autocomplete}
-        />
+   
+    <AutocompleteInput
+  label="fournisseur"
+  validate={required("choisir le fournisseur")}
+  className={classes.autocomplete}
+  source="idfournisseur"
+  choices={fournisseur_choices}
+  onChange={async (e) => {
+    if (e) {
+      setFormData({ ...formData, idfournisseur: e });
+      await affichage(e);
+    
+    }
+  }}
+/>
+
+
+<DateInput
+  source="DateFacture"
+  label="date de la facture"
+  validate={[required("Date obligatoire"), validateDate]}
+  className={classes.autocomplete}
+  onChange={(event) => {
+    // Mettez à jour l'état avec la date sélectionnée
+    setFormData({ ...formData, DateFacture: event.target.value });
+    console.log("Date de facture sélectionnée : ", event.target.value);
+    console.log("idfournisseur : ", formData.idfournisseur);
+     getecheancebyfournisseur(formData.idfournisseur,event.target.value)
+
+  }}
+/>
+     
         <AutocompleteInput label = "chantier"
         className = { classes.autocomplete }
         source = "codechantier"
         choices = { chantier_choices }
         /> 
+           <TextInput
+      source="dateEcheance"
+    validate={dateFormatRegex}
+      defaultValue={dateEcheance}
+    
+
+      ></TextInput> 
+      <p>{dateEcheance}</p>
       </SimpleForm>
     </Create>
   );

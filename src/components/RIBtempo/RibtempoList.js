@@ -9,6 +9,8 @@ export const RibtempoList = (props) => {
       <Datagrid bulkActionButtons={false} {...props}>
         <TextField source="fournisseur" />
         <TextField source="rib" label="RIB" />
+        <TextField source="swift" label="SWIFT" />
+        <TextField source="banque" label="Banque"/>
       </Datagrid>
     </List>
   );

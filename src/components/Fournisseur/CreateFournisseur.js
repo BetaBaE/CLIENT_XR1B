@@ -35,47 +35,6 @@ const CreateFournisseur = (props) => {
           className={classes.autocomplete}
           source="nom"
         />
-           
-        
-
-          <SelectInput
-            source="echeanceloi"
-            className={classes.autocomplete}
-            label="Échéance loi conventionne"
-            choices={[
-              { id: '30', name: '30jour net' },
-              { id: '30fm', name: '30jour fin de mois' },
-              { id: '60', name: '60 NET' },
-              { id: '60fm', name: '30jour fin de mois' },
-              { id: '60', name: '60 NET' },
-              { id: '60fm', name: '60jour fin de mois' },
-              { id: '90', name: '90 NET' },
-              { id: '90fm', name: '90jour fin de mois' },
-              { id: '120', name: '120Net' },
-              { id: '120fm', name: '120jour fin de mois' },
-            ]}
-          />
-
-
-<SelectInput
-            source="echeancereel"
-            className={classes.autocomplete}
-            label="Échéance loi conventis"
-            choices={[
-              { id: '30', name: '30jour net' },
-              { id: '30fm', name: '30jour fin de mois' },
-              { id: '60', name: '60 NET' },
-              { id: '60fm', name: '30jour fin de mois' },
-              { id: '60', name: '60 NET' },
-              { id: '60fm', name: '60jour fin de mois' },
-              { id: '90', name: '90 NET' },
-              { id: '90fm', name: '90jour fin de mois' },
-              { id: '120', name: '120Net' },
-              { id: '120fm', name: '120jour fin de mois' },
-            ]}
-          />
-
-
   <TextInput
           className={classes.autocomplete}
           source="IF"

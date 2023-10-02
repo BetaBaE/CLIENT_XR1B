@@ -34,6 +34,15 @@ export const RibfournisseurEdit = () => {
           source="fournisseur"
           disabled
         />
+         <TextInput
+          className={classes.autocomplete}
+          source="swift"
+          disabled
+        />
+           
+        <TextInput className={classes.autocomplete}   source="banque"
+           label="Banque" disabled />
+      
         <TextInput className={classes.autocomplete} source="rib" disabled />
         <SelectInput
           className={classes.autocomplete}

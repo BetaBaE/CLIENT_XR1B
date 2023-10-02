@@ -38,8 +38,6 @@ export const EditFournisseur = () => {
       <SimpleForm
         toolbar={<UserEditToolbar />}
       >
-      
-
         <TextInput
           className={classes.autocomplete}
           source="IF"

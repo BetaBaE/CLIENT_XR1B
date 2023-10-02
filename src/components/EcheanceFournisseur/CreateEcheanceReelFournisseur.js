@@ -1,0 +1,79 @@
+import { makeStyles } from "@material-ui/styles";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { AutocompleteInput, Create, DateInput, regex, required, SelectInput, SimpleForm, TextInput, useDataProvider } from "react-admin";
+
+const useStyles = makeStyles(() => ({
+  autocomplete: {
+    width: "650px",
+  },
+  chip: {
+    fontWeight: "bold",
+  },
+}));
+
+const CreateEcheanceReelFournisseur = (props) => {
+ 
+  const classes = useStyles();
+  const [fournisseur, setFournisseur] = useState([]);
+  const dataProvider = useDataProvider();
+  useEffect(() => {
+    dataProvider
+      .getList("fournisseurs", {
+        pagination: { page: 1, perPage: 10000 },
+        sort: { field: "id", order: "ASC" },
+      })
+
+      .then(({ data }) => {
+        setFournisseur(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [dataProvider]);
+  let fournisseur_choices = fournisseur.map(({ id, nom, CodeFournisseur }) => ({
+    id: id,
+    name: `${nom} | ${CodeFournisseur} `,
+  }));
+
+  return (
+    <Create>
+      <SimpleForm {...props}>
+    
+       
+      <AutocompleteInput
+          label="fournisseur"
+          validate={required("choisir le fournisseur")}
+          className={classes.autocomplete}
+          source="idfournisseur"
+          choices={fournisseur_choices}
+          
+        />
+        <DateInput
+          source="dateecheance"
+          label="date Échéance interne"
+          validate={[required("Date obligatoire")]}
+          className={classes.autocomplete}
+        />
+        
+
+<SelectInput
+            source="modalitePaiement"
+            className={classes.autocomplete}
+            label="Échéance réelle"
+            choices={[
+              { id: '30', name: '30jour net' },
+              { id: '30fm', name: '30jour fin de mois' },
+              { id: '60', name: '60 NET' },
+              { id: '60fm', name: '60jour fin de mois' },
+              { id: '90', name: '90 NET' },
+              { id: '90fm', name: '90jour fin de mois' },
+              { id: '120', name: '120Net' },
+              { id: '120fm', name: '120jour fin de mois' },
+            ]}
+          />
+      </SimpleForm>
+    </Create>
+  );
+};
+export default CreateEcheanceReelFournisseur;

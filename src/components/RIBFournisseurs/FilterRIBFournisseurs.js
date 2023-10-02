@@ -12,6 +12,7 @@ const FilterRIBFournisseurs = (props) => (
         { id: "Ignorer", name: "Ignorer" },
       ]}
     />
+       <TextInput source="banque" />
   </Filter>
 );
 export default FilterRIBFournisseurs;

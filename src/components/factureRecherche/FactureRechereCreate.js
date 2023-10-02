@@ -11,6 +11,7 @@ import {
   useGetIdentity,
   ArrayInput,
   SimpleFormIterator,
+  DateInput,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import apiUrl from "../../config";
@@ -247,8 +248,16 @@ console.log("la facture ",factureSelected)
             <TextInput
               source="BonLivraison" 
               label="BonLivraison"
-              validate={required()}
+             
             />
+            <DateInput
+              source="Datelivraison"
+                  label="date livraison"
+            
+            >
+
+
+            </DateInput>
   </SimpleFormIterator>
         </ArrayInput>
 

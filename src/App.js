@@ -1,7 +1,7 @@
-import { Admin, Resource, CustomRoutes } from "react-admin";
+import { Admin, Resource, CustomRoutes, ChipField } from "react-admin";
 import restProvider from "ra-data-simple-rest";
 import { FournisseurList } from "./components/Fournisseur/ListFournisseurs";
-import { FaTruck, FaCreditCard } from "react-icons/fa";
+import { FaTruck, FaCreditCard, FaLastfm } from "react-icons/fa";
 import { RibtempoList } from "./components/RIBtempo/RibtempoList";
 import { RibtempoCreate } from "./components/RIBtempo/RibtempoCreate";
 import { RibfournisseurList } from "./components/RIBFournisseurs/RibfournisseurList";
@@ -55,6 +55,11 @@ import { ModificationFichnavetteEdit } from "./components/Modification fichnavet
 import { EditFournisseur } from "./components/Fournisseur/EditFournisseur";
 import { Allechu } from "./components/allechu/allechu";
 import { BonlivraisonList } from "./components/bonlivraisonList/BonlivraisonList";
+import { EcheanceReelFournisseur } from "./components/EcheanceFournisseur/EcheanceReelFournisseur";
+import CreateEcheanceReelFournisseur from "./components/EcheanceFournisseur/CreateEcheanceReelFournisseur";
+import { EcheanceLoiFournisseur } from "./components/EcheanceLoiFournisseur/EcheanceLoiFournisseur";
+import CreateEcheanceLoiFournisseur from "./components/EcheanceLoiFournisseur/CreateEcheanceLoiFournisseur";
+
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
     options.headers ||
@@ -153,6 +158,32 @@ function App(props) {
             icon={FaCreditCard}
           />
         ) : null,
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ? (
+          <Resource
+            name="EcheanceReel"
+            list={EcheanceReelFournisseur}
+           create={CreateEcheanceReelFournisseur}
+            icon={FaCreditCard}
+          />
+        ) : null,
+
+
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ? (
+          <Resource
+            name="EcheanceLoi"
+            list={EcheanceLoiFournisseur}
+           create={CreateEcheanceLoiFournisseur}
+            icon={FaLastfm}
+          />
+        ) : null,
+
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
