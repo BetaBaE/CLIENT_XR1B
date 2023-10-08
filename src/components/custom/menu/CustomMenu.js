@@ -207,7 +207,7 @@ export const CustomMenu = (props) => {
         permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
         <Menu.Item
-          to="/facturesres"
+          to="/facturesSaisie"
           primaryText="Facture Saisie"
           leftIcon={<FaEnvelope />}
         />
@@ -232,7 +232,7 @@ export const CustomMenu = (props) => {
         permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
         <Menu.Item
-          to="/factureRech"
+          to="/FicheNavette"
           primaryText="Fiche Navette"
           leftIcon={<FaSearch />}
         />
@@ -268,7 +268,7 @@ export const CustomMenu = (props) => {
         permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
         <Menu.Item
-          to="/all"
+          to="/SuivieFacture"
           primaryText="Log Facture Saisie"
           leftIcon={<FaBorderAll />}
         />
@@ -280,7 +280,7 @@ export const CustomMenu = (props) => {
         permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
         <Menu.Item
-          to="/allechu"
+          to="/SuivieFactureEchu"
           primaryText="Facture enregistrée prête pour l'échéance"
           leftIcon={<FaBorderAll />}
         />

@@ -23,10 +23,10 @@ const useStyles = makeStyles(() => ({
     fontWeight: "bold",
   },
 }));
-export const FactureResCreate = () => {
+export const FactureSaisieCreate = () => {
   const classes = useStyles();
    const [dateEcheance, setDateEcheance] = useState(null); 
-
+   const [inputDateEcheance, setInputDateEcheance] = useState(null);
   const dataProvider1 = useDataProvider();
   const dataProvider2 = useDataProvider();
   const dataProvider = useDataProvider();
@@ -40,9 +40,12 @@ export const FactureResCreate = () => {
   const [formData, setFormData] = useState({
     idfournisseur: null,
     DateFacture: null, // Initialize to null or the desired default value
-    Dateecheance: null, // Initialize to null or the desired default value
+
   });
   const [libelleChantier, setLibelleChantier] = useState([]);
+  useEffect(() => {
+    setInputDateEcheance(dateEcheance);
+  }, [dateEcheance]);
   useEffect(() => {
     dataProvider2
         .getList("chantier", {
@@ -187,57 +190,111 @@ console.log(url)
       .then((response) => response.json())
       .then((json) => json);
   };
-  const getecheancebyfournisseur = (idfournisseur, DateFacture) => {
-    let url = `${apiUrl}/getEcheanceReelbyfournisseur/` + idfournisseur;
   
-    return fetch(url)
-      .then((response) => response.json())
-      .then((json) => {
-        // Check if data is empty or missing
-        if (!json || !json[0] || !json[0].modalitePaiement) {
-          throw new Error("Invalid or missing data");
-        }
+
+//   const getEcheanceLoiByFournisseur = async (idfournisseur) => {
+//     try {
+//       const response = await fetch(`${apiUrl}/getEcheanceLoibyfournisseur/${idfournisseur}`);
+//       const json = await response.json();
   
-        const modalitePaiement = json[0].modalitePaiement.toLowerCase();
-        console.log("Modalité de paiement : ", modalitePaiement);
+//       if (!json || json.length === 0 || json[0].modalitePaiement === undefined) {
+//         return null; // Retournez null si les données ne sont pas valides ou manquantes
+//       }
   
-        const modalitePaiementDays = parseInt(modalitePaiement, 10);
+//       return json[0].modalitePaiement; // Retournez directement la valeur de modalitePaiement
+//     } catch (error) {
+//       console.error("Error in getEcheanceLoiByFournisseur:", error);
+//       throw error;
+//     }
+//   };
   
-        // Parse modalitePaiement as number
-        if (isNaN(modalitePaiementDays)) {
-          throw new Error("Invalid payment terms");
-        }
+//   const getEcheanceReelByFournisseur = async (idfournisseur) => {
+//     try {
+//       const response = await fetch(`${apiUrl}/getEcheanceReelbyfournisseur/${idfournisseur}`);
+//       const json = await response.json();
   
-        let dateFacture = new Date(Date.parse(DateFacture));
-        console.log("DateFacture : ", dateFacture);
+//       if (!json || json.length === 0 || json[0].modalitePaiement === undefined) {
+//         return null; // Retournez null si les données ne sont pas valides ou manquantes
+//       }
   
-        // Check if modalitePaiement ends with "fm"
-        if (modalitePaiement.endsWith("fm")) {
-          // Convertir la dateFacture à la fin du mois
-          dateFacture = new Date(dateFacture.getFullYear(), dateFacture.getMonth() + 1, 0);
-        }
+//       return json[0].modalitePaiement;
+//     } catch (error) {
+//       console.error("Error in getEcheanceReelByFournisseur:", error);
+//       throw error;
+//     }
+//   };
   
-        // Calculate the due date by adding modalitePaiementDays to the invoice date
-        let dueDate = new Date(dateFacture.getTime() + modalitePaiementDays * 24 * 60 * 60 * 1000); // Convert days to milliseconds
-  
-        console.log("Due Date : ", dueDate);
-  
-        // Format the due date using the desired format (e.g., 'yyyy-MM-dd')
-        const formattedDateEcheance = dueDate.toISOString().split('T')[0]; // Format as 'yyyy-MM-dd'
-  
-        console.log("Date d'échéance formatée : ", formattedDateEcheance);
-  
-        // Appeler votre fonction setDateEcheance(formattedDateEcheance) ici si nécessaire
-        setDateEcheance(formattedDateEcheance);
-  
-        return formattedDateEcheance; // Return the formatted date
-      })
-      .catch((error) => {
-        console.error("Error in getecheancebyfournisseur:", error);
-        return null; // Handle the error gracefully
-      });
-  };
-  
+
+//   const getEcheanceByFournisseur = async (idfournisseur, DateFacture) => {
+//     try {
+//         let modalitePaiement = null;
+//         const modaliteLoi = await getEcheanceLoiByFournisseur(idfournisseur);
+//         if (modaliteLoi !== null) {
+//             modalitePaiement = modaliteLoi.toString();
+//         } else {
+//             const modaliteReel = await getEcheanceReelByFournisseur(idfournisseur);
+//             if (modaliteReel !== null) {
+//                 modalitePaiement = modaliteReel.toString();
+//             } else {
+//                 let modalitePaiementDefault = 60;
+//                 modalitePaiement = modalitePaiementDefault.toString();
+//             }
+//         }
+
+//         const modalitePaiementDays = parseInt(modalitePaiement, 10);
+//         console.log("Modalité de paiement :", modalitePaiement);
+
+//         let dateFacture = new Date(Date.parse(DateFacture));
+//         if (modalitePaiement.endsWith("fm")) {
+//             // Convertir la dateFacture à la fin du mois
+//             dateFacture = new Date(dateFacture.getFullYear(), dateFacture.getMonth() + 1, 0);
+//         }
+
+//         console.log("date facture", dateFacture);
+
+//         let dueDate = new Date(dateFacture.getTime() + modalitePaiementDays * 24 * 60 * 60 * 1000); // Convertir les jours en millisecondes
+//         console.log("Date d'échéance : ", dueDate);
+//         const dateEcheance = dueDate.toISOString().split('T')[0]; 
+//         console.log("Date d'échéance formatée : ", dateEcheance);
+//         return dateEcheance;
+//     } catch (error) {
+//         console.error("Erreur dans getEcheanceByFournisseur :", error);
+//         throw error;
+//     }
+// };
+
+// const handleDateChange = async (event) => {
+//   const inputDate = event.target.value;
+//   setFormData({ ...formData, DateFacture: inputDate });
+
+//   // If the inputDate is a valid date
+//   if (isValidPartialDate(inputDate)) {
+//     try {
+//       const dateEcheance = await getEcheanceByFournisseur(formData.idfournisseur, inputDate);
+//       setDateEcheance(dateEcheance);
+//     } catch (error) {
+//       console.error("Error updating dateEcheance:", error);
+//       setDateEcheance(null); // Set dateEcheance to null in case of error
+//     }
+//   } else {
+//     setDateEcheance(null); // Set dateEcheance to null if the inputDate is not valid
+//   }
+// };
+
+// function isValidPartialDate(dateString) {
+
+
+//   const currentYear = new Date().getFullYear();
+//   const regex = new RegExp(`^${currentYear}(-\\d{2}(-\\d{2})?)?$`);
+
+//   return regex.test(dateString);
+// }
+
+
+
+
+
+
   
   const dateFormatRegex =regex(
     /^\d{4}-\d{2}-\d{2}$/,
@@ -321,40 +378,34 @@ console.log(url)
     if (e) {
       setFormData({ ...formData, idfournisseur: e });
       await affichage(e);
-    
     }
   }}
 />
 
 
 <DateInput
-  source="DateFacture"
-  label="date de la facture"
-  validate={[required("Date obligatoire"), validateDate]}
-  className={classes.autocomplete}
-  onChange={(event) => {
-    // Mettez à jour l'état avec la date sélectionnée
-    setFormData({ ...formData, DateFacture: event.target.value });
-    console.log("Date de facture sélectionnée : ", event.target.value);
-    console.log("idfournisseur : ", formData.idfournisseur);
-     getecheancebyfournisseur(formData.idfournisseur,event.target.value)
-
-  }}
-/>
-     
+          source="DateFacture"
+          label="date de la facture"
+          validate={[required("Date obligatoire")]}
+ 
+          onChange={async (event) => {
+              // handleDateChange(event)
+            
+          }}
+        />
         <AutocompleteInput label = "chantier"
         className = { classes.autocomplete }
         source = "codechantier"
         choices = { chantier_choices }
         /> 
-           <TextInput
-      source="dateEcheance"
-    validate={dateFormatRegex}
-      defaultValue={dateEcheance}
-    
+        {/* <TextInput
+  source="dateEcheance"
+  label="format date Echeance: yyyy-mm-dd"
+  validate={dateFormatRegex}
+  defaultValue={dateEcheance}
 
-      ></TextInput> 
-      <p>{dateEcheance}</p>
+/> */}
+      {/* <p>{dateEcheance}</p> */}
       </SimpleForm>
     </Create>
   );

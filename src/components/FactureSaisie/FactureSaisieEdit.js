@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
     fontWeight: "bold",
   },
 }));
-export const FactureResEdit = () => {
+export const FactureSaisieEdit = () => {
   const classes = useStyles();
 
 

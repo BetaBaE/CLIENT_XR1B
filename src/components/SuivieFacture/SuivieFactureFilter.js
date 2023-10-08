@@ -1,6 +1,6 @@
 import { DateInput, Filter,  SelectInput,  TextInput } from "react-admin";
 
-const AllechuFilter = (props) => (
+const SuivieFactureFilter = (props) => (
 
     <Filter {...props } >
     <TextInput source = "chantier"
@@ -71,4 +71,4 @@ const AllechuFilter = (props) => (
     </Filter>
 
 );
-export default AllechuFilter;
+export default SuivieFactureFilter;

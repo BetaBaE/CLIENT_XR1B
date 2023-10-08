@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/styles";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { AutocompleteInput, Create, DateInput, regex, required, SelectInput, SimpleForm, TextInput, useDataProvider } from "react-admin";
+import { AutocompleteInput, Create, DateInput,required, SelectInput, SimpleForm,  useDataProvider } from "react-admin";
 
 const useStyles = makeStyles(() => ({
   autocomplete: {
@@ -19,7 +19,7 @@ const CreateEcheanceReelFournisseur = (props) => {
   const dataProvider = useDataProvider();
   useEffect(() => {
     dataProvider
-      .getList("fournisseurs", {
+      .getList("fournisseurswithecheanceLoi", {
         pagination: { page: 1, perPage: 10000 },
         sort: { field: "id", order: "ASC" },
       })

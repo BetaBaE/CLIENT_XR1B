@@ -25,22 +25,17 @@ import { VirementList } from "./components/Virement/VirementList";
 import { VirementEdit } from "./components/Virement/VirementEdit";
 import { LogfactureList } from "./components/logfacture/logfactureList";
 import CreateFournisseur from "./components/Fournisseur/CreateFournisseur";
-import { FactureRes } from "./components/FactureResptionner/FactureRes";
-import { FactureResCreate } from "./components/FactureResptionner/FactureResCreate";
-
+import { FactureSaisie } from "./components/FactureSaisie/FactureSaisie";
+import { FactureSaisieCreate } from "./components/FactureSaisie/FactureSaisieCreate";
 import { FactureRechereCreate } from "./components/factureRecherche/FactureRechereCreate";
-import { FactureResEdit } from "./components/FactureResptionner/FactureResEdit";
+import { FactureSaisieEdit } from "./components/FactureSaisie/FactureSaisieEdit";
 import { FactureRecherche } from "./components/factureRecherche/FactureRechere";
-
 import { historiquefacture } from "./components/historiquefacture/historiquefacture";
-
 import { FactureValider } from "./components/Facturevalider/FactureValider";
 import { FactureValiderEdit } from "./components/Facturevalider/FactureValiderEdit";
-
 import { FactureRechereEdit } from "./components/factureRecherche/FactureRechereEdit";
 import { HttpError } from "react-admin";
-
-import { All } from "./components/all/All";
+import { SuivieFacture } from "./components/SuivieFacture/SuivieFacture";
 
 import { ChequeCreate } from "./components/cheque/ChequeCreate";
 import { ChequeList } from "./components/cheque/chequeList";
@@ -53,7 +48,7 @@ import apiUrl from "./config";
 import { ModificationFichnavette } from "./components/Modification fichnavette/ModificationFichnavette";
 import { ModificationFichnavetteEdit } from "./components/Modification fichnavette/ModificationFichnavetteEdit";
 import { EditFournisseur } from "./components/Fournisseur/EditFournisseur";
-import { Allechu } from "./components/allechu/allechu";
+import { SuivieFactureEchu } from "./components/SuivieFactureEchu/SuivieFactureEchu";
 import { BonlivraisonList } from "./components/bonlivraisonList/BonlivraisonList";
 import { EcheanceReelFournisseur } from "./components/EcheanceFournisseur/EcheanceReelFournisseur";
 import CreateEcheanceReelFournisseur from "./components/EcheanceFournisseur/CreateEcheanceReelFournisseur";
@@ -240,14 +235,14 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ? (
           <Resource
-            name="facturesres"
-            list={FactureRes}
+            name="facturesSaisie"
+            list={FactureSaisie}
             edit={
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite" ||
               permissions === "comptable" ||
               permissions === "superviseur comptabilite midelt"
-                ? FactureResEdit
+                ? FactureSaisieEdit
                 : null
             }
             create={
@@ -255,7 +250,7 @@ function App(props) {
               permissions === "superviseur comptabilite" ||
               permissions === "comptable" ||
               permissions === "superviseur comptabilite midelt"
-                ? FactureResCreate
+                ? FactureSaisieCreate
                 : null
             }
             icon={FaTruck}
@@ -306,7 +301,7 @@ function App(props) {
         permissions === "comptable" ||
         permissions === "superviseur comptabilite midelt" ? (
           <Resource
-            name="factureRech"
+            name="FicheNavette"
             create={
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite midelt" ||
@@ -333,7 +328,7 @@ function App(props) {
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ||
         permissions === "superviseur comptabilite midelt" ? (
-          <Resource name="all" list={All} icon={FaTruck}></Resource>
+          <Resource name="SuivieFacture" list={SuivieFacture} icon={FaTruck}></Resource>
         ) : null,
 
 
@@ -343,7 +338,7 @@ function App(props) {
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ||
         permissions === "superviseur comptabilite midelt" ? (
-          <Resource name="allechu" list={Allechu} icon={FaTruck}></Resource>
+          <Resource name="SuivieFactureEchu" list={SuivieFactureEchu} icon={FaTruck}></Resource>
         ) : null,
 
 

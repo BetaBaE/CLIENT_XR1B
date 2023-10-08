@@ -1,8 +1,8 @@
 import { Datagrid, DateField, List, NumberField, TextField } from "react-admin";
-import FactureResFilter from "./FactureResFilter";
-export const FactureRes = () => {
+import FactureFilter from "./FactureFilter";
+export const FactureSaisie = () => {
   return (
-    <List filters={<FactureResFilter />} title="Saisir une facture">
+    <List filters={<FactureFilter />} title="Saisir une facture">
       <Datagrid rowClick="edit" bulkActionButtons={false}>
       <TextField source = "LIBELLE"
         label = "chantier" />

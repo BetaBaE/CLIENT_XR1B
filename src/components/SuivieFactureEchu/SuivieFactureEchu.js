@@ -1,8 +1,8 @@
 import React from "react";
 import { Datagrid, DateField, List, TextField } from "react-admin";
-import AllechuFilter from "./AllechuFilter";
+import AllechuFilter from "./SuivieFactureFilter";
 
-export const Allechu = (props) => {
+export const SuivieFactureEchu = (props) => {
   
   const CustomRowStyle = (record) => {
     let today = new Date();

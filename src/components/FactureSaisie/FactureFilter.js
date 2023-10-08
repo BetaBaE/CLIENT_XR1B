@@ -1,6 +1,6 @@
 import {  DateInput, Filter, TextInput } from "react-admin";
 
-const FactureResFilter = (props) => (
+const FactureFilter = (props) => (
 
    <Filter {...props } >
    <TextInput source = "LIBELLE"
@@ -23,4 +23,4 @@ const FactureResFilter = (props) => (
 <DateInput source="Datefin" label="maxdate" />
     </Filter>
 );
-export default FactureResFilter;
+export default FactureFilter;

@@ -1,16 +1,17 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, {  useState } from "react";
 import {
   Datagrid,
   DateField,
   List,
   TextField,
-  useDataProvider,
-} from "react-admin";
-import AllFilter from "./AllFilter";
-import { ExportButton } from 'react-admin';
-import ColorfulText from "../custom/layout/ColorfulText";
 
-export const All = (props) => {;
+} from "react-admin";
+
+
+import ColorfulText from "../custom/layout/ColorfulText";
+import SuivieFactureFilter from "./SuivieFactureFilter";
+
+export const SuivieFacture = (props) => {;
   const [recordCount, setRecordCount] = useState(0);
 
 /*
@@ -35,7 +36,7 @@ export const All = (props) => {;
       <ColorfulText className="pskch" />
       <List 
  
-      filters={<AllFilter />} title="Log Facture Saisie">
+      filters={<SuivieFactureFilter />} title="Log Facture Saisie">
   {/* <div className="list-header">
           <h1>Log Facture Saisie</h1>
           <ExportButton label='Exporter' maxResults={recordCount} />
