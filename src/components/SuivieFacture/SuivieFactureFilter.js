@@ -64,7 +64,7 @@ const SuivieFactureFilter = (props) => (
     { id: "En cours", name: "En cours" },
    
   ]}
-    label = "mode de paiement" />
+    label = "etat" />
    <TextInput source = "numerocheque"
     label = "numerocheque" />
 
