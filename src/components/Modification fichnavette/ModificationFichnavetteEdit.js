@@ -180,7 +180,7 @@ export const ModificationFichnavetteEdit = (props) => {
           }
         </FormDataConsumer>
 
-                <TextInput label="montant d'avance "
+                <TextInput label="Bon commande"
                     className={classes.autocomplete}
                     source="BonCommande" />
 
