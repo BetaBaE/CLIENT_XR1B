@@ -192,103 +192,103 @@ console.log(url)
   };
   
 
-//   const getEcheanceLoiByFournisseur = async (idfournisseur) => {
-//     try {
-//       const response = await fetch(`${apiUrl}/getEcheanceLoibyfournisseur/${idfournisseur}`);
-//       const json = await response.json();
+  const getEcheanceLoiByFournisseur = async (idfournisseur) => {
+    try {
+      const response = await fetch(`${apiUrl}/getEcheanceLoibyfournisseur/${idfournisseur}`);
+      const json = await response.json();
   
-//       if (!json || json.length === 0 || json[0].modalitePaiement === undefined) {
-//         return null; // Retournez null si les données ne sont pas valides ou manquantes
-//       }
+      if (!json || json.length === 0 || json[0].modalitePaiement === undefined) {
+        return null; // Retournez null si les données ne sont pas valides ou manquantes
+      }
   
-//       return json[0].modalitePaiement; // Retournez directement la valeur de modalitePaiement
-//     } catch (error) {
-//       console.error("Error in getEcheanceLoiByFournisseur:", error);
-//       throw error;
-//     }
-//   };
+      return json[0].modalitePaiement; // Retournez directement la valeur de modalitePaiement
+    } catch (error) {
+      console.error("Error in getEcheanceLoiByFournisseur:", error);
+      throw error;
+    }
+  };
   
-//   const getEcheanceReelByFournisseur = async (idfournisseur) => {
-//     try {
-//       const response = await fetch(`${apiUrl}/getEcheanceReelbyfournisseur/${idfournisseur}`);
-//       const json = await response.json();
+  const getEcheanceReelByFournisseur = async (idfournisseur) => {
+    try {
+      const response = await fetch(`${apiUrl}/getEcheanceReelbyfournisseur/${idfournisseur}`);
+      const json = await response.json();
   
-//       if (!json || json.length === 0 || json[0].modalitePaiement === undefined) {
-//         return null; // Retournez null si les données ne sont pas valides ou manquantes
-//       }
+      if (!json || json.length === 0 || json[0].modalitePaiement === undefined) {
+        return null; // Retournez null si les données ne sont pas valides ou manquantes
+      }
   
-//       return json[0].modalitePaiement;
-//     } catch (error) {
-//       console.error("Error in getEcheanceReelByFournisseur:", error);
-//       throw error;
-//     }
-//   };
+      return json[0].modalitePaiement;
+    } catch (error) {
+      console.error("Error in getEcheanceReelByFournisseur:", error);
+      throw error;
+    }
+  };
   
 
-//   const getEcheanceByFournisseur = async (idfournisseur, DateFacture) => {
-//     try {
-//         let modalitePaiement = null;
-//         const modaliteLoi = await getEcheanceLoiByFournisseur(idfournisseur);
-//         if (modaliteLoi !== null) {
-//             modalitePaiement = modaliteLoi.toString();
-//         } else {
-//             const modaliteReel = await getEcheanceReelByFournisseur(idfournisseur);
-//             if (modaliteReel !== null) {
-//                 modalitePaiement = modaliteReel.toString();
-//             } else {
-//                 let modalitePaiementDefault = 60;
-//                 modalitePaiement = modalitePaiementDefault.toString();
-//             }
-//         }
+  const getEcheanceByFournisseur = async (idfournisseur, DateFacture) => {
+    try {
+        let modalitePaiement = null;
+        const modaliteLoi = await getEcheanceLoiByFournisseur(idfournisseur);
+        if (modaliteLoi !== null) {
+            modalitePaiement = modaliteLoi.toString();
+        } else {
+            const modaliteReel = await getEcheanceReelByFournisseur(idfournisseur);
+            if (modaliteReel !== null) {
+                modalitePaiement = modaliteReel.toString();
+            } else {
+                let modalitePaiementDefault = 60;
+                modalitePaiement = modalitePaiementDefault.toString();
+            }
+        }
 
-//         const modalitePaiementDays = parseInt(modalitePaiement, 10);
-//         console.log("Modalité de paiement :", modalitePaiement);
+        const modalitePaiementDays = parseInt(modalitePaiement, 10);
+        console.log("Modalité de paiement :", modalitePaiement);
 
-//         let dateFacture = new Date(Date.parse(DateFacture));
-//         if (modalitePaiement.endsWith("fm")) {
-//             // Convertir la dateFacture à la fin du mois
-//             dateFacture = new Date(dateFacture.getFullYear(), dateFacture.getMonth() + 1, 0);
-//         }
+        let dateFacture = new Date(Date.parse(DateFacture));
+        if (modalitePaiement.endsWith("fm")) {
+            // Convertir la dateFacture à la fin du mois
+            dateFacture = new Date(dateFacture.getFullYear(), dateFacture.getMonth() + 1, 0);
+        }
 
-//         console.log("date facture", dateFacture);
+        console.log("date facture", dateFacture);
 
-//         let dueDate = new Date(dateFacture.getTime() + modalitePaiementDays * 24 * 60 * 60 * 1000); // Convertir les jours en millisecondes
-//         console.log("Date d'échéance : ", dueDate);
-//         const dateEcheance = dueDate.toISOString().split('T')[0]; 
-//         console.log("Date d'échéance formatée : ", dateEcheance);
-//         return dateEcheance;
-//     } catch (error) {
-//         console.error("Erreur dans getEcheanceByFournisseur :", error);
-//         throw error;
-//     }
-// };
+        let dueDate = new Date(dateFacture.getTime() + modalitePaiementDays * 24 * 60 * 60 * 1000); // Convertir les jours en millisecondes
+        console.log("Date d'échéance : ", dueDate);
+        const dateEcheance = dueDate.toISOString().split('T')[0]; 
+        console.log("Date d'échéance formatée : ", dateEcheance);
+        return dateEcheance;
+    } catch (error) {
+        console.error("Erreur dans getEcheanceByFournisseur :", error);
+        throw error;
+    }
+};
 
-// const handleDateChange = async (event) => {
-//   const inputDate = event.target.value;
-//   setFormData({ ...formData, DateFacture: inputDate });
+const handleDateChange = async (event) => {
+  const inputDate = event.target.value;
+  setFormData({ ...formData, DateFacture: inputDate });
 
-//   // If the inputDate is a valid date
-//   if (isValidPartialDate(inputDate)) {
-//     try {
-//       const dateEcheance = await getEcheanceByFournisseur(formData.idfournisseur, inputDate);
-//       setDateEcheance(dateEcheance);
-//     } catch (error) {
-//       console.error("Error updating dateEcheance:", error);
-//       setDateEcheance(null); // Set dateEcheance to null in case of error
-//     }
-//   } else {
-//     setDateEcheance(null); // Set dateEcheance to null if the inputDate is not valid
-//   }
-// };
+  // If the inputDate is a valid date
+  if (isValidPartialDate(inputDate)) {
+    try {
+      const dateEcheance = await getEcheanceByFournisseur(formData.idfournisseur, inputDate);
+      setDateEcheance(dateEcheance);
+    } catch (error) {
+      console.error("Error updating dateEcheance:", error);
+      setDateEcheance(null); // Set dateEcheance to null in case of error
+    }
+  } else {
+    setDateEcheance(null); // Set dateEcheance to null if the inputDate is not valid
+  }
+};
 
-// function isValidPartialDate(dateString) {
+function isValidPartialDate(dateString) {
 
 
-//   const currentYear = new Date().getFullYear();
-//   const regex = new RegExp(`^${currentYear}(-\\d{2}(-\\d{2})?)?$`);
+  const currentYear = new Date().getFullYear();
+  const regex = new RegExp(`^${currentYear}(-\\d{2}(-\\d{2})?)?$`);
 
-//   return regex.test(dateString);
-// }
+  return regex.test(dateString);
+}
 
 
 
@@ -398,14 +398,14 @@ console.log(url)
         source = "codechantier"
         choices = { chantier_choices }
         /> 
-        {/* <TextInput
+        <TextInput
   source="dateEcheance"
   label="format date Echeance: yyyy-mm-dd"
   validate={dateFormatRegex}
   defaultValue={dateEcheance}
 
-/> */}
-      {/* <p>{dateEcheance}</p> */}
+/>
+      <p>{dateEcheance}</p>
       </SimpleForm>
     </Create>
   );
