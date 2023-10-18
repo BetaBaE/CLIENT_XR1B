@@ -64,6 +64,7 @@ export const SuivieFacture = (props) => {;
           <DateField showTime source="datecheque" options={{ timeZone: "UTC" }} />
           <DateField showTime source="dateecheance" options={{ timeZone: "UTC" }} />
           <TextField source="etat" label="etat" />
+          <TextField source="ModePaiementID" label="ModePaiementID"></TextField>
         </Datagrid>
       </List>
       <style>
