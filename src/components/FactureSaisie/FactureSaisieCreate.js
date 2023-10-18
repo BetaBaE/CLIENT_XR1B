@@ -389,7 +389,7 @@ function isValidPartialDate(dateString) {
           validate={[required("Date obligatoire")]}
  
           onChange={async (event) => {
-              // handleDateChange(event)
+               handleDateChange(event)
             
           }}
         />
