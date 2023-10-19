@@ -27,8 +27,7 @@ export const FactureSaisie = () => {
         label = "nom" />
         <TextField source = "CodeFournisseur"
         label = "CodeFournisseur" />
-     <TextField source = "echeancereel"
-        label = "echeance" />
+  
 
         <TextField source="fullName" label="crée par" />
         <TextField source="verifiyMidelt" label="verifiyMidelt" />
@@ -40,7 +39,7 @@ export const FactureSaisie = () => {
         />
         
         <DateField
-          source="dateechu"
+          source="dateecheance"
          
         />
 
