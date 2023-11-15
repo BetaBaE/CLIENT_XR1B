@@ -29,44 +29,14 @@ const SuivieFactureEchuFilter = (props) => (
     label = "codefournisseur" />
     <TextInput source = "fournisseur"
     label = "fournisseur" />
-
-    <SelectInput source = "modepaiement"
- choices={[
-    { id: "paiement espece", name: "paiement espece" },
-    { id: "paiement cheque", name: "paiement cheque" },
-    { id: "paiement virement", name: "paiement virement" },
-    { id: "non payé", name: "non payé" }
-   
-
-  ]}
-
-    label = "mode de paiement" />
-
     <TextInput source = "ficheNavette"
     label = "ficheNavette" />
 
- 
+<DateInput source = "DateEcheancePaiement"
+    label = "DateEcheance" />
 
 
-    <DateInput source = "dateExecutiondebut"
-    label = "dateExecutiondebut" />
-    <DateInput source = "Dateexecusionfin"
-    label = "Dateexecusionfin" />
-
-<TextInput source = "banque"
-    label = "banque" />
-
-
-
-<SelectInput source = "etat"
- choices={[
-    { id: "Reglee", name: "Reglee" },
-    { id: "En cours", name: "En cours" },
-   
-  ]}
-    label = "mode de paiement" />
-   <TextInput source = "numerocheque"
-    label = "numerocheque" />
+  
 
     </Filter>
 

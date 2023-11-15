@@ -247,8 +247,6 @@ function App(props) {
             }
             create={
               permissions === "comptable midelt" ||
-              permissions === "superviseur comptabilite" ||
-              permissions === "comptable" ||
               permissions === "superviseur comptabilite midelt"
                 ? FactureSaisieCreate
                 : null
