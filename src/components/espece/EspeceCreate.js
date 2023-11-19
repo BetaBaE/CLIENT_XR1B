@@ -78,20 +78,13 @@ export const EspeceCreate = (props) => {
         id: id,
         name: `${nom} | ${CodeFournisseur} `,
     }));
-    facture_choices = facture.map(({  id,
-        chantier,
-        nom,
-        ficheNavette,
-        DateFacture,
-        CODEDOCUTIL,
-        TTC,
-        MontantFacture, }) => ({
-        id: id,
-        name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${
-          DateFacture === null ? 'avance' : DateFacture?.split("T")[0]
-
-          } | ${nom} |${MontantFacture != null ? MontantFacture : TTC} DH`,
+    facture_choices = facture.map(({ id, chantier, nom, ficheNavette, DateFacture, CODEDOCUTIL, TTC, MontantFacture, montantAvance, NETAPAYER }) => ({
+      id: id,
+      name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${DateFacture === null ? 'avance' : DateFacture?.split("T")[0]} | ${nom} | ${MontantFacture != null ? MontantFacture : TTC} DH | ${DateFacture != null ? (NETAPAYER === 0 ? 'avance' + (montantAvance/TTC*100) + '%' : 'aucune avance') : ''}`,
     }));
+    
+    
+    
     const getsumfacturewithfnByFourniseurId = (id) => {
         let url = `${apiUrl}/getsumfacturebyfournisseurwithfn/` + id;
         console.log(url);
