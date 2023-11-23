@@ -228,13 +228,13 @@ console.log(url)
   const getEcheanceByFournisseur = async (idfournisseur, DateFacture) => {
     try {
         let modalitePaiement = null;
-        const modaliteLoi = await getEcheanceLoiByFournisseur(idfournisseur);
-        if (modaliteLoi !== null) {
-            modalitePaiement = modaliteLoi.toString();
+        const modaliteReel = await getEcheanceReelByFournisseur(idfournisseur);
+        if (modaliteReel !== null) {
+            modalitePaiement = modaliteReel.toString();
         } else {
-            const modaliteReel = await getEcheanceReelByFournisseur(idfournisseur);
-            if (modaliteReel !== null) {
-                modalitePaiement = modaliteReel.toString();
+          const modaliteLoi = await getEcheanceLoiByFournisseur(idfournisseur);
+            if (modaliteLoi !== null) {
+                modalitePaiement = modaliteLoi.toString();
             } else {
                 let modalitePaiementDefault = 60;
                 modalitePaiement = modalitePaiementDefault.toString();
