@@ -51,7 +51,7 @@ const CreateEcheanceReelFournisseur = (props) => {
         />
         <DateInput
           source="dateecheance"
-          label="date Échéance interne"
+          label="date debut convention"
           validate={[required("Date obligatoire")]}
           className={classes.autocomplete}
         />

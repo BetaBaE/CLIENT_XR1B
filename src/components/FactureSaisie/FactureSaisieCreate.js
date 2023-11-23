@@ -360,9 +360,9 @@ function isValidPartialDate(dateString) {
       {/* Afficher les données de libelleChantier ici */}
       <div>
       {libelleChantier.map((item, index) => (
-        <div key={index}>Libellé du Chantier : {item.libelleChantier}
-        Redacteur du Chantier : {item.REDACTEUR}
-        
+        <div key={index}><pre>  Chantier : {item.libelleChantier}  Redacteur  : {item.REDACTEUR}
+     
+        </pre>
         </div>
         
       ))}

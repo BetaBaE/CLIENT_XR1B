@@ -51,7 +51,7 @@ const CreateEcheanceLoiFournisseur = (props) => {
         />
         <DateInput
           source="dateecheance"
-          label="date  echeance loi"
+          label="date debut convention"
           validate={[required("Date obligatoire")]}
           className={classes.autocomplete}
         />

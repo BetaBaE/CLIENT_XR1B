@@ -10,7 +10,7 @@ export const EcheanceLoiFournisseur = () => {
         <TextField source="nom"></TextField>
    
         <TextField  source="modalitePaiement" label="modalitePaiement"  />
-        <DateField  source="dateecheance" label="dateecheance"  />
+        <DateField  source="dateecheance" label="date debut convention"  />
         
       </Datagrid>
     </List>
