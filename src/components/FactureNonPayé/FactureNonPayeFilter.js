@@ -5,7 +5,7 @@ const FactureNonPayeFilter = (props) => {
   const [factures, setFactures] = React.useState([]);
 
   React.useEffect(() => {
-    fetch("http://localhost:8080/getAnneeSuivieFacture")
+    fetch("http://10.111.1.95:8080/getAnneeSuivieFacture")
       .then((response) => response.json())
       .then((data) => {
         setFactures(data.map(facture => facture));
