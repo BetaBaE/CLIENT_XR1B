@@ -54,6 +54,7 @@ import { EcheanceReelFournisseur } from "./components/EcheanceFournisseur/Echean
 import CreateEcheanceReelFournisseur from "./components/EcheanceFournisseur/CreateEcheanceReelFournisseur";
 import { EcheanceLoiFournisseur } from "./components/EcheanceLoiFournisseur/EcheanceLoiFournisseur";
 import CreateEcheanceLoiFournisseur from "./components/EcheanceLoiFournisseur/CreateEcheanceLoiFournisseur";
+import { FactureNonPaye } from "./components/FactureNonPayé/FactureNonPayé";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -327,6 +328,15 @@ function App(props) {
         permissions === "comptable" ||
         permissions === "superviseur comptabilite midelt" ? (
           <Resource name="SuivieFacture" list={SuivieFacture} icon={FaTruck}></Resource>
+        ) : null,
+
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ||
+        permissions === "superviseur comptabilite midelt" ? (
+          <Resource name="FactureNonPaye" list={FactureNonPaye} icon={FaTruck}></Resource>
         ) : null,
 
 

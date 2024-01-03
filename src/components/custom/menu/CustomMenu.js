@@ -16,14 +16,10 @@ import {
   FaBorderAll,
   FaAndroid,
   FaMonero,
-  FaAngleLeft,
-  FaAngleDoubleDown,
-  FaAngleDoubleUp,
-  FaCreativeCommonsZero,
-  FaConfluence,
-  FaTimes,
   FaAnchor,
   FaEquals,
+  FaConfluence,
+  FaFileInvoiceDollar,
 } from "react-icons/fa";
 import { Md1XMobiledata, MdPayments } from "react-icons/md";
 
@@ -285,6 +281,21 @@ export const CustomMenu = (props) => {
           leftIcon={<FaBorderAll />}
         />
       )}
+ {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable") && (
+        <Menu.Item
+          to="/FactureNonPaye"
+          primaryText="Facture Non Paye"
+          leftIcon={<FaFileInvoiceDollar />}
+        />
+      )}
+
+
+
 
 
       {(permissions === "admin" || permissions === "normal user") && (
