@@ -3,6 +3,7 @@ import { Filter, SelectInput } from 'react-admin';
 
 const FactureNonPayeFilter = (props) => {
   const [factures, setFactures] = React.useState([]);
+  const currentYear = new Date().getFullYear();
 
   React.useEffect(() => {
     fetch("http://10.111.1.95:8080/getAnneeSuivieFacture")
@@ -14,23 +15,32 @@ const FactureNonPayeFilter = (props) => {
         console.error("Error fetching record count:", error);
       });
   }, []);
+
   let Annee_choices = factures.map(({ year }) => ({
     id: year,
     name: `${year}`,
   }));
+
+  const isCurrentYearInData = factures.some(({ year }) => year === currentYear);
+
+  if (!isCurrentYearInData) {
+    Annee_choices = [
+      ...Annee_choices,
+      {
+        id: currentYear,
+        name: `${currentYear}`,
+      },
+    ];
+  }
+
   return (
     <Filter {...props}>
- 
- <SelectInput
+      <SelectInput
+      alwaysOn
         label="annee de l'exercice"
-          source="annee"
-          choices={Annee_choices}
-        />
-
-      {/* 
-      Other DateInput components are commented out for brevity. 
-      If you need them, uncomment and adjust as necessary.
-      */}
+        source="annee"
+        choices={Annee_choices}
+      />
     </Filter>
   );
 };
