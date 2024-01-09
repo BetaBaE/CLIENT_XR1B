@@ -99,9 +99,9 @@ let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
     name: `${nom} | ${CodeFournisseur} `,
   }));
 
-  let designation_choices = designation.map(({ id, designation }) => ({
+  let designation_choices = designation.map(({ id, designation ,codeDesignation }) => ({
     id: id,
-    name: `${designation} `,
+    name: `${codeDesignation}||${designation}`,
   }));
   useEffect(() => {
     // Désactiver l'autocomplétion après le chargement du DOM

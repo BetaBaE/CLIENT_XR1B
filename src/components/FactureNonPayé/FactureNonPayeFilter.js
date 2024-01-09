@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Filter, SelectInput } from 'react-admin';
+import { Filter, SelectInput, TextInput } from 'react-admin';
 
 const FactureNonPayeFilter = (props) => {
   const [factures, setFactures] = React.useState([]);
@@ -41,6 +41,10 @@ const FactureNonPayeFilter = (props) => {
         source="annee"
         choices={Annee_choices}
       />
+
+      <TextInput source="fournisseur" />
+      
+      <TextInput source="chantier" />
     </Filter>
   );
 };
