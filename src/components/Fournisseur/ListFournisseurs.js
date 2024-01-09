@@ -9,6 +9,7 @@ export const FournisseurList = () => {
     >
       <Datagrid bulkActionButtons={false} rowClick="edit">
         {/* <TextField source="id" /> */}
+        <TextField source="Redacteur" />
         <TextField source="CodeFournisseur" />
         <TextField source="nom"></TextField>
    
@@ -18,6 +19,7 @@ export const FournisseurList = () => {
         <TextField  source="addresse" label="adresse"  />
         <TextField  source="echeancereel"  />
         <TextField  source="echeanceloi" label="echeanceloi"  />
+        <DateField source="datecreation" label="datecreation"/>
       </Datagrid>
     </List>
   );

@@ -9,6 +9,7 @@ import {
   SimpleForm,
   TextInput,
   useDataProvider,
+  useGetIdentity,
 } from "react-admin";
 
 const useStyles = makeStyles(() => ({
@@ -48,13 +49,40 @@ export const RibtempoCreate = (props) => {
     /^[0-9]{3}\s[0-9]{3}\s[0-9]{3}\s[0-9]{3}\s[0-9]{3}\s[0-9]{3}\s[0-9]{3}\s[0-9]{3}$/,
     "Le RIB doit être de la forme 111 222 333 444 555 666 777 888"
   );
-
+  const { identity, isLoading: identityLoading } = useGetIdentity();
   // console.log(project_choices);
   // TODO: [0-9]{3}\s[0-9]{3}\s[0-9]{3}\s[0-9]{3}\s[0-9]{3}\s[0-9]{3}\s[0-9]{3}\s[0-9]{3}
+
+  useEffect(() => {
+    // Désactiver l'autocomplétion après le chargement du DOM
+    const inputrib = document.getElementById("rib");
+    const inputswift = document.getElementById("swift");
+ 
+    if (inputrib ||inputswift  ) {
+      inputrib.autocomplete = "off";
+      inputswift.autocomplete = "off";
+     
+    }
+  }, []);
+
   const classes = useStyles();
+  const { isLoading, error } = useGetIdentity();
+  if (isLoading) return <>Loading</>;
+  if (error) return <>Error</>;
   return (
     <Create>
       <SimpleForm {...props}>
+      <TextInput
+          defaultValue={identity?.fullName}
+          label="vous êtes"
+          hidden={false}
+          className={classes.autocomplete}
+          disabled={true}
+          source="Redacteur"
+        >
+
+        </TextInput>
+       
         <AutocompleteInput
           label="Fournisseur"
           validate={required("Le fournisseur est obligatoire")}

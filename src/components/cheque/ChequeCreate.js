@@ -9,6 +9,7 @@ import {
     SimpleForm,
     TextInput,
     useDataProvider,
+    useGetIdentity,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 
@@ -23,6 +24,7 @@ const useStyles = makeStyles(() => ({
     },
 }));
 export const ChequeCreate = (props) => {
+  const { identity, isLoading: identityLoading } = useGetIdentity();
   const [orderVirement, setOrderVirement] = useState([
     {
       id: "null",
@@ -53,6 +55,16 @@ export const ChequeCreate = (props) => {
   const sumfacturenotfnValue = sumfacturewithoutfn.length > 0 ? sumfacturewithoutfn[0].sum : "";
 
   const sumAvanceValue = sumavance.length > 0 ? sumavance[0].sum : "";
+  useEffect(() => {
+    // Désactiver l'autocomplétion après le chargement du DOM
+    const inputnumerocheque = document.getElementById("numerocheque");
+   
+    if (inputnumerocheque  ) {
+      inputnumerocheque.autocomplete = "off";
+    
+    }
+  }, []);
+
 
 
   useEffect(() => {
@@ -147,13 +159,28 @@ export const ChequeCreate = (props) => {
     }));
     
     const classes = useStyles();
+    const { isLoading, error } = useGetIdentity();
+    if (isLoading) return <>Loading</>;
+    if (error) return <>Error</>
     return (
         <Create>
             <SimpleForm>
+            <TextInput
+          defaultValue={identity.fullName}
+          label="vous êtes"
+          hidden={false}
+          className={classes.autocomplete}
+          disabled={true}
+          source="Redacteur"
+        >
+
+        </TextInput>
+         
+         
             <SelectInput
           validate={required("Ce champ est obligatoire")}
           className={classes.autocomplete}
-          source="orderVirementId"
+          source="RibAtner"
           label ="banque"
          
           choices={orderVirement_choices}

@@ -1,13 +1,18 @@
-import { makeStyles } from "@material-ui/core";
+
+import React from "react";
 import {
   Edit,
-  required,
   SaveButton,
   SelectInput,
   SimpleForm,
   TextInput,
   Toolbar,
+  required,
+  useGetIdentity,
+  usePermissions
 } from "react-admin";
+import { makeStyles } from "@material-ui/core";
+
 const useStyles = makeStyles(() => ({
   autocomplete: {
     width: "650px",
@@ -23,37 +28,72 @@ const EditToolbar = (props) => (
   </Toolbar>
 );
 
-export const RibfournisseurEdit = () => {
+export const RibfournisseurEdit = (props) => {
+  const { permissions } = usePermissions();
+  const { identity, isLoading: identityLoading } = useGetIdentity();
   const classes = useStyles();
+  const { isLoading, error } = useGetIdentity();
+
+  if (isLoading || identityLoading) return <>Loading</>;
+  if (error) return <>Error</>;
+
   return (
-    <Edit>
+    <Edit {...props}>
       <SimpleForm toolbar={<EditToolbar />}>
-        {/* <TextInput source="id" /> */}
+        <TextInput
+          defaultValue={identity?.fullName}
+          label="Vous êtes"
+          hidden={false}
+          className={classes.autocomplete}
+          disabled={true}
+          source="Validateur"
+        />
+
         <TextInput
           className={classes.autocomplete}
           source="fournisseur"
           disabled
         />
-         <TextInput
+
+        <TextInput
           className={classes.autocomplete}
           source="swift"
           disabled
         />
-           
-        <TextInput className={classes.autocomplete}   source="banque"
-           label="Banque" disabled />
-      
-        <TextInput className={classes.autocomplete} source="rib" disabled />
-        <SelectInput
+
+        <TextInput
           className={classes.autocomplete}
-          source="validation"
-          validate={required()}
-          choices={[
-            { id: "Validé", name: "Validé" },
-            { id: "Non Valider", name: "Non Valider" },
-            { id: "Ignorer", name: "Ignorer" },
-          ]}
+          source="banque"
+          label="Banque"
+          disabled
         />
+
+        <TextInput
+          className={classes.autocomplete}
+          source="rib"
+          disabled
+        />
+
+<SelectInput
+  className={classes.autocomplete}
+  source="validation"
+  validate={required()}
+  choices={[
+    ...(permissions === "superviseur comptabilite midelt"
+    ? [{ id: "Confirmer", name: "Confirmer" },
+    { id: "Désactiver", name: "Désactiver" }
+  ]
+    : []),
+    { id: "Validé", name: "Validé" },
+    { id: "Non Valider", name: "Non Valider" },
+    { id: "Ignorer", name: "Ignorer" }
+  ]}
+/>
+
+
+      
+  
+      
       </SimpleForm>
     </Edit>
   );

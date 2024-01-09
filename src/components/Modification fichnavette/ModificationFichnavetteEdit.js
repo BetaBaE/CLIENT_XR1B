@@ -10,6 +10,7 @@ import {
     TextInput,
     Toolbar,
     useDataProvider,
+    useGetIdentity,
     useRedirect,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
@@ -24,7 +25,12 @@ const useStyles = makeStyles(() => ({
     },
 }));
 export const ModificationFichnavetteEdit = (props) => {
-    const UserEditToolbar = (props) => (
+  
+
+  
+  const { identity, isLoading: identityLoading } = useGetIdentity();
+  
+  const UserEditToolbar = (props) => (
         <Toolbar {...props}>
           <SaveButton id="save" />
         </Toolbar>
@@ -67,6 +73,7 @@ export const ModificationFichnavetteEdit = (props) => {
         var options = { year: "numeric", month: "long", day: "numeric" };
         return new Date(string).toLocaleDateString([], options);
     }
+    
     useEffect(() => {
         dataProvider
             .getList("fournisseurs", {
@@ -114,9 +121,21 @@ export const ModificationFichnavetteEdit = (props) => {
     }));
 
     const classes = useStyles();
+    const { isLoading, error } = useGetIdentity();
+    if (isLoading) return <>Loading</>;
+    if (error) return <>Error</>;
     return (
         <Edit>
             <SimpleForm  toolbar={<UserEditToolbar />}>
+            <TextInput
+          defaultValue={identity.fullName}
+          label="vous êtes"
+          hidden={false}
+          className={classes.autocomplete}
+          disabled={true}
+          source="Validateur"
+        ></TextInput>
+             
                 <AutocompleteInput label="chantier"
                     validate={required("Le fournisseur est obligatoire")}
                     className={classes.autocomplete}

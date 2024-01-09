@@ -103,7 +103,24 @@ let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
     id: id,
     name: `${designation} `,
   }));
+  useEffect(() => {
+    // Désactiver l'autocomplétion après le chargement du DOM
+    const inputnumeroFacture = document.getElementById("numeroFacture");
+    
+    const inputTTC = document.getElementById("TTC");
 
+    const inputBonCommande = document.getElementById("BonCommande");
+
+    
+
+    const inputdateEcheance = document.getElementById("dateEcheance");
+    if (inputnumeroFacture  ||  inputTTC  || inputBonCommande|| inputdateEcheance) {
+      inputnumeroFacture.autocomplete = "off";
+      inputTTC.autocomplete = "off";
+      inputBonCommande.autocomplete = "off";
+      inputdateEcheance.autocomplete = "off";
+    }
+  }, []);
  
   const getchantierByBCommande = (Boncommande) => {
     let url = `${apiUrl}/getchantierbyBonCommande/` + Boncommande;
@@ -149,7 +166,7 @@ console.log(url)
     /^\S+$/,
     "la facture ne doit pas contenir des espaces"
   );
-
+ 
  
 
 

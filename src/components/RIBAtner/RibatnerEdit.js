@@ -6,6 +6,7 @@ import {
   SimpleForm,
   TextInput,
   Toolbar,
+  useGetIdentity,
 } from "react-admin";
 
 const useStyles = makeStyles(() => ({
@@ -23,11 +24,22 @@ const EditToolbar = (props) => (
 );
 
 export const RibatnerEdit = (props) => {
+  const { identity, isLoading: identityLoading } = useGetIdentity();
   const classes = useStyles();
+  const { isLoading, error } = useGetIdentity();
+  if (isLoading) return <>Loading</>;
+  if (error) return <>Error</>;
   return (
     <Edit {...props}>
       <SimpleForm toolbar={<EditToolbar />}>
-        {/* <TextInput source="id" /> */}
+      <TextInput
+          defaultValue={identity?.fullName}
+          label="vous êtes"
+          hidden={false}
+          className={classes.autocomplete}
+          disabled={true}
+          source="ModifierPar"
+        ></TextInput>
         <TextInput
           validate={required("Le nom est obligatoire")}
           className={classes.autocomplete}

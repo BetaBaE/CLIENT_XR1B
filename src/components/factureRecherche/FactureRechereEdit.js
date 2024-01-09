@@ -11,6 +11,7 @@ import {
   SaveButton,
   useDataProvider,
   useRedirect,
+  useGetIdentity,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import apiUrl from "../../config";
@@ -38,6 +39,8 @@ export const FactureRechereEdit = (props) => {
   const dataProvider = useDataProvider();
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
   const [chantier, setChantier] = useState([]);
+  const { identity, isLoading: identityLoading } = useGetIdentity();
+ 
   const redirect = useRedirect();
 
   const annuleAlert = (params) => {
@@ -122,11 +125,27 @@ export const FactureRechereEdit = (props) => {
     name: `${LIBELLE} | ${id} `,
   }));
 
+
+
   const classes = useStyles();
+
+  const { isLoading, error } = useGetIdentity();
+  if (isLoading) return <>Loading</>;
+  if (error) return <>Error</>;
 
   return (
     <Edit {...props}>
       <SimpleForm toolbar={<UserEditToolbar />}>
+      <TextInput
+          defaultValue={identity.fullName}
+          label="vous êtes"
+          hidden={false}
+          className={classes.autocomplete}
+          disabled={true}
+          source="Validateur"
+        ></TextInput>
+      
+      
         <AutocompleteInput
           label="chantier"
           validate={required("Le fournisseur est obligatoire")}

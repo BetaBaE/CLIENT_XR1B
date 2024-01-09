@@ -5,7 +5,9 @@ import {
   required,
   SelectInput,
   SimpleForm,
+  TextInput,
   useDataProvider,
+  useGetIdentity,
 } from "react-admin";
 
 const useStyles = makeStyles(() => ({
@@ -18,6 +20,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export const OrdervirementCreate = () => {
+  const { identity, isLoading: identityLoading } = useGetIdentity();
   const dataProvider = useDataProvider();
   const [ribAtner, setribAtner] = useState([]);
   useEffect(() => {
@@ -35,14 +38,39 @@ export const OrdervirementCreate = () => {
       });
   }, [dataProvider]);
 
+
+  useEffect(() => {
+    // Désactiver l'autocomplétion après le chargement du DOM
+    const inputribAtner = document.getElementById("ribAtner");
+    const inputdirecteursigne = document.getElementById("directeursigne");
+ 
+    if (inputribAtner ||inputdirecteursigne  ) {
+      inputribAtner.autocomplete = "off";
+      inputdirecteursigne.autocomplete = "off";
+     
+    }
+  }, []);
+
   let rib_choices = ribAtner.map(({ id, nom, rib }) => ({
     id: id,
     name: `(${nom}) ${rib}`,
   }));
   const classes = useStyles();
+  const { isLoading, error } = useGetIdentity();
+  if (isLoading) return <>Loading</>;
+  if (error) return <>Error</>
   return (
     <Create>
       <SimpleForm>
+      <TextInput
+          defaultValue={identity?.fullName}
+          label="vous êtes"
+          hidden={false}
+          className={classes.autocomplete}
+          disabled={true}
+          source="Redacteur"
+        > 
+        </TextInput>
         <SelectInput
           className={classes.autocomplete}
           validate={required("Le RIB est obligatoire")}

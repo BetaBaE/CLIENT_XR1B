@@ -6,12 +6,15 @@ import {
   required,
   SelectInput,
   SimpleForm,
-
+  TextInput,
+  useGetIdentity,
+  useRedirect,
 } from "react-admin";
 
 import { makeStyles } from "@material-ui/styles";
 import { Chip } from "@material-ui/core";
 import apiUrl from "../../config";
+import Swal from "sweetalert2";
 
 const useStyles = makeStyles(() => ({
   autocomplete: {
@@ -20,10 +23,20 @@ const useStyles = makeStyles(() => ({
   chip: {
     fontWeight: "bold",
   },
+  // Separate styles for SweetAlert
+  'swal2-popup.swal2-left': {
+    right: 0,
+    transform: 'translateX(0)',
+  },
 }));
-export const VirementCreate = () => {
- 
 
+
+
+
+
+export const VirementCreate = () => {
+  const redirect = useRedirect();
+  const { identity, isLoading: identityLoading } = useGetIdentity();
   const [orderVirement, setOrderVirement] = useState([
     {
       id: "null",
@@ -84,6 +97,9 @@ export const VirementCreate = () => {
  
   const [onchangefournisseur, setOnchangefournisseur] = useState([]);
 
+
+  const [CheckedFournisseur, setCheckedFournisseur] = useState(true);
+
   useEffect(() => {
     fetch(`${apiUrl}/ordervirementencours`)
       .then((response) => response.json())
@@ -123,6 +139,85 @@ export const VirementCreate = () => {
       });
     // console.log(facture);
   };
+  
+  const getCheckedFournisseur = async (e, fournisseurId) => {
+    try {
+      const url = `${apiUrl}/CheckedFournisseurDejaExiste/` + fournisseurId;
+      console.log(url);
+  
+      const response = await fetch(url);
+  
+      if (!response.ok) {
+        throw new Error("Erreur lors de la récupération des données");
+      }
+  
+      const json = await response.json();
+      setCheckedFournisseur(json);
+  
+      const ribfournisseursChecked = ribfournisseurs_choices
+        .filter(({ name }) => name !== undefined)
+        .map(({ name }) => `Le rib : ${name}`);
+  
+      const confirmationMessage = CheckedFournisseur
+        ? "Oui, il est correct"
+        : "Non, il n'est pas correct";
+  
+      Swal.fire({
+        title: "Confirmation de RIB",
+        text: "Merci de confirmer la validité du RIB, s'il vous plaît",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Non, il n'est pas correct",
+        confirmButtonText: confirmationMessage,
+        html: ribfournisseursChecked.join('<br>'),
+        position: 'top-right',  // Adjust the position here
+        allowOutsideClick: false,  // Prevent interaction outside the popup
+        allowEscapeKey: false,   
+        customClass: {
+          popup: 'swal2-left',
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "Confirmation!",
+            text: "Vous avez bien confirmé le RIB",
+            icon: "success",
+          });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire(
+            "Le virement a été annulé",
+            "Merci de bien valider le RIB"
+          );
+  
+          redirect("list", "virements");
+        }
+      });
+  
+      console.log(ribfournisseursChecked);
+  
+    } catch (error) {
+      console.error("Erreur lors de la récupération des données:", error);
+    }
+  };
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const getsumavanceByFourniseurId = (id) => {
     let url = `${apiUrl}/getsumavancebyfournisseur/` + id;
@@ -192,9 +287,22 @@ export const VirementCreate = () => {
   }));
   
   const classes = useStyles();
+  const { isLoading, error } = useGetIdentity();
+  if (isLoading) return <>Loading</>;
+  if (error) return <>Error</>
   return (
     <Create>
       <SimpleForm>
+      <TextInput
+          defaultValue={identity?.fullName}
+          label="vous êtes"
+          hidden={false}
+          className={classes.autocomplete}
+          disabled={true}
+          source="Redacteur"
+        ></TextInput>
+        
+        
         <SelectInput
           validate={required("Ce champ est obligatoire")}
           className={classes.autocomplete}
@@ -225,11 +333,17 @@ export const VirementCreate = () => {
             // console.log(e);
             if (!e) {
               setFournisseurIdField(true);
+             // getCheckedFournisseur(e)
             } else {
               setFournisseurIdField(false);
+             // getCheckedFournisseur(e)
             }
           }}
         />
+
+
+
+
      {sumfactureValue ? <div>La somme des montants des factures qui ont FN par fournisseur est de : {sumfactureValue} DH</div> : ''}
      <br></br>
      {sumfacturenotfnValue ? <div>la somme des montants factures qui n'ont pas FN par fournisseur value : {sumfacturenotfnValue} DH</div> : ''}
@@ -246,8 +360,12 @@ export const VirementCreate = () => {
           onChange={(e) => {
             if (e.target.value === "") {
               setFournisseurRibField(true);
+              getCheckedFournisseur(e.target.value)
             } else {
               setFournisseurRibField(false);
+              getCheckedFournisseur(e,e.target.value)
+              console.log("e.taget",e.target.value)
+             // console.log("e",e)
             }
           }}
           source="ribFournisseurId"

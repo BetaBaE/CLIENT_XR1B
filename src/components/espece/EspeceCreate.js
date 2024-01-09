@@ -8,7 +8,10 @@ import {
 
     SimpleForm,
 
+    TextInput,
+
     useDataProvider,
+    useGetIdentity,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 
@@ -23,7 +26,7 @@ const useStyles = makeStyles(() => ({
     },
 }));
 export const EspeceCreate = (props) => {
-
+  const { identity, isLoading: identityLoading } = useGetIdentity();
     const [fournisseur, setFournisseur] = useState([]);
     const [facture, setFacture] = useState([{ id: "", BonCommande: "" }]);
     const dataProvider = useDataProvider();
@@ -128,10 +131,20 @@ export const EspeceCreate = (props) => {
 
     
     const classes = useStyles();
+    const { isLoading, error } = useGetIdentity();
+    if (isLoading) return <>Loading</>;
+    if (error) return <>Error</>
     return (
         <Create>
             <SimpleForm>
-              
+            <TextInput
+          defaultValue={identity?.fullName}
+          label="vous êtes"
+          hidden={false}
+          className={classes.autocomplete}
+          disabled={true}
+          source="redacteur"
+        ></TextInput>   
                 <AutocompleteInput label="Fournisseur"
                     validate={required("Le fournisseur est obligatoire")}
                     className={classes.autocomplete}

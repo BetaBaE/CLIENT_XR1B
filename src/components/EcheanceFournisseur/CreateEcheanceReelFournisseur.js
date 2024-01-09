@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/styles";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { AutocompleteInput, Create, DateInput,required, SelectInput, SimpleForm,  useDataProvider } from "react-admin";
+import { AutocompleteInput, Create, DateInput,required, SelectInput, SimpleForm,  TextInput,  useDataProvider, useGetIdentity } from "react-admin";
 
 const useStyles = makeStyles(() => ({
   autocomplete: {
@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CreateEcheanceReelFournisseur = (props) => {
- 
+  const { identity, isLoading: identityLoading } = useGetIdentity();
   const classes = useStyles();
   const [fournisseur, setFournisseur] = useState([]);
   const dataProvider = useDataProvider();
@@ -35,11 +35,22 @@ const CreateEcheanceReelFournisseur = (props) => {
     id: id,
     name: `${nom} | ${CodeFournisseur} `,
   }));
-
+  const { isLoading, error } = useGetIdentity();
+  if (isLoading) return <>Loading</>;
+  if (error) return <>Error</>;
   return (
     <Create>
       <SimpleForm {...props}>
-    
+      <TextInput
+          defaultValue={identity?.fullName}
+          label="vous êtes"
+          hidden={false}
+          className={classes.autocomplete}
+          disabled={true}
+          source="Redacteur"
+        >
+
+        </TextInput>
        
       <AutocompleteInput
           label="fournisseur"
