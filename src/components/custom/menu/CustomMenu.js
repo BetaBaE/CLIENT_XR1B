@@ -294,7 +294,18 @@ export const CustomMenu = (props) => {
         />
       )}
 
-
+{/* {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable") && (
+        <Menu.Item
+          to="/DetailFacturebyfournisseur"
+          primaryText="Imp. Order Virement"
+          leftIcon={<FaPrint />}
+        />
+      )} */}
 
 
 

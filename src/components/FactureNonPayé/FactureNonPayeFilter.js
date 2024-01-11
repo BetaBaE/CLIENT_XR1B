@@ -45,6 +45,15 @@ const FactureNonPayeFilter = (props) => {
       <TextInput source="fournisseur" />
       
       <TextInput source="chantier" />
+
+      <SelectInput source = "etat"
+ choices={[
+    { id: "Reglee", name: "Reglee" },
+    { id: "En cours", name: "En cours" },
+   
+  ]}
+    label = "etat" />
+
     </Filter>
   );
 };

@@ -345,21 +345,29 @@ function isValidPartialDate(dateString) {
           ]}
           className={classes.autocomplete}
         />
-        <AutocompleteInput
-          label="designation"
-          validate={required(" selectionnez la designation")}
-          className={classes.autocomplete}
-          source="iddesignation"
-          choices={designation_choices}
-          onChange={(e) => {
-            if (!e) {
-              setFournisseurIdField(true);
-            } else {
-              setFournisseurIdField(false);
-              getTVA(e);
-            }
-          }}
-        />
+<AutocompleteInput
+  label="designation"
+  validate={required("selectionnez la designation")}
+  className={classes.autocomplete}
+  source="iddesignation"
+  choices={designation_choices}
+  onChange={(e) => {
+    console.log("e", e);
+
+    if (!e) {
+      setFournisseurIdField(true);
+    } else {
+      setFournisseurIdField(false);
+      getTVA(e);
+
+      // Check if e is an array before using join
+      const formattedDates = Array.isArray(e) ? e.join('gheghe') : e.toString();
+      console.log("formattedDates", formattedDates); // Use formattedDates as needed
+    }
+  }}
+/>
+
+
         <SelectInput
           validate={required("Ce champ est obligatoire")}
           disabled={fournisseurIdField}

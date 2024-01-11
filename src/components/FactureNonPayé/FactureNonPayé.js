@@ -1,9 +1,14 @@
 import React, {  useState } from "react";
 import {
+  AppBar,
   Datagrid,
   DateField,
   List,
+  Menu,
+  MenuItemLink,
+  TabbedForm,
   TextField,
+  UserMenu,
 
 } from "react-admin";
 
@@ -11,6 +16,25 @@ import {
 import ColorfulText from "../custom/layout/ColorfulText";
 
 import FactureNonPayeFilter from "./FactureNonPayeFilter";
+import { CustomLayout } from "../custom/layout/CustomLayout";
+import { Box } from "@material-ui/core";
+// const MyMenu = () => (
+//   <Menu>
+//     <MenuItemLink to="/" primaryText="Dashboard" />
+//     <MenuItemLink to="/posts" primaryText="Posts" />
+//     <MenuItemLink to="/comments" primaryText="Comments" />
+//   </Menu>
+// );
+
+const CustomAppBar = (props) => (
+  <AppBar {...props}>
+    <MenuItemLink to="/" primaryText="Dashboard" />
+    <MenuItemLink to="/posts" primaryText="Posts" />
+    <MenuItemLink to="/comments" primaryText="Comments" />
+ 
+  </AppBar>
+);
+
 
 export const FactureNonPaye = (props) => {;
   const [recordCount, setRecordCount] = useState(0);
@@ -33,16 +57,23 @@ export const FactureNonPaye = (props) => {;
 
 
   return (
-    <>
+  <>
       <ColorfulText className="pskch" />
+      <Box component="span" display="flex" justifyContent="left" m={1}>
+      <div className="button-container">
+      <button
+            className="button-6"
+            type="submit">
+         choisir le fournisseur 
+          </button>
+   </div>
+   </Box>
+   
       <List 
- 
+   
       filters={<FactureNonPayeFilter />} title="Les Factures non payé">
-  {/* <div className="list-header">
-          <h1>Log Facture Saisie</h1>
-          <ExportButton label='Exporter' maxResults={recordCount} />
-        </div> */}
-    
+
+     
         <Datagrid 
              bulkActionButtons={false}
         rowStyle={CustomRowStyle} {...props}>
@@ -67,6 +98,7 @@ export const FactureNonPaye = (props) => {;
           <TextField source="etat" label="etat" />
           <TextField source="ModePaiementID" label="ModePaiementID"></TextField>
         </Datagrid>
+     
       </List>
       <style>
       {`
@@ -79,8 +111,27 @@ export const FactureNonPaye = (props) => {;
             align-items: center;
             margin-bottom: 10px;
           }
+
+          .button {
+            background-color: #04AA6D;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+          }
+
         `}
       </style>
-    </>
+   
+     </> 
+   
   );
 };
+
+
+FactureNonPaye.layout = CustomLayout; 

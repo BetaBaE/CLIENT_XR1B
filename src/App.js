@@ -55,6 +55,7 @@ import CreateEcheanceReelFournisseur from "./components/EcheanceFournisseur/Crea
 import { EcheanceLoiFournisseur } from "./components/EcheanceLoiFournisseur/EcheanceLoiFournisseur";
 import CreateEcheanceLoiFournisseur from "./components/EcheanceLoiFournisseur/CreateEcheanceLoiFournisseur";
 import { FactureNonPaye } from "./components/FactureNonPayé/FactureNonPayé";
+import DetailFacturebyfournisseur from "./components/DetailFacturebyfournisseur/DetailFacturebyfournisseur";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -523,6 +524,16 @@ function App(props) {
           />
         ) : null,
 
+        // permissions === "admin" ||
+        // permissions === "normal user" ||
+        // permissions === "comptable midelt" ||
+        // permissions === "superviseur comptabilite midelt" ||
+        // permissions === "superviseur comptabilite" ||
+        // permissions === "comptable" ? (
+        //   <CustomRoutes>
+        //     <Route path="/DetailFacturebyfournisseur" element={<DetailFacturebyfournisseur />} />
+        //   </CustomRoutes>
+        // ) : null,
 
         
       ]}

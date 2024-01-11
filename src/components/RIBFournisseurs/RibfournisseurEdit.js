@@ -46,7 +46,7 @@ export const RibfournisseurEdit = (props) => {
           hidden={false}
           className={classes.autocomplete}
           disabled={true}
-          source="Validateur"
+          source="validateur"
         />
 
         <TextInput
