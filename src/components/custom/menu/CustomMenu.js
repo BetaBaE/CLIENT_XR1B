@@ -20,6 +20,7 @@ import {
   FaEquals,
   FaConfluence,
   FaFileInvoiceDollar,
+  FaAccusoft,
 } from "react-icons/fa";
 import { Md1XMobiledata, MdPayments } from "react-icons/md";
 
@@ -302,8 +303,8 @@ export const CustomMenu = (props) => {
         permissions === "comptable") && (
         <Menu.Item
           to="/DetailFacturebyfournisseur"
-          primaryText="Imp. Order Virement"
-          leftIcon={<FaPrint />}
+          primaryText="Somme par Fournisseur"
+          leftIcon={<FaAccusoft />}
         />
       )}
 

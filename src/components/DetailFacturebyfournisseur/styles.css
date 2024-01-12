@@ -191,87 +191,70 @@ td {
 }
 
 /*  my new css */
-
-
+/* Style du formulaire */
 .my-form {
   display: flex;
   flex-direction: column;
-  max-width: 300px;
+  width: 400px; /* Ajustez la largeur selon vos besoins */
   margin: auto;
 }
 
-/* Style for the input */
-.my-input {
-  margin-bottom: 10px;
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-/* Style for the button container */
-.my-button-container {
-  text-align: center;
-}
-
-/* Style for the button */
-.my-button {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 15px;
-  font-size: 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.my-button:hover {
-  background-color: #45a049;
-}
-
+/* Style du menu déroulant */
 .custom-dropdown {
   width: 100%;
   padding: 10px;
+  margin-bottom: 10px;
   font-size: 14px;
-  border: 1px solid #ddd;
+}
+
+/* Style de la zone de texte */
+.my-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* Style du conteneur des boutons */
+.my-button-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* Style du bouton */
+.my-button {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
   border-radius: 5px;
-  outline: none;
-  transition: border-color 0.3s;
-  box-sizing: border-box;
-
-  /* Ajoutez d'autres styles selon vos besoins */
+  font-size: 16px;
 }
 
-.custom-dropdown:hover,
-.custom-dropdown:focus {
-  border-color: #4caf50;
+.my-button:hover {
+  background-color: #2980b9;
 }
 
-/* Style pour les options */
-.custom-dropdown option {
-  font-size: 14px;
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
 }
 
-/* Style pour l'option par défaut */
-.custom-dropdown option[disabled] {
-  color: #888;
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
 }
 
-/* Style pour la flèche déroulante (si prise en charge) */
-.custom-dropdown::-ms-expand {
-  display: none;
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
 }
-
-.custom-dropdown:after {
-  content: '\25BC';
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  pointer-events: none;
-  color: #555;
-}
-
-
-
-
