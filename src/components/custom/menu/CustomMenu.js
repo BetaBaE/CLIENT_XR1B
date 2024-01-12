@@ -294,7 +294,7 @@ export const CustomMenu = (props) => {
         />
       )}
 
-{/* {(permissions === "admin" ||
+{(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
@@ -305,7 +305,7 @@ export const CustomMenu = (props) => {
           primaryText="Imp. Order Virement"
           leftIcon={<FaPrint />}
         />
-      )} */}
+      )}
 
 
 

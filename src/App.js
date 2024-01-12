@@ -524,16 +524,16 @@ function App(props) {
           />
         ) : null,
 
-        // permissions === "admin" ||
-        // permissions === "normal user" ||
-        // permissions === "comptable midelt" ||
-        // permissions === "superviseur comptabilite midelt" ||
-        // permissions === "superviseur comptabilite" ||
-        // permissions === "comptable" ? (
-        //   <CustomRoutes>
-        //     <Route path="/DetailFacturebyfournisseur" element={<DetailFacturebyfournisseur />} />
-        //   </CustomRoutes>
-        // ) : null,
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <CustomRoutes>
+            <Route path="/DetailFacturebyfournisseur" element={<DetailFacturebyfournisseur />} />
+          </CustomRoutes>
+        ) : null,
 
         
       ]}
