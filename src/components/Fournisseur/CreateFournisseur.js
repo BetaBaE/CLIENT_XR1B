@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/styles";
 import React, { useEffect, useState } from "react";
 import { Create, DateInput, regex, required, SelectInput, SimpleForm, TextInput, FormDataConsumer,useGetIdentity } from "react-admin";
 import apiUrl from "../../config";
-// import _debounce from 'lodash/debounce';
+import _debounce from 'lodash/debounce';
 
 const useStyles = makeStyles(() => ({
   autocomplete: {
@@ -45,40 +45,40 @@ const CreateFournisseur = (props) => {
   const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
   if (error) return <>Error</>
-  // const debouncedGetNominationFournisseur = _debounce(async (nom) => {
-  //   try {
-  //     setLoadingSuggestions(true);
+  const debouncedGetNominationFournisseur = _debounce(async (nom) => {
+    try {
+      setLoadingSuggestions(true);
 
-  //     let url = `${apiUrl}/getNomfournisseur`;
-  //     const response = await fetch(url, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ nom }),
-  //     });
+      let url = `${apiUrl}/getNomfournisseur`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nom }),
+      });
 
-  //     const json = await response.json();
-  //     setNomFournisseur(json);
-  //     setErrorSuggestions(null);
-  //   } catch (error) {
-  //     console.error('Error fetching data from server:', error);
-  //     setErrorSuggestions('Error fetching suggestions');
-  //   } finally {
-  //     setLoadingSuggestions(false);
-  //   }
-  // }, 500);
+      const json = await response.json();
+      setNomFournisseur(json);
+      setErrorSuggestions(null);
+    } catch (error) {
+      console.error('Error fetching data from server:', error);
+      setErrorSuggestions('Error fetching suggestions');
+    } finally {
+      setLoadingSuggestions(false);
+    }
+  }, 500);
 
-  // const handleInputChange = (event) => {
-  //   const nom = event.target.value;
-  //   console.log(nom);
-  //   if (!nom.trim()) {
-  //     setNomFournisseur([]);
-  //     return;
-  //   }
+  const handleInputChange = (event) => {
+    const nom = event.target.value;
+    console.log(nom);
+    if (!nom.trim()) {
+      setNomFournisseur([]);
+      return;
+    }
 
-  //   debouncedGetNominationFournisseur(nom);
-  // };
+    debouncedGetNominationFournisseur(nom);
+  };
 
   
   const validationcodefournisseur = regex(
@@ -108,7 +108,7 @@ const CreateFournisseur = (props) => {
   className={classes.autocomplete}
   source="nom"
   id="nom"
-  // onChange={handleInputChange}
+  onChange={handleInputChange}
 
 />
 {NomFournisseur ? (
