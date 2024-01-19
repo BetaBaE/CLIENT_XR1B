@@ -5,6 +5,7 @@ const FilterRIBTempo = (props) => (
     <TextInput source="fournisseur" />
     <TextInput source="rib" />
     <TextInput source="swift" />
+    
   </Filter>
 );
 export default FilterRIBTempo;

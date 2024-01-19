@@ -11,6 +11,8 @@ export const RibtempoList = (props) => {
         <TextField source="rib" label="RIB" />
         <TextField source="swift" label="SWIFT" />
         <TextField source="banque" label="Banque"/>
+        
+   
       </Datagrid>
     </List>
   );

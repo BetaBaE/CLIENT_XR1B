@@ -13,6 +13,7 @@ const FilterRIBFournisseurs = (props) => (
       ]}
     />
        <TextInput source="banque" />
+     
   </Filter>
 );
 export default FilterRIBFournisseurs;

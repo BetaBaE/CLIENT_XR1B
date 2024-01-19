@@ -1,4 +1,4 @@
-import { Datagrid, List, TextField } from "react-admin";
+import { Datagrid, Link, List, TextField } from "react-admin";
 import FilterRIBFournisseurs from "./FilterRIBFournisseurs";
 
 export const RibfournisseurList = () => (
@@ -9,6 +9,10 @@ export const RibfournisseurList = () => (
       <TextField source="swift" />
       <TextField source="validation" />
       <TextField source="banque" label="Banque"/>
+      <Link>
+      <TextField source="path_rib" label="Attestation de Rib" />
+      </Link>
+   
     </Datagrid>
   </List>
 );
