@@ -122,13 +122,13 @@ export const RibtempoCreate = (props) => {
             {id: "La Caixa", name: "Caixabank"}
           ]}>
         </SelectInput>
-<FileInput source="path_rib"  
+{/* <FileInput source="path_rib"  
            label="Uploder rib" accept="application/pdf,image/png,image/jpeg" 
         className={classes.autocomplete}>
     <FileField source="src" title="title"
 
     />
-</FileInput>
+</FileInput> */}
       </SimpleForm>
     </Create>
   );
