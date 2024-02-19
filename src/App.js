@@ -194,13 +194,12 @@ function App(props) {
             name="ribatner"
             list={RibatnerList}
             edit={
-              permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite"
+              permissions === "superviseur comptabilite midelt"
+         
                 ? RibatnerEdit
                 : null
             }
             create={
-              permissions === "superviseur comptabilite midelt" ||
               permissions === "superviseur comptabilite" 
     
                 ? RIBAtnerCreate
