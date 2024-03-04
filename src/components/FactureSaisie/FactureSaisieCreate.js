@@ -299,15 +299,10 @@ const handleDateChange = async (event) => {
 };
 
 function isValidPartialDate(dateString) {
-
-
   const currentYear = new Date().getFullYear();
-  const regex = new RegExp(`^${currentYear}(-\\d{2}(-\\d{2})?)?$`);
-
+  const regex = new RegExp(`^((19|20)\\d{2})(-(0[1-9]|1[0-2])(-(0[1-9]|[12]\\d|3[01]))?)?$`);
   return regex.test(dateString);
 }
-
-
 
 
 
@@ -426,7 +421,7 @@ function isValidPartialDate(dateString) {
         <TextInput
   source="dateEcheance"
   label="format date Echeance: yyyy-mm-dd"
-  validate={dateFormatRegex}
+  // validate={dateFormatRegex}
   defaultValue={dateEcheance}
 
 />
