@@ -153,21 +153,21 @@ const DetailFacturebyfournisseur = () => {
               <table style={styles["#customers"]}>
                 <thead>
                   <tr>
-                    <th style={styles["#customers th"]}>Fournisseur</th>
-                    <th style={styles["#customers th"]}>Somme TTC</th>
-                    <th style={styles["#customers th"]}>Etat des Fiches Navette</th>
-                    <th style={styles["#customers th"]}>AnneeExercice</th>
-                    <th style={styles["#customers th"]}>Etat de paiement</th>
+                  <th style={styles["#customers th"]}>fournisseur</th>
+                    <th style={styles["#customers th"]}>Montant Factures</th>
+                    <th style={styles["#customers th"]}>Montant Reglements</th>
+                    <th style={styles["#customers th"]}>Reste</th>
+                  
                   </tr>
                 </thead>
                 <tbody>
                   {suivieFacture.map((Factures, index) => (
                     <tr key={index} style={(index % 2 === 0) ? styles["#customers tr:nth-child(even)"] : {}}>
-                      <td style={styles["#customers td"]}>{Factures.nom}</td>
-                      <td style={styles["#customers td"]}>{Factures.MontantTTC}</td>
-                      <td style={styles["#customers td"]}>{Factures.ficheNavette}</td>
-                      <td style={styles["#customers td"]}>{Factures.AnneeExercice}</td>
-                      <td style={styles["#customers td"]}>{Factures.etat}</td>
+                         <td style={styles["#customers td"]}>{Factures.nom}</td>
+                      <td style={styles["#customers td"]}>{Factures.sumFacture}</td>
+                      <td style={styles["#customers td"]}>{Factures.sumReglement}</td>
+                      <td style={styles["#customers td"]}>{Factures.Reste}</td>
+             
                     </tr>
                   ))}
                 </tbody>

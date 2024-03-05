@@ -58,16 +58,7 @@ export const FactureNonPaye = (props) => {;
 
   return (
   <>
-      <ColorfulText className="pskch" />
-      <Box component="span" display="flex" justifyContent="left" m={1}>
-      <div className="button-container">
-      <button
-            className="button-6"
-            type="submit">
-         choisir le fournisseur 
-          </button>
-   </div>
-   </Box>
+  
    
       <List 
    
@@ -102,9 +93,7 @@ export const FactureNonPaye = (props) => {;
       </List>
       <style>
       {`
-          #pskch {
-            marginBottom: "-80px"
-          }
+        
           .list-header {
             display: flex;
             justify-content: space-between;
