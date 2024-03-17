@@ -127,6 +127,36 @@ export const CustomMenu = (props) => {
         />
       )}
 
+{(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable") && (
+        <Menu.Item
+          to="/ordervirementFond"
+          primaryText="ordervirementFond"
+          leftIcon={<FaPager />}
+        />
+      )}
+
+
+
+{(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable") && (
+        <Menu.Item
+          to="/virementsFond"
+          primaryText="Virements de fond"
+          leftIcon={<MdPayments />}
+        />
+      )}
+
+
+
       {(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||

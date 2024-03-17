@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import apiUrl from "../../config";
 import { format } from 'date-fns';
+import { Input } from "@material-ui/core";
 const useStyles = makeStyles(() => ({
   autocomplete: {
     width: "580px",
@@ -284,7 +285,7 @@ const handleDateChange = async (event) => {
   const inputDate = event.target.value;
   setFormData({ ...formData, DateFacture: inputDate });
 
-  // If the inputDate is a valid date
+  console.log("inputDate",inputDate)
   if (isValidPartialDate(inputDate)) {
     try {
       const dateEcheance = await getEcheanceByFournisseur(formData.idfournisseur, inputDate);
@@ -418,14 +419,16 @@ function isValidPartialDate(dateString) {
         source = "codechantier"
         choices = { chantier_choices }
         /> 
-        <TextInput
-  source="dateEcheance"
-  label="format date Echeance: yyyy-mm-dd"
-  // validate={dateFormatRegex}
-  defaultValue={dateEcheance}
+   <>
+  <TextInput
+    source="dateEcheance"
+    label="format date Echeance: yyyy-mm-dd"
+    defaultValue={dateEcheance} // Utiliser dateEcheance comme valeur
+    validate={dateFormatRegex}
+  />
+  <p>{dateEcheance}</p>
+</>
 
-/>
-      <p>{dateEcheance}</p>
       </SimpleForm>
     </Create>
   );

@@ -1,10 +1,9 @@
-import { Box } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { Box } from "@material-ui/core";
 import "./styles.css";
 import apiUrl from "../../config";
-// import Swal from "sweetalert2";
-// import withReactContent from "sweetalert2-react-content";
+
 const PrintModule = () => {
   const [orderVirement, setOrderVirement] = useState([
     {
@@ -14,15 +13,37 @@ const PrintModule = () => {
       etat: "",
     },
   ]);
+
+  const [orderVirementFond, setOrderVirementFond] = useState([
+    {
+      id: "null",
+      ribAtner: 0,
+      datecreation: "",
+      etat: "",
+    },
+  ]);
+
+
   const [selctov, setSelctov] = useState();
-  // const MySwal = withReactContent(Swal);
+
+
+  
+  const [selctovFond, setSelctovFond] = useState();
+
   useEffect(() => {
-
     fetch(`${apiUrl}/ordervirementetat`)
-
       .then((response) => response.json())
       .then((json) => setOrderVirement(json));
   }, []);
+
+  useEffect(() => {
+    fetch(`${apiUrl}/ordervirementFondetat`)
+      .then((response) => response.json())
+      .then((json) => setOrderVirementFond(json));
+  }, []);
+
+
+
 
   const showLoadingPdf = (json) => {
     let jsonPath = "file:" + json.path.replaceAll("\\", "/");
@@ -36,62 +57,56 @@ const PrintModule = () => {
   };
 
   return (
-    <Box component="span" display="flex" justifyContent="center" m={1}>
-      <form>
-        <select
-          className="select-css"
-          required="required"
-          onChange={(e) => {
-            // console.log(e.target.value);
-            setSelctov(e.target.value);
-          }}
-        >
-          <option disabled="disabled" selected={true} value="">
-            choisir un order de virement
-          </option>
-          {orderVirement.map((order) => {
-            return (
-              <option value={order.id}>
+   
+   
+   <>
+      <Box component="span" display="flex" justifyContent="center" m={1}>
+        <form>
+          <select
+            className="select-css"
+            required
+            onChange={(e) => {
+              setSelctov(e.target.value);
+            }}
+          >
+            <option disabled selected value="">
+              choisir un order de virement
+            </option>
+            {orderVirement.map((order, index) => (
+              <option key={index} value={order.id}>
                 {order.id} - {order.etat}
               </option>
-            );
-          })}
-        </select>
-        <div className="button-container">
-          <button
-            className="button-6 "
-            type="submit"
-            onClick={(e) => {
-              if (selctov !== undefined) {
+            ))}
+          </select>
+          <div className="button-container">
+            <button
+              className="button-6"
+              type="submit"
+              onClick={(e) => {
                 e.preventDefault();
+                if (selctov) {
+                  Swal.fire({
+                    title: "Preparation du pdf en cours",
+                    html: "Merci de patienter",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    timer: 600000,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                      Swal.showLoading();
+                    },
+                  }).then((result) => {
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                      Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Quelque chose s'est mal passé!",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                      });
+                    }
+                  });
 
-                Swal.fire({
-                  title: "Preparation du pdf en cours",
-                  html: "Merci de patienter",
-                  allowOutsideClick: false,
-                  allowEscapeKey: false,
-                  timer: 600000,
-                  timerProgressBar: true,
-                  didOpen: () => {
-                    Swal.showLoading();
-                  },
-                }).then((result) => {
-                  /* Read more about handling dismissals below */
-                  if (result.dismiss === Swal.DismissReason.timer) {
-                    Swal.fire({
-                      icon: "error",
-                      title: "Oops...",
-                      text: "Quelque chose s'est mal passé!",
-                      allowOutsideClick: false,
-                      allowEscapeKey: false,
-                      // footer: '<a href="">Why do I have this issue?</a>',
-                    });
-                  }
-                });
-
-                // console.log(selctov);
-
-                try {
                   fetch(`${apiUrl}/oneordervirement?ordervirment={"id":"${selctov}"}`)
                     .then((response) => {
                       if (!response.ok) {
@@ -113,34 +128,111 @@ const PrintModule = () => {
                         allowEscapeKey: false,
                       });
                     });
-                } catch (error) {
-                  console.error("Erreur lors de la requête fetch :", error);
+                } else {
                   Swal.fire({
                     icon: "error",
-                    title: "Erreur",
-                    text: "Une erreur s'est produite lors de la requête.",
+                    title: "Error",
+                    text: "Veuillez choisir un order de virement",
                     allowOutsideClick: false,
                     allowEscapeKey: false,
                   });
                 }
-              } else {
-                e.preventDefault();
-                Swal.fire({
-                  icon: "error",
-                  title: "Error",
-                  text: "Veuillez choisir un order de virement",
-                  allowOutsideClick: false,
-                  allowEscapeKey: false,
-                  // footer: '<a href="">Why do I have this issue?</a>',
-                });
-              }
+              }}
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </Box>
+ <Box component="span" display="flex" justifyContent="center" m={1}>
+        <form>
+          <select
+            className="select-css"
+            required
+            onChange={(e) => {
+              setSelctovFond(e.target.value);
+              console.log("e.target.value",e.target.value)
             }}
           >
-            Submit
-          </button>
-        </div>
-      </form>
-    </Box>
+            <option disabled selected value="">
+              choisir un order de virement de fond
+            </option>
+            {orderVirementFond.map((order, index) => (
+              <option key={index} value={order.id}>
+                {order.id} - {order.etat}
+              </option>
+            ))}
+          </select>
+          <div className="button-container">
+            <button
+              className="button-6"
+              type="submit"
+              onClick={(e) => {
+                e.preventDefault();
+                console.log("selctovFond",selctovFond)
+                if (selctovFond) {
+                  Swal.fire({
+                    title: "Preparation du pdf en cours",
+                    html: "Merci de patienter",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    timer: 600000,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                      Swal.showLoading();
+                    },
+                  }).then((result) => {
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                      Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Quelque chose s'est mal passé!",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                      });
+                    }
+                  });
+
+                  fetch(`${apiUrl}/oneordervirementFond?ordervirment={"id":"${selctovFond}"}`)
+                    .then((response) => {
+                      if (!response.ok) {
+                        throw new Error("Réponse réseau non valide");
+                      }
+                      return response.json();
+                    })
+                    .then((json) => {
+                      console.log(json);
+                      showLoadingPdf(json);
+                    })
+                    .catch((error) => {
+                      console.error("Erreur lors de la requête fetch :", error);
+                      Swal.fire({
+                        icon: "error",
+                        title: "Erreur",
+                        text: "Une erreur s'est produite lors de la récupération des données.",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                      });
+                    });
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Veuillez choisir un order de virement",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                  });
+                }
+              }}
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </Box> 
+
+
+    </>
   );
 };
 

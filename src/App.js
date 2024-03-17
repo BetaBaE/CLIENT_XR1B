@@ -56,6 +56,11 @@ import { EcheanceLoiFournisseur } from "./components/EcheanceLoiFournisseur/Eche
 import CreateEcheanceLoiFournisseur from "./components/EcheanceLoiFournisseur/CreateEcheanceLoiFournisseur";
 import { FactureNonPaye } from "./components/FactureNonPayé/FactureNonPayé";
 import DetailFacturebyfournisseur from "./components/DetailFacturebyfournisseur/DetailFacturebyfournisseur";
+import { OrdervirementFondList } from "./components/OrderVirementFond/OrdervirementList";
+import { OrdervirementFondCreate } from "./components/OrderVirementFond/OrdervirementFondCreate";
+import { VirementFondList } from "./components/VirementFond/VirementFondList";
+import { VirementFondCreate } from "./components/VirementFond/VirementFondCreate";
+import { VirementFondEdit } from "./components/VirementFond/VirementFondEdit";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -200,7 +205,7 @@ function App(props) {
                 : null
             }
             create={
-              permissions === "superviseur comptabilite" 
+              permissions === "superviseur comptabilite midelt" 
     
                 ? RIBAtnerCreate
                 : null
@@ -348,13 +353,6 @@ function App(props) {
         permissions === "superviseur comptabilite midelt" ? (
           <Resource name="SuivieFactureEchu" list={SuivieFactureEchu} icon={FaTruck}></Resource>
         ) : null,
-
-
-
-
-
-
-
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
@@ -383,6 +381,37 @@ function App(props) {
             }
           />
         ) : null,
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <Resource
+            name="ordervirementFond"
+            list={OrdervirementFondList}
+            icon={FaCreditCard}
+            create={
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
+                ? OrdervirementFondCreate
+                : null
+            }
+            edit={
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
+                ? OrdervirementEdit
+                : null
+            }
+          />
+        ) : null,
+
+
+
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
@@ -467,6 +496,36 @@ function App(props) {
           />
           ) : null,
 
+
+
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <Resource
+            name="virementsFond"
+            list={VirementFondList}
+            create={
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
+                ? VirementFondCreate
+                : null
+            }
+            edit={
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt"
+                ? VirementFondEdit
+                : null
+            }
+            icon={FaCreditCard}
+          />
+        ) : null,
+
+
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
@@ -495,6 +554,10 @@ function App(props) {
             icon={FaCreditCard}
           />
         ) : null,
+
+
+
+
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
