@@ -112,8 +112,8 @@ export const FactureRechereCreate = (props) => {
   if (isLoading) return <>Loading</>;
   if (error) return <>Error</>;
 
-  const validateBc = regex(/^CF[0-9]{3}[0-9]{3}$/, "Ce bon de commande n'est pas valide"); 
-console.log("la facture ",factureSelected)
+  const validateBc = regex(/^CF[0-9]{3}[0-9]{3}$/, "Ce bon de commande n'est pas valide");
+  console.log("la facture ", factureSelected)
   return (
     <Create>
       <SimpleForm>
@@ -194,9 +194,10 @@ console.log("la facture ",factureSelected)
           />
         )}
 
-     
+
         <TextInput
           label="Fiche navette"
+
           validate={required("La fiche navette est obligatoire")}
           className={classes.autocomplete}
           source="ficheNavette"
@@ -204,45 +205,47 @@ console.log("la facture ",factureSelected)
 
         <TextInput
           label="Bon de commande d'avance"
+
           className={classes.autocomplete}
           validate={
             factureSelected === null
-                ? required("Le bon de  commande est obligatoire")
-                : null
-            }
+              ? required("Le bon de  commande est obligatoire")
+              : null
+          }
           source="Bcommande"
           disabled={factureSelected !== null}
         />
-<TextInput
-  label="Montant d'avance"
-  className={classes.autocomplete}
-  validate={(value) => {
-    const numericValue = parseFloat(value);
-    console.log("numericValue", numericValue);
+        <TextInput
+          label="Montant d'avance"
 
-    if (factureSelected === null) {
-      return numericValue >= 1
-        ? null
-        : "Le montant d'avance doit être supérieur ou égal à 1";
-    }
+          className={classes.autocomplete}
+          validate={(value) => {
+            const numericValue = parseFloat(value);
+            console.log("numericValue", numericValue);
 
-    if (facture.length === 0) {
-      return required("Le montant d'avance est obligatoire");
-    }
+            if (factureSelected === null) {
+              return numericValue >= 1
+                ? null
+                : "Le montant d'avance doit être supérieur ou égal à 1";
+            }
 
-    if (
-      factureSelected === null 
-    ) {
-      return "Le montant d'avance doit être supérieur à 0";
-    }
+            if (facture.length === 0) {
+              return required("Le montant d'avance est obligatoire");
+            }
 
-    return null; 
-  }}
-  source="montantAvance"
-  defaultValue={factureSelected === null ? null : 0}
-  disabled={factureSelected !== null}
-/>
+            if (
+              factureSelected === null
+            ) {
+              return "Le montant d'avance doit être supérieur à 0";
+            }
 
+            return null;
+          }}
+          source="montantAvance"
+          defaultValue={factureSelected === null ? null : 0}
+          disabled={factureSelected !== null}
+        />
+        {/* 
 <ArrayInput source="BonLivraisons">
           <SimpleFormIterator>
             <TextInput
@@ -259,8 +262,54 @@ console.log("la facture ",factureSelected)
 
             </DateInput>
   </SimpleFormIterator>
-        </ArrayInput>
+        </ArrayInput> */}
 
+        <SelectInput
+          className={classes.autocomplete}
+          source="CatFn"
+          label="Catégorie Facture"
+          validate={required("Mentionnez la catégorie")}
+          choices={[
+            { id: 'FET', name: 'Fourniture Equipement Travaux' },
+            { id: 'Service', name: 'Service' },
+          ]}
+        >
+
+        </SelectInput>
+
+
+        <TextInput
+          label="TTC D'Avance"
+          disabled={factureSelected !== null}
+          validate={
+            factureSelected === null
+              ? required("Le bon de  commande est obligatoire")
+              : null
+          }
+          className={classes.autocomplete}
+          source="TTC"
+        />
+        <TextInput
+          label="Mentionnez HT"
+          disabled={factureSelected !== null} 
+          validate={
+            factureSelected === null
+              ? required("Le bon de  commande est obligatoire")
+              : null
+          }
+          className={classes.autocomplete}
+          source="HT"
+        />
+        <TextInput
+          disabled={factureSelected !== null}
+          label="Mentionnez TVA" validate={
+            factureSelected === null
+              ? required("Le bon de  commande est obligatoire")
+              : null
+          }
+          className={classes.autocomplete}
+          source="MontantTVA"
+        />
       </SimpleForm>
     </Create>
   );

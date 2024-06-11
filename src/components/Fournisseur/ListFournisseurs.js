@@ -12,7 +12,7 @@ export const FournisseurList = () => {
         <TextField source="Redacteur" />
         <TextField source="CodeFournisseur" />
         <TextField source="nom"></TextField>
-   
+        <TextField source="catFournisseur"></TextField>
         <TextField  source="ICE" label="ICE"  />
         <TextField  source="Identifiantfiscal" label="identifiant fiscal"  />
         <TextField  source="mail"  />

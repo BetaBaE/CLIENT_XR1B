@@ -57,6 +57,8 @@ export const FactureRecherche = (props) => {
                     label="créateur" />
                 <TextField source="etat"
                     label="etat" />
+              <TextField source="CatFn"
+                    label="CategorieFacture" />
               {/* <ReferenceArrayField label="BonLivraison" reference="Bonlivraison" source="idfacturenavette">
   <SingleFieldList>
     <ChipField source="Bonlivraison" />

@@ -61,6 +61,8 @@ import { OrdervirementFondCreate } from "./components/OrderVirementFond/Ordervir
 import { VirementFondList } from "./components/VirementFond/VirementFondList";
 import { VirementFondCreate } from "./components/VirementFond/VirementFondCreate";
 import { VirementFondEdit } from "./components/VirementFond/VirementFondEdit";
+import AttestationFournisseurCreate from "./components/AttestationFournisseur/AttestationFournisseurCreate";
+import { AttestationlFournisseur } from "./components/AttestationFournisseur/AttestationlFournisseur";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -143,6 +145,27 @@ function App(props) {
                    icon={FaTruck}
                  />
                ) : null,
+                permissions === "admin" ||
+               permissions === "normal user" ||
+               permissions === "comptable midelt" ||
+               permissions === "superviseur comptabilite midelt" ||
+               permissions === "superviseur comptabilite" ||
+               permissions === "comptable" ? (
+                 <Resource
+                   name="Attestaion"
+                   list={AttestationlFournisseur}
+                   create={
+                     (permissions === "superviseur comptabilite midelt" ||
+                     permissions === "superviseur comptabilite" ||
+                     permissions === "comptable midelt" ||
+                     permissions === "comptable")
+                       ? AttestationFournisseurCreate
+                       : null
+                   }
+                   con={FaTruck}
+                 />
+               ) : null,
+               
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||

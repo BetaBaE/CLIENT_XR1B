@@ -148,6 +148,19 @@ const CreateFournisseur = (props) => {
           label="Mail"
         
         />
+            <SelectInput
+         className={classes.autocomplete}
+         source="catFournisseur"
+         label="Catégorie Fournisseur"
+         validate={required()}
+         choices={[
+          { id: 'personne physique', name: 'personne physique' },
+          { id: 'personne morale', name: 'personne morale' },
+        ]}
+      >
+  
+      </SelectInput>
+      {/* ([categorie]='personne physique' OR [categorie]='personne morale') */}
 
       </SimpleForm>
     </Create>

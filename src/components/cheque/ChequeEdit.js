@@ -90,6 +90,7 @@ export const ChequeEdit = (props) => {
                   />
 
                   <DateInput
+                      validate={required()}
                     source="dateOperation"
                     label="Date d'opération"
                     className={classes.autocomplete}

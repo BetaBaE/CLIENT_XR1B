@@ -21,6 +21,7 @@ import {
   FaConfluence,
   FaFileInvoiceDollar,
   FaAccusoft,
+  FaAlgolia,
 } from "react-icons/fa";
 import { Md1XMobiledata, MdPayments } from "react-icons/md";
 
@@ -64,6 +65,20 @@ export const CustomMenu = (props) => {
           to="/EcheanceLoi"
           primaryText="EcheanceLoi"
           leftIcon={<FaEquals />}
+        />
+      )}
+
+
+{(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable") && (
+        <Menu.Item
+          to="/Attestaion"
+          primaryText="Attestaion"
+          leftIcon={<FaAlgolia />}
         />
       )}
 

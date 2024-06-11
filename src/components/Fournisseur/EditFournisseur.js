@@ -38,8 +38,6 @@ export const EditFournisseur = () => {
       <SimpleForm
         toolbar={<UserEditToolbar />}
       >
-      
-
         <TextInput
           className={classes.autocomplete}
           source="IF"
@@ -61,6 +59,33 @@ export const EditFournisseur = () => {
           source="mail"
           label="Mail"
         />
+      <SelectInput
+         className={classes.autocomplete}
+         source="catFournisseur"
+         label="Catégorie Fournisseur"
+         validate={required()}
+         choices={[
+          { id: 'personne physique', name: 'personne physique' },
+          { id: 'personne morale', name: 'personne morale' },
+        ]}
+      >
+    <SelectInput
+         className={classes.autocomplete}
+         source="catFournisseur"
+         label="Catégorie Fournisseur"
+         validate={required()}
+         choices={[
+          { id: 'personne physique', name: 'personne physique' },
+          { id: 'personne morale', name: 'personne morale' },
+        ]}
+      >
+      </SelectInput>
+      {/* ([categorie]='personne physique' OR [categorie]='personne morale') */}
+
+
+
+      </SelectInput>
+      {/* ([categorie]='personne physique' OR [categorie]='personne morale') */}
 
       </SimpleForm>
     </Edit>

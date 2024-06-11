@@ -189,7 +189,7 @@ export const ModificationFichnavetteEdit = (props) => {
                     console.log(e.target.value);
                     annuleAlert(e.target.value);
                   }}
-                  validate={required()}
+                  // validate={required()}
                   choices={[
                     { id: "Annuler", name: "Annuler" },
                   ]}
@@ -203,6 +203,17 @@ export const ModificationFichnavetteEdit = (props) => {
                     className={classes.autocomplete}
                     source="BonCommande" />
 
+
+<SelectInput
+         className={classes.autocomplete}
+         source="CatFn"
+         label="Catégorie Facture"
+         validate={required()}
+         choices={[
+          { id: 'FET', name: 'Fourniture Equipement Travaux' },
+          { id: 'Service', name: 'Service' },
+        ]}
+      ></SelectInput>
             </SimpleForm>
         </Edit>
     );
