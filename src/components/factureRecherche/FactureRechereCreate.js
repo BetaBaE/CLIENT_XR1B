@@ -288,6 +288,7 @@ export const FactureRechereCreate = (props) => {
           }
           className={classes.autocomplete}
           source="TTC"
+          defaultValue={factureSelected === null ? null : 0}
         />
         <TextInput
           label="Mentionnez HT"
@@ -299,6 +300,7 @@ export const FactureRechereCreate = (props) => {
           }
           className={classes.autocomplete}
           source="HT"
+          defaultValue={factureSelected === null ? null : 0}
         />
         <TextInput
           disabled={factureSelected !== null}
@@ -309,6 +311,7 @@ export const FactureRechereCreate = (props) => {
           }
           className={classes.autocomplete}
           source="MontantTVA"
+          defaultValue={factureSelected === null ? null : 0}
         />
       </SimpleForm>
     </Create>
