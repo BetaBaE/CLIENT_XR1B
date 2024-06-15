@@ -103,6 +103,12 @@ export const FactureRechereCreate = (props) => {
     name: `${numeroFacture} | ${TTC} DH | ${formatDate(DateFacture)}`,
   }));
 
+
+  const catfn_choices = facture.map(({ CatFn }) => ({
+    id: CatFn,
+    name: `${CatFn}`,
+  }));
+
   const chantier_choices = chantier.map(({ id, LIBELLE }) => ({
     id: id,
     name: `${LIBELLE} | ${id} `,
@@ -197,7 +203,6 @@ export const FactureRechereCreate = (props) => {
 
         <TextInput
           label="Fiche navette"
-
           validate={required("La fiche navette est obligatoire")}
           className={classes.autocomplete}
           source="ficheNavette"
@@ -205,7 +210,6 @@ export const FactureRechereCreate = (props) => {
 
         <TextInput
           label="Bon de commande d'avance"
-
           className={classes.autocomplete}
           validate={
             factureSelected === null
@@ -217,7 +221,6 @@ export const FactureRechereCreate = (props) => {
         />
         <TextInput
           label="Montant d'avance"
-
           className={classes.autocomplete}
           validate={(value) => {
             const numericValue = parseFloat(value);
@@ -245,38 +248,28 @@ export const FactureRechereCreate = (props) => {
           defaultValue={factureSelected === null ? null : 0}
           disabled={factureSelected !== null}
         />
-        {/* 
-<ArrayInput source="BonLivraisons">
-          <SimpleFormIterator>
-            <TextInput
-              source="BonLivraison" 
-              label="BonLivraison"
-             
-            />
-            <DateInput
-              source="Datelivraison"
-                  label="date livraison"
-            
-            >
-
-
-            </DateInput>
-  </SimpleFormIterator>
-        </ArrayInput> */}
-
-        <SelectInput
-          className={classes.autocomplete}
-          source="CatFn"
-          label="Catégorie Facture"
-          validate={required("Mentionnez la catégorie")}
-          choices={[
-            { id: 'FET', name: 'Fourniture Equipement Travaux' },
-            { id: 'Service', name: 'Service' },
-          ]}
-        >
-
-        </SelectInput>
-
+  {factureSelected === null ? (
+  <SelectInput
+    disabled={fournisseurIdField}
+    className={classes.autocomplete}
+    validate={required("Mentionnez la catégorie")}
+    source="CatFn"
+    choices={[
+      { id: 'FET', name: 'Fourniture Equipement Travaux' },
+      { id: 'Service', name: 'Service' },
+    ]}
+    label="Catégorie de document"
+  />
+) : (
+  <SelectInput
+    disabled={fournisseurIdField}
+    className={classes.autocomplete}
+    validate={required("Mentionnez la catégorie")}
+    source="CatFn"
+    choices={catfn_choices}
+    label="Catégorie de document"
+  />
+)}
 
         <TextInput
           label="TTC D'Avance"

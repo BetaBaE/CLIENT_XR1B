@@ -26,7 +26,7 @@ const useStyles = makeStyles(() => ({
 }));
 export const FactureSaisieCreate = () => {
   const classes = useStyles();
-   const [dateEcheance, setDateEcheance] = useState(null); 
+   const [dateecheance, setdateecheance] = useState(null); 
    const [inputDateEcheance, setInputDateEcheance] = useState(null);
   const dataProvider1 = useDataProvider();
   const dataProvider2 = useDataProvider();
@@ -45,8 +45,8 @@ export const FactureSaisieCreate = () => {
   });
   const [libelleChantier, setLibelleChantier] = useState([]);
   useEffect(() => {
-    setInputDateEcheance(dateEcheance);
-  }, [dateEcheance]);
+    setInputDateEcheance(dateecheance);
+  }, [dateecheance]);
   useEffect(() => {
     dataProvider2
         .getList("chantier", {
@@ -82,7 +82,7 @@ let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
 
   useEffect(() => {
     dataProvider
-      .getList("fournisseurs", {
+      .getList("getAllFournissuersClean", {
         pagination: { page: 1, perPage: 10000 },
         sort: { field: "id", order: "ASC" },
       })
@@ -289,13 +289,13 @@ const handleDateChange = async (event) => {
   if (isValidPartialDate(inputDate)) {
     try {
       const dateEcheance = await getEcheanceByFournisseur(formData.idfournisseur, inputDate);
-      setDateEcheance(dateEcheance);
+      setdateecheance(dateEcheance);
     } catch (error) {
       console.error("Error updating dateEcheance:", error);
-      setDateEcheance(null); // Set dateEcheance to null in case of error
+      setdateecheance(null); // Set dateEcheance to null in case of error
     }
   } else {
-    setDateEcheance(null); // Set dateEcheance to null if the inputDate is not valid
+    setdateecheance(null); // Set dateEcheance to null if the inputDate is not valid
   }
 };
 
@@ -362,8 +362,6 @@ function isValidPartialDate(dateString) {
     }
   }}
 />
-
-
         <SelectInput
           validate={required("Ce champ est obligatoire")}
           disabled={fournisseurIdField}
@@ -403,6 +401,18 @@ function isValidPartialDate(dateString) {
   }}
 />
 
+<SelectInput
+          className={classes.autocomplete}
+          source="CatFn"
+          label="Catégorie Facture"
+          validate={required("Mentionnez la catégorie")}
+          choices={[
+            { id: 'FET', name: 'Fourniture Equipement Travaux' },
+            { id: 'Service', name: 'Service' },
+          ]}
+        >
+        </SelectInput>
+
 
 <DateInput
           source="DateFacture"
@@ -421,12 +431,12 @@ function isValidPartialDate(dateString) {
         /> 
    <>
   <TextInput
-    source="dateEcheance"
+    source="dateecheance"
     label="format date Echeance: yyyy-mm-dd"
-    defaultValue={dateEcheance} // Utiliser dateEcheance comme valeur
+    defaultValue={dateecheance} // Utiliser dateEcheance comme valeur
     validate={dateFormatRegex}
   />
-  <p>{dateEcheance}</p>
+  <p>{dateecheance}</p>
 </>
 
       </SimpleForm>
