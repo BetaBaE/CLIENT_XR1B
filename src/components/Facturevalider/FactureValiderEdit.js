@@ -63,14 +63,25 @@ export const FactureValiderEdit = () => {
         <TextInput
           source="BonCommande"
           label="Bon de Commande"
-          
-          
+
+
         />
         <AutocompleteInput
           label="Chantier"
           source="codechantier"
           choices={chantierChoices}
           className={classes.autocomplete}
+        />
+        <SelectInput
+
+          className={classes.autocomplete}
+
+          source="CatFn"
+          choices={[
+            { id: 'FET', name: 'Fourniture Equipement Travaux' },
+            { id: 'Service', name: 'Service' },
+          ]}
+          label="Catégorie de document"
         />
       </SimpleForm>
     </Edit>
