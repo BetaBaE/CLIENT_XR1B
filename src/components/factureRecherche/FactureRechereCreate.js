@@ -255,29 +255,31 @@ export const FactureRechereCreate = (props) => {
           disabled={factureSelected !== null}
         />
       
-      {selectedSupplierCategory !== "personne morale" && (
-  <SelectInput
-    disabled={fournisseurIdField}
-    className={classes.autocomplete}
-    validate={required("Mentionnez la catégorie")}
-    source="CatFn"
-    choices={[
-      { id: 'FET', name: 'Fourniture Equipement Travaux' },
-      { id: 'Service', name: 'Service' },
-    ]}
-    label="Catégorie de document"
-  />
-)}
-
-{factureSelected !== null && (
-  <SelectInput
-    disabled={fournisseurIdField}
-    className={classes.autocomplete}
-    validate={required("Mentionnez la catégorie")}
-    source="CatFn"
-    choices={catfn_choices}
-    label="Catégorie de document"
-  />
+      {factureSelected === null ? (
+  selectedSupplierCategory !== "personne morale" && (
+    <SelectInput
+      disabled={fournisseurIdField}
+      className={classes.autocomplete}
+      validate={required("Mentionnez la catégorie")}
+      source="CatFn"
+      choices={[
+        { id: 'FET', name: 'Fourniture Equipement Travaux' },
+        { id: 'Service', name: 'Service' },
+      ]}
+      label="Catégorie de document"
+    />
+  )
+) : (
+  selectedSupplierCategory !== "personne morale" && (
+    <SelectInput
+      disabled={fournisseurIdField}
+      className={classes.autocomplete}
+      validate={required("Mentionnez la catégorie")}
+      source="CatFn"
+      choices={catfn_choices}
+      label="Catégorie de document"
+    />
+  )
 )}
 
 
