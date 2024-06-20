@@ -41,21 +41,12 @@ export const EspeceCreate = (props) => {
   const [sum, setSum] = useState("0.000");
   const [sumfacturewithfn, setSumfacturewithfn] = useState([]);
   const [sumfacturewithoutfn, setSumfacturewithoutfn] = useState([]);
-  
 
   const [sumavance, setSumavance] = useState([]);
 
   const sumAvanceValue = sumavance.length > 0 ? sumavance[0].sum : "";
- 
-  const sumfactureValue = sumfacturewithfn.length > 0 ? sumfacturewithfn[0].sum : "";
-
-  
+  const sumfactureValue = sumfacturewithfn.length > 0 ? sumfacturewithfn[0].sum : "";  
   const sumfacturenotfnValue = sumfacturewithoutfn.length > 0 ? sumfacturewithoutfn[0].sum : "";
-
-
-
-
-
 
     useEffect(() => {
         dataProvider

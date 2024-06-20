@@ -40,6 +40,8 @@ export const FactureRechereCreate = (props) => {
   const [factureidField, setFactureidField] = useState(true);
   const [chantierIdField, setChantierIdField] = useState(false);
   const [selectedCodeChantier, setSelectedCodeChantier] = useState("");
+  const [selectedCategorieFournisseur, setselectedCategorieFournisseur] = useState("");
+  const [selectedSupplierCategory, setSelectedSupplierCategory] = useState(""); // State for supplier category
   const { identity, isLoading: identityLoading } = useGetIdentity();
   const classes = useStyles();
 
@@ -93,16 +95,16 @@ export const FactureRechereCreate = (props) => {
       });
   };
 
-  const fournisseurs_choices = fournisseur.map(({ id, nom, CodeFournisseur }) => ({
+  const fournisseurs_choices = fournisseur.map(({ id, nom, CodeFournisseur, catFournisseur }) => ({
     id: id,
     name: `${nom} | ${CodeFournisseur} `,
+    categorie: catFournisseur, // Add category to the choices
   }));
 
   const facture_choices = facture.map(({ id, numeroFacture, TTC, DateFacture }) => ({
     id: id,
     name: `${numeroFacture} | ${TTC} DH | ${formatDate(DateFacture)}`,
   }));
-
 
   const catfn_choices = facture.map(({ CatFn }) => ({
     id: CatFn,
@@ -119,7 +121,7 @@ export const FactureRechereCreate = (props) => {
   if (error) return <>Error</>;
 
   const validateBc = regex(/^CF[0-9]{3}[0-9]{3}$/, "Ce bon de commande n'est pas valide");
-  console.log("la facture ", factureSelected)
+
   return (
     <Create>
       <SimpleForm>
@@ -144,11 +146,16 @@ export const FactureRechereCreate = (props) => {
               setChantierIdField(false);
               setFacture([]); // Clear facture when changing fournisseur
               setFactureSelected(null); // Clear selected facture
+              setSelectedSupplierCategory(""); // Clear selected supplier category
             } else {
+              const selectedFournisseur = fournisseurs_choices.find((f) => f.id === e);
               setFournisseurIdField(false);
               setChantierIdField(true);
               fetchFactureByFournisseur(e);
               fetchChantier();
+              setSelectedSupplierCategory(selectedFournisseur.categorie); // Set selected supplier category
+           console.log("selectedFournisseur.catFournisseur",selectedFournisseur.categorie)
+           
             }
           }}
         />
@@ -200,7 +207,6 @@ export const FactureRechereCreate = (props) => {
           />
         )}
 
-
         <TextInput
           label="Fiche navette"
           validate={required("La fiche navette est obligatoire")}
@@ -248,7 +254,8 @@ export const FactureRechereCreate = (props) => {
           defaultValue={factureSelected === null ? null : 0}
           disabled={factureSelected !== null}
         />
-  {factureSelected === null ? (
+      
+      {selectedSupplierCategory !== "personne morale" && (
   <SelectInput
     disabled={fournisseurIdField}
     className={classes.autocomplete}
@@ -260,7 +267,9 @@ export const FactureRechereCreate = (props) => {
     ]}
     label="Catégorie de document"
   />
-) : (
+)}
+
+{factureSelected !== null && (
   <SelectInput
     disabled={fournisseurIdField}
     className={classes.autocomplete}
@@ -270,6 +279,7 @@ export const FactureRechereCreate = (props) => {
     label="Catégorie de document"
   />
 )}
+
 
         <TextInput
           label="TTC D'Avance"
@@ -285,7 +295,7 @@ export const FactureRechereCreate = (props) => {
         />
         <TextInput
           label="Mentionnez HT"
-          disabled={factureSelected !== null} 
+          disabled={factureSelected !== null}
           validate={
             factureSelected === null
               ? required("Le bon de  commande est obligatoire")
