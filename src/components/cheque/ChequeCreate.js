@@ -264,7 +264,6 @@ export const ChequeCreate = (props) => {
                     }
                   });
                 }
-
                 sum += selectedFacture.MontantFacture !== null
                   ? selectedFacture.MontantFacture
                   : selectedFacture.TTC || 0;
