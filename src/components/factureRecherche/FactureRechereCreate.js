@@ -134,7 +134,7 @@ export const FactureRechereCreate = (props) => {
           source="fullName"
         />
 
-        <AutocompleteInput
+<AutocompleteInput
           label="Fournisseur"
           validate={required("Le fournisseur est obligatoire")}
           className={classes.autocomplete}
@@ -154,7 +154,7 @@ export const FactureRechereCreate = (props) => {
               fetchFactureByFournisseur(e);
               fetchChantier();
               setSelectedSupplierCategory(selectedFournisseur.categorie); // Set selected supplier category
-           console.log("selectedFournisseur.catFournisseur",selectedFournisseur.categorie)
+           console.log("selectedFournisseur.catFournisseur",selectedFournisseur)
            
             }
           }}
