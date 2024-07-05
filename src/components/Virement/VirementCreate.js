@@ -309,11 +309,9 @@ export const VirementCreate = () => {
     name: rib,
   }));
 
-  let facture_choices = facture.map(({id, chantier, nom, ficheNavette, DateFacture, CODEDOCUTIL, TTC, MontantAPaye, CatFn }) => ({
+  let facture_choices = facture.map(({ id, chantier, nom, ficheNavette, DateFacture, CODEDOCUTIL, TTC, MontantFacture, NETAPAYER }) => ({
     id: id,
-    name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${DateFacture === null ? 'avance' : DateFacture?.split("T")[0]} | ${nom} | MontantAPaye ${MontantAPaye} DH | TTC ${TTC}DH`,
-
-    categorie: CatFn
+    name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${DateFacture === null ? 'avance' : DateFacture?.split("T")[0]} | ${nom} | ${MontantFacture !== null ? MontantFacture : TTC} DH | ${NETAPAYER === null ? 'vous avez choisi avance' : (NETAPAYER === 0 ? 'pas d\'avance' : 'avance :'+ NETAPAYER +'DH' )}`
   }));
 
   const classes = useStyles();
@@ -403,16 +401,25 @@ export const VirementCreate = () => {
           source="ribFournisseurId"
           choices={ribfournisseurs_choices}
         />
-   <AutocompleteArrayInput
-        validate={[required("Ce champ est obligatoire")]}
-        disabled={fournisseurRibField}
-        className={classes.autocomplete}
-        source="facturelist"
-        choices={facture_choices}
-        onChange={handleChange}
-      />
-      <Chip className={classes.chip} label={`Total : ${sum}`} />
-  
+     <AutocompleteArrayInput
+  validate={[required("Ce champ est obligatoire")]}
+  disabled={fournisseurRibField}
+  className={classes.autocomplete}
+  source="facturelist"
+  choices={facture_choices}
+  onChange={(e) => {
+    let sum = 0;
+    e.forEach((fa) => {
+      sum +=
+        facture.find((facture) => facture.id === fa).MontantFacture != null
+          ? facture.find((facture) => facture.id === fa).MontantFacture
+          : facture.find((facture) => facture.id === fa).TTC;
+    });
+    // console.log(sum.toFixed(3));
+    setSum(sum.toFixed(3));
+  }}
+/>
+        <Chip className={classes.chip} label={`Total : ${sum}`} />
       </SimpleForm>
     </Create>
   );

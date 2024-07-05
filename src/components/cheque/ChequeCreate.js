@@ -160,54 +160,59 @@ export const ChequeCreate = (props) => {
       });
   };
 
-  useEffect(() => {
-    dataProvider
-      .getList("getAllFournissuersClean", {
-        pagination: { page: 1, perPage: 3000 },
-        sort: { field: "nom", order: "ASC" },
-      })
-      .then(({ data }) => {
-        setFournisseur(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [dataProvider]);
-  const getFactureByFourniseur = (id) => {
-    let url = `${apiUrl}/getfacturebyfournisseurid/${id}`;
-
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => setFacture(json));
-  };
-
-  let fournisseurs_choices = fournisseur.map(
-    ({ id, nom, CodeFournisseur, catFournisseur }) => ({
+    useEffect(() => {
+        dataProvider
+            .getList("fournisseurs", {
+                pagination: { page: 1, perPage: 3000 },
+                sort: { field: "nom", order: "ASC" },
+            })
+            .then(({ data }) => {
+                setFournisseur(data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [dataProvider]);
+    const getFactureByFourniseur = (id) => {
+      let url = `${apiUrl}/getfacturebyfournisseurid/${id}`;
+       
+      fetch(url)
+            .then((response) => response.json())
+            .then((json) => setFacture(json));
+    };
+    let facture_choices = { id: "", BonCommande: "" };
+    let fournisseurs_choices = fournisseur.map(({ id, nom, CodeFournisseur }) => ({
+        id: id,
+        name: `${nom} | ${CodeFournisseur} `,
+    }));
+    facture_choices = facture.map(({  id,
+      chantier,
+      nom,
+      ficheNavette,
+      DateFacture,
+      CODEDOCUTIL,
+      TTC,
+      MontantFacture, }) => ({
       id: id,
-      name: `${nom} ${CodeFournisseur} ,${catFournisseur}`,
-      categorie: catFournisseur,
-    })
-  );
-  let facture_choices = facture.map(({id, chantier, nom, ficheNavette, DateFacture, CODEDOCUTIL, TTC, MontantAPaye, CatFn }) => ({
-    id: id,
-    name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${DateFacture === null ? 'avance' : DateFacture?.split("T")[0]} | ${nom} | MontantAPaye ${MontantAPaye} DH | TTC ${TTC}DH`,
+      name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${
+        DateFacture === null ? 'avance' : DateFacture?.split("T")[0]
 
-    categorie: CatFn
+        } | ${nom} |${MontantFacture != null ? MontantFacture : TTC}`,
   }));
-
-  let orderVirement_choices = orderVirement.map(({ id, nom }) => ({
-    id: id,
-    name: nom,
-  }));
-
-  const classes = useStyles();
-  const { isLoading, error } = useGetIdentity();
-  if (isLoading) return <>Loading</>;
-  if (error) return <>Error</>
-  return (
-    <Create>
-      <SimpleForm>
-        <TextInput
+    
+    let orderVirement_choices = orderVirement.map(({ id,nom }) => ({
+      id: id,
+      name: nom,
+    }));
+    
+    const classes = useStyles();
+    const { isLoading, error } = useGetIdentity();
+    if (isLoading) return <>Loading</>;
+    if (error) return <>Error</>
+    return (
+        <Create>
+            <SimpleForm>
+            <TextInput
           defaultValue={identity.fullName}
           label="vous êtes"
           hidden={false}
@@ -227,8 +232,8 @@ export const ChequeCreate = (props) => {
 
           choices={orderVirement_choices}
         />
-
-        <DateInput source="datecheque"     validate={required("Ce champ est obligatoire")} label="datecheque" className={classes.autocomplete}></DateInput>
+              
+    <DateInput source="datecheque" label="datecheque"  className={classes.autocomplete}></DateInput> 
 
         <DateInput source="dateecheance" label="dateecheance" className={classes.autocomplete}></DateInput>
 
@@ -273,15 +278,27 @@ export const ChequeCreate = (props) => {
 
 
 
-        <AutocompleteArrayInput
-        validate={[required("Ce champ est obligatoire")]}
-        disabled={fournisseurIdField}
-        className={classes.autocomplete}
-        source="facturelist"
-        choices={facture_choices}
-        onChange={handleChange}
-      />
-      <Chip className={classes.chip} label={`Total : ${sum}`} />
+
+                <AutocompleteArrayInput
+          validate={required("Ce champ est obligatoire")}
+          disabled={fournisseurIdField}
+          className={classes.autocomplete}
+          source="facturelist"
+          choices={facture_choices}
+          onChange={(e) => {
+            let sum = 0;
+            e.forEach((fa) => {
+              sum +=
+                facture.find((facture) => facture.id === fa).MontantFacture !=
+                null
+                  ? facture.find((facture) => facture.id === fa).MontantFacture
+                  : facture.find((facture) => facture.id === fa).TTC;
+            });
+            // console.log(sum.toFixed(3));
+            setSum(sum.toFixed(3));
+          }}
+        />
+        <Chip className={classes.chip} label={`Total : ${sum}`} />
 
 
       </SimpleForm>

@@ -51,79 +51,76 @@ export const EspeceCreate = (props) => {
   const sumfactureValue = sumfacturewithfn.length > 0 ? sumfacturewithfn[0].sum : "";
   const sumfacturenotfnValue = sumfacturewithoutfn.length > 0 ? sumfacturewithoutfn[0].sum : "";
 
-  useEffect(() => {
-    dataProvider
-      .getList("getAllFournissuersClean", {
-        pagination: { page: 1, perPage: 3000 },
-        sort: { field: "nom", order: "ASC" },
-      })
-      .then(({ data }) => {
-        setFournisseur(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [dataProvider]);
-  const getFactureByFourniseur = (id) => {
-    let url = `${apiUrl}/getfacturebyfournisseurid/` + id;
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => setFacture(json));
-  };
-
-  let fournisseurs_choices = fournisseur.map(
-    ({ id, nom, CodeFournisseur, catFournisseur }) => ({
+    useEffect(() => {
+        dataProvider
+            .getList("fournisseurs", {
+                pagination: { page: 1, perPage: 3000 },
+                sort: { field: "nom", order: "ASC" },
+            })
+            .then(({ data }) => {
+                setFournisseur(data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [dataProvider]);
+    const getFactureByFourniseur = (id) => {
+        let url = `${apiUrl}/getfacturebyfournisseurid/` + id;
+        fetch(url)
+            .then((response) => response.json())
+            .then((json) => setFacture(json));
+    };
+    let facture_choices = { id: "", BonCommande: "" };
+    let fournisseurs_choices = fournisseur.map(({ id, nom, CodeFournisseur }) => ({
+        id: id,
+        name: `${nom} | ${CodeFournisseur} `,
+    }));
+    facture_choices = facture.map(({ id, chantier, nom, ficheNavette, DateFacture, CODEDOCUTIL, TTC, MontantFacture, montantAvance, NETAPAYER }) => ({
       id: id,
-      name: `${nom} ${CodeFournisseur} ,${catFournisseur}`,
-      categorie: catFournisseur,
-    })
-  );
-  let facture_choices = facture.map(({id, chantier, nom, ficheNavette, DateFacture, CODEDOCUTIL, TTC, MontantAPaye, CatFn }) => ({
-    id: id,
-    name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${DateFacture === null ? 'avance' : DateFacture?.split("T")[0]} | ${nom} | MontantAPaye ${MontantAPaye} DH | TTC ${TTC}DH`,
-
-    categorie: CatFn
-  }));
-
-  const getsumfacturewithfnByFourniseurId = (id) => {
-    let url = `${apiUrl}/getsumfacturebyfournisseurwithfn/` + id;
-    console.log(url);
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => {
-        setSumfacturewithfn(json)
-      })
-      .catch((error) => {
-        console.error("Error fetching sumfacture:", error);
-      });
-  };
-
-  const getsumfacturewithoutByFourniseurId = (id) => {
-    let url = `${apiUrl}/getsumfacturebyfournisseurwithoutfn/` + id;
-    console.log(url);
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => {
-        setSumfacturewithoutfn(json);
-      })
-      .catch((error) => {
-        console.error("Error fetching sumfacture:", error);
-      });
-  };
-
-  const getsumavanceByFourniseurId = (id) => {
-    let url = `${apiUrl}/getsumavancebyfournisseur/` + id;
-    console.log(url);
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => {
-        setSumavance(json)
-      })
-      .catch((error) => {
-        console.error("Error fetching sumavance:", error);
-      });
-  };
-
+      name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${DateFacture === null ? 'avance' : DateFacture?.split("T")[0]} | ${nom} | ${MontantFacture != null ? MontantFacture : TTC} DH | ${DateFacture != null ? (NETAPAYER === 0 ? 'avance' + (montantAvance/TTC*100) + '%' : 'aucune avance') : ''}`,
+    }));
+    
+    
+    
+    const getsumfacturewithfnByFourniseurId = (id) => {
+        let url = `${apiUrl}/getsumfacturebyfournisseurwithfn/` + id;
+        console.log(url);
+        fetch(url)
+          .then((response) => response.json())
+          .then((json) => {
+            setSumfacturewithfn(json)
+          })
+          .catch((error) => {
+            console.error("Error fetching sumfacture:", error);
+          });
+      };
+    
+      const getsumfacturewithoutByFourniseurId = (id) => {
+        let url = `${apiUrl}/getsumfacturebyfournisseurwithoutfn/` + id;
+        console.log(url);
+        fetch(url)
+          .then((response) => response.json())
+          .then((json) => {
+            setSumfacturewithoutfn(json);
+          })
+          .catch((error) => {
+            console.error("Error fetching sumfacture:", error);
+          });
+      };
+    
+      const getsumavanceByFourniseurId = (id) => {
+        let url = `${apiUrl}/getsumavancebyfournisseur/` + id;
+        console.log(url);
+        fetch(url)
+          .then((response) => response.json())
+          .then((json) => {
+            setSumavance(json)
+          })
+          .catch((error) => {
+            console.error("Error fetching sumavance:", error);
+          });
+      };
+    
 
   const handleChange = (e) => {
     let sum = 0;
@@ -218,15 +215,26 @@ export const EspeceCreate = (props) => {
 
 
 
-        <AutocompleteArrayInput
-        validate={[required("Ce champ est obligatoire")]}
-        disabled={fournisseurIdField}
-        className={classes.autocomplete}
-        source="facturelist"
-        choices={facture_choices}
-        onChange={handleChange}
-      />
-      <Chip className={classes.chip} label={`Total : ${sum}`} />
+                <AutocompleteArrayInput
+          validate={required("Ce champ est obligatoire")}
+          disabled={fournisseurIdField}
+          className={classes.autocomplete}
+          source="facturelist"
+          choices={facture_choices}
+          onChange={(e) => {
+            let sum = 0;
+            e.forEach((fa) => {
+              sum +=
+                facture.find((facture) => facture.id === fa).MontantFacture !=
+                null
+                  ? facture.find((facture) => facture.id === fa).MontantFacture
+                  : facture.find((facture) => facture.id === fa).TTC;
+            });
+            // console.log(sum.toFixed(3));
+            setSum(sum.toFixed(3));
+          }}
+        />
+        <Chip className={classes.chip} label={`Total : ${sum}`} />
 
 
       </SimpleForm>
