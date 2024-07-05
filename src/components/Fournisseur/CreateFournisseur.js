@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/styles";
 import React, { useEffect, useState } from "react";
-import { Create, DateInput, regex, required, SelectInput, SimpleForm, TextInput, FormDataConsumer,useGetIdentity } from "react-admin";
+import { Create, DateInput, regex, required, SelectInput, SimpleForm, TextInput, FormDataConsumer, useGetIdentity } from "react-admin";
 import apiUrl from "../../config";
 import _debounce from 'lodash/debounce';
 
@@ -23,7 +23,7 @@ const CreateFournisseur = (props) => {
   const [NomFournisseur, setNomFournisseur] = useState([]);
 
   const { identity, isLoading: identityLoading } = useGetIdentity();
-  
+
   useEffect(() => {
     // Désactiver l'autocomplétion après le chargement du DOM
     const inputNom = document.getElementById("nom");
@@ -32,7 +32,7 @@ const CreateFournisseur = (props) => {
     const inputIF = document.getElementById("IF");
     const inputaddresse = document.getElementById("addresse");
     const inputmail = document.getElementById("mail");
-    if (inputNom ||inputCodeFournisseur ||inputICE  ||inputIF ||inputaddresse||inputmail ) {
+    if (inputNom || inputCodeFournisseur || inputICE || inputIF || inputaddresse || inputmail) {
       inputNom.autocomplete = "off";
       inputCodeFournisseur.autocomplete = "off";
       inputICE.autocomplete = "off";
@@ -80,7 +80,7 @@ const CreateFournisseur = (props) => {
     debouncedGetNominationFournisseur(nom);
   };
 
-  
+
   const validationcodefournisseur = regex(
     /^[0-9]+$/,
     "ce code n'est pas valide"
@@ -88,7 +88,7 @@ const CreateFournisseur = (props) => {
   return (
     <Create>
       <SimpleForm {...props} autocomplete="off" >
-      <TextInput
+        <TextInput
           defaultValue={identity.fullName}
           label="vous êtes"
           hidden={false}
@@ -96,72 +96,83 @@ const CreateFournisseur = (props) => {
           disabled={true}
           source="Redacteur"
         ></TextInput>
-        
+
         <TextInput
-          validate={[required("Le Code fournisseur est obligatoire"),validationcodefournisseur]}
+          validate={[required("Le Code fournisseur est obligatoire"), validationcodefournisseur]}
           className={classes.autocomplete}
           source="CodeFournisseur"
-          
+
         />
-<TextInput
-  validate={required("Le fournisseur est obligatoire")}
-  className={classes.autocomplete}
-  source="nom"
-  id="nom"
-  onChange={handleInputChange}
+        <TextInput
+          validate={required("Le fournisseur est obligatoire")}
+          className={classes.autocomplete}
+          source="nom"
+          id="nom"
+          onChange={handleInputChange}
 
-/>
-{NomFournisseur ? (
-  <div>
-    <p>Les fournisseurs existent: </p>
-    {NomFournisseur.map(({ nom }) => (
-      <div key={nom}> 
-        {nom}
-      </div>
-    ))}
-  </div>
-) : null}
+        />
+        {NomFournisseur ? (
+          <div>
+            <p>Les fournisseurs existent: </p>
+            {NomFournisseur.map(({ nom }) => (
+              <div key={nom}>
+                {nom}
+              </div>
+            ))}
+          </div>
+        ) : null}
 
 
 
-  <TextInput
+        <TextInput
           className={classes.autocomplete}
           source="IF"
           label="Identifiant Fiscal"
-      
+
         />
-<TextInput
-       autocomplete="off" 
+        <TextInput
+          autocomplete="off"
           className={classes.autocomplete}
           source="ICE"
           label="ICE"
         />
-  <TextInput
+        <TextInput
           className={classes.autocomplete}
           source="addresse"
           label="Adresse"
-  
+
         />
-          <TextInput
+        <TextInput
           className={classes.autocomplete}
           source="mail"
           label="Mail"
-        
-        />
-            <SelectInput
-         className={classes.autocomplete}
-         source="catFournisseur"
-         label="Catégorie Fournisseur"
-         validate={required()}
-         choices={[
-          { id: 'personne physique', name: 'personne physique' },
-          { id: 'personne morale', name: 'personne morale' },
-        ]}
-      >
-  
-      </SelectInput>
-      {/* ([categorie]='personne physique' OR [categorie]='personne morale') */}
 
+        />
+        <SelectInput
+          className={classes.autocomplete}
+          source="catFournisseur"
+          label="Catégorie Fournisseur"
+          validate={required()}
+          choices={[
+            { id: 'personne physique', name: 'personne physique' },
+            { id: 'personne morale', name: 'personne morale' },
+          ]}
+        >
+
+        </SelectInput>
+        {/* ([categorie]='personne physique' OR [categorie]='personne morale') */}
+
+        <SelectInput
+          className={classes.autocomplete}
+          source="exonorer"
+          label="Exonoration fournisseur"
+          validate={required()}
+          choices={[
+            { id: 'Oui', name: 'Oui' },
+            { id: 'Non', name: 'Non' },
+          ]}
+        >
+        </SelectInput>
       </SimpleForm>
     </Create>
   );

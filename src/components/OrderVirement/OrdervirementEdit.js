@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import {
+  DateInput,
   Edit,
   FormDataConsumer,
   required,
@@ -105,9 +106,6 @@ export const OrdervirementEdit = (props) => {
     <Edit {...props}>
       <SimpleForm toolbar={<EditToolbar />}>
         <TextInput className={classes.autocomplete} source="id" disabled />
-
-        
-
         <FormDataConsumer>
           {({ formData, ...rest }) =>
             formData.etat !== "Reglee" &&
@@ -129,23 +127,31 @@ export const OrdervirementEdit = (props) => {
                   }}
                   choices={[
                     { id: "En cours", name: "En cours" },
-                    { id: "Reglee", name: "Reglee" },
+                    // { id: "Reglee", name: "Reglee" },
                     { id: "Annule", name: "Annule" },
                   ]}
                 />
                 <SelectInput
-          validate={required("Le directeur est obligatoire")}
-          emptyText="selectionnez le directeur"
-          source="directeursigne"
-          choices={[
-            { id: "Youness ZAMANI", name: "Youness ZAMANI" },
-            { id: "Mohamed ZAMANI", name: "Mohamed ZAMANI" },
-          ]}
-          initialValue="" // This line can be omitted
-        />
+                  validate={required("Le directeur est obligatoire")}
+                  emptyText="selectionnez le directeur"
+                  source="directeursigne"
+                  choices={[
+                    { id: "Youness ZAMANI", name: "Youness ZAMANI" },
+                    { id: "Mohamed ZAMANI", name: "Mohamed ZAMANI" },
+                  ]}
+                  initialValue="" // This line can be omitted
+                />
+                <DateInput
+                  source="dateExecution"
+                  label="dateExecution"
+                  validate={[required("Date obligatoire")]}
+
+
+                />
               </>
             )
           }
+
         </FormDataConsumer>
       </SimpleForm>
     </Edit>

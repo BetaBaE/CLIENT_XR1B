@@ -88,6 +88,7 @@ export const VirementEdit = (props) => {
                 }}
                 validate={required()}
                 choices={[
+                  { id: "Reglee", name: "Reglee" },
                   { id: "En cours", name: "En cours" },
                   { id: "Annuler", name: "Annuler" },
                 ]}

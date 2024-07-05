@@ -42,6 +42,20 @@ export const CustomMenu = (props) => {
           leftIcon={<FaTruck />}
         />
       )}
+{/* 
+{(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable") && (
+        <Menu.Item
+          to="/Avance"
+          primaryText="avances"
+          leftIcon={<FaTruck />}
+        />
+      )} */}
+
           {(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
