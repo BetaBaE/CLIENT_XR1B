@@ -10,6 +10,8 @@ export const FournisseurList = () => {
       <Datagrid bulkActionButtons={false} rowClick="edit">
         {/* <TextField source="id" /> */}
         <TextField source="Redacteur" />
+        <TextField source="exonorer" />
+        
         <TextField source="CodeFournisseur" />
         <TextField source="nom"></TextField>
         <TextField source="exonorer" label="exonorer"></TextField>

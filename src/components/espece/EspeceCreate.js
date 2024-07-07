@@ -53,7 +53,7 @@ export const EspeceCreate = (props) => {
 
     useEffect(() => {
         dataProvider
-            .getList("fournisseurs", {
+            .getList("getAllFournissuersClean", {
                 pagination: { page: 1, perPage: 3000 },
                 sort: { field: "nom", order: "ASC" },
             })
@@ -70,17 +70,21 @@ export const EspeceCreate = (props) => {
             .then((response) => response.json())
             .then((json) => setFacture(json));
     };
-    let facture_choices = { id: "", BonCommande: "" };
-    let fournisseurs_choices = fournisseur.map(({ id, nom, CodeFournisseur }) => ({
+
+
+    let fournisseurs_choices = fournisseur.map(
+      ({ id, nom, CodeFournisseur, catFournisseur }) => ({
         id: id,
-        name: `${nom} | ${CodeFournisseur} `,
-    }));
-    facture_choices = facture.map(({ id, chantier, nom, ficheNavette, DateFacture, CODEDOCUTIL, TTC, MontantFacture, montantAvance, NETAPAYER }) => ({
+        name: `${nom} ${CodeFournisseur} ,${catFournisseur}`,
+        categorie: catFournisseur,
+      })
+    );
+    let facture_choices = facture.map(({id, chantier, nom, ficheNavette, DateFacture, CODEDOCUTIL, TTC, MontantAPaye, CatFn }) => ({
       id: id,
-      name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${DateFacture === null ? 'avance' : DateFacture?.split("T")[0]} | ${nom} | ${MontantFacture != null ? MontantFacture : TTC} DH | ${DateFacture != null ? (NETAPAYER === 0 ? 'avance' + (montantAvance/TTC*100) + '%' : 'aucune avance') : ''}`,
+      name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${DateFacture === null ? 'avance' : DateFacture?.split("T")[0]} | ${nom} | MontantAPaye ${MontantAPaye} DH | TTC ${TTC}DH`,
+  
+      categorie: CatFn
     }));
-    
-    
     
     const getsumfacturewithfnByFourniseurId = (id) => {
         let url = `${apiUrl}/getsumfacturebyfournisseurwithfn/` + id;
@@ -122,49 +126,49 @@ export const EspeceCreate = (props) => {
       };
     
 
-  const handleChange = (e) => {
-    let sum = 0;
-    e.forEach((fa) => {
-      const selectedFacture = facture_choices.find((f) => f.id === fa);
-      if (selectedFacture) {
-        setSelectedSupplierFactureCategory(selectedFacture.categorie); // Set selected supplier category
-
-        // Adjusted condition based on provided logic
-        if (selectedFacture.categorie !== 'FET'  && selectedFacture.categorie !== 'Service' && selectedSupplierFournisseurCategory === "personne physique") {
-         
-          Swal.fire({
-            title: "Alerte",
-            text: "Le fournisseur sélectionné est une personne physique sans catégorie définie.",
-            icon: "warning",
-            allowOutsideClick: false,
-            confirmButtonColor: "#3085d6",
-            confirmButtonText: "Confirmer",
-          }).then((result) => {
-            if (result.isConfirmed) {
+      const handleChange = (e) => {
+        let sum = 0;
+        e.forEach((fa) => {
+          const selectedFacture = facture_choices.find((f) => f.id === fa);
+          if (selectedFacture) {
+            setSelectedSupplierFactureCategory(selectedFacture.categorie); // Set selected supplier category
+    
+            // Adjusted condition based on provided logic
+            if (selectedFacture.categorie !== 'FET'  && selectedFacture.categorie !== 'Service' && selectedSupplierFournisseurCategory === "personne physique") {
+             
               Swal.fire({
-                title: "Le virement a été annulé",
-                icon: "info",
+                title: "Alerte",
+                text: "Le fournisseur sélectionné est une personne physique sans catégorie définie.",
+                icon: "warning",
+                allowOutsideClick: false,
                 confirmButtonColor: "#3085d6",
-                confirmButtonText: "OK"
+                confirmButtonText: "Confirmer",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  Swal.fire({
+                    title: "Le virement a été annulé",
+                    icon: "info",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "OK"
+                  });
+                  redirect("list", "espece");
+                }
               });
-              redirect("list", "virements");
             }
-          });
-        }
-
-        // Extract MontantAPaye from the name string
-        const montantMatch = selectedFacture.name.match(/MontantAPaye (\d+(\.\d+)?)/);
-        if (montantMatch) {
-          const montantAPaye = parseFloat(montantMatch[1]);
-          if (!isNaN(montantAPaye)) {
-            sum += montantAPaye;
+    
+            // Extract MontantAPaye from the name string
+            const montantMatch = selectedFacture.name.match(/MontantAPaye (\d+(\.\d+)?)/);
+            if (montantMatch) {
+              const montantAPaye = parseFloat(montantMatch[1]);
+              if (!isNaN(montantAPaye)) {
+                sum += montantAPaye;
+              }
+            }
           }
-        }
-      }
-    });
-    setSum(sum.toFixed(3));
-  };
-
+        });
+        setSum(sum.toFixed(3));
+      };
+    
 
   const classes = useStyles();
   const { isLoading, error } = useGetIdentity();
@@ -221,18 +225,7 @@ export const EspeceCreate = (props) => {
           className={classes.autocomplete}
           source="facturelist"
           choices={facture_choices}
-          onChange={(e) => {
-            let sum = 0;
-            e.forEach((fa) => {
-              sum +=
-                facture.find((facture) => facture.id === fa).MontantFacture !=
-                null
-                  ? facture.find((facture) => facture.id === fa).MontantFacture
-                  : facture.find((facture) => facture.id === fa).TTC;
-            });
-            // console.log(sum.toFixed(3));
-            setSum(sum.toFixed(3));
-          }}
+          onChange={handleChange}
         />
         <Chip className={classes.chip} label={`Total : ${sum}`} />
 

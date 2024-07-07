@@ -309,11 +309,13 @@ export const VirementCreate = () => {
     name: rib,
   }));
 
-  let facture_choices = facture.map(({ id, chantier, nom, ficheNavette, DateFacture, CODEDOCUTIL, TTC, MontantFacture, NETAPAYER }) => ({
+  let facture_choices = facture.map(({id, chantier, nom, ficheNavette, DateFacture, CODEDOCUTIL, TTC, MontantAPaye, CatFn }) => ({
     id: id,
-    name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${DateFacture === null ? 'avance' : DateFacture?.split("T")[0]} | ${nom} | ${MontantFacture !== null ? MontantFacture : TTC} DH | ${NETAPAYER === null ? 'vous avez choisi avance' : (NETAPAYER === 0 ? 'pas d\'avance' : 'avance :'+ NETAPAYER +'DH' )}`
-  }));
+    name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${DateFacture === null ? 'avance' : DateFacture?.split("T")[0]} | ${nom} | MontantAPaye ${MontantAPaye} DH | TTC ${TTC}DH`,
 
+    categorie: CatFn
+  }));
+  
   const classes = useStyles();
   const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
@@ -407,17 +409,7 @@ export const VirementCreate = () => {
   className={classes.autocomplete}
   source="facturelist"
   choices={facture_choices}
-  onChange={(e) => {
-    let sum = 0;
-    e.forEach((fa) => {
-      sum +=
-        facture.find((facture) => facture.id === fa).MontantFacture != null
-          ? facture.find((facture) => facture.id === fa).MontantFacture
-          : facture.find((facture) => facture.id === fa).TTC;
-    });
-    // console.log(sum.toFixed(3));
-    setSum(sum.toFixed(3));
-  }}
+  onChange={handleChange}
 />
         <Chip className={classes.chip} label={`Total : ${sum}`} />
       </SimpleForm>
