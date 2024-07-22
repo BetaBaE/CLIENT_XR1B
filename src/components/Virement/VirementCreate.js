@@ -24,15 +24,11 @@ const useStyles = makeStyles(() => ({
     fontWeight: "bold",
   },
   // Separate styles for SweetAlert
-  'swal2-popup.swal2-left': {
+  "swal2-popup.swal2-left": {
     right: 0,
-    transform: 'translateX(0)',
+    transform: "translateX(0)",
   },
 }));
-
-
-
-
 
 export const VirementCreate = () => {
   const redirect = useRedirect();
@@ -81,46 +77,56 @@ export const VirementCreate = () => {
   const [sum, setSum] = useState(0);
 
   const handleChange = (e) => {
-    let sum = 0;
+    let newSum = 0;
+    let alertShown = false;
+
     e.forEach((fa) => {
       const selectedFacture = facture_choices.find((f) => f.id === fa);
       if (selectedFacture) {
-        setSelectedSupplierFactureCategory(selectedFacture.categorie); // Set selected supplier category
+        setSelectedSupplierFactureCategory(selectedFacture.categorie);
 
-        // Adjusted condition based on provided logic
-        if (selectedFacture.categorie !== 'FET'  && selectedFacture.categorie !== 'Service' && selectedSupplierFournisseurCategory === "personne physique") {
-         
-          Swal.fire({
-            title: "Alerte",
-            text: "Le fournisseur sélectionné est une personne physique sans catégorie définie.",
-            icon: "warning",
-            allowOutsideClick: false,
-            confirmButtonColor: "#3085d6",
-            confirmButtonText: "Confirmer",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              Swal.fire({
-                title: "Le virement a été annulé",
-                icon: "info",
-                confirmButtonColor: "#3085d6",
-                confirmButtonText: "OK"
-              });
-              redirect("list", "virements");
-            }
-          });
+        if (
+          selectedFacture.categorie !== "FET" &&
+          selectedFacture.categorie !== "Service" &&
+          selectedSupplierFournisseurCategory === "personne physique"
+        ) {
+          if (!alertShown) {
+            alertShown = true;
+            Swal.fire({
+              title: "Alerte",
+              text: "Le fournisseur sélectionné est une personne physique sans catégorie définie.",
+              icon: "warning",
+              allowOutsideClick: false,
+              confirmButtonColor: "#3085d6",
+              confirmButtonText: "Confirmer",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                Swal.fire({
+                  title: "Le virement a été annulé",
+                  icon: "info",
+                  confirmButtonColor: "#3085d6",
+                  confirmButtonText: "OK",
+                }).then(() => {
+                  redirect("list", "virements");
+                });
+              }
+            });
+          }
         }
 
-        // Extract MontantAPaye from the name string
-        const montantMatch = selectedFacture.name.match(/MontantAPaye (\d+(\.\d+)?)/);
+        const montantMatch = selectedFacture.name.match(
+          /MontantAPaye (-?\d+(\.\d+)?)/
+        );
         if (montantMatch) {
           const montantAPaye = parseFloat(montantMatch[1]);
           if (!isNaN(montantAPaye)) {
-            sum += montantAPaye;
+            newSum += montantAPaye; // Accumule les montants (positifs et négatifs)
           }
         }
       }
     });
-    setSum(sum.toFixed(3));
+
+    setSum(newSum.toFixed(3)); // Affiche la somme avec trois décimales
   };
 
   const [orderVirementField, setOrderVirementField] = useState(true);
@@ -129,18 +135,23 @@ export const VirementCreate = () => {
   const [sumfacturewithfn, setSumfacturewithfn] = useState([]);
   const [sumfacturewithoutfn, setSumfacturewithoutfn] = useState([]);
 
-  const sumfactureValue = sumfacturewithfn.length > 0 ? sumfacturewithfn[0].sum : "";
-  const [selectedSupplierFournisseurCategory, setSelectedSupplierFournisseurCategory] = useState("");
+  const sumfactureValue =
+    sumfacturewithfn.length > 0 ? sumfacturewithfn[0].sum : "";
+  const [
+    selectedSupplierFournisseurCategory,
+    setSelectedSupplierFournisseurCategory,
+  ] = useState("");
 
-  const [selectedSupplierFactureCategory, setSelectedSupplierFactureCategory] = useState("");
-  const sumfacturenotfnValue = sumfacturewithoutfn.length > 0 ? sumfacturewithoutfn[0].sum : "";
+  const [selectedSupplierFactureCategory, setSelectedSupplierFactureCategory] =
+    useState("");
+  const sumfacturenotfnValue =
+    sumfacturewithoutfn.length > 0 ? sumfacturewithoutfn[0].sum : "";
 
   const [sumavance, setSumavance] = useState([]);
 
   const sumAvanceValue = sumavance.length > 0 ? sumavance[0].sum : "";
 
   const [onchangefournisseur, setOnchangefournisseur] = useState([]);
-
 
   const [CheckedFournisseur, setCheckedFournisseur] = useState(true);
 
@@ -215,12 +226,12 @@ export const VirementCreate = () => {
         cancelButtonColor: "#d33",
         cancelButtonText: "Non, il n'est pas correct",
         confirmButtonText: confirmationMessage,
-        html: ribfournisseursChecked.join('<br>'),
-        position: 'top-right',  // Adjust the position here
-        allowOutsideClick: false,  // Prevent interaction outside the popup
+        html: ribfournisseursChecked.join("<br>"),
+        position: "top-right", // Adjust the position here
+        allowOutsideClick: false, // Prevent interaction outside the popup
         allowEscapeKey: false,
         customClass: {
-          popup: 'swal2-left',
+          popup: "swal2-left",
         },
       }).then((result) => {
         if (result.isConfirmed) {
@@ -230,17 +241,13 @@ export const VirementCreate = () => {
             icon: "success",
           });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire(
-            "Le virement a été annulé",
-            "Merci de bien valider le RIB"
-          );
+          Swal.fire("Le virement a été annulé", "Merci de bien valider le RIB");
 
           redirect("list", "virements");
         }
       });
 
       console.log(ribfournisseursChecked);
-
     } catch (error) {
       console.error("Erreur lors de la récupération des données:", error);
     }
@@ -252,7 +259,7 @@ export const VirementCreate = () => {
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
-        setSumavance(json)
+        setSumavance(json);
       })
       .catch((error) => {
         console.error("Error fetching sumavance:", error);
@@ -265,7 +272,7 @@ export const VirementCreate = () => {
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
-        setSumfacturewithfn(json)
+        setSumfacturewithfn(json);
       })
       .catch((error) => {
         console.error("Error fetching sumfacture:", error);
@@ -285,9 +292,7 @@ export const VirementCreate = () => {
       });
   };
   const getFournisseurFilteredByOv = (id) => {
-    fetch(
-      `${apiUrl}/fournisseursribvalid?ordervirment={"id":"${id}"}`
-    )
+    fetch(`${apiUrl}/fournisseursribvalid?ordervirment={"id":"${id}"}`)
       .then((response) => response.json())
       .then((json) => setFournisseur(json));
   };
@@ -309,17 +314,31 @@ export const VirementCreate = () => {
     name: rib,
   }));
 
-  let facture_choices = facture.map(({id, chantier, nom, ficheNavette, DateFacture, CODEDOCUTIL, TTC, MontantAPaye, CatFn }) => ({
-    id: id,
-    name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${DateFacture === null ? 'avance' : DateFacture?.split("T")[0]} | ${nom} | MontantAPaye ${MontantAPaye} DH | TTC ${TTC}DH`,
+  let facture_choices = facture.map(
+    ({
+      id,
+      chantier,
+      nom,
+      ficheNavette,
+      DateFacture,
+      CODEDOCUTIL,
+      TTC,
+      MontantAPaye,
+      CatFn,
+    }) => ({
+      id: id,
+      name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${
+        DateFacture === null ? "avance" : DateFacture?.split("T")[0]
+      } | ${nom} | MontantAPaye ${MontantAPaye} DH | TTC ${TTC}DH`,
 
-    categorie: CatFn
-  }));
-  
+      categorie: CatFn,
+    })
+  );
+
   const classes = useStyles();
   const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
-  if (error) return <>Error</>
+  if (error) return <>Error</>;
   return (
     <Create>
       <SimpleForm>
@@ -331,7 +350,6 @@ export const VirementCreate = () => {
           disabled={true}
           source="Redacteur"
         ></TextInput>
-
 
         <SelectInput
           validate={required("Ce champ est obligatoire")}
@@ -348,42 +366,65 @@ export const VirementCreate = () => {
           }}
           choices={orderVirement_choices}
         />
-     <AutocompleteInput
-  validate={required("Ce champ est obligatoire")}
-  disabled={orderVirementField}
-  className={classes.autocomplete}
-  source="fournisseurId"
-  choices={fournisseurs_choices}
-  onChange={(e) => {
-    setOnchangefournisseur(e);
-    getFactureByFourniseurId(e);
-    getsumfacturewithfnByFourniseurId(e);
-    getsumfacturewithoutByFourniseurId(e);
-    getsumavanceByFourniseurId(e);
+        <AutocompleteInput
+          validate={required("Ce champ est obligatoire")}
+          disabled={orderVirementField}
+          className={classes.autocomplete}
+          source="fournisseurId"
+          choices={fournisseurs_choices}
+          onChange={(e) => {
+            setOnchangefournisseur(e);
+            getFactureByFourniseurId(e);
+            getsumfacturewithfnByFourniseurId(e);
+            getsumfacturewithoutByFourniseurId(e);
+            getsumavanceByFourniseurId(e);
 
-    if (!e) {
-      setFournisseurIdField(true);
-      setSelectedSupplierFournisseurCategory(""); // Clear selected supplier category
-    } else {
-      const selectedFournisseur = fournisseurs_choices.find((f) => f.id === e);
-      setFournisseurIdField(false);
-      setSelectedSupplierFournisseurCategory(selectedFournisseur?.categorie || "");
-      console.log("selectedFournisseur.catFournisseur", selectedFournisseur);
-    }
-  }}
-/>
+            if (!e) {
+              setFournisseurIdField(true);
+              setSelectedSupplierFournisseurCategory(""); // Clear selected supplier category
+            } else {
+              const selectedFournisseur = fournisseurs_choices.find(
+                (f) => f.id === e
+              );
+              setFournisseurIdField(false);
+              setSelectedSupplierFournisseurCategory(
+                selectedFournisseur?.categorie || ""
+              );
+              console.log(
+                "selectedFournisseur.catFournisseur",
+                selectedFournisseur
+              );
+            }
+          }}
+        />
 
-
-
-
-        {sumfactureValue ? <div>La somme des montants des factures qui ont FN par fournisseur est de : {sumfactureValue} DH</div> : ''}
+        {sumfactureValue ? (
+          <div>
+            La somme des montants des factures qui ont FN par fournisseur est de
+            : {sumfactureValue} DH
+          </div>
+        ) : (
+          ""
+        )}
         <br></br>
-        {sumfacturenotfnValue ? <div>la somme des montants factures qui n'ont pas FN par fournisseur value : {sumfacturenotfnValue} DH</div> : ''}
+        {sumfacturenotfnValue ? (
+          <div>
+            la somme des montants factures qui n'ont pas FN par fournisseur
+            value : {sumfacturenotfnValue} DH
+          </div>
+        ) : (
+          ""
+        )}
 
         <br></br>
-        {sumAvanceValue ? <div>la somme des montants des avances par fournisseur value : {sumAvanceValue} DH</div> : ''}
-
-
+        {sumAvanceValue ? (
+          <div>
+            la somme des montants des avances par fournisseur value :{" "}
+            {sumAvanceValue} DH
+          </div>
+        ) : (
+          ""
+        )}
 
         <SelectInput
           validate={required("Ce champ est obligatoire")}
@@ -392,25 +433,25 @@ export const VirementCreate = () => {
           onChange={(e) => {
             if (e.target.value === "") {
               setFournisseurRibField(true);
-              getCheckedFournisseur(e.target.value)
+              getCheckedFournisseur(e.target.value);
             } else {
               setFournisseurRibField(false);
-              getCheckedFournisseur(e, e.target.value)
-              console.log("e.taget", e.target.value)
+              getCheckedFournisseur(e, e.target.value);
+              console.log("e.taget", e.target.value);
               // console.log("e",e)
             }
           }}
           source="ribFournisseurId"
           choices={ribfournisseurs_choices}
         />
-     <AutocompleteArrayInput
-  validate={[required("Ce champ est obligatoire")]}
-  disabled={fournisseurRibField}
-  className={classes.autocomplete}
-  source="facturelist"
-  choices={facture_choices}
-  onChange={handleChange}
-/>
+        <AutocompleteArrayInput
+          validate={[required("Ce champ est obligatoire")]}
+          disabled={fournisseurRibField}
+          className={classes.autocomplete}
+          source="facturelist"
+          choices={facture_choices}
+          onChange={handleChange}
+        />
         <Chip className={classes.chip} label={`Total : ${sum}`} />
       </SimpleForm>
     </Create>
