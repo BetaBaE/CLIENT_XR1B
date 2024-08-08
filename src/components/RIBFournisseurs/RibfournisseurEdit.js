@@ -1,73 +1,55 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; // Importation de React et des hooks nécessaires
 import {
   Edit,
-  FileField,
-  FileInput,
   FormDataConsumer,
   SaveButton,
   SelectInput,
   SimpleForm,
-  TextField,
   TextInput,
   Toolbar,
   required,
   useGetIdentity,
-  usePermissions
-} from "react-admin";
-import { makeStyles } from "@material-ui/core";
-import Swal from "sweetalert2";
-
+  usePermissions,
+} from "react-admin"; // Importation des composants nécessaires de React Admin
+import { makeStyles } from "@material-ui/core"; // Importation de la méthode makeStyles de Material-UI pour le style
+// Définition des styles personnalisés
 const useStyles = makeStyles(() => ({
   autocomplete: {
-    width: "650px",
+    width: "650px", // Largeur des champs d'autocomplétion
   },
 }));
 
-
-
+// Composant personnalisé pour la barre d'outils d'édition avec bouton de sauvegarde
 const EditToolbar = (props) => (
   <Toolbar {...props}>
-    <SaveButton id="save" />
+    <SaveButton id="save" /> {/* Bouton de sauvegarde avec un ID */}
   </Toolbar>
 );
 
-const AlertRib = (params) => {
-  if (params === null) {
-    Swal.fire({
-      title: "Rib Fournisseur",
-      text: "Merci d'importer l'attestation de rib",
-      icon: "warning",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Oui, je l'importe",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // document.querySelector("#save").click();
-        Swal.fire("MERCI!");
-      }
-    });
-  }
-};
+// Fonction pour afficher une alerte si le RIB est null
 
+// Composant principal pour l'édition des RIB fournisseur
 export const RibfournisseurEdit = (props) => {
-  const { permissions } = usePermissions();
-  const { identity, isLoading: identityLoading } = useGetIdentity();
-  const classes = useStyles();
-  const { isLoading, error } = useGetIdentity();
-  const [loading, setLoading] = useState(true); 
-  const [isModificationMade, setModificationMade] = useState(false);
+  const { permissions } = usePermissions(); // Récupération des permissions de l'utilisateur
+  const { identity, isLoading: identityLoading } = useGetIdentity(); // Récupération de l'identité de l'utilisateur connecté
+  const classes = useStyles(); // Utilisation des styles définis plus haut
+  const { isLoading, error } = useGetIdentity(); // Récupération de l'état de chargement et des erreurs de l'identité de l'utilisateur
+  const [loading, setLoading] = useState(true); // État de chargement des données
 
+  // Utilisation de useEffect pour détecter le chargement des données
   useEffect(() => {
-    // Utilisez isLoading de useGetList ou useDataProvider pour détecter le chargement des données
     setLoading(isLoading);
   }, [isLoading]);
 
+  // Affichage d'un message de chargement ou d'erreur si nécessaire
   if (isLoading || identityLoading) return <>Loading</>;
   if (error) return <>Error</>;
 
   return (
     <Edit {...props}>
       <SimpleForm toolbar={<EditToolbar />}>
+        {" "}
+        {/* Formulaire simple avec barre d'outils personnalisée */}
         <TextInput
           defaultValue={identity?.fullName}
           label="Vous êtes"
@@ -76,102 +58,53 @@ export const RibfournisseurEdit = (props) => {
           disabled={true}
           source="validateur"
         />
-
         <TextInput
           className={classes.autocomplete}
           source="fournisseur"
           disabled
         />
-
-        <TextInput
-          className={classes.autocomplete}
-          source="swift"
-          disabled
-        />
-
+        <TextInput className={classes.autocomplete} source="swift" disabled />
         <TextInput
           className={classes.autocomplete}
           source="banque"
           label="Banque"
           disabled
         />
-
-        <TextInput
-          className={classes.autocomplete}
-          source="rib"
-          disabled
-        />
- <FormDataConsumer>
-  {({ formData, ...rest }) => (
-    <>
-      <SelectInput
-        className={classes.autocomplete}
-        source="validation"
-        validate={required()}
-        choices={[
-          // Use the current value of formData.validation as an option
-          { id: formData.validation, name: formData.validation },
-          ...(permissions === "superviseur comptabilite midelt" && formData.validation === "Validé"
-            ? [
-                { id: "Confirmer", name: "Confirmer" },
-                { id: "Désactiver", name: "Désactiver" },
-              ]
-            : []),
-          ...(permissions === "superviseur comptabilite midelt" && formData.validation === "Confirmer"
-            ? [
-                { id: "Désactiver", name: "Désactiver" },
-              ]
-            : []),
-          ...(formData.validation === "Non Valider"
-            ? [
-                { id: "Validé", name: "Validé" },
-                { id: "Non Valider", name: "Non Valider" },
-                { id: "Ignorer", name: "Ignorer" },
-              ]
-            : []),
-        ]}
-        disabled={loading}
-        lazy={true}
-      />
-  
-    </>
-  )}
-</FormDataConsumer>
-
-
-
-
-{/* 
+        <TextInput className={classes.autocomplete} source="rib" disabled />
         <FormDataConsumer>
-          {({ formData, ...rest }) =>
-            formData.path_rib !== null ? (
-              <TextInput
-                label="l'ancien Rib uploder"
-                source="path_rib"
-                disabled
+          {({ formData, ...rest }) => (
+            <>
+              <SelectInput
                 className={classes.autocomplete}
+                source="validation"
+                validate={required()}
+                choices={[
+                  { id: formData.validation, name: formData.validation },
+                  ...(permissions === "superviseur comptabilite midelt" &&
+                  formData.validation === "Validé"
+                    ? [
+                        { id: "Confirmer", name: "Confirmer" },
+                        { id: "Désactiver", name: "Désactiver" },
+                      ]
+                    : []),
+                  ...(permissions === "superviseur comptabilite midelt" &&
+                  formData.validation === "Confirmer"
+                    ? [{ id: "Désactiver", name: "Désactiver" }]
+                    : []),
+                  ...(formData.validation === "Non Valider"
+                    ? [
+                        { id: "Validé", name: "Validé" },
+
+                        { id: "Ignorer", name: "Ignorer" },
+                      ]
+                    : []),
+                ]}
+                disabled={loading}
+                lazy={true}
               />
-            ) : (
-              <>{AlertRib(formData.path_rib)}</>
-            )
-          }
-        </FormDataConsumer> */}
-      
-
-
-{/*      
-        <div>
-          <FileInput
-            source="path_rib"
-            label="Uploder rib"
-            accept="application/pdf,image/png,image/jpeg"
-            validate={required("Merci d'importer l'attestation de rib")}
-            className={classes.autocomplete}
-          >
-            <FileField source="src" title="title" />
-          </FileInput>
-        </div> */}
-        
+            </>
+          )}
+        </FormDataConsumer>
       </SimpleForm>
     </Edit>
   );

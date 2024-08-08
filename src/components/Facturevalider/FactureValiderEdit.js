@@ -23,6 +23,7 @@ export const FactureValiderEdit = () => {
   const { identity, isLoading: identityLoading } = useGetIdentity();
   const dataProvider = useDataProvider();
 
+  // Récupération des chantiers lors du montage du composant
   useEffect(() => {
     dataProvider
       .getList("chantier", {
@@ -37,11 +38,13 @@ export const FactureValiderEdit = () => {
       });
   }, [dataProvider]);
 
+  // Validation du bon de commande avec une expression régulière
   const validateBc = regex(
     /^CF[0-9]{3}[0-9]{3}$/,
     "Ce bon de commande n'est pas valide"
   );
 
+  // Transformation des chantiers pour le dropdown
   const chantierChoices = chantier.map(({ id, LIBELLE }) => ({
     id: id,
     name: `${LIBELLE} | ${id}`,
@@ -63,8 +66,7 @@ export const FactureValiderEdit = () => {
         <TextInput
           source="BonCommande"
           label="Bon de Commande"
-
-
+          validate={validateBc} // Ajout de la validation ici
         />
         <AutocompleteInput
           label="Chantier"
@@ -73,13 +75,11 @@ export const FactureValiderEdit = () => {
           className={classes.autocomplete}
         />
         <SelectInput
-
           className={classes.autocomplete}
-
           source="CatFn"
           choices={[
-            { id: 'FET', name: 'Fourniture Equipement Travaux' },
-            { id: 'Service', name: 'Service' },
+            { id: "FET", name: "Fourniture Equipement Travaux" },
+            { id: "Service", name: "Service" },
           ]}
           label="Catégorie de document"
         />

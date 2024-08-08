@@ -1,9 +1,9 @@
+// Importation des modules et composants nécessaires depuis react-admin et autres bibliothèques
 import { makeStyles } from "@material-ui/core";
 import {
   DateInput,
   Edit,
   FormDataConsumer,
-
   required,
   SaveButton,
   SelectInput,
@@ -14,6 +14,7 @@ import {
 } from "react-admin";
 import Swal from "sweetalert2";
 
+// Définition des styles avec makeStyles de Material-UI
 const useStyles = makeStyles(() => ({
   autocomplete: {
     width: "650px",
@@ -23,15 +24,19 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+// Composant personnalisé pour la barre d'outils de l'édition d'utilisateur
 const UserEditToolbar = (props) => (
   <Toolbar {...props}>
     <SaveButton id="save" />
   </Toolbar>
 );
 
+// Composant ChequeEdit pour éditer les chèques
 export const ChequeEdit = (props) => {
-  const redirect = useRedirect();
+  const redirect = useRedirect(); // Hook pour rediriger les utilisateurs
+  const classes = useStyles(); // Utilisation des styles définis
 
+  // Fonction pour afficher une alerte de confirmation d'annulation
   function annuleAlert(params) {
     if (params === "Annuler") {
       Swal.fire({
@@ -58,21 +63,30 @@ export const ChequeEdit = (props) => {
       });
     }
   }
+
+  // Composant pour la barre d'outils de l'édition avec le bouton de sauvegarde
   const EditToolbar = (props) => (
     <Toolbar {...props}>
       <SaveButton id="save" />
     </Toolbar>
   );
-  const classes = useStyles();
 
   return (
-    <Edit {...props} >
+    <Edit {...props}>
+      {/* Formulaire simple pour l'édition d'un chèque */}
       <SimpleForm toolbar={<UserEditToolbar />}>
         <FormDataConsumer>
           {({ formData, ...rest }) => (
             <>
-              {(formData.Etat !== "Reglee" && formData.Etat !== "Annuler") && (
+              {/* Affiche les champs si l'état du chèque n'est ni "Reglee" ni "Annuler" */}
+              {formData.Etat !== "Reglee" && formData.Etat !== "Annuler" && (
                 <>
+                  <DateInput
+                    validate={required()}
+                    source="dateOperation"
+                    label="Date d'opération"
+                    className={classes.autocomplete}
+                  />
                   <SelectInput
                     {...rest}
                     source="Etat"
@@ -87,13 +101,6 @@ export const ChequeEdit = (props) => {
                       { id: "En cours", name: "En cours" },
                       { id: "Annuler", name: "Annuler" },
                     ]}
-                  />
-
-                  <DateInput
-                      validate={required()}
-                    source="dateOperation"
-                    label="Date d'opération"
-                    className={classes.autocomplete}
                   />
                 </>
               )}

@@ -2,16 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   AutocompleteInput,
   Create,
+  NumberInput,
   required,
   SelectInput,
-  regex,
   SimpleForm,
   TextInput,
   useDataProvider,
   useGetIdentity,
-  ArrayInput,
-  SimpleFormIterator,
-  DateInput,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import apiUrl from "../../config";
@@ -20,116 +17,95 @@ const useStyles = makeStyles(() => ({
   autocomplete: {
     width: "650px",
   },
-  chip: {
-    fontWeight: "bold",
-  },
 }));
 
-const formatDate = (string) => {
-  const options = { year: "numeric", month: "long", day: "numeric" };
-  return new Date(string).toLocaleDateString([], options);
-};
+export const AvanceCreate = () => {
+  const dataProvider = useDataProvider(); // Hook pour accéder au fournisseur de données
+  const { identity } = useGetIdentity(); // Hook pour récupérer l'identité de l'utilisateur actuel
+  const classes = useStyles(); // Utilisation des styles définis
 
-export const AvanceCreate = (props) => {
-  const [factureSelected, setFactureSelected] = useState(null); // Change to null
-  const dataProvider = useDataProvider();
+  // États pour les données des fournisseurs et chantiers
   const [fournisseur, setFournisseur] = useState([]);
-  const [facture, setFacture] = useState([]);
   const [chantier, setChantier] = useState([]);
-  const [fournisseurIdField, setFournisseurIdField] = useState(true);
-  const [factureidField, setFactureidField] = useState(true);
-  const [chantierIdField, setChantierIdField] = useState(false);
-  const [selectedCodeChantier, setSelectedCodeChantier] = useState("");
-  const [selectedCategorieFournisseur, setselectedCategorieFournisseur] = useState("");
-  const [selectedSupplierCategory, setSelectedSupplierCategory] = useState(""); // State for supplier category
-  const { identity, isLoading: identityLoading } = useGetIdentity();
-  const classes = useStyles();
 
+  // États pour la gestion de l'affichage des champs ID
+  const [fournisseurIdField, setFournisseurIdField] = useState(true);
+  const [chantierIdField, setChantierIdField] = useState(false);
+
+  // État pour stocker le code du chantier sélectionné
+  const [selectedCodeChantier, setSelectedCodeChantier] = useState("");
+
+  // État pour la catégorie de fournisseur sélectionnée
+  const [selectedSupplierCategory, setSelectedSupplierCategory] = useState("");
+
+  // Effet pour charger la liste des fournisseurs au montage du composant
   useEffect(() => {
     const fetchFournisseurs = async () => {
       try {
-        const response = await dataProvider.getList("fournisseurs", {
-          pagination: { page: 1, perPage: 3000 },
-          sort: { field: "nom", order: "ASC" },
+        // Appel à l'API pour récupérer la liste des fournisseurs
+        const response = await dataProvider.getList("getAllFournissuersClean", {
+          pagination: { page: 1, perPage: 3000 }, // Pagination pour récupérer tous les fournisseurs
+          sort: { field: "nom", order: "ASC" }, // Tri par nom ascendant
         });
-        setFournisseur(response.data);
+        setFournisseur(response.data); // Mise à jour de l'état avec les données des fournisseurs
       } catch (error) {
-        console.error(error); // Use console.error for errors
+        console.error(
+          "Erreur lors de la récupération des fournisseurs :",
+          error
+        ); // Affichage de l'erreur en cas de problème
       }
     };
-    fetchFournisseurs();
-  }, [dataProvider]);
+    fetchFournisseurs(); // Appel de la fonction pour charger les fournisseurs au montage
+  }, [dataProvider]); // Dépendance au fournisseur de données pour l'exécution de l'effet
 
-  const fetchChantier = async () => {
-    try {
-      const response = await fetch(`${apiUrl}/Chantier?range=[0,1000]`);
-      const json = await response.json();
-      setChantier(json);
-    } catch (error) {
-      console.error(error); // Use console.error for errors
-    }
-  };
+  // Effet pour charger la liste des chantiers au montage du composant
+  useEffect(() => {
+    const fetchChantier = async () => {
+      try {
+        // Requête HTTP pour récupérer les chantiers depuis l'API
+        const response = await fetch(`${apiUrl}/Chantier?range=[0,1000]`);
+        const json = await response.json(); // Conversion de la réponse en JSON
+        setChantier(json); // Mise à jour de l'état avec les données des chantiers
+      } catch (error) {
+        console.error("Erreur lors de la récupération des chantiers :", error); // Affichage de l'erreur en cas de problème
+      }
+    };
+    fetchChantier(); // Appel de la fonction pour charger les chantiers au montage
+  }, []); // Utilisation d'un tableau de dépendances vide pour que cet effet s'exécute une seule fois au montage
 
-  const fetchFactureByFournisseur = (id) => {
-    fetch(`${apiUrl}/facturebyfournisseur/${id}`)
-      .then((response) => response.json())
-      .then((json) => setFacture(json))
-      .catch((error) => {
-        console.error(error); // Use console.error for errors
-      });
-  };
+  // Transformation des fournisseurs en choix pour l'autocomplétion
+  const fournisseurs_choices = fournisseur.map(
+    ({ id, nom, CodeFournisseur, catFournisseur }) => ({
+      id: id,
+      name: `${nom} ${CodeFournisseur}, ${catFournisseur}`,
+      categorie: catFournisseur,
+    })
+  );
 
-  const fetchChantierByFactureId = (id) => {
-    fetch(`${apiUrl}/getchantierbyfactureid/${id}`)
-      .then((response) => response.json())
-      .then((json) => {
-        if (json && json.length > 0) {
-          setChantier(json);
-        } else {
-          fetchChantier();
-          setChantier([]);
-        }
-      })
-      .catch((error) => {
-        console.error(error); // Use console.error for errors
-      });
-  };
-
-  const fournisseurs_choices = fournisseur.map(({ id, nom, CodeFournisseur, catFournisseur }) => ({
-    id: id,
-    name: `${nom} | ${CodeFournisseur} `,
-    categorie: catFournisseur, // Add category to the choices
-  }));
-
-  const facture_choices = facture.map(({ id, numeroFacture, TTC, DateFacture }) => ({
-    id: id,
-    name: `${numeroFacture} | ${TTC} DH | ${formatDate(DateFacture)}`,
-  }));
-  const catfn_choices = facture.map(({ CatFn }) => ({
-    id: CatFn,
-    name: `${CatFn}`,
-  }));
+  // Transformation des chantiers en choix pour l'autocomplétion
   const chantier_choices = chantier.map(({ id, LIBELLE }) => ({
     id: id,
-    name: `${LIBELLE} | ${id} `,
+    name: `${LIBELLE} | ${id}`,
   }));
-  const { isLoading, error } = useGetIdentity();
-  if (isLoading) return <>Loading</>;
-  if (error) return <>Error</>;
 
-  const validateBc = regex(/^CF[0-9]{3}[0-9]{3}$/, "Ce bon de commande n'est pas valide");
+  // Gestion de l'état de chargement et d'erreur pour l'identité de l'utilisateur
+  const { isLoading, error } = useGetIdentity();
+  if (isLoading) return <>Chargement...</>; // Affichage d'un message de chargement si l'identité est en cours de récupération
+  if (error) return <>Erreur...</>; // Affichage d'un message d'erreur si la récupération de l'identité a échoué
 
   return (
     <Create>
       <SimpleForm>
+        {/* Champ de texte pour afficher le nom complet de l'utilisateur */}
         <TextInput
           defaultValue={identity.fullName}
           label="Vous êtes"
-          hidden={false}
           className={classes.autocomplete}
-          disabled={true}
+          disabled
           source="fullName"
         />
+
+        {/* Sélecteur d'autocomplétion pour choisir un fournisseur */}
         <AutocompleteInput
           label="Fournisseur"
           validate={required("Le fournisseur est obligatoire")}
@@ -138,183 +114,126 @@ export const AvanceCreate = (props) => {
           choices={fournisseurs_choices}
           onChange={(e) => {
             if (!e) {
-              setFournisseurIdField(true);
-              setChantierIdField(false);
-              setFacture([]); // Clear facture when changing fournisseur
-              setFactureSelected(null); // Clear selected facture
-              setSelectedSupplierCategory(""); // Clear selected supplier category
+              // Si aucun fournisseur n'est sélectionné
+              setFournisseurIdField(true); // Désactiver le champ ID fournisseur
+              setChantierIdField(false); // Activer le champ ID chantier
+
+              setSelectedSupplierCategory(""); // Remettre à zéro la catégorie de fournisseur sélectionnée
             } else {
-              const selectedFournisseur = fournisseurs_choices.find((f) => f.id === e);
-              setFournisseurIdField(false);
-              setChantierIdField(true);
-              fetchFactureByFournisseur(e);
-              fetchChantier();
-              setSelectedSupplierCategory(selectedFournisseur.categorie); // Set selected supplier category
-              console.log("selectedFournisseur.catFournisseur", selectedFournisseur)
+              // Si un fournisseur est sélectionné
+              const selectedFournisseur = fournisseurs_choices.find(
+                (f) => f.id === e
+              );
+              setFournisseurIdField(false); // Activer le champ ID fournisseur
+              setChantierIdField(true); // Désactiver le champ ID chantier
+
+              setSelectedSupplierCategory(selectedFournisseur.categorie); // Mettre à jour la catégorie de fournisseur sélectionnée
             }
           }}
         />
-        {/* <SelectInput
-          disabled={fournisseurIdField}
-   
-          className={classes.autocomplete}
-          source="idFacture"
-          defaultValue={0}
-          choices={facture_choices}
-          label="Facture"
-          onChange={(e) => {
-            if (!e || !e.target.value) {
-              setFactureidField(true);
-              setChantierIdField(false);
-              setFactureSelected(0); // Clear selected facture
-              console.log('No facture selected');
 
-            } else {
-              setFactureidField(false);
-              setChantierIdField(true);
-              fetchChantierByFactureId(e.target.value);
-              setFactureSelected(e.target.value); // Set selected facture
-              console.log('Facture selected:', e.target.value);
-            }
-          }}
-        /> */}
-
-
+        {/* Sélecteur d'autocomplétion pour choisir un chantier */}
         <AutocompleteInput
           validate={required("Le chantier est obligatoire")}
           className={classes.autocomplete}
           source="codechantier"
-          choices={chantier_choices.map(({ id, name }) => ({
-            id: id,
-            name: name,
-          }))}
-          onChange={(e) => {
-            setSelectedCodeChantier(e);
-          }}
+          choices={chantier_choices}
+          onChange={(e) => setSelectedCodeChantier(e)}
         />
 
+        {/* Condition pour afficher le sélecteur de service si le chantier sélectionné est "A-9999" */}
         {selectedCodeChantier === "A-9999" && (
           <SelectInput
             className={classes.autocomplete}
             source="service"
             choices={[
-              { id: 'comm', name: 'Communication' },
-              { id: 'SI', name: 'Service informatique' },
-              { id: 'RH', name: 'Ressource Humaine' },
-              { id: 'QUALITE', name: 'Qualité' }, // Fix typo
-              { id: 'MC', name: 'Moyen commun' },
+              { id: "comm", name: "Communication" },
+              { id: "SI", name: "Service informatique" },
+              { id: "RH", name: "Ressource Humaine" },
+              { id: "QUALITE", name: "Qualité" },
+              { id: "MC", name: "Moyen commun" },
             ]}
           />
         )}
 
+        {/* Champ de texte pour entrer la fiche navette */}
         <TextInput
           label="Fiche navette"
           validate={required("La fiche navette est obligatoire")}
           className={classes.autocomplete}
           source="ficheNavette"
         />
-      
+
+        {/* Champ de texte pour entrer le bon de commande d'avance */}
         <TextInput
           label="Bon de commande d'avance"
           className={classes.autocomplete}
-          validate={
-            factureSelected === null
-              ? required("Le bon de  commande est obligatoire")
-              : null
-          }
+          validate={required("Le bon de commande est obligatoire")}
           source="Bcommande"
-          disabled={factureSelected !== null}
-        /> 
-      <TextInput
+        />
+
+        {/* Champ de texte pour entrer le montant d'avance */}
+        <NumberInput
           label="Montant d'avance"
           className={classes.autocomplete}
           validate={(value) => {
             const numericValue = parseFloat(value);
-            console.log("numericValue", numericValue);
-            if (factureSelected === null) {
-              return numericValue >= 1
-                ? null
-                : "Le montant d'avance doit être supérieur ou égal à 1";
-            }
-            if (facture.length === 0) {
-              return required("Le montant d'avance est obligatoire");
-            }
-            if (
-              factureSelected === null
-            ) {
-              return "Le montant d'avance doit être supérieur à 0";
-            }
-
-            return null;
+            return numericValue >= 1
+              ? undefined
+              : "Le montant d'avance doit être supérieur ou égal à 1";
           }}
           source="montantAvance"
-          defaultValue={factureSelected === null ? null : 0}
-          disabled={factureSelected !== null}
-        /> 
+        />
 
-        {factureSelected === null ? (
-          selectedSupplierCategory !== "personne morale" && (
-            <SelectInput
-              disabled={fournisseurIdField}
-              className={classes.autocomplete}
-              validate={required("Mentionnez la catégorie")}
-              source="CatFn"
-              choices={[
-                { id: 'FET', name: 'Fourniture Equipement Travaux' },
-                { id: 'Service', name: 'Service' },
-              ]}
-              label="Catégorie de document"
-            />
-          )
-        ) : (
-          selectedSupplierCategory !== "personne morale" && (
-            <SelectInput
-              disabled={fournisseurIdField}
-              className={classes.autocomplete}
-              validate={required("Mentionnez la catégorie")}
-              source="CatFn"
-              choices={catfn_choices}
-              label="Catégorie de document"
-            />
-          )
+        {/* Condition pour afficher le sélecteur de catégorie de document */}
+        {selectedSupplierCategory !== "personne morale" && (
+          <SelectInput
+            disabled={fournisseurIdField}
+            className={classes.autocomplete}
+            validate={required("Mentionnez la catégorie")}
+            source="CatFn"
+            choices={[
+              { id: "FET", name: "Fourniture Equipement Travaux" },
+              { id: "Service", name: "Service" },
+            ]}
+            label="Catégorie de document"
+          />
         )}
 
-
-         <TextInput
+        {/* Champ de texte pour entrer le montant TTC d'avance */}
+        <NumberInput
           label="TTC D'Avance"
-          disabled={factureSelected !== null}
-          validate={
-            factureSelected === null
-              ? required("Le montant d'avance est obligatoire")
-              : null
-          }
+          validate={required("Le montant d'avance est obligatoire")}
           className={classes.autocomplete}
           source="TTC"
-          defaultValue={factureSelected === null ? null : 0}
         />
-        <TextInput
+
+        {/* Champ de texte pour entrer le montant HT */}
+        <NumberInput
           label="Mentionnez HT"
-          disabled={factureSelected !== null}
-          validate={
-            factureSelected === null
-              ? required("HT est obligatoire")
-              : null
-          }
+          validate={required("HT est obligatoire")}
           className={classes.autocomplete}
           source="HT"
-          defaultValue={factureSelected === null ? null : 0}
         />
-        <TextInput
-          disabled={factureSelected !== null}
-          label="Mentionnez TVA" validate={
-            factureSelected === null
-              ? required("TVA est obligatoire")
-              : null
-          }
+
+        {/* Champ de texte pour entrer le montant TVA */}
+        <NumberInput
+          label="Mentionnez TVA"
+          validate={required("TVA est obligatoire")}
           className={classes.autocomplete}
           source="MontantTVA"
-          defaultValue={factureSelected === null ? null : 0}
-        /> 
+        />
+        <SelectInput
+          disabled={fournisseurIdField}
+          className={classes.autocomplete}
+          validate={required("Mentionnez la catégorie")}
+          source="CatFn"
+          choices={[
+            { id: "FET", name: "Fourniture Equipement Travaux" },
+            { id: "Service", name: "Service" },
+          ]}
+          label="Catégorie de document"
+        />
       </SimpleForm>
     </Create>
   );

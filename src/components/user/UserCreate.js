@@ -7,13 +7,20 @@ import {
   // DateInput,
   // required,
 } from "react-admin";
+
 export const UserCreate = () => (
   <Create>
     <SimpleForm>
+      {/* Champ pour le nom complet de l'utilisateur */}
       <TextInput source="fullname" />
+
+      {/* Champ pour le nom d'utilisateur */}
       <TextInput source="username" />
+
+      {/* Champ pour le mot de passe */}
       <TextInput source="password" />
-      {/* <TextInput source="role" /> */}
+
+      {/* Champ pour le rôle de l'utilisateur */}
       <SelectInput
         source="role"
         allowEmpty
@@ -25,37 +32,13 @@ export const UserCreate = () => (
             name: "Superviseur Comptabilité",
           },
           { id: "comptable", name: "Comptable" },
-          { id: "comptable midelt", name: "comptable midelt" },
+          { id: "comptable midelt", name: "Comptable Midelt" },
           {
             id: "superviseur comptabilite midelt",
-            name: "superviseur comptabilite midelt",
+            name: "Superviseur Comptabilité Midelt",
           },
-
-          //   { id: "photography", name: "Photography" },
         ]}
       />
-      {/* <DateInput source="created" /> */}
     </SimpleForm>
   </Create>
 );
-
-// <SimpleForm>
-//   <TextInput source="fullname" />
-//   <TextInput source="username" />
-//   <SelectInput
-//     source="Role"
-//     choices={[
-//       { id: "admin", name: "Admin" },
-//       { id: "normal user", name: "normal user" },
-//       //   { id: "photography", name: "Photography" },
-//     ]}
-//   />
-//   <TextInput source="password" />
-//   <SelectInput
-//     source="isActivated"
-//     choices={[
-//       { id: "true", name: "activer" },
-//       { id: "false", name: "desactiver" },
-//     ]}
-//   />
-// </SimpleForm>;

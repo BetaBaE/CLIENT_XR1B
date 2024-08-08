@@ -77,56 +77,51 @@ export const VirementCreate = () => {
   const [sum, setSum] = useState(0);
 
   const handleChange = (e) => {
-    let newSum = 0;
-    let alertShown = false;
-
+    let sum = 0;
     e.forEach((fa) => {
       const selectedFacture = facture_choices.find((f) => f.id === fa);
       if (selectedFacture) {
-        setSelectedSupplierFactureCategory(selectedFacture.categorie);
+        setSelectedSupplierFactureCategory(selectedFacture.categorie); // Set selected supplier category
 
+        // Adjusted condition based on provided logic
         if (
           selectedFacture.categorie !== "FET" &&
           selectedFacture.categorie !== "Service" &&
           selectedSupplierFournisseurCategory === "personne physique"
         ) {
-          if (!alertShown) {
-            alertShown = true;
-            Swal.fire({
-              title: "Alerte",
-              text: "Le fournisseur sélectionné est une personne physique sans catégorie définie.",
-              icon: "warning",
-              allowOutsideClick: false,
-              confirmButtonColor: "#3085d6",
-              confirmButtonText: "Confirmer",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                Swal.fire({
-                  title: "Le virement a été annulé",
-                  icon: "info",
-                  confirmButtonColor: "#3085d6",
-                  confirmButtonText: "OK",
-                }).then(() => {
-                  redirect("list", "virements");
-                });
-              }
-            });
-          }
+          Swal.fire({
+            title: "Alerte",
+            text: "Le fournisseur sélectionné est une personne physique sans catégorie définie.",
+            icon: "warning",
+            allowOutsideClick: false,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Confirmer",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Le virement a été annulé",
+                icon: "info",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "OK",
+              });
+              redirect("list", "virements");
+            }
+          });
         }
 
+        // Extract MontantAPaye from the name string
         const montantMatch = selectedFacture.name.match(
-          /MontantAPaye (-?\d+(\.\d+)?)/
+          /MontantAPaye (\d+(\.\d+)?)/
         );
         if (montantMatch) {
           const montantAPaye = parseFloat(montantMatch[1]);
           if (!isNaN(montantAPaye)) {
-            newSum += montantAPaye; // Accumule les montants (positifs et négatifs)
+            sum += montantAPaye;
           }
         }
       }
     });
-
-    setSum(newSum.toFixed(3)); // Affiche la somme avec trois décimales
+    setSum(sum.toFixed(3));
   };
 
   const [orderVirementField, setOrderVirementField] = useState(true);
@@ -136,7 +131,7 @@ export const VirementCreate = () => {
   const [sumfacturewithoutfn, setSumfacturewithoutfn] = useState([]);
 
   const sumfactureValue =
-    sumfacturewithfn.length > 0 ? sumfacturewithfn[0].sum : "";
+    sumfacturewithfn.length > 0 ? sumfacturewithfn[0].sumfactureValuefn : "";
   const [
     selectedSupplierFournisseurCategory,
     setSelectedSupplierFournisseurCategory,
@@ -145,7 +140,9 @@ export const VirementCreate = () => {
   const [selectedSupplierFactureCategory, setSelectedSupplierFactureCategory] =
     useState("");
   const sumfacturenotfnValue =
-    sumfacturewithoutfn.length > 0 ? sumfacturewithoutfn[0].sum : "";
+    sumfacturewithoutfn.length > 0
+      ? sumfacturewithoutfn[0].sumfacturewithoutfn
+      : "";
 
   const [sumavance, setSumavance] = useState([]);
 
@@ -325,11 +322,12 @@ export const VirementCreate = () => {
       TTC,
       MontantAPaye,
       CatFn,
+      validation,
     }) => ({
       id: id,
       name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${
         DateFacture === null ? "avance" : DateFacture?.split("T")[0]
-      } | ${nom} | MontantAPaye ${MontantAPaye} DH | TTC ${TTC}DH | hhh${CatFn}`,
+      } | ${nom} | MontantAPaye ${MontantAPaye} DH | TTC ${TTC}DH | ${validation}`,
 
       categorie: CatFn,
     })

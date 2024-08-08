@@ -10,22 +10,27 @@ import {
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import apiUrl from "../../config";
+
+// Styles personnalisés pour le formulaire
 const useStyles = makeStyles(() => ({
   autocomplete: {
-    width: "650px",
+    width: "650px", // Largeur des champs de saisie
   },
   chip: {
-    fontWeight: "bold",
+    fontWeight: "bold", // Style pour les chips (non utilisé ici)
   },
-  // Separate styles for SweetAlert
-  'swal2-popup.swal2-left': {
+  // Styles pour SweetAlert
+  "swal2-popup.swal2-left": {
     right: 0,
-    transform: 'translateX(0)',
+    transform: "translateX(0)",
   },
 }));
+
+// Composant pour la création d'un virement
 export const VirementFondCreate = () => {
-  const { identity, isLoading: identityLoading } = useGetIdentity();
+  const { identity, isLoading: identityLoading } = useGetIdentity(); // Récupération de l'identité de l'utilisateur
   const [orderVirement, setOrderVirement] = useState([
+    // État pour les commandes de virement
     {
       id: "null",
       ribAtner: 0,
@@ -34,6 +39,7 @@ export const VirementFondCreate = () => {
     },
   ]);
   const [RibAtner, setRibAtner] = useState([
+    // État pour les RIB des bénéficiaires
     {
       nom: "",
       id: 0,
@@ -41,100 +47,77 @@ export const VirementFondCreate = () => {
       validation: "",
     },
   ]);
-  const [orderVirementField, setOrderVirementField] = useState(true);
+  const [orderVirementField, setOrderVirementField] = useState(true); // État pour contrôler l'affichage du champ de commande de virement
+
+  // Récupération des commandes de virement en cours
   useEffect(() => {
     fetch(`${apiUrl}/ordervirementencoursFond`)
       .then((response) => response.json())
       .then((json) => setOrderVirement(json));
   }, []);
+
+  // Récupération des RIB validés pour une commande de virement spécifique
   const getFournisseurFilteredByOv = (id) => {
-    fetch(
-      `${apiUrl}/ribatnerValid/${id}?ordervirment={"id":"${id}"}`
-    )
+    fetch(`${apiUrl}/ribatnerValid/${id}?ordervirment={"id":"${id}"}`)
       .then((response) => response.json())
       .then((json) => setRibAtner(json));
   };
+
+  // Préparation des choix pour le champ Select des commandes de virement
   let orderVirement_choices = orderVirement.map(({ id }) => ({
     id: id,
     name: id,
   }));
-  let ribAtner_choices = RibAtner.map(
-    ({ id, nom, rib }) => ({
-      id: id,
-      name: `${nom}|||${rib}`,
-    })
-  );
+
+  // Préparation des choix pour le champ Autocomplete des RIB des bénéficiaires
+  let ribAtner_choices = RibAtner.map(({ id, nom, rib }) => ({
+    id: id,
+    name: `${nom}|||${rib}`,
+  }));
+
   const classes = useStyles();
-  const { isLoading, error } = useGetIdentity();
-  if (isLoading) return <>Loading</>;
-  if (error) return <>Error</>
+  const { isLoading, error } = useGetIdentity(); // Vérification de l'état de chargement de l'identité
+  if (isLoading) return <>Loading</>; // Affichage d'un message de chargement
+  if (error) return <>Error</>; // Affichage d'un message d'erreur
+
   return (
     <Create>
       <SimpleForm>
-      <TextInput
-          defaultValue={identity?.fullName}
+        <TextInput
+          defaultValue={identity?.fullName} // Affichage du nom de l'utilisateur
           label="vous êtes"
           hidden={false}
           className={classes.autocomplete}
-          disabled={true}
+          disabled={true} // Champ désactivé
           source="Redacteur"
-        ></TextInput>
+        />
         <SelectInput
-          validate={required("Ce champ est obligatoire")}
+          validate={required("Ce champ est obligatoire")} // Validation requise
           className={classes.autocomplete}
           source="orderVirementFondId"
           onChange={(e) => {
-            // console.log(e.target.value);
             if (e.target.value === "") {
               setOrderVirementField(true);
             } else {
               setOrderVirementField(false);
-              getFournisseurFilteredByOv(e.target.value);
+              getFournisseurFilteredByOv(e.target.value); // Récupération des RIB pour la commande sélectionnée
             }
           }}
           choices={orderVirement_choices}
         />
         <AutocompleteInput
-          validate={required("Ce champ est obligatoire")}
-          disabled={orderVirementField}
+          validate={required("Ce champ est obligatoire")} // Validation requise
+          disabled={orderVirementField} // Champ désactivé si nécessaire
           className={classes.autocomplete}
           source="RibAtnerDestId"
           choices={ribAtner_choices}
-          // onChange={(e) => {
-          //   setOnchangefournisseur(e);
-          //   // console.log(e);
-          //   if (!e) {
-          //     setFournisseurIdField(true);
-          //    // getCheckedFournisseur(e)
-          //   } else {
-          //     setFournisseurIdField(false);
-          //    // getCheckedFournisseur(e)
-          //   }
-          // }}
         />
-{/* 
 
-        <SelectInput
-          validate={required("Ce champ est obligatoire")}
-          disabled={fournisseurIdField}
-          className={classes.autocomplete}
-          onChange={(e) => {
-            if (e.target.value === "") {
-            } else {
-             
-            }
-          }}
-          source="ribFournisseurId"
-          
-        />
-    */}
-
-<TextInput
-          validate={[ required("Le Montant est obligatoire")]}
+        <TextInput
+          validate={[required("Le Montant est obligatoire")]} // Validation requise
           className={classes.autocomplete}
           source="montantVirement"
         />
-
       </SimpleForm>
     </Create>
   );

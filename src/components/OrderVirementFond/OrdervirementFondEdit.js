@@ -1,5 +1,5 @@
-import { makeStyles } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core"; // Importation de la méthode makeStyles de Material-UI pour le style
+import { useEffect, useState } from "react"; // Importation des hooks useEffect et useState de React
 import {
   Edit,
   FormDataConsumer,
@@ -11,52 +11,59 @@ import {
   Toolbar,
   useDataProvider,
   useRedirect,
-} from "react-admin";
-import Swal from "sweetalert2";
+} from "react-admin"; // Importation des composants nécessaires de React Admin
+import Swal from "sweetalert2"; // Importation de SweetAlert2 pour les alertes
 
+// Définition des styles personnalisés
 const useStyles = makeStyles(() => ({
   autocomplete: {
-    width: "650px",
+    width: "650px", // Largeur des champs d'autocomplétion
   },
   chip: {
-    fontWeight: "bold",
+    fontWeight: "bold", // Style de police en gras pour les étiquettes
   },
 }));
 
+// Composant personnalisé pour la barre d'outils d'édition avec un bouton de sauvegarde
 const EditToolbar = (props) => (
   <Toolbar {...props}>
     <SaveButton id="save" />
   </Toolbar>
 );
-export const OrdervirementFondEdit = (props) => {
-  const dataProvider = useDataProvider();
-  const [ribAtner, setribAtner] = useState([]);
-  const redirect = useRedirect();
 
+// Composant principal pour l'édition d'un ordre de virement de fonds
+export const OrdervirementFondEdit = (props) => {
+  const dataProvider = useDataProvider(); // Récupération du fournisseur de données
+  const [ribAtner, setRibAtner] = useState([]); // État pour stocker les données RIB
+  const redirect = useRedirect(); // Hook pour la redirection
+
+  // Effet pour récupérer les données RIB depuis l'API
   useEffect(() => {
     dataProvider
       .getList("ribatner", {
-        pagination: { page: 1, perPage: 20 },
-        sort: { field: "nom", order: "ASC" },
+        pagination: { page: 1, perPage: 20 }, // Pagination des résultats
+        sort: { field: "nom", order: "ASC" }, // Tri par nom de manière ascendante
       })
       .then(({ data }) => {
-        setribAtner(data);
+        setRibAtner(data); // Mise à jour de l'état avec les données récupérées
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error); // Gestion des erreurs
       });
-  }, [dataProvider]);
+  }, [dataProvider]); // Dépendance sur dataProvider
 
+  // Transformation des données RIB pour les utiliser dans le composant SelectInput
   let rib_choices = ribAtner.map(({ id, nom, rib }) => ({
     id: id,
     name: `(${nom}) ${rib}`,
   }));
 
+  // Fonction pour afficher une alerte de confirmation avant de sauvegarder l'état
   function regleeAlert(params) {
     if (params === "Reglee") {
       Swal.fire({
         title: "Êtes-vous sûr?",
-        text: "Voulez-vous vraiment régler cette ordre de virement?",
+        text: "Voulez-vous vraiment régler cet ordre de virement?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -64,85 +71,84 @@ export const OrdervirementFondEdit = (props) => {
         confirmButtonText: "Oui, régler!",
       }).then((result) => {
         if (result.isConfirmed) {
-          document.querySelector("#save").click();
-          Swal.fire("Régler!", "Ordre de virement régler.", "success");
+          document.querySelector("#save").click(); // Clique sur le bouton de sauvegarde
+          Swal.fire("Régler!", "Ordre de virement réglé.", "success");
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire(
             "Modification annulée",
-            "ordre de virement pour ne pas changer.",
+            "Ordre de virement n'a pas été modifié.",
             "error"
           );
-          redirect("list", "ordervirement");
+          redirect("list", "ordervirement"); // Redirection vers la liste des ordres de virement
         }
       });
     } else if (params === "Annule") {
       Swal.fire({
         title: "Êtes-vous sûr?",
-        text: "Voulez-vous vraiment Annule cette ordre de virement?",
+        text: "Voulez-vous vraiment annuler cet ordre de virement?",
         icon: "warning",
         showCancelButton: true,
         cancelButtonText: "Non!",
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Oui, Annule!",
+        confirmButtonText: "Oui, annuler!",
       }).then((result) => {
         if (result.isConfirmed) {
-          document.querySelector("#save").click();
-          Swal.fire("Annule!", "Ordre de virement Annule.", "success");
+          document.querySelector("#save").click(); // Clique sur le bouton de sauvegarde
+          Swal.fire("Annulé!", "Ordre de virement annulé.", "success");
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire(
             "Modification annulée",
-            "ordre de virement pour ne pas changer.",
+            "Ordre de virement n'a pas été modifié.",
             "error"
           );
-          redirect("list", "ordervirement");
+          redirect("list", "ordervirement"); // Redirection vers la liste des ordres de virement
         }
       });
     }
   }
-  const classes = useStyles();
+
+  const classes = useStyles(); // Utilisation des styles définis plus haut
+
   return (
     <Edit {...props}>
       <SimpleForm toolbar={<EditToolbar />}>
-        <TextInput className={classes.autocomplete} source="id" disabled />
-
-        
-
+        <TextInput className={classes.autocomplete} source="id" disabled />{" "}
+        {/* Champ d'affichage de l'ID, désactivé */}
         <FormDataConsumer>
           {({ formData, ...rest }) =>
             formData.etat !== "Reglee" &&
-            formData.etat !== "Annule" && (
+            formData.etat !== "Annule" && ( // Affiche les champs suivants seulement si l'état n'est ni "Réglé" ni "Annulé"
               <>
                 <SelectInput
                   className={classes.autocomplete}
                   source="ribAtner"
-                  validate={required()}
-                  choices={rib_choices}
+                  validate={required()} // Validation requise
+                  choices={rib_choices} // Options pour le champ de sélection
                   {...rest}
                 />
                 <SelectInput
                   className={classes.autocomplete}
-                  validate={required()}
+                  validate={required()} // Validation requise
                   source="etat"
                   onChange={(e) => {
-                    regleeAlert(e.target.value);
+                    regleeAlert(e.target.value); // Appel de la fonction regleeAlert au changement de valeur
                   }}
                   choices={[
                     { id: "En cours", name: "En cours" },
-                    { id: "Reglee", name: "Reglee" },
-                    { id: "Annule", name: "Annule" },
-                  ]}
+                    { id: "Reglee", name: "Réglé" },
+                    { id: "Annule", name: "Annulé" },
+                  ]} // Options pour le champ de sélection de l'état
                 />
                 <SelectInput
-          validate={required("Le directeur est obligatoire")}
-          emptyText="selectionnez le directeur"
-          source="directeursigne"
-          choices={[
-            { id: "Youness ZAMANI", name: "Youness ZAMANI" },
-            { id: "Mohamed ZAMANI", name: "Mohamed ZAMANI" },
-          ]}
-          initialValue="" // This line can be omitted
-        />
+                  validate={required("Le directeur est obligatoire")}
+                  emptyText="Sélectionnez le directeur"
+                  source="directeursigne"
+                  choices={[
+                    { id: "Youness ZAMANI", name: "Youness ZAMANI" },
+                    { id: "Mohamed ZAMANI", name: "Mohamed ZAMANI" },
+                  ]}
+                />
               </>
             )
           }
@@ -151,4 +157,3 @@ export const OrdervirementFondEdit = (props) => {
     </Edit>
   );
 };
-

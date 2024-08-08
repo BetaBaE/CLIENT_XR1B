@@ -3,19 +3,20 @@ import {
   AutocompleteInput,
   Edit,
   required,
-  SelectInput,
   SimpleForm,
   TextInput,
   Toolbar,
   SaveButton,
-  useDataProvider,
-  useRedirect,
   useGetIdentity,
+  NumberInput,
+  useNotify,
+  useRedirect,
+  useRefresh,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
-import Swal from "sweetalert2";
-import apiUrl from "../../config"; // Assurez-vous d'importer correctement l'URL de votre API
-import { useParams } from "react-router-dom"; // Importer useParams pour extraire les paramètres d'URL
+import { useParams } from "react-router-dom";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import apiUrl from "../../config";
 
 const useStyles = makeStyles(() => ({
   autocomplete: {
@@ -26,116 +27,204 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const UserEditToolbar = (props) => (
+  <Toolbar {...props}>
+    <SaveButton id="save" disabled={props.disabled} />
+  </Toolbar>
+);
+
 export const AvanceEdit = (props) => {
-  const UserEditToolbar = (props) => (
-    <Toolbar {...props}>
-      <SaveButton id="save" />
-    </Toolbar>
+  const classes = useStyles();
+  const { id } = useParams();
+  const { identity, isLoading: identityLoading } = useGetIdentity();
+  const [ttcFacture, setTccFacture] = useState(0);
+  const [montantRestituer, setMontantRestituer] = useState(0);
+  const [isRefreshed, setIsRefreshed] = useState(false); // État pour vérifier si le bouton a été cliqué
+
+  const queryClient = useQueryClient();
+  const notify = useNotify();
+  const redirect = useRedirect();
+
+  const refresh = useRefresh();
+  const handleClick = () => {
+    refresh();
+    setIsRefreshed(true); // Marquer comme rafraîchi
+  };
+
+  const { data: avanceData, isLoading: isAvanceLoading } = useQuery(
+    ["avance", id],
+    async () => {
+      const response = await fetch(`${apiUrl}/Avance/${id}`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    },
+    {
+      enabled: !!id,
+    }
   );
 
-  const dataProvider = useDataProvider();
-  const [avanceRestitution, setAvanceRestitution] = useState(null);
-  const [factures, setFactures] = useState([]);
-  const classes = useStyles();
-  const { identity, isLoading: identityLoading } = useGetIdentity();
-  const redirect = useRedirect();
-  const { id } = useParams(); // Utiliser useParams pour extraire l'ID de l'URL
+  const mutation = useMutation(
+    async (updatedData) => {
+      const response = await fetch(`${apiUrl}/Avance/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["avance", id]);
+        notify("Modification réussie", { type: "success" });
+        if (montantRestituer === 0) {
+          notify("L'avance est totalement restituée", { type: "info" });
+        }
+        redirect("/Avance");
+      },
+      onError: (error) => {
+        notify(`Erreur: ${error.message}`, { type: "error" });
+      },
+    }
+  );
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Vérifier si l'ID est défini (par sécurité)
-        if (!id) {
-          throw new Error("ID non défini");
-        }
+    if (!isAvanceLoading && (!avanceData || !avanceData.data)) {
+      alert(
+        "Cette avance est déjà restituée totalement ou il n'a pas encore payé."
+      );
+      redirect("/Avance");
+    }
+  }, [isAvanceLoading, avanceData, redirect]);
 
-        // Remplacez par votre endpoint réel ou dynamique avec l'ID extrait de l'URL
-        const response = await fetch(`${apiUrl}/Avance/${id}`);
-        const data = await response.json();
-        setAvanceRestitution(data.data.avanceRestitution);
-        console.log(data.data.avanceRestitution)
-        setFactures(data.data.factures);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        // Gérer les erreurs ici (affichage de messages d'erreur, etc.)
+  if (isAvanceLoading || identityLoading) return <div>Loading...</div>;
+
+  if (!avanceData || !avanceData.data) {
+    return (
+      <div>
+        {" "}
+        L'avance est totalement payée ou elle est restituée totalement.
+      </div>
+    );
+  }
+
+  const { avanceRestitution, factures } = avanceData.data;
+
+  const formatDate = (string) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(string).toLocaleDateString([], options);
+  };
+
+  const validateMontantRestantARestituer = (values) => {
+    const errors = {};
+    if (
+      values.MontantRestantARestituer == null ||
+      values.MontantRestantARestituer === ""
+    ) {
+      errors.MontantRestantARestituer =
+        "Le montant à restituer n'est pas inséré";
+    } else {
+      const montantRestituerValue = parseFloat(values.MontantRestantARestituer);
+      if (values.Montant < montantRestituerValue) {
+        errors.MontantRestantARestituer =
+          "Le montant est incorrect, impossible de compléter la restitution";
+      } else if (ttcFacture < montantRestituerValue) {
+        errors.MontantRestantARestituer =
+          "Le montant à restituer est supérieur au montant de la facture";
       }
-    };
+    }
+    return errors;
+  };
 
-    fetchData();
-  }, [dataProvider, id]);
-
-  if (identityLoading || !avanceRestitution) return <>Loading...</>; // Affichez un indicateur de chargement jusqu'à ce que les données soient chargées
-
-
-
+  const handleSave = (values) => {
+    setMontantRestituer(parseFloat(values.MontantRestantARestituer));
+    mutation.mutate(values);
+  };
 
   return (
     <Edit {...props}>
-      <SimpleForm toolbar={<UserEditToolbar />}>
-        <TextInput
-          defaultValue={identity.fullName}
-          label="Vous êtes"
-          className={classes.autocomplete}
-          disabled
-          source="Redacteur"
-        />
-        <AutocompleteInput
-          label="Factures"
-          source="idfacture"
-          className={classes.autocomplete}
-          choices={factures.map((facture) => ({
-            id: facture.idfacture,
-            name: `${facture.numeroFacture} | ${facture.TTC} DH | ${facture.DateFacture}   ${facture.idfacture}`,
-          }))}
- validate={required("mentionnez la facture")}
-        />
-        <TextInput
-          label="Montant  restant NON restituer"
-          className={classes.autocomplete}
-          source="Montant"
-          // defaultValue={avanceRestitution.MontantAvanceTTC || ""}
-          defaultValue={avanceRestitution.Montant || ""}
-          disabled={true}
-        />
-        <TextInput
-          label="Code Affaire"
-          className={classes.autocomplete}
-          source="CodeAffaire"
-          // defaultValue={avanceRestitution.CodeAffaire || ""}
-          disabled={true}
-        />
-        <TextInput
-          label="Montant Restant A Restituer"
-          // className={classes.autocomplete}
-          source="MontantRestantARestituer"
-        // defaultValue={avanceRestitution.Montant || ""}
-        // disabled={true}        
-        />
-<TextInput
-          label="etatRestit"
-          // className={classes.autocomplete}
-          source="Etat"
-        defaultValue={avanceRestitution.Etat || ""}
-
-        disabled={true}        
-        />
-
-
-<TextInput
-          label="Fourisseur"
-          // className={classes.autocomplete}
-          source="nom"
-        defaultValue={avanceRestitution.nom || ""}
-        disabled={true}        
-        />
-<TextInput
-          label="ModePaiement"
-          // className={classes.autocomplete}
-          source="ModePaiement"
-        defaultValue={avanceRestitution.ModePaiement || ""}
-        disabled={true}        
-        />
-      </SimpleForm>
+      {!isRefreshed ? (
+        <div>
+          <button onClick={handleClick}>Rafraîchir les données</button>
+        </div>
+      ) : (
+        <SimpleForm
+          toolbar={<UserEditToolbar disabled={!isRefreshed} />}
+          validate={validateMontantRestantARestituer}
+          save={handleSave}
+        >
+          <TextInput
+            defaultValue={identity.fullName}
+            label="Vous êtes"
+            className={classes.autocomplete}
+            disabled
+            source="Redacteur"
+          />
+          <AutocompleteInput
+            label="Factures"
+            source="idfacture"
+            className={classes.autocomplete}
+            choices={factures.map((facture) => ({
+              id: facture.idfacture,
+              name: `${facture.numeroFacture} | ${
+                facture.TTC
+              } DH | ${formatDate(facture.DateFacture)}`,
+            }))}
+            validate={required("mentionnez la facture")}
+            onChange={(e) => {
+              const id = e;
+              const selectedFacture = factures.find(
+                (fac) => fac.idfacture === id
+              );
+              if (selectedFacture) {
+                setTccFacture(selectedFacture.TTC);
+              }
+            }}
+          />
+          <TextInput
+            label="Montant restant NON Restituer"
+            className={classes.autocomplete}
+            source="Montant"
+            defaultValue={avanceRestitution.Montant || ""}
+            disabled
+          />
+          <TextInput
+            label="Code Affaire"
+            className={classes.autocomplete}
+            source="CodeAffaire"
+            defaultValue={avanceRestitution.CodeAffaire || ""}
+            disabled
+          />
+          <NumberInput
+            label="Montant Restant A Restituer"
+            source="MontantRestantARestituer"
+          />
+          <TextInput
+            label="etatRestit"
+            source="etat"
+            defaultValue={avanceRestitution.etat || ""}
+            disabled
+          />
+          <TextInput
+            label="Fourisseur"
+            source="nom"
+            defaultValue={avanceRestitution.nom || ""}
+            disabled
+          />
+          <TextInput
+            label="ModePaiement"
+            source="ModePaiement"
+            defaultValue={avanceRestitution.ModePaiement || ""}
+            disabled
+          />
+        </SimpleForm>
+      )}
     </Edit>
   );
 };

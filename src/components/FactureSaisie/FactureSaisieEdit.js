@@ -1,3 +1,4 @@
+import React from "react";
 import {
   DateInput,
   Edit,
@@ -9,74 +10,74 @@ import {
   useGetIdentity,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
+
+// Styles spécifiques pour ce composant
 const useStyles = makeStyles(() => ({
   autocomplete: {
     width: "580px",
   },
-  chip: {
-    fontWeight: "bold",
-  },
 }));
+
+// Composant de modification de la facture
 export const FactureSaisieEdit = () => {
-  const classes = useStyles();
+  const classes = useStyles(); // Utilisation des styles définis
 
-
-
+  // Récupération de l'identité de l'utilisateur actuel
   const { isLoading, error } = useGetIdentity();
-  if (isLoading) return <>Loading</>;
-  if (error) return <>Error</>;
- 
 
+  // Gestion des cas de chargement et d'erreur de récupération d'identité
+  if (isLoading) return <>Chargement...</>;
+  if (error) return <>Erreur</>;
+
+  // Composant personnalisé de la barre d'outils pour l'édition
   const UserEditToolbar = (props) => (
     <Toolbar {...props}>
       <SaveButton id="save" />
     </Toolbar>
   );
+
+  // Rendu du formulaire de modification
   return (
-    <Edit label="ajouter"undoable={false}>
-     <SimpleForm 
- toolbar={<UserEditToolbar />}
-  >
-      <TextInput
+    <Edit label="Modifier" undoable={false}>
+      <SimpleForm toolbar={<UserEditToolbar />}>
+        <TextInput
           source="numeroFacture"
-          label="numeroFacture"
-          validate={required("Le numeroFacture est obligatoire")}
+          label="Numéro de Facture"
+          validate={required("Le numéro de facture est obligatoire")}
           className={classes.autocomplete}
         />
         <TextInput
           source="TTC"
           label="TTC"
-          validate={required("Le MontantApayer est obligatoire")}
+          validate={required("Le montant TTC est obligatoire")}
           className={classes.autocomplete}
         />
         <TextInput
-          label="designation"
-          validate={required(" selectionnez la designation")}
-          className={classes.autocomplete}
           source="designation"
-          disabled={true}
+          label="Désignation"
+          validate={required("Sélectionnez une désignation")}
+          className={classes.autocomplete}
+          disabled
         />
         <TextInput
           source="BonCommande"
-          label="BonCommande"
-          validate={required("BonCommande obligatoire")}
+          label="Bon de Commande"
+          validate={required("Le bon de commande est obligatoire")}
           className={classes.autocomplete}
         />
         <TextInput
-          label="fournisseur"
-          validate={required("choisir le fournisseur")}
+          source="fournisseur"
+          label="Fournisseur"
+          validate={required("Choisissez un fournisseur")}
           className={classes.autocomplete}
-          source="nom"
-          disabled={true}
+          disabled
         />
         <DateInput
           source="DateFacture"
-          label="date de la facture"
-          validate={required("date obligatoire")}
+          label="Date de Facture"
+          validate={required("La date de facture est obligatoire")}
           className={classes.autocomplete}
-        >
- 
-        </DateInput>
+        />
       </SimpleForm>
     </Edit>
   );

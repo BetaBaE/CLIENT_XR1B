@@ -1,6 +1,6 @@
-import { Admin, Resource, CustomRoutes, ChipField } from "react-admin";
+import { Admin, Resource, CustomRoutes } from "react-admin";
 import restProvider from "ra-data-simple-rest";
-import { FournisseurList } from "./components/Fournisseur/ListFournisseurs";
+
 import { FaTruck, FaCreditCard, FaLastfm } from "react-icons/fa";
 import { RibtempoList } from "./components/RIBtempo/RibtempoList";
 import { RibtempoCreate } from "./components/RIBtempo/RibtempoCreate";
@@ -9,60 +9,73 @@ import { RibfournisseurEdit } from "./components/RIBFournisseurs/RibfournisseurE
 import { CustomLayout } from "./components/custom/layout/CustomLayout";
 import PrintModule from "./components/printModule/PrintModule";
 import { Route } from "react-router-dom";
-import { RibatnerList } from "./components/RIBAtner/RibatnerList";
-import { RibatnerEdit } from "./components/RIBAtner/RibatnerEdit";
-import { UserList } from "./components/user/UserList";
-import { UserEdit } from "./components/user/UserEdit";
-import { UserCreate } from "./components/user/UserCreate";
+import { RibaAtnerList } from "./components/RIBAtner/RibAtnerList";
+import { RibatnerEdit } from "./components/RIBAtner/RIBAtnerEdit";
+import { UserList } from "./components/User/UserList";
+import { UserEdit } from "./components/User/UserEdit";
+import { UserCreate } from "./components/User/UserCreate";
 import { auth } from "./authProvider";
 import { OrdervirementEdit } from "./components/OrderVirement/OrdervirementEdit";
 import { OrdervirementList } from "./components/OrderVirement/OrdervirementList";
 import { OrdervirementCreate } from "./components/OrderVirement/OrdervirementCreate";
 import { RIBAtnerCreate } from "./components/RIBAtner/RIBAtnerCreate";
-import { FactureList } from "./components/Factures/FactureList";
+
 import { VirementCreate } from "./components/Virement/VirementCreate";
 import { VirementList } from "./components/Virement/VirementList";
 import { VirementEdit } from "./components/Virement/VirementEdit";
-import { LogfactureList } from "./components/logfacture/logfactureList";
-import CreateFournisseur from "./components/Fournisseur/CreateFournisseur";
-import { FactureSaisie } from "./components/FactureSaisie/FactureSaisie";
+
+import { FournisseurCreate } from "./components/Fournisseur/FournisseurCreate";
+
 import { FactureSaisieCreate } from "./components/FactureSaisie/FactureSaisieCreate";
-import { FactureRechereCreate } from "./components/factureRecherche/FactureRechereCreate";
+
 import { FactureSaisieEdit } from "./components/FactureSaisie/FactureSaisieEdit";
-import { FactureRecherche } from "./components/factureRecherche/FactureRechere";
-import { historiquefacture } from "./components/historiquefacture/historiquefacture";
-import { FactureValider } from "./components/Facturevalider/FactureValider";
-import { FactureValiderEdit } from "./components/Facturevalider/FactureValiderEdit";
-import { FactureRechereEdit } from "./components/factureRecherche/FactureRechereEdit";
-import { HttpError } from "react-admin";
+
 import { SuivieFacture } from "./components/SuivieFacture/SuivieFacture";
 
-import { ChequeCreate } from "./components/cheque/ChequeCreate";
-import { ChequeList } from "./components/cheque/chequeList";
-import { EspeceList } from "./components/espece/EspeceList";
-import { EspeceCreate } from "./components/espece/EspeceCreate";
-import { ChequeEdit } from "./components/cheque/ChequeEdit";
-
+import { ChequeCreate } from "./components/Cheque/ChequeCreate";
+import { ChequeList } from "./components/Cheque/ChequeList";
+import { EspeceList } from "./components/Espece/EspeceList";
+import { EspeceCreate } from "./components/Espece/EspeceCreate";
+import { ChequeEdit } from "./components/Cheque/ChequeEdit";
 
 import apiUrl from "./config";
 import { ModificationFichnavette } from "./components/Modification fichnavette/ModificationFichnavette";
 import { ModificationFichnavetteEdit } from "./components/Modification fichnavette/ModificationFichnavetteEdit";
-import { EditFournisseur } from "./components/Fournisseur/EditFournisseur";
-import { SuivieFactureEchu } from "./components/SuivieFactureEchu/SuivieFactureEchu";
-import { BonlivraisonList } from "./components/bonlivraisonList/BonlivraisonList";
-import { EcheanceReelFournisseur } from "./components/EcheanceFournisseur/EcheanceReelFournisseur";
-import CreateEcheanceReelFournisseur from "./components/EcheanceFournisseur/CreateEcheanceReelFournisseur";
-import { EcheanceLoiFournisseur } from "./components/EcheanceLoiFournisseur/EcheanceLoiFournisseur";
-import CreateEcheanceLoiFournisseur from "./components/EcheanceLoiFournisseur/CreateEcheanceLoiFournisseur";
+
+import { SuivieFactureEchuList } from "./components/SuivieFactureEchu/SuivieFactureEchuList";
+
 import { FactureNonPaye } from "./components/FactureNonPayé/FactureNonPayé";
-import DetailFacturebyfournisseur from "./components/DetailFacturebyfournisseur/DetailFacturebyfournisseur";
+import SuivieFactureExerciceList from "./components/SuivieFactureExercice/SuivieFactureExerciceList";
 import { OrdervirementFondList } from "./components/OrderVirementFond/OrdervirementList";
 import { OrdervirementFondCreate } from "./components/OrderVirementFond/OrdervirementFondCreate";
 import { VirementFondList } from "./components/VirementFond/VirementFondList";
 import { VirementFondCreate } from "./components/VirementFond/VirementFondCreate";
 import { VirementFondEdit } from "./components/VirementFond/VirementFondEdit";
 import AttestationFournisseurCreate from "./components/AttestationFournisseur/AttestationFournisseurCreate";
-import { AttestationlFournisseur } from "./components/AttestationFournisseur/AttestationlFournisseur";
+import { AttestationFournisseurList } from "./components/AttestationFournisseur/AttestationFournisseurList";
+import { AvanceCreate } from "./components/Avance/AvanceCreate";
+import { AvanceList } from "./components/Avance/AvanceList";
+import { AvanceEdit } from "./components/Avance/AvanceEdit";
+import { FicheNavetteList } from "./components/FicheNavette/FicheNavetteList";
+
+import { FicheNavetteCreate } from "./components/FicheNavette/FicheNavetteCreate";
+import { FournisseursList } from "./components/Fournisseur/FournisseursList";
+import { FactureList } from "./components/FacturesSage/FactureList";
+import { AvancePayerList } from "./components/AvancePayer/AvancePayerList";
+import { FactureSaisieList } from "./components/FactureSaisie/FactureSaisieList";
+import { HistoriqueFactureList } from "./components/HistoriqueFacture/HistoriqueFactureList";
+import { FactureValiderList } from "./components/FactureValider/FactureValiderList";
+import { FactureValiderEdit } from "./components/FactureValider/FactureValiderEdit";
+import { FournisseurEdit } from "./components/Fournisseur/FournisseurEdit";
+import { EcheanceReeList } from "./components/EcheanceReelList/EcheanceReeList";
+import EcheanceReelCreate from "./components/EcheanceReelList/EcheanceReelCreate";
+import { EcheanceLoiList } from "./components/EcheanceLoi/EcheanceLoiList";
+import EcheanceLoiCreate from "./components/EcheanceLoi/EcheanceLoiCreate";
+import { AvanceRestituerDetatailList } from "./components/AvanceRestituerDetatail/AvanceRestituerDetatailList";
+import { AvanceForupdateList } from "./components/AvanceForupdate/AvanceForupdateList";
+import { AvanceForupdateEdit } from "./components/AvanceForupdate/AvanceForupdateEdit";
+import { AvanceForupdateCreate } from "./components/AvanceForupdate/AvanceForupdateCreate";
+import { FicheNavetteEdit } from "./components/FicheNavette/FicheNavetteEdit";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -107,7 +120,7 @@ const fetchJson = async (url, options = {}) => {
 };
 function App(props) {
   const dataProvider = restProvider(apiUrl, fetchJson);
- 
+
   return (
     <Admin
       {...props}
@@ -116,56 +129,51 @@ function App(props) {
       layout={CustomLayout}
     >
       {(permissions) => [
-               
-               permissions === "admin" ||
-               permissions === "normal user" ||
-               permissions === "comptable midelt" ||
-               permissions === "superviseur comptabilite midelt" ||
-               permissions === "superviseur comptabilite" ||
-               permissions === "comptable" ? (
-                 <Resource
-                   name="fournisseurs"
-                   list={FournisseurList}
-                   create={
-                     (permissions === "superviseur comptabilite midelt" ||
-                     permissions === "superviseur comptabilite" ||
-                     permissions === "comptable midelt" ||
-                     permissions === "comptable")
-                       ? CreateFournisseur
-                       : null
-                   }
-                   edit={
-                    (permissions === "superviseur comptabilite midelt" ||
-                    permissions === "superviseur comptabilite" ||
-                    permissions === "comptable midelt" ||
-                    permissions === "comptable")
-                      ? EditFournisseur
-                      : null
-                  }
-                   icon={FaTruck}
-                 />
-               ) : null,
-                permissions === "admin" ||
-               permissions === "normal user" ||
-               permissions === "comptable midelt" ||
-               permissions === "superviseur comptabilite midelt" ||
-               permissions === "superviseur comptabilite" ||
-               permissions === "comptable" ? (
-                 <Resource
-                   name="Attestaion"
-                   list={AttestationlFournisseur}
-                   create={
-                     (permissions === "superviseur comptabilite midelt" ||
-                     permissions === "superviseur comptabilite" ||
-                     permissions === "comptable midelt" ||
-                     permissions === "comptable")
-                       ? AttestationFournisseurCreate
-                       : null
-                   }
-                   con={FaTruck}
-                 />
-               ) : null,
-               
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <Resource
+            name="fournisseurs"
+            list={FournisseursList}
+            create={
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "comptable midelt"
+                ? FournisseurCreate
+                : null
+            }
+            edit={
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "comptable midelt"
+                ? FournisseurEdit
+                : null
+            }
+            icon={FaTruck}
+          />
+        ) : null,
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <Resource
+            name="Attestaion"
+            list={AttestationFournisseurList}
+            create={
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable midelt" ||
+              permissions === "comptable"
+                ? AttestationFournisseurCreate
+                : null
+            }
+            con={FaTruck}
+          />
+        ) : null,
+
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
@@ -188,26 +196,37 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
-        permissions === "comptable"  ? (
+        permissions === "comptable" ? (
           <Resource
             name="EcheanceReel"
-            list={EcheanceReelFournisseur}
-           create={CreateEcheanceReelFournisseur}
+            list={EcheanceReeList}
+            create={EcheanceReelCreate}
             icon={FaCreditCard}
           />
         ) : null,
-
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <Resource
+            name="getAvanceDetailRestit"
+            list={AvanceRestituerDetatailList}
+            con={FaTruck}
+          />
+        ) : null,
 
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
-        permissions === "comptable"  ? (
+        permissions === "comptable" ? (
           <Resource
             name="EcheanceLoi"
-            list={EcheanceLoiFournisseur}
-           create={CreateEcheanceLoiFournisseur}
+            list={EcheanceLoiList}
+            create={EcheanceLoiCreate}
             icon={FaLastfm}
           />
         ) : null,
@@ -220,16 +239,14 @@ function App(props) {
         permissions === "comptable" ? (
           <Resource
             name="ribatner"
-            list={RibatnerList}
+            list={RibaAtnerList}
             edit={
               permissions === "superviseur comptabilite midelt"
-         
                 ? RibatnerEdit
                 : null
             }
             create={
-              permissions === "superviseur comptabilite midelt" 
-    
+              permissions === "superviseur comptabilite midelt"
                 ? RIBAtnerCreate
                 : null
             }
@@ -247,7 +264,7 @@ function App(props) {
             list={RibtempoList}
             create={
               permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite" ||      
+              permissions === "superviseur comptabilite" ||
               permissions === "comptable midelt" ||
               permissions === "comptable"
                 ? RibtempoCreate
@@ -265,7 +282,7 @@ function App(props) {
         permissions === "superviseur comptabilite midelt" ? (
           <Resource
             name="facturesSaisie"
-            list={FactureSaisie}
+            list={FactureSaisieList}
             edit={
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite" ||
@@ -275,7 +292,6 @@ function App(props) {
                 : null
             }
             create={
-              permissions === "comptable" ||
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite midelt"
                 ? FactureSaisieCreate
@@ -292,12 +308,11 @@ function App(props) {
         permissions === "superviseur comptabilite midelt" ? (
           <Resource
             name="facturevalider"
-            list={FactureValider}
+            list={FactureValiderList}
             edit={
               permissions === "comptable midelt" ||
-              permissions === "superviseur comptabilite midelt"||
-               permissions === "superviseur comptabilite"||
-               permissions === "comptable" 
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite"
                 ? FactureValiderEdit
                 : null
             }
@@ -312,18 +327,11 @@ function App(props) {
         permissions === "superviseur comptabilite midelt" ? (
           <Resource
             name="historiquefacture"
-            list={historiquefacture}
+            list={HistoriqueFactureList}
             icon={FaCreditCard}
           />
         ) : null,
-        <Admin
->
-    <Resource
-      name="BonLivraison" 
-      list={BonlivraisonList} 
-      icon={FaTruck} 
-    />
-</Admin>,
+
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
@@ -337,16 +345,16 @@ function App(props) {
               permissions === "superviseur comptabilite midelt" ||
               permissions === "superviseur comptabilite" ||
               permissions === "comptable"
-                ? FactureRechereCreate
+                ? FicheNavetteCreate
                 : null
             }
-            list={FactureRecherche}
+            list={FicheNavetteList}
             edit={
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite midelt" ||
               permissions === "superviseur comptabilite" ||
               permissions === "comptable"
-                ? FactureRechereEdit
+                ? FicheNavetteEdit
                 : null
             }
           />
@@ -358,7 +366,11 @@ function App(props) {
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ||
         permissions === "superviseur comptabilite midelt" ? (
-          <Resource name="SuivieFacture" list={SuivieFacture} icon={FaTruck}></Resource>
+          <Resource
+            name="SuivieFacture"
+            list={SuivieFacture}
+            icon={FaTruck}
+          ></Resource>
         ) : null,
 
         permissions === "admin" ||
@@ -367,9 +379,12 @@ function App(props) {
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ||
         permissions === "superviseur comptabilite midelt" ? (
-          <Resource name="FactureNonPaye" list={FactureNonPaye} icon={FaTruck}></Resource>
+          <Resource
+            name="FactureNonPaye"
+            list={FactureNonPaye}
+            icon={FaTruck}
+          ></Resource>
         ) : null,
-
 
         permissions === "admin" ||
         permissions === "normal user" ||
@@ -377,7 +392,11 @@ function App(props) {
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ||
         permissions === "superviseur comptabilite midelt" ? (
-          <Resource name="SuivieFactureEchu" list={SuivieFactureEchu} icon={FaTruck}></Resource>
+          <Resource
+            name="SuivieFactureEchu"
+            list={SuivieFactureEchuList}
+            icon={FaTruck}
+          ></Resource>
         ) : null,
         permissions === "admin" ||
         permissions === "normal user" ||
@@ -436,8 +455,6 @@ function App(props) {
           />
         ) : null,
 
-
-
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
@@ -463,8 +480,7 @@ function App(props) {
               permissions === "comptable"
                 ? ChequeEdit
                 : null
-            } 
-        
+            }
           />
         ) : null,
         permissions === "admin" ||
@@ -485,7 +501,6 @@ function App(props) {
                 ? EspeceCreate
                 : null
             }
-        
           />
         ) : null,
         permissions === "admin" ||
@@ -502,7 +517,7 @@ function App(props) {
             icon={FaCreditCard}
           />
         ) : null,
-     
+
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
@@ -512,17 +527,10 @@ function App(props) {
           <Resource
             name="ModificationFichnavette"
             list={ModificationFichnavette}
-            edit={
-           
-                 ModificationFichnavetteEdit
-           
-            }
-          
+            edit={ModificationFichnavetteEdit}
             icon={FaCreditCard}
           />
-          ) : null,
-
-
+        ) : null,
 
         permissions === "admin" ||
         permissions === "normal user" ||
@@ -550,7 +558,6 @@ function App(props) {
             icon={FaCreditCard}
           />
         ) : null,
-
 
         permissions === "admin" ||
         permissions === "normal user" ||
@@ -581,16 +588,13 @@ function App(props) {
           />
         ) : null,
 
-
-
-
         permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable" ? (
-          <Resource name="logfactures" list={LogfactureList} />
+          <Resource name="logfactures" list={AvancePayerList} />
         ) : null,
         permissions === "admin" ||
         permissions === "normal user" ||
@@ -619,11 +623,41 @@ function App(props) {
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <CustomRoutes>
-            <Route path="/DetailFacturebyfournisseur" element={<DetailFacturebyfournisseur />} />
+            <Route
+              path="/DetailFacturebyfournisseur"
+              element={<SuivieFactureExerciceList />}
+            />
           </CustomRoutes>
         ) : null,
 
-        
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <Resource
+            name="Avance"
+            list={AvanceList}
+            edit={AvanceEdit}
+            create={AvanceCreate}
+            icon={FaCreditCard}
+          />
+        ) : null,
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <Resource
+            name="AvanceForupdate"
+            list={AvanceForupdateList}
+            edit={AvanceForupdateEdit}
+            icon={FaCreditCard}
+            create={AvanceForupdateCreate}
+          />
+        ) : null,
       ]}
     </Admin>
   );

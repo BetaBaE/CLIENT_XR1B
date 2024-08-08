@@ -1,123 +1,29 @@
 import * as React from "react";
 import { Menu, usePermissions } from "react-admin";
+import SubMenu from "./SubMenu";
 import {
-  FaTruck,
   FaCreditCard,
-  FaPrint,
-  FaBuilding,
-  FaUser,
-  FaPager,
   FaFileInvoice,
-  FaRegListAlt,
-  FaSearch,
-  FaHistory,
-  FaEnvelope,
-  FaTrash,
-  FaBorderAll,
-  FaAndroid,
-  FaMonero,
-  FaAnchor,
-  FaEquals,
-  FaConfluence,
   FaFileInvoiceDollar,
-  FaAccusoft,
-  FaAlgolia,
+  FaUserTie,
+  FaUser,
+  FaEquals,
+  FaRegMoneyBillAlt,
+  FaPaperPlane,
+  FaPrint,
+  FaBatteryEmpty,
 } from "react-icons/fa";
-import { Md1XMobiledata, MdPayments } from "react-icons/md";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { TbReportMoney } from "react-icons/tb";
 
 export const CustomMenu = (props) => {
   const { permissions } = usePermissions();
 
   return (
     <Menu {...props}>
-      {(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/fournisseurs"
-          primaryText="Fournisseurs"
-          leftIcon={<FaTruck />}
-        />
-      )}
-{/* 
-{(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/Avance"
-          primaryText="avances"
-          leftIcon={<FaTruck />}
-        />
-      )} */}
-
-          {(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/EcheanceReel"
-          primaryText="EcheanceReel"
-          leftIcon={<FaAnchor />}
-        />
-      )}
-
-{(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/EcheanceLoi"
-          primaryText="EcheanceLoi"
-          leftIcon={<FaEquals />}
-        />
-      )}
-
-
-{(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/Attestaion"
-          primaryText="Attestaion"
-          leftIcon={<FaAlgolia />}
-        />
-      )}
-
-      {(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/ribtempo"
-          primaryText="RIB Temporaire"
-          leftIcon={<FaCreditCard />}
-        />
-      )}
-      {(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "superviseur comptabilite") && (
-        <Menu.Item
-          to="/ribfournisseurs"
-          primaryText="RIB Validé"
-          leftIcon={<FaCreditCard />}
-        />
+      {/* <Menu.DashboardItem /> */}
+      {(permissions === "admin" || permissions === "normal user") && (
+        <Menu.Item to="/users" primaryText="Users" leftIcon={<FaUser />} />
       )}
       {(permissions === "admin" ||
         permissions === "normal user" ||
@@ -125,11 +31,49 @@ export const CustomMenu = (props) => {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
-        <Menu.Item
-          to="/ribatner"
-          primaryText="RIB Atner"
-          leftIcon={<FaBuilding />}
-        />
+        <SubMenu primaryText="Section Facture" leftIcon={<ChevronRightIcon />}>
+          <Menu.Item
+            to="AvanceForupdate"
+            primaryText="Avance"
+            leftIcon={<FaFileInvoiceDollar />}
+          />
+          <Menu.Item
+            to="facturesSaisie"
+            primaryText="Factures"
+            leftIcon={<FaFileInvoice />}
+          />
+          <Menu.Item
+            to="FicheNavette"
+            primaryText="Fiche navette"
+            leftIcon={<TbReportMoney />}
+          />
+          <Menu.Item
+            to="Avance"
+            primaryText="Restitution Avance"
+            leftIcon={<TbReportMoney />}
+          />
+          {/* <Menu.Item
+            to="/ModificationFichnavette"
+            primaryText="Modif/Annul Av/FN"
+            leftIcon={<FaFileInvoiceDollar />}
+          /> */}
+
+          <Menu.Item
+            to="/FactureValider"
+            primaryText="Archivage Facture"
+            leftIcon={<FaFileInvoice />}
+          />
+          <Menu.Item
+            to="/historiquefacture"
+            primaryText="Historique Facture"
+            leftIcon={<FaFileInvoice />}
+          />
+          <Menu.Item
+            to="/getAvanceDetailRestit"
+            primaryText="AvanceRestituerDetatailList"
+            leftIcon={<FaBatteryEmpty />}
+          />
+        </SubMenu>
       )}
       {(permissions === "admin" ||
         permissions === "normal user" ||
@@ -137,148 +81,41 @@ export const CustomMenu = (props) => {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
-        <Menu.Item
-          to="/factures"
-          primaryText="Factures"
-          leftIcon={<FaFileInvoice />}
-        />
-      )}
-      {(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/ordervirement"
-          primaryText="Order Virement"
-          leftIcon={<FaPager />}
-        />
-      )}
-
-{(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/ordervirementFond"
-          primaryText="ordervirementFond"
-          leftIcon={<FaPager />}
-        />
-      )}
-
-
-
-{(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/virementsFond"
-          primaryText="Virements de fond"
-          leftIcon={<MdPayments />}
-        />
-      )}
-
-
-
-      {(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/virements"
-          primaryText="Virements"
-          leftIcon={<MdPayments />}
-        />
-      )}
-
- {(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/cheque"
-          primaryText="cheque"
-          leftIcon={<FaAndroid />}
-        />
-      )}
-
-
-
-{(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/ModificationFichnavette"
-          primaryText="Modification Fichnavette"
-          leftIcon={<FaConfluence />}
-        />
-      )}
-
-
-
-
-
-
-{(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/espece"
-          primaryText="espece"
-          leftIcon={<FaMonero />}
-        />
-      )}
-      {(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/logfactures"
-          primaryText="les avances payé"
-          leftIcon={<FaRegListAlt />}
-        />
-      )}
-      {(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/facturesSaisie"
-          primaryText="Facture Saisie"
-          leftIcon={<FaEnvelope />}
-        />
-      )}
-      {(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/FactureValider"
-          primaryText="Archivage Facture"
-          leftIcon={<FaHistory />}
-        />
+        <SubMenu
+          primaryText="Section Fournisseur"
+          leftIcon={<ChevronRightIcon />}
+        >
+          <Menu.Item
+            to="fournisseurs"
+            primaryText="Fournisseurs"
+            leftIcon={<FaUserTie />}
+          />
+          <Menu.Item
+            to="ribtempo"
+            primaryText="RIB Temporaire"
+            leftIcon={<FaCreditCard />}
+          />
+          <Menu.Item
+            to="ribfournisseurs"
+            primaryText="RIB Fournisseurs"
+            leftIcon={<FaCreditCard />}
+          />
+          <Menu.Item
+            to="EcheanceReel"
+            primaryText="Echeance Fournisseur Reel"
+            leftIcon={<FaRegMoneyBillAlt />}
+          />
+          <Menu.Item
+            to="EcheanceLoi"
+            primaryText="Echeance Fournisseur Loi"
+            leftIcon={<FaEquals />}
+          />
+          <Menu.Item
+            to="Attestaion"
+            primaryText="Attestation Fiscalité"
+            leftIcon={<FaPaperPlane />}
+          />
+        </SubMenu>
       )}
 
       {(permissions === "admin" ||
@@ -287,23 +124,53 @@ export const CustomMenu = (props) => {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
-        <Menu.Item
-          to="/FicheNavette"
-          primaryText="Fiche Navette"
-          leftIcon={<FaSearch />}
-        />
+        <SubMenu primaryText="Section  Atner" leftIcon={<ChevronRightIcon />}>
+          <Menu.Item
+            to="ribatner"
+            primaryText="RIB Atner"
+            leftIcon={<FaCreditCard />}
+          />
+          <Menu.Item
+            to="/virementsFond"
+            primaryText="Virements de fond"
+            leftIcon={<FaUserTie />}
+          />
+          <Menu.Item
+            to="/ordervirementFond"
+            primaryText="ordervirementFond"
+            leftIcon={<FaCreditCard />}
+          />
+        </SubMenu>
       )}
+
       {(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
-        <Menu.Item
-          to="/historiquefacture"
-          primaryText="Historique Facture"
-          leftIcon={<FaTrash />}
-        />
+        <SubMenu primaryText="Section Paiement" leftIcon={<ChevronRightIcon />}>
+          <Menu.Item
+            to="ordervirement"
+            primaryText="Order Virement"
+            leftIcon={<FaFileInvoiceDollar />}
+          />
+          <Menu.Item
+            to="virements"
+            primaryText="Virements"
+            leftIcon={<FaFileInvoice />}
+          />
+          <Menu.Item
+            to="cheque"
+            primaryText="cheque"
+            leftIcon={<TbReportMoney />}
+          />
+          <Menu.Item
+            to="/espece"
+            primaryText="espece"
+            leftIcon={<TbReportMoney />}
+          />
+        </SubMenu>
       )}
       {(permissions === "admin" ||
         permissions === "normal user" ||
@@ -323,55 +190,29 @@ export const CustomMenu = (props) => {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
-        <Menu.Item
-          to="/SuivieFacture"
-          primaryText="Log Facture Saisie"
-          leftIcon={<FaBorderAll />}
-        />
+        <SubMenu primaryText="Suive Facture" leftIcon={<ChevronRightIcon />}>
+          <Menu.Item
+            to="/SuivieFacture"
+            primaryText="Log Facture Saisie"
+            leftIcon={<FaFileInvoiceDollar />}
+          />
+          <Menu.Item
+            to="/SuivieFactureEchu"
+            primaryText="Facture enregistrée prête pour l'échéance"
+            leftIcon={<FaFileInvoice />}
+          />
+          <Menu.Item
+            to="/FactureNonPaye"
+            primaryText="Facture Non Paye"
+            leftIcon={<TbReportMoney />}
+          />
+          <Menu.Item
+            to="/DetailFacturebyfournisseur"
+            primaryText="Somme par Fournisseur"
+            leftIcon={<TbReportMoney />}
+          />
+        </SubMenu>
       )}
- {(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/SuivieFactureEchu"
-          primaryText="Facture enregistrée prête pour l'échéance"
-          leftIcon={<FaBorderAll />}
-        />
-      )}
- {(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/FactureNonPaye"
-          primaryText="Facture Non Paye"
-          leftIcon={<FaFileInvoiceDollar />}
-        />
-      )}
-
-{(permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
-        <Menu.Item
-          to="/DetailFacturebyfournisseur"
-          primaryText="Somme par Fournisseur"
-          leftIcon={<FaAccusoft />}
-        />
-      )}
-
-
-
-      {(permissions === "admin" || permissions === "normal user") && (
-          <Menu.Item to="/users" primaryText="Users" leftIcon={<FaUser />} />
-        )}
     </Menu>
   );
 };

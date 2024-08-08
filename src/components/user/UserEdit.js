@@ -10,6 +10,7 @@ import {
   Toolbar,
 } from "react-admin";
 
+// Styles personnalisés pour le composant
 const useStyles = makeStyles(() => ({
   autocomplete: {
     width: "650px",
@@ -19,6 +20,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+// Barre d'outils personnalisée pour l'édition
 const EditToolbar = (props) => (
   <Toolbar {...props}>
     <SaveButton id="save" />
@@ -31,17 +33,21 @@ export const UserEdit = (props) => {
   return (
     <Edit {...props}>
       <SimpleForm toolbar={<EditToolbar />}>
+        {/* Champ pour le nom complet de l'utilisateur */}
         <TextInput
           source="fullname"
           validate={required("Le nom est obligatoire")}
           className={classes.autocomplete}
         />
+
+        {/* Champ pour le nom d'utilisateur */}
         <TextInput
           source="username"
           validate={required("Username est obligatoire")}
           className={classes.autocomplete}
         />
-        {/* <TextInput source="Role" /> */}
+
+        {/* Sélecteur pour le rôle de l'utilisateur */}
         <SelectInput
           validate={required("Le Role est obligatoire")}
           className={classes.autocomplete}
@@ -54,26 +60,26 @@ export const UserEdit = (props) => {
               name: "Superviseur Comptabilité",
             },
             { id: "comptable", name: "Comptable" },
-
-            { id: "comptable midelt", name: "comptable midelt" },
+            { id: "comptable midelt", name: "Comptable Midelt" },
             {
               id: "superviseur comptabilite midelt",
-              name: "superviseur comptabilite midelt",
+              name: "Superviseur Comptabilité Midelt",
             },
-            //   { id: "photography", name: "Photography" },
           ]}
         />
-        {/* <TextInput source="password" /> */}
+
+        {/* Sélecteur pour l'état d'activation de l'utilisateur */}
         <SelectInput
           validate={required("Le status est obligatoire")}
           className={classes.autocomplete}
           source="isActivated"
           choices={[
-            { id: "true", name: "activer" },
-            { id: "false", name: "desactiver" },
-            //   { id: "photography", name: "Photography" },
+            { id: "true", name: "Activer" },
+            { id: "false", name: "Désactiver" },
           ]}
         />
+
+        {/* Champ pour la date de création (non modifiable) */}
         <DateInput source="created" disabled />
       </SimpleForm>
     </Edit>

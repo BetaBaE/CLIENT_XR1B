@@ -11,10 +11,10 @@ import {
   useGetIdentity,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
-
 import { Chip } from "@material-ui/core";
 import apiUrl from "../../config";
 import Swal from "sweetalert2";
+
 const useStyles = makeStyles(() => ({
   autocomplete: {
     width: "650px",
@@ -23,20 +23,15 @@ const useStyles = makeStyles(() => ({
     fontWeight: "bold",
   },
 }));
+
 export const EspeceCreate = (props) => {
   const redirect = useRedirect();
   const { identity, isLoading: identityLoading } = useGetIdentity();
   const [fournisseur, setFournisseur] = useState([]);
   const [facture, setFacture] = useState([{ id: "", BonCommande: "" }]);
   const dataProvider = useDataProvider();
-
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
-
-  function formatDate(string) {
-    var options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(string).toLocaleDateString([], options);
-  }
-
+  const [sum, setSum] = useState("0.000");
   const [sumfacturewithfn, setSumfacturewithfn] = useState([]);
   const [sumfacturewithoutfn, setSumfacturewithoutfn] = useState([]);
   const [sumavance, setSumavance] = useState([]);
@@ -44,42 +39,45 @@ export const EspeceCreate = (props) => {
     selectedSupplierFournisseurCategory,
     setSelectedSupplierFournisseurCategory,
   ] = useState("");
-
   const [selectedSupplierFactureCategory, setSelectedSupplierFactureCategory] =
     useState("");
+
+  // Extraire les sommes pour un accès facile
   const sumAvanceValue = sumavance.length > 0 ? sumavance[0].sum : "";
-  const sumfactureValue =
+  const sumfactureValuefn =
     sumfacturewithfn.length > 0 ? sumfacturewithfn[0].sum : "";
   const sumfacturenotfnValue =
     sumfacturewithoutfn.length > 0 ? sumfacturewithoutfn[0].sum : "";
 
+  // Récupérer les fournisseurs au montage du composant
   useEffect(() => {
     dataProvider
       .getList("getAllFournissuersClean", {
         pagination: { page: 1, perPage: 3000 },
         sort: { field: "nom", order: "ASC" },
       })
-      .then(({ data }) => {
-        setFournisseur(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      .then(({ data }) => setFournisseur(data))
+      .catch((error) => console.log(error));
   }, [dataProvider]);
+
+  // Récupérer les factures par ID de fournisseur
   const getFactureByFourniseur = (id) => {
-    let url = `${apiUrl}/getfacturebyfournisseurid/` + id;
-    fetch(url)
+    fetch(`${apiUrl}/getfacturebyfournisseurid/${id}`)
       .then((response) => response.json())
-      .then((json) => setFacture(json));
+      .then((json) => setFacture(json))
+      .catch((error) => console.log(error));
   };
 
-  let fournisseurs_choices = fournisseur.map(
+  // Transformer les fournisseurs pour le dropdown
+  const fournisseurs_choices = fournisseur.map(
     ({ id, nom, CodeFournisseur, catFournisseur }) => ({
-      id: id,
+      id,
       name: `${nom} ${CodeFournisseur} ,${catFournisseur}`,
       categorie: catFournisseur,
     })
   );
+
+  // Transformer les factures pour le dropdown
   let facture_choices = facture.map(
     ({
       id,
@@ -91,27 +89,28 @@ export const EspeceCreate = (props) => {
       TTC,
       MontantAPaye,
       CatFn,
+      validation,
     }) => ({
       id: id,
       name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${
         DateFacture === null ? "avance" : DateFacture?.split("T")[0]
-      } | ${nom} | MontantAPaye ${MontantAPaye} DH | TTC ${TTC}DH`,
+      } | ${nom} | MontantAPaye ${MontantAPaye} DH | TTC ${TTC}DH | ${validation}`,
 
       categorie: CatFn,
     })
   );
 
+  // Récupérer les sommes des factures
   const getsumfacturewithfnByFourniseurId = (id) => {
-    let url = `${apiUrl}/getsumfacturebyfournisseurwithfn/` + id;
-    console.log(url);
-    fetch(url)
+    fetch(`${apiUrl}/getsumfacturebyfournisseurwithfn/${id}`)
       .then((response) => response.json())
-      .then((json) => {
-        setSumfacturewithfn(json);
-      })
-      .catch((error) => {
-        console.error("Error fetching sumfacture:", error);
-      });
+      .then((json) => setSumfacturewithfn(json))
+      .catch((error) =>
+        console.error(
+          "Erreur lors de la récupération de la somme des factures :",
+          error
+        )
+      );
   };
 
   const getsumfacturewithoutByFourniseurId = (id) => {
@@ -128,88 +127,80 @@ export const EspeceCreate = (props) => {
   };
 
   const getsumavanceByFourniseurId = (id) => {
-    let url = `${apiUrl}/getsumavancebyfournisseur/` + id;
-    console.log(url);
-    fetch(url)
+    fetch(`${apiUrl}/getsumavancebyfournisseur/${id}`)
       .then((response) => response.json())
-      .then((json) => {
-        setSumavance(json);
-      })
-      .catch((error) => {
-        console.error("Error fetching sumavance:", error);
-      });
+      .then((json) => setSumavance(json))
+      .catch((error) =>
+        console.error(
+          "Erreur lors de la récupération de la somme des avances :",
+          error
+        )
+      );
   };
 
-  const [sum, setSum] = useState(0);
-
+  // Gérer la sélection des factures et le calcul des sommes
   const handleChange = (e) => {
-    let newSum = 0;
-    let alertShown = false;
-
+    let sum = 0;
     e.forEach((fa) => {
       const selectedFacture = facture_choices.find((f) => f.id === fa);
       if (selectedFacture) {
         setSelectedSupplierFactureCategory(selectedFacture.categorie);
 
+        // Vérification de la catégorie du fournisseur
         if (
           selectedFacture.categorie !== "FET" &&
           selectedFacture.categorie !== "Service" &&
           selectedSupplierFournisseurCategory === "personne physique"
         ) {
-          if (!alertShown) {
-            alertShown = true;
-            Swal.fire({
-              title: "Alerte",
-              text: "Le fournisseur sélectionné est une personne physique sans catégorie définie.",
-              icon: "warning",
-              allowOutsideClick: false,
-              confirmButtonColor: "#3085d6",
-              confirmButtonText: "Confirmer",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                Swal.fire({
-                  title: "Le virement a été annulé",
-                  icon: "info",
-                  confirmButtonColor: "#3085d6",
-                  confirmButtonText: "OK",
-                }).then(() => {
-                  redirect("list", "virements");
-                });
-              }
-            });
-          }
+          Swal.fire({
+            title: "Alerte",
+            text: "Le fournisseur sélectionné est une personne physique sans catégorie définie.",
+            icon: "warning",
+            allowOutsideClick: false,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Confirmer",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Le virement a été annulé",
+                icon: "info",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "OK",
+              });
+              redirect("list", "espece");
+            }
+          });
         }
 
         const montantMatch = selectedFacture.name.match(
-          /MontantAPaye (-?\d+(\.\d+)?)/
+          /MontantAPaye (\d+(\.\d+)?)/
         );
         if (montantMatch) {
           const montantAPaye = parseFloat(montantMatch[1]);
           if (!isNaN(montantAPaye)) {
-            newSum += montantAPaye; // Accumule les montants (positifs et négatifs)
+            sum += montantAPaye;
           }
         }
       }
     });
-
-    setSum(newSum.toFixed(3)); // Affiche la somme avec trois décimales
+    setSum(sum.toFixed(3));
   };
 
   const classes = useStyles();
   const { isLoading, error } = useGetIdentity();
-  if (isLoading) return <>Loading</>;
-  if (error) return <>Error</>;
+  if (isLoading) return <>Chargement...</>;
+  if (error) return <>Erreur</>;
+
   return (
     <Create>
       <SimpleForm>
         <TextInput
           defaultValue={identity?.fullName}
-          label="vous êtes"
-          hidden={false}
+          label="Vous êtes"
           className={classes.autocomplete}
           disabled={true}
           source="redacteur"
-        ></TextInput>
+        />
         <AutocompleteInput
           label="Fournisseur"
           validate={required("Le fournisseur est obligatoire")}
@@ -217,55 +208,41 @@ export const EspeceCreate = (props) => {
           source="fournisseurId"
           choices={fournisseurs_choices}
           onChange={(e) => {
-            // setOnchangefournisseur(e);
             if (!e) {
               setFournisseurIdField(true);
-              setSelectedSupplierFournisseurCategory(""); // Clear selected supplier category
+              setSelectedSupplierFournisseurCategory("");
             } else {
               const selectedFournisseur = fournisseurs_choices.find(
                 (f) => f.id === e
               );
               setFournisseurIdField(false);
               getFactureByFourniseur(e);
-              getsumfacturewithfnByFourniseurId(e);
               getsumfacturewithoutByFourniseurId(e);
-              getsumavanceByFourniseurId(e);
-              setSelectedSupplierFournisseurCategory(
-                selectedFournisseur?.categorie || ""
-              );
-              console.log(
-                "selectedFournisseur.catFournisseur",
-                selectedFournisseur
-              );
+              getsumfacturewithfnByFourniseurId(e);
+
+              // getsumavanceByFourniseurId(e);
+              // setSelectedSupplierFournisseurCategory(
+              //   selectedFournisseur?.categorie || ""
+              // );
             }
           }}
         />
-        {sumfactureValue ? (
+        {sumfactureValuefn && (
           <div>
-            La somme des montants des factures qui ont FN par fournisseur est de
-            : {sumfactureValue} DH
+            La somme des montants des factures avec FN est de :{" "}
+            {sumfactureValuefn} DH
           </div>
-        ) : (
-          ""
         )}
-        <br></br>
-        {sumfacturenotfnValue ? (
+        {sumfacturenotfnValue && (
           <div>
-            la somme des montants factures qui n'ont pas FN par fournisseur
-            value : {sumfacturenotfnValue} DH
+            La somme des montants des factures sans FN est de :{" "}
+            {sumfacturenotfnValue} DH
           </div>
-        ) : (
-          ""
         )}
-
-        <br></br>
-        {sumAvanceValue ? (
+        {sumAvanceValue && (
           <div>
-            la somme des montants des avances par fournisseur value :{" "}
-            {sumAvanceValue} DH
+            La somme des montants des avances est de : {sumAvanceValue} DH
           </div>
-        ) : (
-          ""
         )}
 
         <AutocompleteArrayInput
