@@ -329,7 +329,7 @@ export const VirementCreate = () => {
       id: id,
       name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${
         DateFacture === null ? "avance" : DateFacture?.split("T")[0]
-      } | ${nom} | MontantAPaye ${MontantAPaye} DH | TTC ${TTC}DH`,
+      } | ${nom} | MontantAPaye ${MontantAPaye} DH | TTC ${TTC}DH | hhh${CatFn}`,
 
       categorie: CatFn,
     })

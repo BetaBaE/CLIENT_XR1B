@@ -275,6 +275,7 @@ function App(props) {
                 : null
             }
             create={
+              permissions === "comptable" ||
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite midelt"
                 ? FactureSaisieCreate
@@ -294,7 +295,9 @@ function App(props) {
             list={FactureValider}
             edit={
               permissions === "comptable midelt" ||
-              permissions === "superviseur comptabilite midelt"
+              permissions === "superviseur comptabilite midelt"||
+               permissions === "superviseur comptabilite"||
+               permissions === "comptable" 
                 ? FactureValiderEdit
                 : null
             }
