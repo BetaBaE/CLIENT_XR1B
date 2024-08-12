@@ -22,21 +22,7 @@ const AvanceFilter = (props) => {
         label="fournisseur"
         validate={[validateNoSpecialChars]}
       />
-      <TextInput
-        source="designation"
-        label="designation"
-        validate={[validateNoSpecialChars]}
-      />
-      <TextInput
-        source="numeroFacture"
-        label="numeroFacture"
-        validate={[validateNoSpecialChars]}
-      />
-      <TextInput
-        source="CodeFournisseur"
-        label="CodeFournisseur"
-        validate={[validateNoSpecialChars]}
-      />
+
       <TextInput
         source="ficheNavette"
         label="ficheNavette"

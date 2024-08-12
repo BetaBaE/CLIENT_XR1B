@@ -62,16 +62,9 @@ export const FactureSaisieEdit = () => {
         <TextInput
           source="BonCommande"
           label="Bon de Commande"
-          validate={required("Le bon de commande est obligatoire")}
           className={classes.autocomplete}
         />
-        <TextInput
-          source="fournisseur"
-          label="Fournisseur"
-          validate={required("Choisissez un fournisseur")}
-          className={classes.autocomplete}
-          disabled
-        />
+
         <DateInput
           source="DateFacture"
           label="Date de Facture"
