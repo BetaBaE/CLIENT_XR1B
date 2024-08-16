@@ -82,7 +82,7 @@ export const OrdervirementFondEdit = (props) => {
           redirect("list", "ordervirement"); // Redirection vers la liste des ordres de virement
         }
       });
-    } else if (params === "Annule") {
+    } else if (params === "Annuler") {
       Swal.fire({
         title: "Êtes-vous sûr?",
         text: "Voulez-vous vraiment annuler cet ordre de virement?",
@@ -118,7 +118,7 @@ export const OrdervirementFondEdit = (props) => {
         <FormDataConsumer>
           {({ formData, ...rest }) =>
             formData.etat !== "Reglee" &&
-            formData.etat !== "Annule" && ( // Affiche les champs suivants seulement si l'état n'est ni "Réglé" ni "Annulé"
+            formData.etat !== "Annuler" && ( // Affiche les champs suivants seulement si l'état n'est ni "Réglé" ni "Annulé"
               <>
                 <SelectInput
                   className={classes.autocomplete}
@@ -137,7 +137,7 @@ export const OrdervirementFondEdit = (props) => {
                   choices={[
                     { id: "En cours", name: "En cours" },
                     { id: "Reglee", name: "Réglé" },
-                    { id: "Annule", name: "Annulé" },
+                    { id: "Annuler", name: "Annuler" },
                   ]} // Options pour le champ de sélection de l'état
                 />
                 <SelectInput

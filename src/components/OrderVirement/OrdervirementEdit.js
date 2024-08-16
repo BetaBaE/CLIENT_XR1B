@@ -76,7 +76,7 @@ export const OrdervirementEdit = (props) => {
           redirect("list", "ordervirement");
         }
       });
-    } else if (params === "Annule") {
+    } else if (params === "Annuler") {
       Swal.fire({
         title: "Êtes-vous sûr?",
         text: "Voulez-vous vraiment Annule cette ordre de virement?",
@@ -109,7 +109,7 @@ export const OrdervirementEdit = (props) => {
         <FormDataConsumer>
           {({ formData, ...rest }) =>
             formData.etat !== "Reglee" &&
-            formData.etat !== "Annule" && (
+            formData.etat !== "Annuler" && (
               <>
                 <SelectInput
                   className={classes.autocomplete}
@@ -128,7 +128,7 @@ export const OrdervirementEdit = (props) => {
                   choices={[
                     { id: "En cours", name: "En cours" },
                     // { id: "Reglee", name: "Reglee" },
-                    { id: "Annule", name: "Annule" },
+                    { id: "Annuler", name: "Annuler" },
                   ]}
                 />
                 <SelectInput
