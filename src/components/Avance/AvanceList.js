@@ -29,7 +29,7 @@ export const AvanceList = (props) => {
         bulkActionButtons={false}
         classes={{ headerCell: classes.headerCell, row: classes.row }}
       >
-        <TextField source="chantier" label="chantier" />
+        {/* <TextField source="chantier" label="chantier" /> */}
         <TextField source="catFournisseur" label="catFournisseur" />
         <NumberField source="MontantAvanceTVA" label="MontantAvanceTVA" />
         <NumberField source="MontantAvanceHT" label="MontantAvanceHT" />

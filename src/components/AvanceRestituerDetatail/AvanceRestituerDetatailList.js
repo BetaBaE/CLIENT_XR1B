@@ -11,14 +11,11 @@ export const AvanceRestituerDetatailList = (props) => {
         <TextField source="LIBELLE" label="chantier" />
         <TextField source="fichenavette" label="fichenavette" />
         <TextField source="CatFn" label="CategorieDoucument" />
-
         <TextField source="MontantAvanceTTC" label="MontantAvanceTTC" />
-
         <TextField source="BonCommande" label="BonCommande" />
         <DateField source="DateFacture" label="DateFacture" />
         <TextField source="numeroFacture" label="numeroFacture" />
         <TextField source="TTC" label="TTC" />
-
         <TextField source="MontantRestituer" label="MontantRestituer" />
         <TextField source="ModePaiement" label="ModePaiement" />
         <TextField source="nom" label="Founisseur" />

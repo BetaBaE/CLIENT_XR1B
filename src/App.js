@@ -53,7 +53,6 @@ import { VirementFondCreate } from "./components/VirementFond/VirementFondCreate
 import { VirementFondEdit } from "./components/VirementFond/VirementFondEdit";
 import AttestationFournisseurCreate from "./components/AttestationFournisseur/AttestationFournisseurCreate";
 import { AttestationFournisseurList } from "./components/AttestationFournisseur/AttestationFournisseurList";
-import { AvanceCreate } from "./components/Avance/AvanceCreate";
 import { AvanceList } from "./components/Avance/AvanceList";
 import { AvanceEdit } from "./components/Avance/AvanceEdit";
 import { FicheNavetteList } from "./components/FicheNavette/FicheNavetteList";
