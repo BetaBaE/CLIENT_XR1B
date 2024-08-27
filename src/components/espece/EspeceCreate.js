@@ -78,27 +78,29 @@ export const EspeceCreate = (props) => {
   );
 
   // Transformer les factures pour le dropdown
-  let facture_choices = facture.map(
-    ({
-      id,
-      chantier,
-      nom,
-      ficheNavette,
-      DateFacture,
-      CODEDOCUTIL,
-      TTC,
-      MontantAPaye,
-      CatFn,
-      validation,
-    }) => ({
-      id: id,
-      name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${
-        DateFacture === null ? "avance" : DateFacture?.split("T")[0]
-      } | ${nom} | MontantAPaye ${MontantAPaye} DH | TTC ${TTC}DH | ${validation}`,
+  let facture_choices = facture
+    .filter((facture) => facture.TTC <= 5000)
+    .map(
+      ({
+        id,
+        chantier,
+        nom,
+        ficheNavette,
+        DateFacture,
+        CODEDOCUTIL,
+        TTC,
+        MontantAPaye,
+        CatFn,
+        validation,
+      }) => ({
+        id: id,
+        name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${
+          DateFacture === null ? "avance" : DateFacture?.split("T")[0]
+        } | ${nom} | MontantAPaye ${MontantAPaye} DH | TTC ${TTC}DH | ${validation}`,
 
-      categorie: CatFn,
-    })
-  );
+        categorie: CatFn,
+      })
+    );
 
   // Récupérer les sommes des factures
   const getsumfacturewithfnByFourniseurId = (id) => {
