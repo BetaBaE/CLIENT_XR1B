@@ -294,10 +294,15 @@ export const VirementCreate = () => {
       .then((json) => setFournisseur(json));
   };
 
-  let orderVirement_choices = orderVirement.map(({ id }) => ({
-    id: id,
-    name: id,
-  }));
+  let orderVirement_choices = orderVirement.map(
+    ({ id, alert, dateExpiration }) => ({
+      id: id,
+      name:
+        `${id}|${alert}|${dateExpiration}`.length < 40
+          ? `${id}`
+          : `►${id} | ${alert} | ${dateExpiration.split("T")[0]}◄`,
+    })
+  );
   let fournisseurs_choices = fournisseur.map(
     ({ FournisseurId, nom, CodeFournisseur, catFournisseur }) => ({
       id: FournisseurId,
