@@ -160,18 +160,24 @@ export const AvanceForupdateEdit = (props) => {
         <NumberInput
           label="MontantAvanceTTC"
           className={classes.autocomplete}
+          min="10"
           source="MontantAvanceTTC"
+          validate={required()}
         />
 
         <NumberInput
           label="MontantAvanceHT"
           className={classes.autocomplete}
+          min="10"
           source="MontantAvanceHT"
+          validate={required()}
         />
 
         <NumberInput
           label="MontantAvanceTVA"
           className={classes.autocomplete}
+          min="0"
+          defaultValue={0}
           source="MontantAvanceTVA"
         />
 
