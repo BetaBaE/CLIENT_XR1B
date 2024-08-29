@@ -213,6 +213,20 @@ export const CustomMenu = (props) => {
           />
         </SubMenu>
       )}
+      {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable") && (
+        <SubMenu primaryText="Alerts" leftIcon={<ChevronRightIcon />}>
+          <Menu.Item
+            to="/alertattestationregfisc"
+            primaryText="Alerts Log Facture Saisie"
+            leftIcon={<FaFileInvoiceDollar />}
+          />
+        </SubMenu>
+      )}
     </Menu>
   );
 };

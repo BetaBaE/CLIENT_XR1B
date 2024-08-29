@@ -1,4 +1,4 @@
-import { Admin, Resource, CustomRoutes } from "react-admin";
+import { Admin, Resource, CustomRoutes, ListGuesser } from "react-admin";
 import restProvider from "ra-data-simple-rest";
 
 import { FaTruck, FaCreditCard, FaLastfm } from "react-icons/fa";
@@ -75,6 +75,7 @@ import { AvanceForupdateList } from "./components/AvanceForupdate/AvanceForupdat
 import { AvanceForupdateEdit } from "./components/AvanceForupdate/AvanceForupdateEdit";
 import { AvanceForupdateCreate } from "./components/AvanceForupdate/AvanceForupdateCreate";
 import { FicheNavetteEdit } from "./components/FicheNavette/FicheNavetteEdit";
+import { AlertAttestationRegFiscList } from "./components/Alerts/AlertAttestationRegFiscList";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -655,6 +656,17 @@ function App(props) {
             edit={AvanceForupdateEdit}
             icon={FaCreditCard}
             create={AvanceForupdateCreate}
+          />
+        ) : null,
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <Resource
+            name="alertattestationregfisc"
+            list={AlertAttestationRegFiscList}
           />
         ) : null,
       ]}

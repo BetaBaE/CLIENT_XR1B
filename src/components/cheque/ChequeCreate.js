@@ -93,10 +93,10 @@ export const ChequeCreate = (props) => {
 
         // Extraire le MontantAPaye de la chaîne de nom
         const montantMatch = selectedFacture.name.match(
-          /MontantAPaye (\d+(\.\d+)?)/
+          /MontantAPaye -?(\d+(\.\d+)?)/
         );
-        if (montantMatch) {
-          const montantAPaye = parseFloat(montantMatch[1]);
+        if (montantMatch[0].split(" ")[1]) {
+          const montantAPaye = parseFloat(montantMatch[0].split(" ")[1]);
           if (!isNaN(montantAPaye)) {
             sum += montantAPaye;
           }
