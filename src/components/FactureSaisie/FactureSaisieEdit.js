@@ -1,76 +1,241 @@
 import React from "react";
 import {
+  AutocompleteInput,
   DateInput,
   Edit,
+  NumberInput,
   required,
   SaveButton,
+  SelectInput,
   SimpleForm,
   TextInput,
   Toolbar,
+  useEditController,
   useGetIdentity,
+  useRedirect,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
+import { Grid } from "@material-ui/core";
+import useFetchChantier from "../global/chantier";
+import apiUrl from "../../config";
+import useFetchDesignation from "../global/designation";
+import Swal from "sweetalert2";
+// import Skeleton from '@material-ui/lab/Skeleton';
 
 // Styles spécifiques pour ce composant
 const useStyles = makeStyles(() => ({
   autocomplete: {
-    width: "580px",
+    width: "95%",
   },
+  // formContainer: {
+  //  -- display: "1vh",
+  // },
 }));
 
-// Composant de modification de la facture
 export const FactureSaisieEdit = () => {
   const classes = useStyles(); // Utilisation des styles définis
+  const redirect = useRedirect();
+  const { record } = useEditController();
 
-  // Récupération de l'identité de l'utilisateur actuel
-  const { isLoading, error } = useGetIdentity();
+  const ControlEdit = (record) => {
+    return record.AcompteReg > 0 || record.AcompteVal > 0 ? true : false;
+  };
 
-  // Gestion des cas de chargement et d'erreur de récupération d'identité
-  if (isLoading) return <>Chargement...</>;
-  if (error) return <>Erreur</>;
-
-  // Composant personnalisé de la barre d'outils pour l'édition
   const UserEditToolbar = (props) => (
     <Toolbar {...props}>
       <SaveButton id="save" />
     </Toolbar>
   );
 
-  // Rendu du formulaire de modification
-  return (
-    <Edit label="Modifier" undoable={false}>
-      <SimpleForm toolbar={<UserEditToolbar />}>
-        <TextInput
-          source="numeroFacture"
-          label="Numéro de Facture"
-          validate={required("Le numéro de facture est obligatoire")}
-          className={classes.autocomplete}
-        />
-        <TextInput
-          source="TTC"
-          label="TTC"
-          validate={required("Le montant TTC est obligatoire")}
-          className={classes.autocomplete}
-        />
-        <TextInput
-          source="designation"
-          label="Désignation"
-          validate={required("Sélectionnez une désignation")}
-          className={classes.autocomplete}
-          disabled
-        />
-        <TextInput
-          source="BonCommande"
-          label="Bon de Commande"
-          className={classes.autocomplete}
-        />
+  const annuleAlert = (params) => {
+    if (params === "Annuler") {
+      Swal.fire({
+        title: "Êtes-vous sûr?",
+        text: "Voulez-vous vraiment Annuler cette Facture?",
+        icon: "warning",
+        showCancelButton: true,
+        cancelButtonText: "Non!",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Oui, Annule!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.querySelector("#save").click();
+          Swal.fire("Annulé!", "Facture Annulée", "success");
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire(
+            "Modification annulée",
+            "Facture ne sera pas modifiée.",
+            "error"
+          );
+          redirect("list", "facturesSaisie");
+        }
+      });
+    }
+  };
 
-        <DateInput
-          source="DateFacture"
-          label="Date de Facture"
-          validate={required("La date de facture est obligatoire")}
-          className={classes.autocomplete}
-        />
+  // Récupération de l'identité de l'utilisateur actuel
+  const { isLoading, error } = useGetIdentity();
+  const { identity, isLoading: identityLoading } = useGetIdentity();
+  const { chantier, loading, Error } = useFetchChantier(apiUrl);
+  const { designation, loadingDesignation, ErrorDesignation } =
+    useFetchDesignation(apiUrl);
+
+  // Gestion des cas de chargement et d'erreur de récupération d'identité
+  if (isLoading) return <>Chargement...</>;
+  if (error) return <>Erreur</>;
+
+  let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
+    id: id,
+    name: `${LIBELLE} | ${id} `,
+  }));
+
+  let designation_choices = designation.map(
+    ({ id, designation, codeDesignation }) => ({
+      id: id,
+      name: `${codeDesignation}||${designation}`,
+    })
+  );
+
+  return (
+    <Edit>
+      <SimpleForm
+        className={classes.formContainer}
+        toolbar={<UserEditToolbar />}
+      >
+        <Grid container>
+          <Grid item xs={4}>
+            <TextInput
+              defaultValue={identity.fullName}
+              label="vous êtes"
+              hidden={false}
+              className={classes.autocomplete}
+              disabled={true}
+              source="fullNameupdating"
+            />
+          </Grid>
+
+          <Grid item xs={4}>
+            <TextInput
+              source="fullName"
+              label="crée par"
+              disabled={true}
+              className={classes.autocomplete}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <DateInput
+              source="createdDate"
+              disabled={true}
+              className={classes.autocomplete}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <TextInput
+              source="nom"
+              className={classes.autocomplete}
+              disabled={true}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <TextInput source="BonCommande" className={classes.autocomplete} />
+          </Grid>
+          <Grid item xs={4}>
+            <TextInput
+              source="numeroFacture"
+              label="Numéro de Facture"
+              validate={required("Le numéro de facture est obligatoire")}
+              className={classes.autocomplete}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <DateInput
+              source="DateFacture"
+              label="Date de Facture"
+              validate={required("La date de facture est obligatoire")}
+              className={classes.autocomplete}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <NumberInput
+              source="TTC"
+              label="TTC"
+              className={classes.autocomplete}
+              validate={required("Ce champ est obligatoire")}
+              disabled={ControlEdit(record)}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <AutocompleteInput
+              validate={required("Ce champ est obligatoire")}
+              // disabled={fournisseurIdField}
+              className={classes.autocomplete}
+              source="designation"
+              choices={designation_choices}
+              disabled={ControlEdit(record)}
+              label="Designation"
+            />
+          </Grid>
+
+          <Grid item xs={4}>
+            <SelectInput
+              source="verifiyMidelt"
+              className={classes.autocomplete}
+              choices={[{ id: "verifié", name: "Verifié" }]}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <SelectInput
+              source="CatFn"
+              className={classes.autocomplete}
+              validate={required("Ce champ est obligatoire")}
+              choices={[
+                { id: "FET", name: "Fourniture Equipement Travaux" },
+                { id: "Service", name: "Service" },
+              ]}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <AutocompleteInput
+              label="chantier"
+              className={classes.autocomplete}
+              source="codeChantier"
+              choices={chantier_choices}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <DateInput source="dateecheance" className={classes.autocomplete} />
+          </Grid>
+          <Grid item xs={4}>
+            <TextInput
+              source="AcompteReg"
+              className={classes.autocomplete}
+              disabled={true}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <TextInput
+              source="AcompteVal"
+              className={classes.autocomplete}
+              disabled={true}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <SelectInput
+              source="etat"
+              className={classes.autocomplete}
+              disabled={ControlEdit(record)}
+              choices={[
+                { id: "Annuler", name: "Annuler" },
+                { id: "Saisie", name: "Saisie" },
+              ]}
+              onChange={(e) => {
+                annuleAlert(e.target.value);
+              }}
+            />
+          </Grid>
+        </Grid>
+        {/* <TextInput source="id" /> */}
       </SimpleForm>
     </Edit>
   );

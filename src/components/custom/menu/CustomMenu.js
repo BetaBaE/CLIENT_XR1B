@@ -58,11 +58,11 @@ export const CustomMenu = (props) => {
             leftIcon={<FaFileInvoiceDollar />}
           /> */}
 
-          <Menu.Item
+          {/* <Menu.Item
             to="/FactureValider"
             primaryText="Archivage Facture"
             leftIcon={<FaFileInvoice />}
-          />
+          /> */}
           <Menu.Item
             to="/historiquefacture"
             primaryText="Historique Facture"
@@ -125,6 +125,11 @@ export const CustomMenu = (props) => {
         permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
         <SubMenu primaryText="Section  Atner" leftIcon={<ChevronRightIcon />}>
+          <Menu.Item
+            to="users"
+            primaryText="Users"
+            leftIcon={<FaCreditCard />}
+          />
           <Menu.Item
             to="ribatner"
             primaryText="RIB Atner"

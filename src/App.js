@@ -1,4 +1,10 @@
-import { Admin, Resource, CustomRoutes, ListGuesser } from "react-admin";
+import {
+  Admin,
+  Resource,
+  CustomRoutes,
+  ListGuesser,
+  EditGuesser,
+} from "react-admin";
 import restProvider from "ra-data-simple-rest";
 
 import { FaTruck, FaCreditCard, FaLastfm } from "react-icons/fa";
@@ -63,8 +69,8 @@ import { FactureList } from "./components/FacturesSage/FactureList";
 import { AvancePayerList } from "./components/AvancePayer/AvancePayerList";
 import { FactureSaisieList } from "./components/FactureSaisie/FactureSaisieList";
 import { HistoriqueFactureList } from "./components/HistoriqueFacture/HistoriqueFactureList";
-import { FactureValiderList } from "./components/FactureValider/FactureValiderList";
-import { FactureValiderEdit } from "./components/FactureValider/FactureValiderEdit";
+// import { FactureValiderList } from "./components/FactureValider/FactureValiderList";
+// import { FactureValiderEdit } from "./components/FactureValider/FactureValiderEdit";
 import { FournisseurEdit } from "./components/Fournisseur/FournisseurEdit";
 import { EcheanceReeList } from "./components/EcheanceReelList/EcheanceReeList";
 import EcheanceReelCreate from "./components/EcheanceReelList/EcheanceReelCreate";
@@ -285,8 +291,6 @@ function App(props) {
             list={FactureSaisieList}
             edit={
               permissions === "comptable midelt" ||
-              permissions === "superviseur comptabilite" ||
-              permissions === "comptable" ||
               permissions === "superviseur comptabilite midelt"
                 ? FactureSaisieEdit
                 : null
@@ -300,7 +304,7 @@ function App(props) {
             icon={FaTruck}
           ></Resource>
         ) : null,
-        permissions === "admin" ||
+        /* permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite" ||
@@ -318,7 +322,8 @@ function App(props) {
             }
             icon={FaTruck}
           ></Resource>
-        ) : null,
+        ) : 
+        null, */
 
         permissions === "admin" ||
         permissions === "comptable midelt" ||

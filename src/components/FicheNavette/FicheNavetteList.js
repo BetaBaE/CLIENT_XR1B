@@ -50,7 +50,7 @@ export const FicheNavetteList = (props) => {
         <NumberField source="montantAvance" label="montantAvance" />
         <TextField source="fullname" label="créateur" />
         <TextField source="etat" label="etat" />
-        <TextField source="CatFn" label="CategorieFacture" />
+        {/* <TextField source="CatFn" label="CategorieFacture" /> */}
         {/* <ReferenceArrayField label="BonLivraison" reference="Bonlivraison" source="idfacturenavette">
   <SingleFieldList>
     <ChipField source="Bonlivraison" />
