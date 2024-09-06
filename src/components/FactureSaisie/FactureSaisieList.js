@@ -1,33 +1,47 @@
 import {
   CreateButton,
-  Datagrid,
+  DatagridConfigurable,
   DateField,
+  DateInput,
   ExportButton,
   FilterButton,
   List,
   NumberField,
+  SelectColumnsButton,
   TextField,
+  TextInput,
   TopToolbar,
 } from "react-admin";
 import FactureFilter from "./FactureFilter";
 
+const FactureFilters = [
+  <TextInput source="numeroFacture" />,
+  <TextInput source="BonCommande" />,
+  <TextInput source="LIBELLE" label="chantier" />,
+  <TextInput source="fournisseur" label="fournisseur" />,
+  <TextInput source="designation" label="designation" />,
+  <TextInput source="CodeFournisseur" label="CodeFournisseur" />,
+  <TextInput source="fullname" label="createur" />,
+  <DateInput source="Datedebut" label="mindate" />,
+  <DateInput source="Datefin" label="maxdate" />,
+];
+
 const FactureListActions = () => (
   <TopToolbar>
-    <FilterButton filters={FactureFilter} />
-    {/* <SelectColumnsButton /> */}
+    <FilterButton filters={FactureFilters} />
+    <SelectColumnsButton />
     <CreateButton />
     <ExportButton />
   </TopToolbar>
 );
-
 export const FactureSaisieList = (props) => {
   return (
     <List
-      // actions={<FactureListActions />}
+      actions={<FactureListActions />}
       filters={<FactureFilter />}
       title="Saisir une facture"
     >
-      <Datagrid rowClick="edit" bulkActionButtons={false}>
+      <DatagridConfigurable rowClick="edit" bulkActionButtons={false}>
         <TextField source="LIBELLE" label="chantier" />
         <TextField source="designation" label="designation" />
         <TextField source="CatFn" label="CatFn" />
@@ -50,7 +64,7 @@ export const FactureSaisieList = (props) => {
           options={{ timeZone: "UTC" }}
         />
         <DateField source="dateecheance" />
-      </Datagrid>
+      </DatagridConfigurable>
     </List>
   );
 };

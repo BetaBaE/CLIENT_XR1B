@@ -157,7 +157,7 @@ export const FactureSaisieEdit = () => {
             />
           </Grid>
           <Grid item xs={4}>
-            <NumberInput
+            <TextInput
               source="TTC"
               label="TTC"
               className={classes.autocomplete}
