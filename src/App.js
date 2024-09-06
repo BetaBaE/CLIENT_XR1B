@@ -1,10 +1,4 @@
-import {
-  Admin,
-  Resource,
-  CustomRoutes,
-  ListGuesser,
-  EditGuesser,
-} from "react-admin";
+import { Admin, Resource, CustomRoutes, ListGuesser } from "react-admin";
 import restProvider from "ra-data-simple-rest";
 
 import { FaTruck, FaCreditCard, FaLastfm } from "react-icons/fa";
@@ -82,6 +76,8 @@ import { AvanceForupdateEdit } from "./components/AvanceForupdate/AvanceForupdat
 import { AvanceForupdateCreate } from "./components/AvanceForupdate/AvanceForupdateCreate";
 import { FicheNavetteEdit } from "./components/FicheNavette/FicheNavetteEdit";
 import { AlertAttestationRegFiscList } from "./components/Alerts/AlertAttestationRegFiscList";
+import { Echencier } from "./components/Analyse/echencier/echencier";
+import { RastvaList } from "./components/Alerts/RasTva";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -145,12 +141,14 @@ function App(props) {
             name="fournisseurs"
             list={FournisseursList}
             create={
+              permissions === "admin" ||
               permissions === "superviseur comptabilite midelt" ||
               permissions === "comptable midelt"
                 ? FournisseurCreate
                 : null
             }
             edit={
+              permissions === "admin" ||
               permissions === "superviseur comptabilite midelt" ||
               permissions === "comptable midelt"
                 ? FournisseurEdit
@@ -169,6 +167,7 @@ function App(props) {
             name="Attestaion"
             list={AttestationFournisseurList}
             create={
+              permissions === "admin" ||
               permissions === "superviseur comptabilite midelt" ||
               permissions === "superviseur comptabilite" ||
               permissions === "comptable midelt" ||
@@ -290,12 +289,14 @@ function App(props) {
             name="facturesSaisie"
             list={FactureSaisieList}
             edit={
+              permissions === "admin" ||
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite midelt"
                 ? FactureSaisieEdit
                 : null
             }
             create={
+              permissions === "admin" ||
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite midelt"
                 ? FactureSaisieCreate
@@ -346,6 +347,7 @@ function App(props) {
           <Resource
             name="FicheNavette"
             create={
+              permissions === "admin" ||
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite midelt" ||
               permissions === "superviseur comptabilite" ||
@@ -414,6 +416,7 @@ function App(props) {
             list={OrdervirementList}
             icon={FaCreditCard}
             create={
+              permissions === "admin" ||
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite midelt" ||
               permissions === "superviseur comptabilite" ||
@@ -422,6 +425,7 @@ function App(props) {
                 : null
             }
             edit={
+              permissions === "admin" ||
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite midelt" ||
               permissions === "superviseur comptabilite" ||
@@ -471,6 +475,7 @@ function App(props) {
             list={ChequeList}
             icon={FaCreditCard}
             create={
+              permissions === "admin" ||
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite midelt" ||
               permissions === "superviseur comptabilite" ||
@@ -479,6 +484,7 @@ function App(props) {
                 : null
             }
             edit={
+              permissions === "admin" ||
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite midelt" ||
               permissions === "superviseur comptabilite" ||
@@ -499,6 +505,7 @@ function App(props) {
             list={EspeceList}
             icon={FaCreditCard}
             create={
+              permissions === "admin" ||
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite midelt" ||
               permissions === "superviseur comptabilite" ||
@@ -611,7 +618,7 @@ function App(props) {
             <Route path="/print" element={<PrintModule />} />
           </CustomRoutes>
         ) : null,
-        permissions === "admin" || permissions === "normal user" ? (
+        permissions === "admin" ? (
           <Resource
             name="users"
             list={UserList}
@@ -673,6 +680,21 @@ function App(props) {
             name="alertattestationregfisc"
             list={AlertAttestationRegFiscList}
           />
+        ) : null,
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <CustomRoutes>
+            <Route path="/echencier" element={<Echencier />} />
+          </CustomRoutes>
+        ) : null,
+        permissions === "admin" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ? (
+          <Resource name="rastva" list={RastvaList} />
         ) : null,
       ]}
     </Admin>

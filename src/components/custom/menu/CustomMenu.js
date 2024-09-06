@@ -22,9 +22,10 @@ export const CustomMenu = (props) => {
   return (
     <Menu {...props}>
       {/* <Menu.DashboardItem /> */}
-      {(permissions === "admin" || permissions === "normal user") && (
-        <Menu.Item to="/users" primaryText="Users" leftIcon={<FaUser />} />
-      )}
+      {/* {(permissions === "admin" || permissions === "normal user") && (
+        <Menu.DashboardItem />
+      )} */}
+
       {(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
@@ -175,9 +176,14 @@ export const CustomMenu = (props) => {
             primaryText="espece"
             leftIcon={<TbReportMoney />}
           />
+          <Menu.Item
+            to="/print"
+            primaryText="Imp. Order Virement"
+            leftIcon={<FaPrint />}
+          />
         </SubMenu>
       )}
-      {(permissions === "admin" ||
+      {/* {(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
@@ -188,7 +194,7 @@ export const CustomMenu = (props) => {
           primaryText="Imp. Order Virement"
           leftIcon={<FaPrint />}
         />
-      )}
+      )} */}
       {(permissions === "admin" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
@@ -224,11 +230,48 @@ export const CustomMenu = (props) => {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
-        <SubMenu primaryText="Alerts" leftIcon={<ChevronRightIcon />}>
+        <SubMenu primaryText="Alerte" leftIcon={<ChevronRightIcon />}>
           <Menu.Item
             to="/alertattestationregfisc"
-            primaryText="Alerts Log Facture Saisie"
+            primaryText="Attest Reg Fisc"
             leftIcon={<FaFileInvoiceDollar />}
+          />
+        </SubMenu>
+      )}
+      {(permissions === "admin" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt") && (
+        <SubMenu primaryText="Travaux Mensuel" leftIcon={<ChevronRightIcon />}>
+          <Menu.Item
+            to="/rastva"
+            primaryText="RAS TVA"
+            leftIcon={<FaFileInvoiceDollar />}
+          />
+        </SubMenu>
+      )}
+      {(permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable") && (
+        <SubMenu primaryText="Analyse" leftIcon={<ChevronRightIcon />}>
+          <Menu.Item
+            to="/echencier"
+            primaryText="Échéancier"
+            leftIcon={<FaFileInvoiceDollar />}
+          />
+        </SubMenu>
+      )}
+      {permissions === "admin" && (
+        <SubMenu
+          primaryText="Gestion Utilisateurs"
+          leftIcon={<ChevronRightIcon />}
+        >
+          <Menu.Item
+            to="/users"
+            primaryText="Utilisateurs"
+            leftIcon={<FaUser />}
           />
         </SubMenu>
       )}
