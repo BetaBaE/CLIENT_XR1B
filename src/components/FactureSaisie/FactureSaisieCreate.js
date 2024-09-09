@@ -15,8 +15,7 @@ import { makeStyles } from "@material-ui/styles";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import apiUrl from "../../config";
-import { format } from "date-fns";
-import { Input } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 const useStyles = makeStyles(() => ({
   autocomplete: {
     width: "580px",
@@ -25,7 +24,32 @@ const useStyles = makeStyles(() => ({
     fontWeight: "bold",
   },
 }));
-export const FactureSaisieCreate = () => {
+
+const Aside = ({ asideData }) => {
+  console.log("AsideBar", asideData);
+
+  return (
+    <Box sx={{ width: "25%", margin: "1em" }}>
+      <Typography fon variant="h4">
+        Donnée BC
+      </Typography>
+      <Typography fon variant="h6">
+        chantier : {asideData.chantier}
+      </Typography>
+      <Typography fon variant="h6">
+        Redacteur : {asideData.redacteur}
+      </Typography>
+      <Typography fon variant="h6">
+        Fournisseur : {asideData.fournisseur}
+      </Typography>
+      <Typography fon variant="h6">
+        BC TTC: {asideData.bcttc}
+      </Typography>
+    </Box>
+  );
+};
+
+export const FactureSaisieCreate = (props) => {
   const classes = useStyles();
   const [dateecheance, setdateecheance] = useState(null);
   const [inputDateEcheance, setInputDateEcheance] = useState(null);
@@ -34,6 +58,13 @@ export const FactureSaisieCreate = () => {
   const dataProvider = useDataProvider();
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
   const [designation, setDesignation] = useState([]);
+  const [asideData, setAsideData] = useState({
+    chantier: "champe Boncommade est vide",
+    redacteur: "champe Boncommade est vide",
+    fournisseur: "champe Boncommade est vide",
+    bcttc: "champe Boncommade est vide",
+  });
+  const [loading, setLoading] = useState(false); // Loading state
   // const [newIdentity, setNewIdentity] = useState('');
   const [tva, setTVA] = useState([]);
   const [fournisseur, setFournisseur] = useState([]);
@@ -125,12 +156,28 @@ export const FactureSaisieCreate = () => {
     // }
   }, []);
 
-  const getchantierByBCommande = (Boncommande) => {
-    let url = `${apiUrl}/getchantierbyBonCommande/` + Boncommande;
+  const getchantierByBCommande = async (Boncommande) => {
+    let url = `${apiUrl}/getchantierbyBonCommande/${Boncommande}`;
     console.log(url);
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => setLibelleChantier(json));
+    setLoading(true); // Set loading to true before fetching
+    try {
+      const response = await fetch(url);
+      const json = await response.json();
+      setLibelleChantier(json);
+      // Update asideData only if the response has the expected structure
+      if (json.length > 0) {
+        setAsideData({
+          chantier: json[0].LIBELLE || "champe Boncommade est vide",
+          redacteur: json[0].REDACTEUR || "champe Boncommade est vide",
+          fournisseur: json[0].NOM || "champe Boncommade est vide",
+          bcttc: json[0].TOTALTTC || "champe Boncommade est vide",
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false); // Set loading to false after fetching
+    }
   };
 
   const getTVA = (id) => {
@@ -165,12 +212,17 @@ export const FactureSaisieCreate = () => {
     "la facture ne doit pas contenir des espaces"
   );
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      // Vérifie si la touche "Entrée" est pressée
-      getchantierByBCommande(event.target.value);
-      console.log(libelleChantier);
-    }
+  // const handleKeyDown = (event) => {
+  //   if (event.key === "Enter") {
+  //     // Vérifie si la touche "Entrée" est pressée
+  //     getchantierByBCommande(event.target.value);
+  //     console.log(libelleChantier);
+  //   }
+  // };
+
+  const handleBlur = (event) => {
+    // Call the function when the input loses focus
+    getchantierByBCommande(event.target.value);
   };
 
   const getavancebyfournisseur = (idfournisseur) => {
@@ -325,7 +377,7 @@ export const FactureSaisieCreate = () => {
   };
 
   return (
-    <Create label="ajouter">
+    <Create label="ajouter" aside={<Aside asideData={asideData} {...props} />}>
       <SimpleForm>
         <TextInput
           defaultValue={identity.fullName}
@@ -387,21 +439,12 @@ export const FactureSaisieCreate = () => {
         <TextInput
           source="BonCommande"
           label="BonCommande"
-          onKeyDown={handleKeyDown}
+          onBlur={handleBlur}
           className={classes.autocomplete}
         />
+        {loading && <Typography>Loading...</Typography>}{" "}
+        {/* Loading indicator */}
         {/* Afficher les données de libelleChantier ici */}
-        <div>
-          {libelleChantier.map((item, index) => (
-            <div key={index}>
-              <pre>
-                {" "}
-                Chantier : {item.libelleChantier} Redacteur : {item.REDACTEUR}
-              </pre>
-            </div>
-          ))}
-        </div>
-
         <AutocompleteInput
           label="fournisseur"
           validate={required("choisir le fournisseur")}
@@ -415,7 +458,6 @@ export const FactureSaisieCreate = () => {
             }
           }}
         />
-
         <SelectInput
           className={classes.autocomplete}
           source="CatFn"
@@ -426,7 +468,6 @@ export const FactureSaisieCreate = () => {
             { id: "Service", name: "Service" },
           ]}
         ></SelectInput>
-
         <DateInput
           source="DateFacture"
           label="date de la facture"
