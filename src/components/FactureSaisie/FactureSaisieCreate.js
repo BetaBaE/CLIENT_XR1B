@@ -52,7 +52,7 @@ const Aside = ({ asideData }) => {
 export const FactureSaisieCreate = (props) => {
   const classes = useStyles();
   const [dateecheance, setdateecheance] = useState(null);
-  const [inputDateEcheance, setInputDateEcheance] = useState(null);
+  // const [inputDateEcheance, setInputDateEcheance] = useState(null);
   const dataProvider1 = useDataProvider();
   const dataProvider2 = useDataProvider();
   const dataProvider = useDataProvider();
@@ -70,13 +70,15 @@ export const FactureSaisieCreate = (props) => {
   const [fournisseur, setFournisseur] = useState([]);
   const [chantier, setChantier] = useState([]);
   const { identity, isLoading: identityLoading } = useGetIdentity();
+  console.log(identityLoading);
+
   const [formData, setFormData] = useState({
     idfournisseur: null,
     DateFacture: null, // Initialize to null or the desired default value
   });
-  const [libelleChantier, setLibelleChantier] = useState([]);
+  // const [libelleChantier, setLibelleChantier] = useState([]);
   useEffect(() => {
-    setInputDateEcheance(dateecheance);
+    // setInputDateEcheance(dateecheance);
   }, [dateecheance]);
   useEffect(() => {
     dataProvider2
@@ -163,7 +165,7 @@ export const FactureSaisieCreate = (props) => {
     try {
       const response = await fetch(url);
       const json = await response.json();
-      setLibelleChantier(json);
+      // setLibelleChantier(json);
       // Update asideData only if the response has the expected structure
       if (json.length > 0) {
         setAsideData({
@@ -194,15 +196,15 @@ export const FactureSaisieCreate = (props) => {
   const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
   if (error) return <>Error</>;
-  const validateBc = regex(
-    /^CF[0-9]{3}[0-9]{3}$/,
-    "ce bon commande n'est pas valide"
-  );
+  // const validateBc = regex(
+  //   /^CF[0-9]{3}[0-9]{3}$/,
+  //   "ce bon commande n'est pas valide"
+  // );
 
-  const validateDate = regex(
-    /[1-9]\d{3}-(0[1-9]|1[0-2])-([12]\d|0[1-9]|3[01])/,
-    "le format des dates doit être conforme à la norme "
-  );
+  // const validateDate = regex(
+  //   /[1-9]\d{3}-(0[1-9]|1[0-2])-([12]\d|0[1-9]|3[01])/,
+  //   "le format des dates doit être conforme à la norme "
+  // );
   const validateprice = regex(
     /[+-]?([0-9]*[.])?[0-9]+/,
     "ce prix  n'est pas au bon format"
@@ -467,7 +469,7 @@ export const FactureSaisieCreate = (props) => {
             { id: "FET", name: "Fourniture Equipement Travaux" },
             { id: "Service", name: "Service" },
           ]}
-        ></SelectInput>
+        />
         <DateInput
           source="DateFacture"
           label="date de la facture"

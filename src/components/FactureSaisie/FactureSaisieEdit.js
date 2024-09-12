@@ -225,6 +225,7 @@ export const FactureSaisieEdit = () => {
               source="etat"
               className={classes.autocomplete}
               disabled={ControlEdit(record)}
+              validate={required("Ce champ est obligatoire")}
               choices={[
                 { id: "Annuler", name: "Annuler" },
                 { id: "Saisie", name: "Saisie" },

@@ -10,6 +10,7 @@ import {
   SimpleForm,
   TextInput,
   Toolbar,
+  useEditController,
   useRedirect,
 } from "react-admin"; // Importation des composants de React Admin
 import Swal from "sweetalert2"; // Importation de SweetAlert pour les alertes personnalisées
@@ -34,6 +35,7 @@ const UserEditToolbar = (props) => (
 // Composant principal pour l'édition d'un virement
 export const VirementEdit = (props) => {
   const redirect = useRedirect(); // Hook pour rediriger après une action
+  const { record } = useEditController();
 
   // Fonction pour gérer l'alerte d'annulation
   function annuleAlert(params) {
@@ -80,34 +82,38 @@ export const VirementEdit = (props) => {
           source="montantVirement"
           disabled // Champ désactivé
         />
-        <FormDataConsumer>
-          {({ formData, ...rest }) =>
-            formData.Etat !== "Reglee" &&
-            formData.Etat !== "Annuler" && (
-              <SelectInput
-                {...rest}
-                source="Etat"
-                className={classes.autocomplete}
-                onChange={(e) => {
-                  console.log(e.target.value); // Affiche la valeur sélectionnée
-                  annuleAlert(e.target.value); // Appelle la fonction d'alerte
-                }}
-                validate={required()} // Validation requise
-                choices={[
-                  { id: "Reglee", name: "Reglee" },
-                  { id: "En cours", name: "En cours" },
-                  { id: "Annuler", name: "Annuler" },
-                ]}
-              />
-            )
-          }
-        </FormDataConsumer>
-
         <DateInput
-          source="dateOperation"
+          source="DateOperation"
           label="dateOperation"
           className={classes.autocomplete}
+          disabled={
+            record.Etat === "Reglee" || record.Etat === "Annuler" ? true : false
+          }
+          validate={[required("Ce champ est obligatoire")]}
         ></DateInput>
+        {/* <FormDataConsumer>
+          {({ formData, ...rest }) =>
+            formData.Etat !== "Reglee" &&
+            formData.Etat !== "Annuler" && ( */}
+        <SelectInput
+          // {...rest}
+          source="Etat"
+          className={classes.autocomplete}
+          onChange={(e) => {
+            console.log(e.target.value); // Affiche la valeur sélectionnée
+            annuleAlert(e.target.value); // Appelle la fonction d'alerte
+          }}
+          validate={required()} // Validation requise
+          disabled={
+            record.Etat === "Reglee" || record.Etat === "Annuler" ? true : false
+          }
+          choices={[
+            { id: "Reglee", name: "Reglee" },
+            { id: "En cours", name: "En cours" },
+            { id: "Annuler", name: "Annuler" },
+          ]}
+        />
+        {/* </FormDataConsumer> */}
       </SimpleForm>
     </Edit>
   );

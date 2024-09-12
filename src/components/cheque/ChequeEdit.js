@@ -10,6 +10,7 @@ import {
   SimpleForm,
   TextInput,
   Toolbar,
+  useEditController,
   useRedirect,
 } from "react-admin";
 import Swal from "sweetalert2";
@@ -35,7 +36,8 @@ const UserEditToolbar = (props) => (
 export const ChequeEdit = (props) => {
   const redirect = useRedirect(); // Hook pour rediriger les utilisateurs
   const classes = useStyles(); // Utilisation des styles définis
-
+  const { record } = useEditController();
+  console.log(record);
   // Fonction pour afficher une alerte de confirmation d'annulation
   function annuleAlert(params) {
     if (params === "Annuler") {
@@ -75,38 +77,32 @@ export const ChequeEdit = (props) => {
     <Edit {...props}>
       {/* Formulaire simple pour l'édition d'un chèque */}
       <SimpleForm toolbar={<UserEditToolbar />}>
-        <FormDataConsumer>
-          {({ formData, ...rest }) => (
-            <>
-              {/* Affiche les champs si l'état du chèque n'est ni "Reglee" ni "Annuler" */}
-              {formData.Etat !== "Reglee" && formData.Etat !== "Annuler" && (
-                <>
-                  <DateInput
-                    validate={required()}
-                    source="dateOperation"
-                    label="Date d'opération"
-                    className={classes.autocomplete}
-                  />
-                  <SelectInput
-                    {...rest}
-                    source="Etat"
-                    className={classes.autocomplete}
-                    onChange={(e) => {
-                      console.log(e.target.value);
-                      annuleAlert(e.target.value);
-                    }}
-                    validate={required()}
-                    choices={[
-                      { id: "Reglee", name: "Reglee" },
-                      { id: "En cours", name: "En cours" },
-                      { id: "Annuler", name: "Annuler" },
-                    ]}
-                  />
-                </>
-              )}
-            </>
-          )}
-        </FormDataConsumer>
+        <DateInput
+          source="dateOperation"
+          label="Date d'opération"
+          className={classes.autocomplete}
+          disabled={
+            record.Etat === "Reglee" || record.Etat === "Annuler" ? true : false
+          }
+          validate={[required("Ce champ est obligatoire")]}
+        />
+        <SelectInput
+          source="Etat"
+          className={classes.autocomplete}
+          onChange={(e) => {
+            console.log(e.target.value);
+            annuleAlert(e.target.value);
+          }}
+          validate={required()}
+          disabled={
+            record.Etat === "Reglee" || record.Etat === "Annuler" ? true : false
+          }
+          choices={[
+            { id: "Reglee", name: "Reglee" },
+            { id: "En cours", name: "En cours" },
+            { id: "Annuler", name: "Annuler" },
+          ]}
+        />
 
         <TextInput
           source="numerocheque"

@@ -34,7 +34,7 @@ const FactureListActions = () => (
     <ExportButton />
   </TopToolbar>
 );
-export const FactureSaisieList = (props) => {
+export const FactureSaisieList = () => {
   return (
     <List
       actions={<FactureListActions />}
