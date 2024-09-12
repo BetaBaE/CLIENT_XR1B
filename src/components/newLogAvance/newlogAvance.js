@@ -13,18 +13,17 @@ import {
   TextInput,
   TopToolbar,
 } from "react-admin";
-import FilterFactureDetailList from "./FilterFactureDetailList";
+import FilterAvanceDetailList from "./FilterAvanceDetailList";
 
 const FacturePagination = () => (
   <Pagination rowsPerPageOptions={[10, 25, 50, 100]} />
 );
-const newLoGFilter = [
+const newLogAvanceFilter = [
   <DateInput source="dateExercices" />,
   <TextInput source="codechantier" />,
   <TextInput source="nom" />,
-  <TextInput source="numeroFacture" />,
+  <TextInput source="BonCommande" />,
   <TextInput source="Fn" />,
-  <DateInput source="DateFacture" />,
   <TextInput source="Etat" />,
   <TextInput source="modepaiement" />,
   <TextInput source="RefPay" />,
@@ -32,37 +31,34 @@ const newLoGFilter = [
   <TextInput source="Bank" />,
 ];
 
-const FactureDetailsActions = () => (
+const AvanceDetailsActions = () => (
   <TopToolbar>
-    <FilterButton filters={newLoGFilter} />
+    <FilterButton filters={newLogAvanceFilter} />
     <SelectColumnsButton />
     <CreateButton />
     <ExportButton />
   </TopToolbar>
 );
 
-export const GetfacturedetailList = () => {
+export const GetavancedetailList = () => {
   return (
     <List
       pagination={<FacturePagination />}
-      filters={<FilterFactureDetailList />}
-      actions={<FactureDetailsActions />}
+      filters={<FilterAvanceDetailList />}
+      actions={<AvanceDetailsActions />}
       filterDefaultValues={{ dateExercices: "2024-01-01" }}
-      title="nouv. Facture Log"
+      title="nouv. Avance Log"
     >
       <DatagridConfigurable bulkActionButtons={false}>
         <TextField source="codechantier" />
         <TextField source="nom" />
         <TextField source="Fn" />
-        <TextField source="numeroFacture" />
-        <DateField source="DateFacture" />
-        <NumberField source="HT" label="HT" />
-        <NumberField source="MontantTVA" label="TVA" />
-        <NumberField source="TTC" label="TTC" />
+        <TextField source="BonCommande" />
+        <NumberField source="Ht" label="HT" />
+        <NumberField source="Tva" label="TVA" />
+        <NumberField source="Ttc" label="TTC" />
+        <NumberField source="montantRestit" />
         <NumberField source="montantPaiement" />
-        <NumberField source="AcompteReg" />
-        <NumberField source="AcompteVal" />
-        <TextField source="idAvance" />
         <TextField source="Etat" />
         <TextField source="modepaiement" />
         <TextField source="RefPay" />

@@ -3,7 +3,6 @@ import {
   AutocompleteInput,
   DateInput,
   Edit,
-  NumberInput,
   required,
   SaveButton,
   SelectInput,
@@ -20,6 +19,7 @@ import useFetchChantier from "../global/chantier";
 import apiUrl from "../../config";
 import useFetchDesignation from "../global/designation";
 import Swal from "sweetalert2";
+import { usePermissions } from "react-admin";
 // import Skeleton from '@material-ui/lab/Skeleton';
 
 // Styles spécifiques pour ce composant
@@ -46,7 +46,7 @@ export const FactureSaisieEdit = () => {
       <SaveButton id="save" />
     </Toolbar>
   );
-
+  const { isPending, permissions } = usePermissions();
   const annuleAlert = (params) => {
     if (params === "Annuler") {
       Swal.fire({
@@ -137,75 +137,90 @@ export const FactureSaisieEdit = () => {
               disabled={true}
             />
           </Grid>
-          <Grid item xs={4}>
-            <TextInput source="BonCommande" className={classes.autocomplete} />
-          </Grid>
-          <Grid item xs={4}>
-            <TextInput
-              source="numeroFacture"
-              label="Numéro de Facture"
-              validate={required("Le numéro de facture est obligatoire")}
-              className={classes.autocomplete}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <DateInput
-              source="DateFacture"
-              label="Date de Facture"
-              validate={required("La date de facture est obligatoire")}
-              className={classes.autocomplete}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <TextInput
-              source="TTC"
-              label="TTC"
-              className={classes.autocomplete}
-              validate={required("Ce champ est obligatoire")}
-              disabled={ControlEdit(record)}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <AutocompleteInput
-              validate={required("Ce champ est obligatoire")}
-              // disabled={fournisseurIdField}
-              className={classes.autocomplete}
-              source="designation"
-              choices={designation_choices}
-              disabled={ControlEdit(record)}
-              label="Designation"
-            />
-          </Grid>
-
-          <Grid item xs={4}>
-            <SelectInput
-              source="verifiyMidelt"
-              className={classes.autocomplete}
-              choices={[{ id: "verifié", name: "Verifié" }]}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <SelectInput
-              source="CatFn"
-              className={classes.autocomplete}
-              validate={required("Ce champ est obligatoire")}
-              choices={[
-                { id: "FET", name: "Fourniture Equipement Travaux" },
-                { id: "Service", name: "Service" },
-              ]}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <AutocompleteInput
-              label="chantier"
-              className={classes.autocomplete}
-              source="codeChantier"
-              choices={chantier_choices}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <DateInput source="dateecheance" className={classes.autocomplete} />
-          </Grid>
+          {permissions === "admin" ||
+          permissions === "comptable midelt" ||
+          permissions === "superviseur comptabilite midelt" ? (
+            <>
+              <Grid item xs={4}>
+                <TextInput
+                  source="BonCommande"
+                  className={classes.autocomplete}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextInput
+                  source="numeroFacture"
+                  label="Numéro de Facture"
+                  validate={required("Le numéro de facture est obligatoire")}
+                  className={classes.autocomplete}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <DateInput
+                  source="DateFacture"
+                  label="Date de Facture"
+                  validate={required("La date de facture est obligatoire")}
+                  className={classes.autocomplete}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextInput
+                  source="TTC"
+                  label="TTC"
+                  className={classes.autocomplete}
+                  validate={required("Ce champ est obligatoire")}
+                  disabled={ControlEdit(record)}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <AutocompleteInput
+                  validate={required("Ce champ est obligatoire")}
+                  // disabled={fournisseurIdField}
+                  className={classes.autocomplete}
+                  source="designation"
+                  choices={designation_choices}
+                  disabled={ControlEdit(record)}
+                  label="Designation"
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <SelectInput
+                  source="verifiyMidelt"
+                  className={classes.autocomplete}
+                  choices={[{ id: "verifié", name: "Verifié" }]}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <SelectInput
+                  source="etat"
+                  className={classes.autocomplete}
+                  disabled={ControlEdit(record)}
+                  validate={required("Ce champ est obligatoire")}
+                  choices={[
+                    { id: "Annuler", name: "Annuler" },
+                    { id: "Saisie", name: "Saisie" },
+                  ]}
+                  onChange={(e) => {
+                    annuleAlert(e.target.value);
+                  }}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <AutocompleteInput
+                  label="chantier"
+                  className={classes.autocomplete}
+                  source="codeChantier"
+                  choices={chantier_choices}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <DateInput
+                  source="dateecheance"
+                  className={classes.autocomplete}
+                />
+              </Grid>{" "}
+            </>
+          ) : null}
           <Grid item xs={4}>
             <TextInput
               source="AcompteReg"
@@ -222,17 +237,13 @@ export const FactureSaisieEdit = () => {
           </Grid>
           <Grid item xs={4}>
             <SelectInput
-              source="etat"
+              source="CatFn"
               className={classes.autocomplete}
-              disabled={ControlEdit(record)}
               validate={required("Ce champ est obligatoire")}
               choices={[
-                { id: "Annuler", name: "Annuler" },
-                { id: "Saisie", name: "Saisie" },
+                { id: "FET", name: "Fourniture Equipement Travaux" },
+                { id: "Service", name: "Service" },
               ]}
-              onChange={(e) => {
-                annuleAlert(e.target.value);
-              }}
             />
           </Grid>
         </Grid>

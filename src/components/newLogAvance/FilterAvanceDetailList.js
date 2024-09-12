@@ -1,16 +1,15 @@
 import { DateInput, Filter, SelectInput, TextInput } from "react-admin";
 
-const FilterFactureDetailList = (props) => (
+const FilterAvanceDetailList = (props) => (
   <Filter {...props}>
     <DateInput source="dateExercices" alwaysOn />
     <TextInput source="codechantier" />
     <TextInput source="nom" />
     <TextInput source="Fn" />
-    <TextInput source="numeroFacture" />
-    <DateInput source="DateFacture" />
+    <TextInput source="BonCommande" />
     <SelectInput
       source="Etat"
-      label="Etat Facture"
+      label="Etat Avance"
       choices={[
         { id: "Saisie", name: "Saisie" },
         { id: "En cours", name: "En cours" },
@@ -30,4 +29,4 @@ const FilterFactureDetailList = (props) => (
     <TextInput source="Bank" />
   </Filter>
 );
-export default FilterFactureDetailList;
+export default FilterAvanceDetailList;

@@ -1,4 +1,4 @@
-import { Admin, Resource, CustomRoutes, ListGuesser } from "react-admin";
+import { Admin, CustomRoutes, Resource } from "react-admin";
 import restProvider from "ra-data-simple-rest";
 
 import { FaTruck, FaCreditCard, FaLastfm } from "react-icons/fa";
@@ -79,6 +79,7 @@ import { AlertAttestationRegFiscList } from "./components/Alerts/AlertAttestatio
 import { Echencier } from "./components/Analyse/echencier/echencier";
 import { RastvaList } from "./components/Alerts/RasTva";
 import { GetfacturedetailList } from "./components/newLogFacture/newlogFacture";
+import { GetavancedetailList } from "./components/newLogAvance/newlogAvance";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -292,6 +293,7 @@ function App(props) {
             edit={
               permissions === "admin" ||
               permissions === "comptable midelt" ||
+              permissions === "comptable" ||
               permissions === "superviseur comptabilite midelt"
                 ? FactureSaisieEdit
                 : null
@@ -706,6 +708,14 @@ function App(props) {
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <Resource name="getfacturedetails" list={GetfacturedetailList} />
+        ) : null,
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <Resource name="getavancedetails" list={GetavancedetailList} />
         ) : null,
       ]}
     </Admin>
