@@ -78,6 +78,7 @@ import { FicheNavetteEdit } from "./components/FicheNavette/FicheNavetteEdit";
 import { AlertAttestationRegFiscList } from "./components/Alerts/AlertAttestationRegFiscList";
 import { Echencier } from "./components/Analyse/echencier/echencier";
 import { RastvaList } from "./components/Alerts/RasTva";
+import { GetfacturedetailList } from "./components/newLogFacture/newlogFacture";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -581,6 +582,7 @@ function App(props) {
             name="virements"
             list={VirementList}
             create={
+              permissions === "admin" ||
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite midelt" ||
               permissions === "superviseur comptabilite" ||
@@ -589,6 +591,7 @@ function App(props) {
                 : null
             }
             edit={
+              permissions === "admin" ||
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite midelt" ||
               permissions === "superviseur comptabilite" ||
@@ -695,6 +698,14 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ? (
           <Resource name="rastva" list={RastvaList} />
+        ) : null,
+        permissions === "admin" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <Resource name="getfacturedetails" list={GetfacturedetailList} />
         ) : null,
       ]}
     </Admin>

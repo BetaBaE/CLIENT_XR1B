@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Filter, SelectInput, TextInput } from 'react-admin';
+import * as React from "react";
+import { Filter, SelectInput, TextInput } from "react-admin";
 
 const FactureNonPayeFilter = (props) => {
   const [factures, setFactures] = React.useState([]);
@@ -9,7 +9,7 @@ const FactureNonPayeFilter = (props) => {
     fetch("http://10.111.1.95:8080/getAnneeSuivieFacture")
       .then((response) => response.json())
       .then((data) => {
-        setFactures(data.map(facture => facture));
+        setFactures(data.map((facture) => facture));
       })
       .catch((error) => {
         console.error("Error fetching record count:", error);
@@ -36,24 +36,21 @@ const FactureNonPayeFilter = (props) => {
   return (
     <Filter {...props}>
       <SelectInput
-      alwaysOn
+        alwaysOn
         label="annee de l'exercice"
         source="annee"
         choices={Annee_choices}
       />
-
       <TextInput source="fournisseur" />
-      
       <TextInput source="chantier" />
-
-      <SelectInput source = "etat"
- choices={[
-    { id: "Reglee", name: "Reglee" },
-    { id: "En cours", name: "En cours" },
-   
-  ]}
-    label = "etat" />
-
+      <SelectInput
+        source="etat"
+        choices={[
+          { id: "Reglee", name: "Reglee" },
+          { id: "En cours", name: "En cours" },
+        ]}
+        label="etat"
+      />
     </Filter>
   );
 };
