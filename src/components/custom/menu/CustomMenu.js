@@ -213,6 +213,11 @@ export const CustomMenu = (props) => {
             leftIcon={<FaFileInvoiceDollar />}
           />
           <Menu.Item
+            to="/getavancedetails"
+            primaryText="Log Avance Nouv."
+            leftIcon={<FaFileInvoiceDollar />}
+          />
+          <Menu.Item
             to="/SuivieFactureEchu"
             primaryText="Facture enregistrée prête pour l'échéance"
             leftIcon={<FaFileInvoice />}
