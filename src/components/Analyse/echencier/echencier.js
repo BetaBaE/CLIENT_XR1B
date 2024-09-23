@@ -7,23 +7,32 @@ import { CardContent, CardHeader, Grid } from "@material-ui/core";
 import ChartOverDueInvoices from "./charts/ChartOverDueInvoices";
 
 import SortableTable from "./DataGrid/FournisseurDataGrid";
+import TableSumMensuel from "./DataGrid/SumMensuel";
+import { useState } from "react";
+import SumForMonth from "./DataGrid/SumForMonth";
 
-export const Echencier = () => (
-  <Grid container spacing={4} justifyContent="space-around">
-    <Title title="Echencier" />
+export const Echencier = () => {
+  const [selectedId, setSelectedId] = useState(null);
 
-    {/* First Row with Chart */}
-    <Grid item xs={12} sm={6}>
-      <Card>
-        <CardHeader title="Analyse des Factures Échues" />
-        <CardContent>
-          <ChartOverDueInvoices />
-        </CardContent>
-      </Card>
-    </Grid>
+  const handleRowClick = (id) => {
+    setSelectedId(id); // Set the selected ID when a row is clicked
+  };
 
-    <Grid item xs={12} sm={6} container direction="column" spacing={2}>
-      <Grid item>
+  return (
+    <Grid container spacing={2} justifyContent="space-around">
+      <Title title="Echencier" />
+
+      {/* First Row with Chart */}
+      <Grid item xs={12} sm={6}>
+        <Card>
+          <CardHeader title="Analyse des Factures Échues" />
+          <CardContent>
+            <ChartOverDueInvoices />
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
         <Card>
           <CardHeader title="Factures Impayées : Fournisseurs vs. Chantiers" />
           <CardContent>
@@ -31,6 +40,34 @@ export const Echencier = () => (
           </CardContent>
         </Card>
       </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <Card>
+          <CardHeader title="Résumé Mensuel des Factures" />
+          <CardContent>
+            <TableSumMensuel onRowClick={handleRowClick} />
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <Card>
+          <CardHeader
+            title={
+              selectedId == null
+                ? "click sur une date dans la table a gauche"
+                : `Detail du mois : ${selectedId.split("-01T")[0]} `
+            }
+          />
+          <CardContent>
+            {selectedId == null ? (
+              "click sur une date dans la table a gauche"
+            ) : (
+              <SumForMonth id={selectedId} />
+            )}
+          </CardContent>
+        </Card>
+      </Grid>
     </Grid>
-  </Grid>
-);
+  );
+};

@@ -1,17 +1,12 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Datagrid,
   DateField,
   List,
-  Menu,
   MenuItemLink,
-  TabbedForm,
   TextField,
-  UserMenu,
-
 } from "react-admin";
-
 
 import ColorfulText from "../custom/layout/ColorfulText";
 
@@ -31,15 +26,13 @@ const CustomAppBar = (props) => (
     <MenuItemLink to="/" primaryText="Dashboard" />
     <MenuItemLink to="/posts" primaryText="Posts" />
     <MenuItemLink to="/comments" primaryText="Comments" />
- 
   </AppBar>
 );
 
-
-export const FactureNonPaye = (props) => {;
+export const FactureNonPaye = (props) => {
   const [recordCount, setRecordCount] = useState(0);
 
-/*
+  /*
   useEffect(() => {
     fetch("http://localhost:8080/allcountexport") 
       .then((response) => response.json())
@@ -55,20 +48,15 @@ export const FactureNonPaye = (props) => {;
     backgroundColor: record.ficheNavette !== null ? "#ACDF87" : "#ffd6d6",
   });
 
-
   return (
-  <>
-  
-   
-      <List 
-   
-      filters={<FactureNonPayeFilter />} title="Les Factures non payé">
-
-     
-        <Datagrid 
-             bulkActionButtons={false}
-        rowStyle={CustomRowStyle} {...props}>
-        <TextField source="chantier" label="chantier" />
+    <>
+      <List filters={<FactureNonPayeFilter />} title="Les Factures non payé">
+        <Datagrid
+          bulkActionButtons={false}
+          rowStyle={CustomRowStyle}
+          {...props}
+        >
+          <TextField source="chantier" label="chantier" />
           <TextField source="ficheNavette" label="ficheNavette" />
           <TextField source="designation" label="designation" />
           <TextField source="BonCommande" label="BonCommande" />
@@ -80,19 +68,31 @@ export const FactureNonPaye = (props) => {;
           <TextField source="MontantTVA" label="récupération tva" />
           <TextField source="TTC" label="TTC" />
           <TextField source="montantAvance" label="montantAvance" />
-          <DateField showTime source="dateOperation" options={{ timeZone: "UTC" }} label="confirmation relevé"/>
+          <DateField
+            showTime
+            source="dateOperation"
+            options={{ timeZone: "UTC" }}
+            label="confirmation relevé"
+          />
           <TextField source="modepaiement" label="modepaiement" />
           <TextField source="banque" label="banque" />
           <TextField source="numerocheque" label="numerocheque" />
-          <DateField showTime source="datecheque" options={{ timeZone: "UTC" }} />
-          <DateField showTime source="dateecheance" options={{ timeZone: "UTC" }} />
+          <DateField
+            showTime
+            source="datecheque"
+            options={{ timeZone: "UTC" }}
+          />
+          <DateField
+            showTime
+            source="dateecheance"
+            options={{ timeZone: "UTC" }}
+          />
           <TextField source="etat" label="etat" />
           <TextField source="ModePaiementID" label="ModePaiementID"></TextField>
         </Datagrid>
-     
       </List>
       <style>
-      {`
+        {`
         
           .list-header {
             display: flex;
@@ -116,11 +116,8 @@ export const FactureNonPaye = (props) => {;
 
         `}
       </style>
-   
-     </> 
-   
+    </>
   );
 };
 
-
-FactureNonPaye.layout = CustomLayout; 
+FactureNonPaye.layout = CustomLayout;

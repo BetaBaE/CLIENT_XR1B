@@ -15,10 +15,11 @@ import { makeStyles } from "@material-ui/styles";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import apiUrl from "../../config";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Grid, Typography } from "@material-ui/core";
+import "../Analyse/echencier/DataGrid/styles.css";
 const useStyles = makeStyles(() => ({
   autocomplete: {
-    width: "580px",
+    width: "95%",
   },
   chip: {
     fontWeight: "bold",
@@ -26,12 +27,12 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Aside = ({ asideData }) => {
-  console.log("AsideBar", asideData);
+  // console.log("AsideBar", asideData);
 
   return (
-    <Box sx={{ width: "25%", margin: "1em" }}>
+    <Box sx={{ width: "40%", margin: "1em" }}>
       <Typography fon variant="h4">
-        Donnée BC
+        {`Donnée BC ${!asideData.Bc ? "" : asideData.Bc}`}
       </Typography>
       <Typography fon variant="h6">
         chantier : {asideData.chantier}
@@ -45,6 +46,32 @@ const Aside = ({ asideData }) => {
       <Typography fon variant="h6">
         BC TTC: {asideData.bcttc}
       </Typography>
+      <br />
+      <Typography fon variant="h4">
+        Donnée FA
+      </Typography>
+      <div className="my-custom-table">
+        <div className="table-container">
+          <table>
+            <thead>
+              <th>FA</th>
+              <th>Date FA</th>
+              <th>TTC</th>
+              <th>FN</th>
+            </thead>
+            <tbody>
+              {asideData.FA.map((invoice) => (
+                <tr key={invoice.NumeroFacture}>
+                  <td>{invoice.NumeroFacture}</td>
+                  <td>{invoice.DateFacture}</td>
+                  <td>{invoice.TOTALTTC}</td>
+                  <td>{invoice.FN}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </Box>
   );
 };
@@ -63,6 +90,7 @@ export const FactureSaisieCreate = (props) => {
     redacteur: "champe Boncommade est vide",
     fournisseur: "champe Boncommade est vide",
     bcttc: "champe Boncommade est vide",
+    FA: [],
   });
   const [loading, setLoading] = useState(false); // Loading state
   // const [newIdentity, setNewIdentity] = useState('');
@@ -70,7 +98,7 @@ export const FactureSaisieCreate = (props) => {
   const [fournisseur, setFournisseur] = useState([]);
   const [chantier, setChantier] = useState([]);
   const { identity, isLoading: identityLoading } = useGetIdentity();
-  console.log(identityLoading);
+  // console.log(identityLoading);
 
   const [formData, setFormData] = useState({
     idfournisseur: null,
@@ -158,21 +186,104 @@ export const FactureSaisieCreate = (props) => {
     // }
   }, []);
 
+  const validateprice = regex(
+    /[+-]?([0-9]*[.])?[0-9]+/,
+    "ce prix  n'est pas au bon format"
+  );
+  const numerofacturevalidation = regex(
+    /^\S+$/,
+    "la facture ne doit pas contenir des espaces"
+  );
+
+  const validationFacture = (value) => {
+    const errors = {};
+
+    // Check for required fields and add error messages if they are missing
+    if (!value.numeroFacture) {
+      errors.numeroFacture = "Le numeroFacture est obligatoire";
+    }
+    if (!value.TTC) {
+      errors.TTC = "Le MontantApayer est obligatoire";
+    }
+    if (!value.iddesignation) {
+      errors.iddesignation = "selectionnez la designation";
+    }
+    if (!value.idfournisseur) {
+      errors.idfournisseur = "choisir le fournisseur";
+    }
+    // if (!value.BonCommande) {
+    //   errors.BonCommande = "Le BonCommande est obligatoire"; // Assuming BonCommande is required
+    // }
+
+    if (!value.DateFacture) {
+      value.DateFacture = "La Date Facture est obligatoire";
+    } else {
+      const dateref = new Date(new Date().getFullYear(), 2, 31); // March 31 of the current year
+      const dateFA = new Date(value.DateFacture);
+      const todayDate = new Date();
+      console.log(dateFA);
+
+      // validation facture
+
+      if (todayDate <= dateref) {
+        // Before or on March 31 of the current year
+        if (
+          dateFA.getFullYear() === todayDate.getFullYear() ||
+          dateFA.getFullYear() === todayDate.getFullYear() - 1
+        ) {
+          console.log("OK: Valid facture date for this year or last year.");
+        } else {
+          // console.error("Error: Invalid facture year.");
+          errors.DateFacture =
+            "Année de facturation doit être égale à l'année saisie ou l'année dernière.";
+        }
+      } else {
+        // After March 31 of the current year
+        if (dateFA.getFullYear() === todayDate.getFullYear()) {
+          console.log("OK: Valid facture date for this year.");
+        } else {
+          // console.error("Error: Invalid facture year.");
+          errors.DateFacture =
+            "Année de facturation doit être égale à l'année saisie.";
+        }
+      }
+    }
+    if (!value.dateecheance) {
+      errors.dateecheance = "La date d'échéance est obligatoire"; // Assuming dateecheance is required
+    }
+    if (!value.CatFn) {
+      errors.CatFn = "Mentionnez la catégorie"; // Assuming dateecheance is required
+    }
+
+    // Add any additional validations as needed
+    // For example, if you have specific validations for the date format
+    // if (value.dateecheance && !dateFormatRegex.test(value.dateecheance)) {
+    //   errors.dateecheance = "Format de date invalide, utilisez yyyy-mm-dd";
+    // }
+
+    return errors;
+  };
+
   const getchantierByBCommande = async (Boncommande) => {
     let url = `${apiUrl}/getchantierbyBonCommande/${Boncommande}`;
-    console.log(url);
+
+    // console.log(url);
     setLoading(true); // Set loading to true before fetching
     try {
       const response = await fetch(url);
       const json = await response.json();
       // setLibelleChantier(json);
       // Update asideData only if the response has the expected structure
-      if (json.length > 0) {
+      // console.log(json);
+
+      if (json.BC.length > 0) {
         setAsideData({
-          chantier: json[0].LIBELLE || "champe Boncommade est vide",
-          redacteur: json[0].REDACTEUR || "champe Boncommade est vide",
-          fournisseur: json[0].NOM || "champe Boncommade est vide",
-          bcttc: json[0].TOTALTTC || "champe Boncommade est vide",
+          Bc: json.BC[0].CODEDOCUTIL || "",
+          chantier: json.BC[0].LIBELLE || "champe Boncommade est vide",
+          redacteur: json.BC[0].REDACTEUR || "champe Boncommade est vide",
+          fournisseur: json.BC[0].NOM || "champe Boncommade est vide",
+          bcttc: json.BC[0].TOTALTTC || "champe Boncommade est vide",
+          FA: json.FA,
         });
       }
     } catch (error) {
@@ -196,31 +307,6 @@ export const FactureSaisieCreate = (props) => {
   const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
   if (error) return <>Error</>;
-  // const validateBc = regex(
-  //   /^CF[0-9]{3}[0-9]{3}$/,
-  //   "ce bon commande n'est pas valide"
-  // );
-
-  // const validateDate = regex(
-  //   /[1-9]\d{3}-(0[1-9]|1[0-2])-([12]\d|0[1-9]|3[01])/,
-  //   "le format des dates doit être conforme à la norme "
-  // );
-  const validateprice = regex(
-    /[+-]?([0-9]*[.])?[0-9]+/,
-    "ce prix  n'est pas au bon format"
-  );
-  const numerofacturevalidation = regex(
-    /^\S+$/,
-    "la facture ne doit pas contenir des espaces"
-  );
-
-  // const handleKeyDown = (event) => {
-  //   if (event.key === "Enter") {
-  //     // Vérifie si la touche "Entrée" est pressée
-  //     getchantierByBCommande(event.target.value);
-  //     console.log(libelleChantier);
-  //   }
-  // };
 
   const handleBlur = (event) => {
     // Call the function when the input loses focus
@@ -307,12 +393,12 @@ export const FactureSaisieCreate = (props) => {
         );
       }
 
-      console.log("date facture", dateFacture);
+      // console.log("date facture", dateFacture);
 
       let dueDate = new Date(
         dateFacture.getTime() + modalitePaiementDays * 24 * 60 * 60 * 1000
       ); // Convertir les jours en millisecondes
-      console.log("Date d'échéance : ", dueDate);
+      // console.log("Date d'échéance : ", dueDate);
       const dateEcheance = dueDate.toISOString().split("T")[0];
       console.log("Date d'échéance formatée : ", dateEcheance);
       return dateEcheance;
@@ -380,119 +466,147 @@ export const FactureSaisieCreate = (props) => {
 
   return (
     <Create label="ajouter" aside={<Aside asideData={asideData} {...props} />}>
-      <SimpleForm>
-        <TextInput
-          defaultValue={identity.fullName}
-          label="vous êtes"
-          hidden={false}
-          className={classes.autocomplete}
-          disabled={true}
-          source="fullName"
-        ></TextInput>
-        <TextInput
-          source="numeroFacture"
-          label="numeroFacture"
-          validate={[
-            required("Le numeroFacture est obligatoire"),
-            numerofacturevalidation,
-          ]}
-          className={classes.autocomplete}
-        />
-        <NumberInput
-          source="TTC"
-          label="TTC"
-          validate={[
-            required("Le MontantApayer est obligatoire"),
-            validateprice,
-          ]}
-          className={classes.autocomplete}
-        />
-        <AutocompleteInput
-          label="designation"
-          validate={required("selectionnez la designation")}
-          className={classes.autocomplete}
-          source="iddesignation"
-          choices={designation_choices}
-          onChange={(e) => {
-            console.log("e", e);
+      <SimpleForm validate={validationFacture}>
+        <Grid container>
+          <Grid item md={6}>
+            <TextInput
+              defaultValue={identity.fullName}
+              label="vous êtes"
+              hidden={false}
+              className={classes.autocomplete}
+              disabled={true}
+              source="fullName"
+            />
+          </Grid>
+          <Grid item md={6}>
+            <TextInput
+              source="numeroFacture"
+              label="numeroFacture"
+              validate={[
+                required("Le numeroFacture est obligatoire"),
+                numerofacturevalidation,
+              ]}
+              className={classes.autocomplete}
+            />
+          </Grid>
+          <Grid item md={6}>
+            <NumberInput
+              source="TTC"
+              label="TTC"
+              validate={[
+                required("Le MontantApayer est obligatoire"),
+                validateprice,
+              ]}
+              className={classes.autocomplete}
+            />
+          </Grid>
+          <Grid item md={6}>
+            <AutocompleteInput
+              label="designation"
+              validate={required("selectionnez la designation")}
+              className={classes.autocomplete}
+              source="iddesignation"
+              choices={designation_choices}
+              onChange={(e) => {
+                console.log("e", e);
 
-            if (!e) {
-              setFournisseurIdField(true);
-            } else {
-              setFournisseurIdField(false);
-              getTVA(e);
+                if (!e) {
+                  setFournisseurIdField(true);
+                } else {
+                  setFournisseurIdField(false);
+                  getTVA(e);
 
-              // Check if e is an array before using join
-              const formattedDates = Array.isArray(e)
-                ? e.join("gheghe")
-                : e.toString();
-              console.log("formattedDates", formattedDates); // Use formattedDates as needed
-            }
-          }}
-        />
-        <SelectInput
-          validate={required("Ce champ est obligatoire")}
-          disabled={fournisseurIdField}
-          className={classes.autocomplete}
-          source="iddesignation"
-          choices={tva_choices}
-          label="Pourcentage TVA"
-        />
-        <TextInput
-          source="BonCommande"
-          label="BonCommande"
-          onBlur={handleBlur}
-          className={classes.autocomplete}
-        />
-        {loading && <Typography>Loading...</Typography>}{" "}
-        {/* Loading indicator */}
-        {/* Afficher les données de libelleChantier ici */}
-        <AutocompleteInput
-          label="fournisseur"
-          validate={required("choisir le fournisseur")}
-          className={classes.autocomplete}
-          source="idfournisseur"
-          choices={fournisseur_choices}
-          onChange={async (e) => {
-            if (e) {
-              setFormData({ ...formData, idfournisseur: e });
-              await getAvancePayénonRestituer(e);
-            }
-          }}
-        />
-        <SelectInput
-          className={classes.autocomplete}
-          source="CatFn"
-          label="Catégorie Facture"
-          validate={required("Mentionnez la catégorie")}
-          choices={[
-            { id: "FET", name: "Fourniture Equipement Travaux" },
-            { id: "Service", name: "Service" },
-          ]}
-        />
-        <DateInput
-          source="DateFacture"
-          label="date de la facture"
-          validate={[required("Date obligatoire")]}
-          onChange={async (event) => {
-            handleDateChange(event);
-          }}
-        />
-        <AutocompleteInput
-          label="chantier"
-          className={classes.autocomplete}
-          source="codechantier"
-          choices={chantier_choices}
-        />
-        <>
-          <TextInput
-            source="dateecheance"
-            label="format date Echeance: yyyy-mm-dd"
-            defaultValue={dateecheance} // Utiliser dateEcheance comme valeur
-            validate={dateFormatRegex}
-          />
-          <p>{dateecheance}</p>
-        </>
+                  // Check if e is an array before using join
+                  const formattedDates = Array.isArray(e)
+                    ? e.join("gheghe")
+                    : e.toString();
+                  console.log("formattedDates", formattedDates); // Use formattedDates as needed
+                }
+              }}
+            />
+          </Grid>
+          <Grid item md={6}>
+            <SelectInput
+              validate={required("Ce champ est obligatoire")}
+              disabled={fournisseurIdField}
+              className={classes.autocomplete}
+              source="iddesignation"
+              choices={tva_choices}
+              label="Pourcentage TVA"
+            />
+          </Grid>
+          <Grid item md={6}>
+            <TextInput
+              source="BonCommande"
+              label="BonCommande"
+              onBlur={handleBlur}
+              className={classes.autocomplete}
+            />
+            {loading && <Typography>Loading...</Typography>}{" "}
+          </Grid>
+          <Grid item md={6}>
+            <AutocompleteInput
+              label="fournisseur"
+              validate={required("choisir le fournisseur")}
+              className={classes.autocomplete}
+              source="idfournisseur"
+              choices={fournisseur_choices}
+              onChange={async (e) => {
+                if (e) {
+                  setFormData({ ...formData, idfournisseur: e });
+                  await getAvancePayénonRestituer(e);
+                }
+              }}
+            />
+          </Grid>
+          <Grid item md={6}>
+            <SelectInput
+              className={classes.autocomplete}
+              source="CatFn"
+              label="Catégorie Facture"
+              validate={required("")}
+              choices={[
+                { id: "FET", name: "Fourniture Equipement Travaux" },
+                { id: "Service", name: "Service" },
+              ]}
+            />
+          </Grid>
+          <Grid item md={6}>
+            <DateInput
+              source="DateFacture"
+              label="date de la facture"
+              validate={[
+                required("Date obligatoire"),
+                // validationDateFacture(datefacture),
+              ]}
+              className={classes.autocomplete}
+              onChange={async (event) => {
+                handleDateChange(event);
+                // validationDateFacture(event.target.value);
+              }}
+            />
+          </Grid>
+          <Grid item md={6}>
+            <AutocompleteInput
+              label="chantier"
+              className={classes.autocomplete}
+              source="codechantier"
+              choices={chantier_choices}
+            />
+          </Grid>
+          <Grid item md={6}>
+            <>
+              <TextInput
+                source="dateecheance"
+                className={classes.autocomplete}
+                label="format date Echeance: yyyy-mm-dd"
+                defaultValue={dateecheance} // Utiliser dateEcheance comme valeur
+                validate={dateFormatRegex}
+              />
+              <>{dateecheance}</>
+            </>
+          </Grid>
+        </Grid>
       </SimpleForm>
     </Create>
   );
