@@ -134,6 +134,7 @@ function App(props) {
     >
       {(permissions) => [
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -160,6 +161,7 @@ function App(props) {
           />
         ) : null,
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -182,6 +184,7 @@ function App(props) {
         ) : null,
 
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -199,6 +202,7 @@ function App(props) {
           />
         ) : null,
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -207,11 +211,21 @@ function App(props) {
           <Resource
             name="EcheanceReel"
             list={EcheanceReeList}
-            create={EcheanceReelCreate}
+            create={
+              permissions === "admin" ||
+              permissions === "normal user" ||
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
+                ? EcheanceReelCreate
+                : ""
+            }
             icon={FaCreditCard}
           />
         ) : null,
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -220,11 +234,12 @@ function App(props) {
           <Resource
             name="getAvanceDetailRestit"
             list={AvanceRestituerDetatailList}
-            con={FaTruck}
+            icon={FaTruck}
           />
         ) : null,
 
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -233,12 +248,22 @@ function App(props) {
           <Resource
             name="EcheanceLoi"
             list={EcheanceLoiList}
-            create={EcheanceLoiCreate}
+            create={
+              permissions === "admin" ||
+              permissions === "normal user" ||
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
+                ? EcheanceLoiCreate
+                : ""
+            }
             icon={FaLastfm}
           />
         ) : null,
 
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -261,6 +286,7 @@ function App(props) {
           />
         ) : null,
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -281,6 +307,7 @@ function App(props) {
           />
         ) : null,
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ||
         permissions === "normal user" ||
@@ -330,6 +357,7 @@ function App(props) {
         null, */
 
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ||
@@ -342,6 +370,7 @@ function App(props) {
         ) : null,
 
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite" ||
@@ -371,6 +400,7 @@ function App(props) {
         ) : null,
 
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite" ||
@@ -384,6 +414,7 @@ function App(props) {
         ) : null,
 
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite" ||
@@ -397,6 +428,7 @@ function App(props) {
         ) : null,
 
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite" ||
@@ -409,6 +441,7 @@ function App(props) {
           ></Resource>
         ) : null,
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -439,6 +472,7 @@ function App(props) {
           />
         ) : null,
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -468,6 +502,7 @@ function App(props) {
         ) : null,
 
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -498,6 +533,7 @@ function App(props) {
           />
         ) : null,
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -519,6 +555,7 @@ function App(props) {
           />
         ) : null,
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -534,6 +571,7 @@ function App(props) {
         ) : null,
 
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -548,6 +586,7 @@ function App(props) {
         ) : null,
 
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -575,6 +614,7 @@ function App(props) {
         ) : null,
 
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -606,6 +646,7 @@ function App(props) {
         ) : null,
 
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
@@ -614,6 +655,7 @@ function App(props) {
           <Resource name="logfactures" list={AvancePayerList} />
         ) : null,
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -634,6 +676,7 @@ function App(props) {
         ) : null,
 
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -648,6 +691,7 @@ function App(props) {
         ) : null,
 
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -662,6 +706,7 @@ function App(props) {
           />
         ) : null,
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -676,6 +721,7 @@ function App(props) {
           />
         ) : null,
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -687,6 +733,7 @@ function App(props) {
           />
         ) : null,
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -697,11 +744,13 @@ function App(props) {
           </CustomRoutes>
         ) : null,
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ? (
           <Resource name="rastva" list={RastvaList} />
         ) : null,
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -710,6 +759,7 @@ function App(props) {
           <Resource name="getfacturedetails" list={GetfacturedetailList} />
         ) : null,
         permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||

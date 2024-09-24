@@ -37,6 +37,10 @@ export const UserCreate = () => (
             id: "superviseur comptabilite midelt",
             name: "Superviseur Comptabilité Midelt",
           },
+          {
+            id: "direction générale",
+            name: "Direction générale",
+          },
         ]}
       />
     </SimpleForm>
