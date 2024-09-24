@@ -665,12 +665,12 @@ function App(props) {
             <Route path="/print" element={<PrintModule />} />
           </CustomRoutes>
         ) : null,
-        permissions === "admin" ? (
+        permissions === "admin" || permissions === "direction générale" ? (
           <Resource
             name="users"
             list={UserList}
-            edit={UserEdit}
-            create={UserCreate}
+            edit={permissions === "admin" ? UserEdit : ""}
+            create={permissions === "admin" ? UserCreate : ""}
             icon={FaCreditCard}
           />
         ) : null,
@@ -700,7 +700,17 @@ function App(props) {
           <Resource
             name="Avance"
             list={AvanceList}
-            edit={AvanceEdit}
+            edit={
+              permissions === "admin" ||
+              permissions === "direction générale" ||
+              permissions === "normal user" ||
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
+                ? AvanceEdit
+                : ""
+            }
             // create={AvanceCreate}
             icon={FaCreditCard}
           />
@@ -715,9 +725,27 @@ function App(props) {
           <Resource
             name="AvanceForupdate"
             list={AvanceForupdateList}
-            edit={AvanceForupdateEdit}
+            edit={
+              permissions === "admin" ||
+              permissions === "normal user" ||
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
+                ? AvanceForupdateEdit
+                : ""
+            }
             icon={FaCreditCard}
-            create={AvanceForupdateCreate}
+            create={
+              permissions === "admin" ||
+              permissions === "normal user" ||
+              permissions === "comptable midelt" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "superviseur comptabilite" ||
+              permissions === "comptable"
+                ? AvanceForupdateCreate
+                : ""
+            }
           />
         ) : null,
         permissions === "admin" ||
