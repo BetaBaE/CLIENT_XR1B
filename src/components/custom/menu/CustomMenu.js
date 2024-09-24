@@ -27,6 +27,7 @@ export const CustomMenu = (props) => {
       )} */}
 
       {(permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
@@ -77,6 +78,7 @@ export const CustomMenu = (props) => {
         </SubMenu>
       )}
       {(permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
@@ -120,17 +122,13 @@ export const CustomMenu = (props) => {
       )}
 
       {(permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
         <SubMenu primaryText="Section  Atner" leftIcon={<ChevronRightIcon />}>
-          <Menu.Item
-            to="users"
-            primaryText="Users"
-            leftIcon={<FaCreditCard />}
-          />
           <Menu.Item
             to="ribatner"
             primaryText="RIB Atner"
@@ -150,6 +148,7 @@ export const CustomMenu = (props) => {
       )}
 
       {(permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
@@ -196,6 +195,7 @@ export const CustomMenu = (props) => {
         />
       )} */}
       {(permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
@@ -235,6 +235,7 @@ export const CustomMenu = (props) => {
         </SubMenu>
       )}
       {(permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
@@ -249,6 +250,7 @@ export const CustomMenu = (props) => {
         </SubMenu>
       )}
       {(permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt") && (
         <SubMenu primaryText="Travaux Mensuel" leftIcon={<ChevronRightIcon />}>
@@ -260,6 +262,7 @@ export const CustomMenu = (props) => {
         </SubMenu>
       )}
       {(permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
@@ -273,7 +276,7 @@ export const CustomMenu = (props) => {
           />
         </SubMenu>
       )}
-      {permissions === "admin" && (
+      {(permissions === "admin" || permissions === "direction générale") && (
         <SubMenu
           primaryText="Gestion Utilisateurs"
           leftIcon={<ChevronRightIcon />}
