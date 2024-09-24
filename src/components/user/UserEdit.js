@@ -65,6 +65,10 @@ export const UserEdit = (props) => {
               id: "superviseur comptabilite midelt",
               name: "Superviseur Comptabilité Midelt",
             },
+            {
+              id: "direction générale",
+              name: "Direction générale",
+            },
           ]}
         />
 
