@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./styles.css"; // Import the CSS for styling
 import apiUrl from "../../../../config";
+import { formatNumber } from "../../globalFunction";
 
 // SortableTable component
 const TableSumMensuel = ({ onRowClick }) => {
@@ -86,9 +87,13 @@ const TableSumMensuel = ({ onRowClick }) => {
             {sortedData1.map((item) => (
               <tr key={item.id} onClick={() => onRowClick(item.id)}>
                 <td>{item.mois}</td>
-                <td>{item.TTCMois}</td>
+                <td style={{ textAlign: "right" }}>
+                  {formatNumber(item.TTCMois)}
+                </td>
                 <td>{item.anc}</td>
-                <td>{item.TOTAL}</td>
+                <td style={{ textAlign: "right" }}>
+                  {formatNumber(item.TOTAL)}
+                </td>
                 <td>{`${item.prcnt}%`}</td>
               </tr>
             ))}

@@ -4,15 +4,15 @@ import Card from "@mui/material/Card";
 
 import { Title } from "react-admin";
 import { CardContent, CardHeader, Grid } from "@material-ui/core";
-// import ChartOverDueInvoices from "./charts/ChartOverDueInvoices";
+// import ChartOverDueInvoices from "./charts/ChartFaNotPayed";
 
-import SortableTable from "./DataGrid/FournisseurDataGrid";
-import TableSumMensuel from "./DataGrid/SumMensuel";
 import { useState } from "react";
-import SumForMonth from "./DataGrid/SumForMonth";
-import ChartOverDueInvoices from "./charts/ChartOverDueInvoices";
+import ChartFaNotPayed from "./charts/ChartFaNotPayed";
+import TableSumFA from "./DataGrid/SumFaDataGrid";
+import SituationFournisseur from "./DataGrid/SituationFournisseur";
+import DetailFactureFournisseur from "./DataGrid/DetailFactureFournisseur";
 
-export const Echencier = () => {
+export const SituationFn = () => {
   const [selectedId, setSelectedId] = useState(null);
 
   const handleRowClick = (id) => {
@@ -22,31 +22,29 @@ export const Echencier = () => {
   return (
     <Grid container spacing={2} justifyContent="space-around">
       <Title title="Echencier" />
-
-      {/* First Row with Chart */}
       <Grid item xs={12} sm={6}>
         <Card>
-          <CardHeader title="Analyse des Factures Échues" />
+          <CardHeader title="Factures: Avec et Sans Fiche Navette" />
           <CardContent>
-            <ChartOverDueInvoices />
+            <ChartFaNotPayed />
           </CardContent>
         </Card>
       </Grid>
 
       <Grid item xs={12} sm={6}>
         <Card>
-          <CardHeader title="Factures Impayées : Fournisseurs vs. Chantiers" />
+          <CardHeader title="FA sans FN: Total et Date" />
           <CardContent>
-            <SortableTable />
+            <TableSumFA />
           </CardContent>
         </Card>
       </Grid>
 
       <Grid item xs={12} sm={6}>
         <Card>
-          <CardHeader title="Résumé Mensuel des Factures" />
+          <CardHeader title="FA Sans FN par Fournisseur" />
           <CardContent>
-            <TableSumMensuel onRowClick={handleRowClick} />
+            <SituationFournisseur onRowClick={handleRowClick} />
           </CardContent>
         </Card>
       </Grid>
@@ -56,15 +54,15 @@ export const Echencier = () => {
           <CardHeader
             title={
               selectedId == null
-                ? "click sur une date dans la table a gauche"
-                : `Detail du mois : ${selectedId.split("-01T")[0]} `
+                ? "click sur un fournisseur dans la table a gauche"
+                : `Fournisseur : ${selectedId.split("|")[1]} `
             }
           />
           <CardContent>
             {selectedId == null ? (
-              "click sur une date dans la table a gauche"
+              "click sur un fournisseur dans la table a gauche"
             ) : (
-              <SumForMonth id={selectedId} />
+              <DetailFactureFournisseur id={selectedId} />
             )}
           </CardContent>
         </Card>

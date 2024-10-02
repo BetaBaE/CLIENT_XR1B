@@ -41,3 +41,7 @@
   width: 100%; /* Each table will take full width of its container */
   border-collapse: collapse;
 }
+
+.my-custom-right-align {
+  text-align: right;
+}

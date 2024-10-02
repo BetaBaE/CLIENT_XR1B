@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./styles.css"; // Import the CSS for styling
 import apiUrl from "../../../../config";
+import { formatNumber } from "../../globalFunction";
 
 // SortableTable component
 const SortableTable = () => {
@@ -123,7 +124,9 @@ const SortableTable = () => {
             {sortedData1.map((item) => (
               <tr key={item.id}>
                 <td>{item.nom}</td>
-                <td>{item.total}</td>
+                <td style={{ textAlign: "right" }}>
+                  {formatNumber(item.total)}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -141,7 +144,9 @@ const SortableTable = () => {
             {sortedData2.map((item) => (
               <tr key={item.id}>
                 <td>{item.nom}</td>
-                <td>{item.total}</td>
+                <td style={{ textAlign: "right" }}>
+                  {formatNumber(item.total)}
+                </td>
               </tr>
             ))}
           </tbody>
