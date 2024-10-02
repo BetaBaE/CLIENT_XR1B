@@ -4,28 +4,26 @@ import apiUrl from "../../../../config";
 import { formatNumber } from "../../globalFunction";
 
 // SortableTable component
-const SumForMonth = ({ id }) => {
+const TableSumFA = ({ onRowClick }) => {
   const [dataTable1, setDataTable1] = useState([]);
   const [sortConfig1, setSortConfig1] = useState({
     key: "id",
     direction: "ascending",
   });
-
-  console.log("selectedId", id);
-
   const [loading, setLoading] = useState(true);
 
   // Fetch data from two different endpoints
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response1 = await fetch(`${apiUrl}/sumformonth/${id}`);
+        const response1 = await fetch(`${apiUrl}/tablesumfa`);
         const result1 = await response1.json();
         const formattedData1 = result1.map((four) => ({
           id: four.id,
-          nom: four.id,
-          TotalFournisseur: four.TotalFournisseur,
-          TotalMois: four.TotalMois,
+          totTTC: four.totTTC,
+          minDate: four.minDate,
+          MaxDate: four.MaxDate,
+          nmbreFacture: four.nmbreFacture,
         }));
         setDataTable1(formattedData1);
       } catch (error) {
@@ -35,11 +33,8 @@ const SumForMonth = ({ id }) => {
       }
     };
 
-    if (id) {
-      // Only fetch if id is not null
-      fetchData();
-    }
-  }, [id]);
+    fetchData();
+  }, []);
 
   // Sorting logic for table 1
   const sortedData1 = React.useMemo(() => {
@@ -80,23 +75,23 @@ const SumForMonth = ({ id }) => {
         <table>
           <thead>
             <tr>
-              <th onClick={() => requestSort1("id")}>Fournisseur</th>
-              <th onClick={() => requestSort1("TotalFournisseur")}>
-                Tot. Four
+              <th onClick={() => requestSort1("totTTC")}>Total TTC</th>
+              <th onClick={() => requestSort1("minDate")}>Min Date</th>
+              <th onClick={() => requestSort1("MaxDate")}>Max Date</th>
+              <th onClick={() => requestSort1("nmbreFacture")}>
+                Nomber Facture
               </th>
-              <th onClick={() => requestSort1("TotalMois")}>Tot. Mois</th>
             </tr>
           </thead>
           <tbody>
             {sortedData1.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td style={{ textAlign: "right" }}>
-                  {formatNumber(item.TotalFournisseur)}
+              <tr key={item.id} onClick={() => onRowClick(item.id)}>
+                <td className="my-custom-right-align">
+                  {formatNumber(item.totTTC)}
                 </td>
-                <td style={{ textAlign: "right" }}>
-                  {formatNumber(item.TotalMois)}
-                </td>
+                <td>{item.minDate.split("T00")[0]}</td>
+                <td>{item.MaxDate.split("T00")[0]}</td>
+                <td>{item.nmbreFacture}</td>
               </tr>
             ))}
           </tbody>
@@ -106,4 +101,4 @@ const SumForMonth = ({ id }) => {
   );
 };
 
-export default SumForMonth;
+export default TableSumFA;

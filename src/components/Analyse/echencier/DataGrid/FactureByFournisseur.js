@@ -91,10 +91,10 @@ const SumForMonth = ({ id }) => {
             {sortedData1.map((item) => (
               <tr key={item.id}>
                 <td>{item.id}</td>
-                <td style={{ textAlign: "right" }}>
+                <td className="my-custom-right-align">
                   {formatNumber(item.TotalFournisseur)}
                 </td>
-                <td style={{ textAlign: "right" }}>
+                <td className="my-custom-right-align">
                   {formatNumber(item.TotalMois)}
                 </td>
               </tr>

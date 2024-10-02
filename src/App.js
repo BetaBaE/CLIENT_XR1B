@@ -80,6 +80,7 @@ import { Echencier } from "./components/Analyse/echencier/echencier";
 import { RastvaList } from "./components/Alerts/RasTva";
 import { GetfacturedetailList } from "./components/newLogFacture/newlogFacture";
 import { GetavancedetailList } from "./components/newLogAvance/newlogAvance";
+import { SituationFn } from "./components/Analyse/echencier/echencier2";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -769,6 +770,17 @@ function App(props) {
         permissions === "comptable" ? (
           <CustomRoutes>
             <Route path="/echencier" element={<Echencier />} />
+          </CustomRoutes>
+        ) : null,
+        permissions === "admin" ||
+        permissions === "direction générale" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <CustomRoutes>
+            <Route path="/situationfn" element={<SituationFn />} />
           </CustomRoutes>
         ) : null,
         permissions === "admin" ||

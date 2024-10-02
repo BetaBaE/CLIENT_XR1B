@@ -4,28 +4,27 @@ import apiUrl from "../../../../config";
 import { formatNumber } from "../../globalFunction";
 
 // SortableTable component
-const SumForMonth = ({ id }) => {
+const SituationFournisseur = ({ onRowClick }) => {
   const [dataTable1, setDataTable1] = useState([]);
   const [sortConfig1, setSortConfig1] = useState({
     key: "id",
     direction: "ascending",
   });
-
-  console.log("selectedId", id);
-
   const [loading, setLoading] = useState(true);
 
   // Fetch data from two different endpoints
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response1 = await fetch(`${apiUrl}/sumformonth/${id}`);
+        const response1 = await fetch(`${apiUrl}/situationfournisseurs`);
         const result1 = await response1.json();
         const formattedData1 = result1.map((four) => ({
           id: four.id,
-          nom: four.id,
-          TotalFournisseur: four.TotalFournisseur,
-          TotalMois: four.TotalMois,
+          nom: four.nom,
+          TotTTC: four.TotTTC,
+          MinDate: four.MinDate,
+          MaxDate: four.MaxDate,
+          NombreFacture: four.NombreFacture,
         }));
         setDataTable1(formattedData1);
       } catch (error) {
@@ -35,11 +34,8 @@ const SumForMonth = ({ id }) => {
       }
     };
 
-    if (id) {
-      // Only fetch if id is not null
-      fetchData();
-    }
-  }, [id]);
+    fetchData();
+  }, []);
 
   // Sorting logic for table 1
   const sortedData1 = React.useMemo(() => {
@@ -80,23 +76,28 @@ const SumForMonth = ({ id }) => {
         <table>
           <thead>
             <tr>
-              <th onClick={() => requestSort1("id")}>Fournisseur</th>
-              <th onClick={() => requestSort1("TotalFournisseur")}>
-                Tot. Four
+              <th onClick={() => requestSort1("nom")}>Nom</th>
+              <th onClick={() => requestSort1("TotTTC")}>TotTTC</th>
+              <th onClick={() => requestSort1("MinDate")}>MinDate</th>
+              <th onClick={() => requestSort1("MaxDate")}>MaxDate</th>
+              <th onClick={() => requestSort1("NombreFacture")}>
+                NombreFacture
               </th>
-              <th onClick={() => requestSort1("TotalMois")}>Tot. Mois</th>
             </tr>
           </thead>
           <tbody>
             {sortedData1.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
+              <tr
+                key={item.id}
+                onClick={() => onRowClick(`${item.id}|${item.nom}`)}
+              >
+                <td>{item.nom}</td>
                 <td style={{ textAlign: "right" }}>
-                  {formatNumber(item.TotalFournisseur)}
+                  {formatNumber(item.TotTTC)}
                 </td>
-                <td style={{ textAlign: "right" }}>
-                  {formatNumber(item.TotalMois)}
-                </td>
+                <td>{item.MinDate.split("T00")[0]}</td>
+                <td>{item.MaxDate.split("T00")[0]}</td>
+                <td style={{ textAlign: "right" }}>{item.NombreFacture}</td>
               </tr>
             ))}
           </tbody>
@@ -106,4 +107,4 @@ const SumForMonth = ({ id }) => {
   );
 };
 
-export default SumForMonth;
+export default SituationFournisseur;

@@ -4,7 +4,7 @@ import apiUrl from "../../../../config";
 import { formatNumber } from "../../globalFunction";
 
 // SortableTable component
-const SumForMonth = ({ id }) => {
+const DetailFactureFournisseur = ({ id }) => {
   const [dataTable1, setDataTable1] = useState([]);
   const [sortConfig1, setSortConfig1] = useState({
     key: "id",
@@ -19,13 +19,18 @@ const SumForMonth = ({ id }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response1 = await fetch(`${apiUrl}/sumformonth/${id}`);
+        const response1 = await fetch(
+          `${apiUrl}/facturebyfour/${id.split("|")[0]}`
+        );
         const result1 = await response1.json();
         const formattedData1 = result1.map((four) => ({
           id: four.id,
-          nom: four.id,
-          TotalFournisseur: four.TotalFournisseur,
-          TotalMois: four.TotalMois,
+          numeroFacture: four.numeroFacture,
+          chantier: four.codechantier,
+          DateFacture: four.DateFacture,
+          HT: four.HT,
+          TVA: four.MontantTVA,
+          TTC: four.TTC,
         }));
         setDataTable1(formattedData1);
       } catch (error) {
@@ -80,23 +85,23 @@ const SumForMonth = ({ id }) => {
         <table>
           <thead>
             <tr>
-              <th onClick={() => requestSort1("id")}>Fournisseur</th>
-              <th onClick={() => requestSort1("TotalFournisseur")}>
-                Tot. Four
-              </th>
-              <th onClick={() => requestSort1("TotalMois")}>Tot. Mois</th>
+              <th onClick={() => requestSort1("chantier")}>Chantier</th>
+              <th onClick={() => requestSort1("numeroFacture")}>N° Facture</th>
+              <th onClick={() => requestSort1("DateFacture")}>Date</th>
+              <th onClick={() => requestSort1("HT")}>HT</th>
+              <th onClick={() => requestSort1("TVA")}>TVA</th>
+              <th onClick={() => requestSort1("TTC")}>TTC</th>
             </tr>
           </thead>
           <tbody>
             {sortedData1.map((item) => (
               <tr key={item.id}>
-                <td>{item.id}</td>
-                <td style={{ textAlign: "right" }}>
-                  {formatNumber(item.TotalFournisseur)}
-                </td>
-                <td style={{ textAlign: "right" }}>
-                  {formatNumber(item.TotalMois)}
-                </td>
+                <td>{item.chantier}</td>
+                <td>{item.numeroFacture}</td>
+                <td>{item.DateFacture.split("T00")[0]}</td>
+                <td style={{ textAlign: "right" }}>{formatNumber(item.HT)}</td>
+                <td style={{ textAlign: "right" }}>{formatNumber(item.TVA)}</td>
+                <td style={{ textAlign: "right" }}>{formatNumber(item.TTC)}</td>
               </tr>
             ))}
           </tbody>
@@ -106,4 +111,4 @@ const SumForMonth = ({ id }) => {
   );
 };
 
-export default SumForMonth;
+export default DetailFactureFournisseur;
