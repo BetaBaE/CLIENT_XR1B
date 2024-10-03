@@ -215,39 +215,39 @@ export const FactureSaisieCreate = (props) => {
     //   errors.BonCommande = "Le BonCommande est obligatoire"; // Assuming BonCommande is required
     // }
 
-    // if (!value.DateFacture) {
-    //   value.DateFacture = "La Date Facture est obligatoire";
-    // } else {
-    //   const dateref = new Date(new Date().getFullYear(), 2, 31); // March 31 of the current year
-    //   const dateFA = new Date(value.DateFacture);
-    //   const todayDate = new Date();
-    //   console.log(dateFA);
+    if (!value.DateFacture) {
+      value.DateFacture = "La Date Facture est obligatoire";
+    } else {
+      const dateref = new Date(new Date().getFullYear(), 2, 31); // March 31 of the current year
+      const dateFA = new Date(value.DateFacture);
+      const todayDate = new Date();
+      console.log(dateFA);
 
-    //   // validation facture
+      // validation facture
 
-    //   if (todayDate <= dateref) {
-    //     // Before or on March 31 of the current year
-    //     if (
-    //       dateFA.getFullYear() === todayDate.getFullYear() ||
-    //       dateFA.getFullYear() === todayDate.getFullYear() - 1
-    //     ) {
-    //       console.log("OK: Valid facture date for this year or last year.");
-    //     } else {
-    //       // console.error("Error: Invalid facture year.");
-    //       errors.DateFacture =
-    //         "Année de facturation doit être égale à l'année saisie ou l'année dernière.";
-    //     }
-    //   } else {
-    //     // After March 31 of the current year
-    //     if (dateFA.getFullYear() === todayDate.getFullYear()) {
-    //       console.log("OK: Valid facture date for this year.");
-    //     } else {
-    //       // console.error("Error: Invalid facture year.");
-    //       errors.DateFacture =
-    //         "Année de facturation doit être égale à l'année saisie.";
-    //     }
-    //   }
-    // }
+      if (todayDate <= dateref) {
+        // Before or on March 31 of the current year
+        if (
+          dateFA.getFullYear() === todayDate.getFullYear() ||
+          dateFA.getFullYear() === todayDate.getFullYear() - 1
+        ) {
+          console.log("OK: Valid facture date for this year or last year.");
+        } else {
+          // console.error("Error: Invalid facture year.");
+          errors.DateFacture =
+            "Année de facturation doit être égale à l'année saisie ou l'année dernière.";
+        }
+      } else {
+        // After March 31 of the current year
+        if (dateFA.getFullYear() === todayDate.getFullYear()) {
+          console.log("OK: Valid facture date for this year.");
+        } else {
+          // console.error("Error: Invalid facture year.");
+          errors.DateFacture =
+            "Année de facturation doit être égale à l'année saisie.";
+        }
+      }
+    }
     if (!value.dateecheance) {
       errors.dateecheance = "La date d'échéance est obligatoire"; // Assuming dateecheance is required
     }
