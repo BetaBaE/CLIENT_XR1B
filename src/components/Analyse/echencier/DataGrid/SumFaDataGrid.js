@@ -20,10 +20,11 @@ const TableSumFA = ({ onRowClick }) => {
         const result1 = await response1.json();
         const formattedData1 = result1.map((four) => ({
           id: four.id,
-          totTTC: four.totTTC,
-          minDate: four.minDate,
+          codechantier: four.codechantier,
+          totTTC: four.TotTTC,
+          MinDate: four.MinDate,
           MaxDate: four.MaxDate,
-          nmbreFacture: four.nmbreFacture,
+          NombreFacture: four.NombreFacture,
         }));
         setDataTable1(formattedData1);
       } catch (error) {
@@ -75,10 +76,11 @@ const TableSumFA = ({ onRowClick }) => {
         <table>
           <thead>
             <tr>
+              <th onClick={() => requestSort1("codechantier")}>Chantier</th>
               <th onClick={() => requestSort1("totTTC")}>Total TTC</th>
-              <th onClick={() => requestSort1("minDate")}>Min Date</th>
+              <th onClick={() => requestSort1("MinDate")}>Min Date</th>
               <th onClick={() => requestSort1("MaxDate")}>Max Date</th>
-              <th onClick={() => requestSort1("nmbreFacture")}>
+              <th onClick={() => requestSort1("NombreFacture")}>
                 Nomber Facture
               </th>
             </tr>
@@ -86,12 +88,13 @@ const TableSumFA = ({ onRowClick }) => {
           <tbody>
             {sortedData1.map((item) => (
               <tr key={item.id} onClick={() => onRowClick(item.id)}>
+                <td>{item.codechantier}</td>
                 <td className="my-custom-right-align">
                   {formatNumber(item.totTTC)}
                 </td>
-                <td>{item.minDate.split("T00")[0]}</td>
+                <td>{item.MinDate.split("T00")[0]}</td>
                 <td>{item.MaxDate.split("T00")[0]}</td>
-                <td>{item.nmbreFacture}</td>
+                <td>{item.NombreFacture}</td>
               </tr>
             ))}
           </tbody>
