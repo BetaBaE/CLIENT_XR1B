@@ -9,8 +9,8 @@ const FaAyantFnList = () => {
         <TextField source="numeroFacture" label="N° Facture" />
         <DateField source="DateFacture" label="Date Facture" />
         <TextField source="FN" label="N° FN" />
-        <NumberField source="TTC Sage" label="TTC Sage" />
-        <NumberField source="TTC App" label="TTC App" />
+        <NumberField source="TTCSage" label="TTC Sage" />
+        <NumberField source="TTCApp" label="TTC App" />
       </Datagrid>
     </List>
   );
