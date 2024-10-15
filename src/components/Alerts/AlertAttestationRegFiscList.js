@@ -4,7 +4,7 @@ export const AlertAttestationRegFiscList = () => (
   <List title="Situation : Attestation de régularité fiscale">
     <Datagrid bulkActionButtons={false}>
       <TextField source="nom" />
-      <DateField source="dateDebut" />
+      {/* <DateField source="dateDebut" /> */}
       <DateField source="dateExpiration" />
       <NumberField source="ExpiréDans" />
       <TextField source="exonorer" />

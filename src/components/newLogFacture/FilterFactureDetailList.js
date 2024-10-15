@@ -15,6 +15,7 @@ const FilterFactureDetailList = (props) => (
         { id: "Saisie", name: "Saisie" },
         { id: "En cours", name: "En cours" },
         { id: "Reglee", name: "Reglee" },
+        { id: "RegleeAV", name: "RegleeAV" },
       ]}
     />
     <SelectInput

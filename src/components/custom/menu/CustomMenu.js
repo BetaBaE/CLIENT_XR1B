@@ -11,7 +11,6 @@ import {
   FaRegMoneyBillAlt,
   FaPaperPlane,
   FaPrint,
-  FaBatteryEmpty,
 } from "react-icons/fa";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { TbReportMoney } from "react-icons/tb";
@@ -65,7 +64,7 @@ export const CustomMenu = (props) => {
             primaryText="Archivage Facture"
             leftIcon={<FaFileInvoice />}
           /> */}
-          <Menu.Item
+          {/* <Menu.Item
             to="/historiquefacture"
             primaryText="Historique Facture"
             leftIcon={<FaFileInvoice />}
@@ -74,7 +73,7 @@ export const CustomMenu = (props) => {
             to="/getAvanceDetailRestit"
             primaryText="AvanceRestituerDetatailList"
             leftIcon={<FaBatteryEmpty />}
-          />
+          /> */}
         </SubMenu>
       )}
       {(permissions === "admin" ||
@@ -202,22 +201,22 @@ export const CustomMenu = (props) => {
         permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
         <SubMenu primaryText="Suive Facture" leftIcon={<ChevronRightIcon />}>
-          <Menu.Item
+          {/* <Menu.Item
             to="/SuivieFacture"
             primaryText="Log Facture Saisie"
             leftIcon={<FaFileInvoiceDollar />}
-          />
+          /> */}
           <Menu.Item
             to="/getfacturedetails"
-            primaryText="Log Facture Nouv."
+            primaryText="Log Facture"
             leftIcon={<FaFileInvoiceDollar />}
           />
           <Menu.Item
             to="/getavancedetails"
-            primaryText="Log Avance Nouv."
+            primaryText="Log Avance"
             leftIcon={<FaFileInvoiceDollar />}
           />
-          <Menu.Item
+          {/* <Menu.Item
             to="/SuivieFactureEchu"
             primaryText="Facture enregistrée prête pour l'échéance"
             leftIcon={<FaFileInvoice />}
@@ -231,7 +230,7 @@ export const CustomMenu = (props) => {
             to="/DetailFacturebyfournisseur"
             primaryText="Somme par Fournisseur"
             leftIcon={<TbReportMoney />}
-          />
+          /> */}
         </SubMenu>
       )}
       {(permissions === "admin" ||
@@ -245,6 +244,11 @@ export const CustomMenu = (props) => {
           <Menu.Item
             to="/alertattestationregfisc"
             primaryText="Attest Reg Fisc"
+            leftIcon={<FaFileInvoiceDollar />}
+          />
+          <Menu.Item
+            to="/faayantfn"
+            primaryText="Facture Ayant FN"
             leftIcon={<FaFileInvoiceDollar />}
           />
         </SubMenu>
