@@ -1,4 +1,4 @@
-import { Admin, CustomRoutes, Resource } from "react-admin";
+import { Admin, CustomRoutes, ListGuesser, Resource } from "react-admin";
 import restProvider from "ra-data-simple-rest";
 
 import { FaTruck, FaCreditCard, FaLastfm } from "react-icons/fa";
@@ -81,6 +81,7 @@ import { RastvaList } from "./components/Alerts/RasTva";
 import { GetfacturedetailList } from "./components/newLogFacture/newlogFacture";
 import { GetavancedetailList } from "./components/newLogAvance/newlogAvance";
 import { SituationFn } from "./components/Analyse/echencier/echencier2";
+import FaAyantFnList from "./components/Alerts/FaAyantFn";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -760,6 +761,15 @@ function App(props) {
             name="alertattestationregfisc"
             list={AlertAttestationRegFiscList}
           />
+        ) : null,
+        permissions === "admin" ||
+        permissions === "direction générale" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <Resource name="faayantfn" list={FaAyantFnList} />
         ) : null,
         permissions === "admin" ||
         permissions === "direction générale" ||
