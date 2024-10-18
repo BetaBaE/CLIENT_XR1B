@@ -1,8 +1,12 @@
 import { Datagrid, DateField, List, NumberField, TextField } from "react-admin";
+import { FaAyantFnFilter } from "./FaAyantFNFilter";
 
 const FaAyantFnList = () => {
   return (
-    <List title="Situation : Facture Ayant FN Sage">
+    <List
+      filters={<FaAyantFnFilter />}
+      title="Situation : Facture Ayant FN Sage"
+    >
       <Datagrid bulkActionButtons={false}>
         <TextField source="CODEAFFAIRE" label="Code Chantier" />
         <TextField source="nom" label="Fournisseur" />
