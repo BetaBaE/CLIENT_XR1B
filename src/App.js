@@ -82,6 +82,7 @@ import { GetfacturedetailList } from "./components/newLogFacture/newlogFacture";
 import { GetavancedetailList } from "./components/newLogAvance/newlogAvance";
 import { SituationFn } from "./components/Analyse/echencier/echencier2";
 import FaAyantFnList from "./components/Alerts/FaAyantFn";
+import StFournisseur from "./components/Analyse/Situation Fournisseur/StFournisseur";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -816,6 +817,17 @@ function App(props) {
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <Resource name="getavancedetails" list={GetavancedetailList} />
+        ) : null,
+        permissions === "admin" ||
+        permissions === "direction générale" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <CustomRoutes>
+            <Route path="/situationfournisseur" element={<StFournisseur />} />
+          </CustomRoutes>
         ) : null,
       ]}
     </Admin>
