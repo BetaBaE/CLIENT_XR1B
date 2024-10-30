@@ -300,7 +300,7 @@ export const VirementCreate = () => {
       name:
         `${id}|${alert}|${dateExpiration}`.length < 40
           ? `${id}`
-          : `►${id} | ${alert} | ${dateExpiration.split("T")[0]}◄`,
+          : `⚠️${id} | ${alert} | le ${dateExpiration.split("T")[0]}⚠️`,
     })
   );
   let fournisseurs_choices = fournisseur.map(
