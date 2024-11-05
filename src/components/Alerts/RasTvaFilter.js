@@ -17,7 +17,11 @@ const RasTvaFilter = (props) => {
   }));
   return (
     <Filter {...props}>
-      <SelectInput source="DateOperation2" choices={filter_choices} />
+      <SelectInput
+        source="DateOperation2"
+        label="Date Operation"
+        choices={filter_choices}
+      />
     </Filter>
   );
 };

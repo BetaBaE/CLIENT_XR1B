@@ -1,4 +1,4 @@
-import { Admin, CustomRoutes, ListGuesser, Resource } from "react-admin";
+import { Admin, CustomRoutes,  Resource } from "react-admin";
 import restProvider from "ra-data-simple-rest";
 
 import { FaTruck, FaCreditCard, FaLastfm } from "react-icons/fa";
@@ -83,6 +83,7 @@ import { GetavancedetailList } from "./components/newLogAvance/newlogAvance";
 import { SituationFn } from "./components/Analyse/echencier/echencier2";
 import FaAyantFnList from "./components/Alerts/FaAyantFn";
 import StFournisseur from "./components/Analyse/Situation Fournisseur/StFournisseur";
+import { TvalogList } from "./components/newLogFacture/TvaLog";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -106,7 +107,7 @@ const fetchJson = async (url, options = {}) => {
     body: text,
   };
   let status = o.status,
-    statusText = o.statusText,
+    // statusText = o.statusText,
     headers = o.headers,
     body = o.body;
   let json;
@@ -817,6 +818,15 @@ function App(props) {
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <Resource name="getavancedetails" list={GetavancedetailList} />
+        ) : null,
+        permissions === "admin" ||
+        permissions === "direction générale" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <Resource name="gettvalog" list={<TvalogList />} />
         ) : null,
         permissions === "admin" ||
         permissions === "direction générale" ||
