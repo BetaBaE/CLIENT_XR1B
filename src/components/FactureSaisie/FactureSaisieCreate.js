@@ -411,7 +411,7 @@ export const FactureSaisieCreate = (props) => {
   const handleDateChange = async (event) => {
     const inputDate = event.target.value;
     setFormData({ ...formData, DateFacture: inputDate });
-
+    if (identityLoading) return <div>Loading...</div>;
     console.log("inputDate", inputDate);
     if (isValidPartialDate(inputDate)) {
       try {

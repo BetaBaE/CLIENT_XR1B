@@ -263,6 +263,11 @@ export const CustomMenu = (props) => {
             primaryText="RAS TVA"
             leftIcon={<FaFileInvoiceDollar />}
           />
+          <Menu.Item
+            to="/gettvalog"
+            primaryText="Log TVA"
+            leftIcon={<FaFileInvoiceDollar />}
+          />
         </SubMenu>
       )}
       {(permissions === "admin" ||

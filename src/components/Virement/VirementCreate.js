@@ -81,7 +81,7 @@ export const VirementCreate = () => {
     e.forEach((fa) => {
       const selectedFacture = facture_choices.find((f) => f.id === fa);
       if (selectedFacture) {
-        setSelectedSupplierFactureCategory(selectedFacture.categorie); // Set selected supplier category
+        // setSelectedSupplierFactureCategory(selectedFacture.categorie); // Set selected supplier category
 
         // Adjusted condition based on provided logic
         if (
@@ -122,6 +122,7 @@ export const VirementCreate = () => {
       }
     });
     setSum(sum.toFixed(3));
+    if (identityLoading) return <div>Loading...</div>;
   };
 
   const [orderVirementField, setOrderVirementField] = useState(true);
@@ -137,8 +138,6 @@ export const VirementCreate = () => {
     setSelectedSupplierFournisseurCategory,
   ] = useState("");
 
-  const [selectedSupplierFactureCategory, setSelectedSupplierFactureCategory] =
-    useState("");
   const sumfacturenotfnValue =
     sumfacturewithoutfn.length > 0
       ? sumfacturewithoutfn[0].sumfacturewithoutfn
