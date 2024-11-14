@@ -124,6 +124,7 @@ export const RibtempoCreate = (props) => {
             { id: "Société générale Maroc", name: "SGMB" },
             { id: "Banco Sabadell", name: "Banco Sabadell Maroc" },
             { id: "La Caixa", name: "Caixabank" },
+            { id: "Umnia bank", name: "Umnia bank" },
           ]}
         />
       </SimpleForm>
