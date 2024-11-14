@@ -195,6 +195,7 @@ export const CustomMenu = (props) => {
       )} */}
       {(permissions === "admin" ||
         permissions === "direction générale" ||
+        permissions === "consultation directeur" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
@@ -235,6 +236,7 @@ export const CustomMenu = (props) => {
       )}
       {(permissions === "admin" ||
         permissions === "direction générale" ||
+        permissions === "consultation directeur" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
@@ -248,7 +250,7 @@ export const CustomMenu = (props) => {
           />
           <Menu.Item
             to="/faayantfn"
-            primaryText="Facture Ayant FN"
+            primaryText="FN Sage No Compta"
             leftIcon={<FaFileInvoiceDollar />}
           />
         </SubMenu>
@@ -272,6 +274,7 @@ export const CustomMenu = (props) => {
       )}
       {(permissions === "admin" ||
         permissions === "direction générale" ||
+        permissions === "consultation directeur" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
@@ -288,11 +291,11 @@ export const CustomMenu = (props) => {
             primaryText="Situation FN"
             leftIcon={<FaFileInvoiceDollar />}
           />
-          {/* <Menu.Item
+          <Menu.Item
             to="/situationfournisseur"
             primaryText="Situation Fournisseur"
             leftIcon={<FaFileInvoiceDollar />}
-          /> */}
+          />
         </SubMenu>
       )}
       {(permissions === "admin" || permissions === "direction générale") && (

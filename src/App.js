@@ -1,4 +1,4 @@
-import { Admin, CustomRoutes,  Resource } from "react-admin";
+import { Admin, CustomRoutes, Resource } from "react-admin";
 import restProvider from "ra-data-simple-rest";
 
 import { FaTruck, FaCreditCard, FaLastfm } from "react-icons/fa";
@@ -754,6 +754,7 @@ function App(props) {
         ) : null,
         permissions === "admin" ||
         permissions === "direction générale" ||
+        permissions === "consultation directeur" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -766,6 +767,7 @@ function App(props) {
         ) : null,
         permissions === "admin" ||
         permissions === "direction générale" ||
+        permissions === "consultation directeur" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -775,6 +777,7 @@ function App(props) {
         ) : null,
         permissions === "admin" ||
         permissions === "direction générale" ||
+        permissions === "consultation directeur" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -786,6 +789,7 @@ function App(props) {
         ) : null,
         permissions === "admin" ||
         permissions === "direction générale" ||
+        permissions === "consultation directeur" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -803,6 +807,7 @@ function App(props) {
         ) : null,
         permissions === "admin" ||
         permissions === "direction générale" ||
+        permissions === "consultation directeur" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -812,6 +817,7 @@ function App(props) {
         ) : null,
         permissions === "admin" ||
         permissions === "direction générale" ||
+        permissions === "consultation directeur" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -830,6 +836,7 @@ function App(props) {
         ) : null,
         permissions === "admin" ||
         permissions === "direction générale" ||
+        permissions === "consultation directeur" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
