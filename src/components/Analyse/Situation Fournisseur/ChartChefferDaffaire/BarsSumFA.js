@@ -60,26 +60,31 @@ const CustomTooltip = ({ active, payload }) => {
   return null;
 };
 
-const ChartOverDueInvoices = () => {
+const BarsSumFA = ({ nom }) => {
+  let route = `fastatebyFournisseur?fournisseur=%7B%22nom%22%3A%22${nom}%22%7D&`;
   return (
-    <ListBase resource="overdueInvoices" disableSyncWithLocation>
+    <ListBase resource={route} disableSyncWithLocation>
       <WithListContext
-        render={({ data }) => (
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart width={600} height={300} data={data}>
-              <XAxis dataKey="name" />
-              <YAxis tickFormatter={formatYAxisNumber} />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend />
-              <CartesianGrid stroke="#eee" />
-              <Bar dataKey="montant" fill="#0088FE" barSize={30} />
-            </BarChart>
-          </ResponsiveContainer>
-        )}
+        render={({ data }) => {
+          if (!data || data.length === 0) {
+            return <div>Aucune statistique disponible</div>;
+          }
+          return (
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart width={600} height={300} data={data}>
+                <XAxis dataKey="name" />
+                <YAxis tickFormatter={formatYAxisNumber} />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend />
+                <CartesianGrid stroke="#eee" />
+                <Bar dataKey="NetApaye" fill="#0088FE" barSize={30} />
+              </BarChart>
+            </ResponsiveContainer>
+          );
+        }}
       />
-      {/* </ResponsiveContainer> */}
     </ListBase>
   );
 };
 
-export default ChartOverDueInvoices;
+export default BarsSumFA;

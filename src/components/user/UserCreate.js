@@ -41,6 +41,10 @@ export const UserCreate = () => (
             id: "direction générale",
             name: "Direction générale",
           },
+          {
+            id: "consultation directeur",
+            name: "Consultation directeur",
+          },
         ]}
       />
     </SimpleForm>
