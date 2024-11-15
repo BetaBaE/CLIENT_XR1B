@@ -11,8 +11,6 @@ const SumForMonth = ({ id }) => {
     direction: "ascending",
   });
 
-  console.log("selectedId", id);
-
   const [loading, setLoading] = useState(true);
 
   // Fetch data from two different endpoints
