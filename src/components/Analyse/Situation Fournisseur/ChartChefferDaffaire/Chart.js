@@ -73,10 +73,10 @@ const ChartChefferDaffaire = ({ nom }) => {
   const route = `chefferDAffaire?fournisseur=%7B%22nom%22%3A%22${nom}%22%7D&`;
 
   useEffect(() => {
-    if (!loading && dataWithPercentageChange.length === 0) {
-      setLoading(false);
-    }
-  }, [dataWithPercentageChange, loading]);
+    // Clear data and set loading when `nom` changes
+    setLoading(true);
+    setDataWithPercentageChange([]);
+  }, [nom]);
 
   const processChartData = (data) => {
     if (!data || data.length === 0) return [];
@@ -96,6 +96,7 @@ const ChartChefferDaffaire = ({ nom }) => {
     <ListBase resource={route}>
       <WithListContext
         render={({ data }) => {
+          // Process data when available
           if (data && loading) {
             setDataWithPercentageChange(processChartData(data));
             setLoading(false);

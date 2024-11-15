@@ -1,26 +1,26 @@
-.my-custom-table {
+.my-custom-table-sf {
   display: flex; /* Enable flexbox */
   height: 80px; /* Set the maximum height for the container */
   border: 1px solid #ddd; /* Optional: Add a border around the container */
 }
-.table-container {
+.table-container-sf {
   flex: 1; /* Allow each table to take equal space */
   height: 80px; /* Set the maximum height for each table */
   overflow-y: auto; /* Enable vertical scrolling for each table */
   margin-right: 10px; /* Optional: Add some space between the tables */
 }
 
-.my-custom-table th, 
-.my-custom-table td {
+.my-custom-table-sf th, 
+.my-custom-table-sf td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
 }
-.table-container:last-child {
+.table-container-sf:last-child {
   margin-right: 0; /* Remove margin from the last table */
 }
 
-.my-custom-table th {
+.my-custom-table-sf th {
   cursor: pointer;
   background-color: #f2f2f2;
   position: sticky; /* Make the header sticky */
@@ -28,20 +28,20 @@
   z-index: 1; /* Ensure the header is above the table body */
 }
 
-.my-custom-table th:hover {
+.my-custom-table-sf th:hover {
   background-color: #ddd;
 }
 
-.my-custom-table tbody tr:nth-child(even) {
+.my-custom-table-sf tbody tr:nth-child(even) {
   background-color: #f9f9f9; /* Optional: Zebra striping for better readability */
 }
 
 
-.table-container table {
+.table-container-sf table {
   width: 100%; /* Each table will take full width of its container */
   border-collapse: collapse;
 }
 
-.my-custom-right-align {
+.my-custom-right-align-sf {
   text-align: right;
 }

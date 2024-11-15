@@ -79,8 +79,8 @@ const AttsFiscal = ({ nom }) => {
   }
 
   return dataTable1.length > 0 ? (
-    <div className="my-custom-table">
-      <div className="table-container">
+    <div className="my-custom-table-sf">
+      <div className="table-container-sf">
         <table>
           <thead>
             <tr>
@@ -93,7 +93,7 @@ const AttsFiscal = ({ nom }) => {
               </th>
               <th onClick={() => requestSort1("redacteur")}>redacteur</th>
               <th onClick={() => requestSort1("ValideJusqua")}>
-                Valide jusqu'à
+                Jours restants
               </th>
             </tr>
           </thead>
