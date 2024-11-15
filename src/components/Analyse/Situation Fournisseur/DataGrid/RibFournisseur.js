@@ -10,8 +10,6 @@ const RibFournisseur = ({ nom }) => {
     direction: "ascending",
   });
 
-  console.log("selectedId", nom);
-
   const [loading, setLoading] = useState(true);
 
   // Fetch data from two different endpoints
@@ -76,7 +74,7 @@ const RibFournisseur = ({ nom }) => {
   if (loading) {
     return <div>Loading...</div>;
   }
-  console.log(dataTable1);
+
   return dataTable1.length > 0 ? (
     <div className="my-custom-table-sf">
       <div className="table-container-sf">

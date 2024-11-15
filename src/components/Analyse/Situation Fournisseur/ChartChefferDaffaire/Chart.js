@@ -72,15 +72,8 @@ const ChartChefferDaffaire = ({ nom }) => {
   const [dataWithPercentageChange, setDataWithPercentageChange] = useState([]);
   const route = `chefferDAffaire?fournisseur=%7B%22nom%22%3A%22${nom}%22%7D&`;
 
-  useEffect(() => {
-    // Clear data and set loading when `nom` changes
-    setLoading(true);
-    setDataWithPercentageChange([]);
-  }, [nom]);
-
   const processChartData = (data) => {
     if (!data || data.length === 0) return [];
-
     return data.map((item, index) => {
       if (index === 0) {
         return { ...item, percentageChange: 0 };
@@ -92,13 +85,18 @@ const ChartChefferDaffaire = ({ nom }) => {
     });
   };
 
+  useEffect(() => {
+    setLoading(true);
+    setDataWithPercentageChange([]);
+  }, [nom]);
+
   return (
-    <ListBase resource={route}>
+    <ListBase key={nom} resource={route}>
       <WithListContext
         render={({ data }) => {
-          // Process data when available
-          if (data && loading) {
-            setDataWithPercentageChange(processChartData(data));
+          if (loading && data) {
+            const processedData = processChartData(data);
+            setDataWithPercentageChange(processedData);
             setLoading(false);
           }
 
@@ -106,22 +104,15 @@ const ChartChefferDaffaire = ({ nom }) => {
             return <div>Loading...</div>;
           }
 
-          if (!dataWithPercentageChange.length || data.length === 0) {
+          if (!dataWithPercentageChange.length) {
             return <div>Aucune statistique disponible</div>;
           }
 
           return (
             <ResponsiveContainer width="100%" height={300}>
               <ComposedChart
-                width={600}
-                height={300}
                 data={dataWithPercentageChange}
-                margin={{
-                  top: 5,
-                  right: 65,
-                  left: 20,
-                  bottom: 5,
-                }}
+                margin={{ top: 5, right: 65, left: 20, bottom: 5 }}
               >
                 <CartesianGrid stroke="#eee" />
                 <XAxis dataKey="name" />

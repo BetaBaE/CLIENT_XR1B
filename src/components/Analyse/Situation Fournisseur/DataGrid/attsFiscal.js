@@ -11,8 +11,6 @@ const AttsFiscal = ({ nom }) => {
     direction: "ascending",
   });
 
-  console.log("selectedId", nom);
-
   const [loading, setLoading] = useState(true);
 
   // Fetch data from two different endpoints

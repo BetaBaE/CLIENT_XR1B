@@ -19,22 +19,21 @@ const StFournisseur = () => {
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [currentFocus, setCurrentFocus] = useState(-1);
 
-  // Fetch the fourniseur data from the API
+  // Fetch fournisseur data from the API
   useEffect(() => {
     const fetchFourniseur = async () => {
       try {
         const response = await fetch(`${apiUrl}/getfourfaav`);
         const data = await response.json();
-        // Extract fourniseur names from the response
         const fourniseurNames = data.map((fournisseur) => fournisseur.nom);
-        setCountries(fourniseurNames); // Store country names in the state
+        setCountries(fourniseurNames);
       } catch (error) {
         console.error("Error fetching countries:", error);
       }
     };
 
     fetchFourniseur();
-  }, []); // Empty dependency array to only run once when the component mounts
+  }, []);
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -45,25 +44,21 @@ const StFournisseur = () => {
       return;
     }
 
-    // Filter countries based on input value
     const filtered = countries.filter((fournisseur) =>
       fournisseur.toLowerCase().startsWith(value.toLowerCase())
     );
     setFilteredCountries(filtered);
-    setCurrentFocus(-1); // Reset focus when typing
+    setCurrentFocus(-1);
   };
 
   const handleKeyDown = (e) => {
     if (e.keyCode === 40) {
-      // Down arrow
       setCurrentFocus((prev) =>
         Math.min(filteredCountries.length - 1, prev + 1)
       );
     } else if (e.keyCode === 38) {
-      // Up arrow
       setCurrentFocus((prev) => Math.max(0, prev - 1));
     } else if (e.keyCode === 13) {
-      // Enter key
       if (currentFocus >= 0) {
         setInputValue(filteredCountries[currentFocus]);
         setFilteredCountries([]);
@@ -77,8 +72,9 @@ const StFournisseur = () => {
   };
 
   const handleSubmit = () => {
-    // Send data to child component on submit
-    setDataToSend(inputValue);
+    if (inputValue.trim()) {
+      setDataToSend(inputValue.trim());
+    }
   };
 
   return (
@@ -112,8 +108,7 @@ const StFournisseur = () => {
             </div>
           )}
         </div>
-
-        <input onClick={handleSubmit} type="submit" />
+        <input onClick={handleSubmit} type="submit" value="Recherche" />
       </Grid>
       <Grid item xs={12} sm={6}>
         <Card>
