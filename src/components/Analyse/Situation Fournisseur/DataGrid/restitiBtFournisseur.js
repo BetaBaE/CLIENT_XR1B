@@ -80,8 +80,8 @@ const AvanceNoRestit = ({ nom }) => {
   }
 
   return dataTable1.length > 0 ? (
-    <div className="my-custom-table">
-      <div className="table-container">
+    <div className="my-custom-table-sf">
+      <div className="table-container-sf">
         <table>
           <thead>
             <tr>
@@ -99,7 +99,7 @@ const AvanceNoRestit = ({ nom }) => {
           <tbody>
             {sortedData1.map((item) => (
               <tr key={item.id}>
-                <td className="my-custom-right-align">
+                <td className="my-custom-right-align-sf">
                   {formatNumber(item.Montant)}
                 </td>
                 <td>{item.Redacteur}</td>

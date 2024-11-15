@@ -78,8 +78,8 @@ const DataFournisseur = ({ nom }) => {
   }
 
   return dataTable1.length > 0 ? (
-    <div className="my-custom-table">
-      <div className="table-container">
+    <div className="my-custom-table-sf">
+      <div className="table-container-sf">
         <table>
           <thead>
             <tr>
