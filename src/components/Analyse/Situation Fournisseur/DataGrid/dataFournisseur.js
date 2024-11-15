@@ -83,15 +83,13 @@ const DataFournisseur = ({ nom }) => {
         <table>
           <thead>
             <tr>
-              <th onClick={() => requestSort1("catFournisseur")}>
-                catFournisseur
-              </th>
-              <th onClick={() => requestSort1("exonorer")}>exonorer</th>
+              <th onClick={() => requestSort1("catFournisseur")}>Categorie</th>
+              <th onClick={() => requestSort1("exonorer")}>Exonorer</th>
               <th onClick={() => requestSort1("ICE")}>ICE</th>
               <th onClick={() => requestSort1("Identifiantfiscal")}>
-                Identifiantfiscal
+                Id fiscal
               </th>
-              <th onClick={() => requestSort1("mail")}>mail</th>
+              <th onClick={() => requestSort1("mail")}>E-mail</th>
             </tr>
           </thead>
           <tbody>
@@ -109,7 +107,7 @@ const DataFournisseur = ({ nom }) => {
       </div>
     </div>
   ) : (
-    <div>Aucune statistique disponible</div>
+    <div>Aucune Données disponible</div>
   );
 };
 

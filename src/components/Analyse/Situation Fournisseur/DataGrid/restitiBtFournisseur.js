@@ -87,9 +87,11 @@ const AvanceNoRestit = ({ nom }) => {
             <tr>
               <th onClick={() => requestSort1("Montant")}>Montant</th>
               <th onClick={() => requestSort1("Redacteur")}>Redacteur</th>
-              <th onClick={() => requestSort1("ModePaiement")}>ModePaiement</th>
+              <th onClick={() => requestSort1("ModePaiement")}>
+                Mode de Paiement
+              </th>
               <th onClick={() => requestSort1("ModePaiementID")}>
-                ModePaiementID
+                ID Paiement
               </th>
               <th onClick={() => requestSort1("Etat")}>Etat</th>
             </tr>
@@ -111,7 +113,7 @@ const AvanceNoRestit = ({ nom }) => {
       </div>
     </div>
   ) : (
-    <div>Aucune statistique disponible</div>
+    <div>Aucune Données disponible</div>
   );
 };
 

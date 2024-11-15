@@ -1,11 +1,11 @@
 .my-custom-table {
   display: flex; /* Enable flexbox */
-  height: 300px; /* Set the maximum height for the container */
+  height: 80px; /* Set the maximum height for the container */
   border: 1px solid #ddd; /* Optional: Add a border around the container */
 }
 .table-container {
   flex: 1; /* Allow each table to take equal space */
-  height: 300px; /* Set the maximum height for each table */
+  height: 80px; /* Set the maximum height for each table */
   overflow-y: auto; /* Enable vertical scrolling for each table */
   margin-right: 10px; /* Optional: Add some space between the tables */
 }

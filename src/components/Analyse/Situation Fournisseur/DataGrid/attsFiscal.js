@@ -112,7 +112,7 @@ const AttsFiscal = ({ nom }) => {
       </div>
     </div>
   ) : (
-    <div>Aucune statistique disponible</div>
+    <div>Aucune Données disponible</div>
   );
 };
 
