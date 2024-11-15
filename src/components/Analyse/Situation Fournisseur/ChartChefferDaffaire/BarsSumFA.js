@@ -1,5 +1,5 @@
 import { ListBase, WithListContext } from "ra-core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   XAxis,
   YAxis,
@@ -62,10 +62,31 @@ const CustomTooltip = ({ active, payload }) => {
 
 const BarsSumFA = ({ nom }) => {
   let route = `fastatebyFournisseur?fournisseur=%7B%22nom%22%3A%22${nom}%22%7D&`;
+  const [loading, setLoading] = useState(true);
+  const [dataWithPercentageChange, setDataWithPercentageChange] = useState([]);
+
+  useEffect(() => {
+    if (!loading && dataWithPercentageChange.length === 0) {
+      setLoading(false);
+    }
+  }, [dataWithPercentageChange, loading]);
+
   return (
     <ListBase resource={route} disableSyncWithLocation>
       <WithListContext
         render={({ data }) => {
+          if (data && loading) {
+            setDataWithPercentageChange(data);
+            setLoading(false);
+          }
+
+          if (loading) {
+            return <div>Loading...</div>;
+          }
+
+          if (!dataWithPercentageChange.length || data.length === 0) {
+            return <div>Aucune statistique disponible</div>;
+          }
           if (!data || data.length === 0) {
             return <div>Aucune statistique disponible</div>;
           }

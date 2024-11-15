@@ -121,6 +121,44 @@ const StFournisseur = () => {
             title={
               dataToSend == null
                 ? "Saisir le nom du fournisseur"
+                : `Informations sur les Fournisseur : ${dataToSend} `
+            }
+          />
+          <CardContent>
+            {dataToSend == null ? (
+              "Saisir le nom du fournisseur"
+            ) : (
+              <DataFournisseur nom={dataToSend} />
+            )}
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <Card>
+          <CardHeader
+            title={
+              dataToSend == null
+                ? "Saisir le nom du fournisseur"
+                : `Données d'Attestation Fiscale pour : ${dataToSend} `
+            }
+          />
+          <CardContent>
+            {dataToSend == null ? (
+              "Saisir le nom du fournisseur"
+            ) : (
+              <AttsFiscal nom={dataToSend} />
+            )}
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <Card>
+          <CardHeader
+            title={
+              dataToSend == null
+                ? "Saisir le nom du fournisseur"
                 : `Chiffre d'affaires réalisé pour : ${dataToSend} `
             }
           />
@@ -133,6 +171,7 @@ const StFournisseur = () => {
           </CardContent>
         </Card>
       </Grid>
+
       <Grid item xs={12} sm={6}>
         <Card>
           <CardHeader
@@ -151,6 +190,7 @@ const StFournisseur = () => {
           </CardContent>
         </Card>
       </Grid>
+
       <Grid item xs={12} sm={6}>
         <Card>
           <CardHeader
@@ -169,13 +209,14 @@ const StFournisseur = () => {
           </CardContent>
         </Card>
       </Grid>
+
       <Grid item xs={12} sm={6}>
         <Card>
           <CardHeader
             title={
               dataToSend == null
                 ? "Saisir le nom du fournisseur"
-                : `Aperçu des Paiements Pour : ${dataToSend} `
+                : `Détails du RIB pour : ${dataToSend} `
             }
           />
           <CardContent>
@@ -183,42 +224,6 @@ const StFournisseur = () => {
               "Saisir le nom du fournisseur"
             ) : (
               <RibFournisseur nom={dataToSend} />
-            )}
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <Card>
-          <CardHeader
-            title={
-              dataToSend == null
-                ? "Saisir le nom du fournisseur"
-                : `Aperçu des Paiements Pour : ${dataToSend} `
-            }
-          />
-          <CardContent>
-            {dataToSend == null ? (
-              "Saisir le nom du fournisseur"
-            ) : (
-              <DataFournisseur nom={dataToSend} />
-            )}
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <Card>
-          <CardHeader
-            title={
-              dataToSend == null
-                ? "Saisir le nom du fournisseur"
-                : `Aperçu des Paiements Pour : ${dataToSend} `
-            }
-          />
-          <CardContent>
-            {dataToSend == null ? (
-              "Saisir le nom du fournisseur"
-            ) : (
-              <AttsFiscal nom={dataToSend} />
             )}
           </CardContent>
         </Card>

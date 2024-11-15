@@ -3,8 +3,6 @@ import { useEffect, useState } from "react"; // Importation des hooks useEffect 
 import {
   AutocompleteInput,
   Create,
-  FileField,
-  FileInput,
   regex,
   required,
   SelectInput,

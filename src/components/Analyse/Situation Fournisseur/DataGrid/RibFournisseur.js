@@ -83,7 +83,7 @@ const RibFournisseur = ({ nom }) => {
         <table>
           <thead>
             <tr>
-              <th onClick={() => requestSort1("rib")}>rib</th>
+              <th onClick={() => requestSort1("rib")}>RIB</th>
               <th onClick={() => requestSort1("etat")}>Etat</th>
               <th onClick={() => requestSort1("Redacteur")}>Redacteur</th>
               <th onClick={() => requestSort1("Validateur")}>Validateur</th>
@@ -111,7 +111,7 @@ const RibFournisseur = ({ nom }) => {
       </div>
     </div>
   ) : (
-    <div>Aucune statistique disponible</div>
+    <div>Aucune Données disponible</div>
   );
 };
 
