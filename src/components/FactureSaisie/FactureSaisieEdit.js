@@ -41,6 +41,8 @@ export const FactureSaisieEdit = () => {
     return record.AcompteReg > 0 || record.AcompteVal > 0 ? true : false;
   };
 
+  console.log(record);
+
   const UserEditToolbar = (props) => (
     <Toolbar {...props}>
       <SaveButton id="save" />
@@ -246,6 +248,22 @@ export const FactureSaisieEdit = () => {
               ]}
             />
           </Grid>
+          {record.EtatIR ? (
+            <Grid item md={4}>
+              <SelectInput
+                className={classes.autocomplete}
+                source="EtatIR"
+                label="Etat Ras IR"
+                validate={record.EtatIR ? required("") : undefined}
+                choices={[
+                  { id: "Oui", name: "Oui" },
+                  { id: "Non", name: "Non" },
+                ]}
+              />
+            </Grid>
+          ) : (
+            ""
+          )}
         </Grid>
         {/* <TextInput source="id" /> */}
       </SimpleForm>

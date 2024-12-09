@@ -37,7 +37,8 @@ export const AvanceForupdateCreate = () => {
   const [chantierIdField, setChantierIdField] = useState(false);
   const [designation, setDesignation] = useState([]);
   // const [newIdentity, setNewIdentity] = useState('');
-  const [tva, setTVA] = useState([]);
+  // const [tva, setTVA] = useState([]);
+  const [FourRasIR, setFourRasIR] = useState("");
   // État pour stocker le code du chantier sélectionné
   const [selectedCodeChantier, setSelectedCodeChantier] = useState("");
 
@@ -161,6 +162,9 @@ export const AvanceForupdateCreate = () => {
           source="idfournisseur"
           choices={fournisseurs_choices}
           onChange={(e) => {
+            const foundItem = fournisseur.find((item) => item.id === e);
+            setFourRasIR(foundItem || null);
+            console.log(foundItem);
             if (!e) {
               // Si aucun fournisseur n'est sélectionné
               setFournisseurIdField(true); // Désactiver le champ ID fournisseur
@@ -265,6 +269,7 @@ export const AvanceForupdateCreate = () => {
           // }}
         />
         <AutocompleteInput
+          // eslint-disable-next-line
           disabled={ttc == 0 ? true : false}
           label="TauxTVA"
           validate={required("selectionnez la designation")}
@@ -307,6 +312,24 @@ export const AvanceForupdateCreate = () => {
           ]}
           label="Catégorie de document"
         />
+        {FourRasIR.RasIr === "Oui" ? (
+          <SelectInput
+            className={classes.autocomplete}
+            source="EtatIR"
+            label="Etat Ras IR"
+            validate={
+              FourRasIR.RasIr === "Oui"
+                ? required("Etat RAS IR est obligatoire")
+                : undefined
+            }
+            choices={[
+              { id: "Oui", name: "Oui" },
+              { id: "Non", name: "Non" },
+            ]}
+          />
+        ) : (
+          ""
+        )}
       </SimpleForm>
     </Create>
   );

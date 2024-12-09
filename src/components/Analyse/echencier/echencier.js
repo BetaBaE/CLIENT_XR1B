@@ -11,7 +11,6 @@ import TableSumMensuel from "./DataGrid/SumMensuel";
 import { useState } from "react";
 import SumForMonth from "./DataGrid/SumForMonth";
 import ChartOverDueInvoices from "./charts/ChartOverDueInvoices";
-import ChartChefferDaffaire from "../Situation Fournisseur/ChartChefferDaffaire/Chart";
 
 export const Echencier = () => {
   const [selectedId, setSelectedId] = useState(null);
@@ -48,14 +47,6 @@ export const Echencier = () => {
           <CardHeader title="Résumé Mensuel des Factures" />
           <CardContent>
             <TableSumMensuel onRowClick={handleRowClick} />
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <Card>
-          <CardHeader title="Résumé Mensuel des Factures" />
-          <CardContent>
-            <ChartChefferDaffaire />
           </CardContent>
         </Card>
       </Grid>

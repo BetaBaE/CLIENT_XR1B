@@ -11,17 +11,14 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+// Function to format numbers with commas
 const formatNumber = (num) => {
-  // Split the number into integer and decimal parts
   const [integerPart, decimalPart] = num.toFixed(2).split(".");
-
-  // Format the integer part with spaces as thousand separators
   const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-
-  // Return the formatted number with the decimal part
   return `${formattedInteger}.${decimalPart}`;
 };
 
+// Function to format Y-axis numbers
 const formatYAxisNumber = (num) => {
   if (num >= 1e9) {
     return (num / 1e9).toFixed(1) + "B"; // Billions
@@ -34,32 +31,76 @@ const formatYAxisNumber = (num) => {
   }
 };
 
+// Custom tooltip component
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
-    const { name } = payload[0].payload; // Get the name from the payload
+    const { name } = payload[0].payload;
 
     return (
       <div
         style={{
-          backgroundColor: "#fff", // Background color for the tooltip
+          backgroundColor: "#fff",
           padding: "5px",
-          border: "0.1px solid #000", // Border color for the tooltip
+          border: "0.1px solid #000",
         }}
       >
-        <p style={{ color: "#0088FE", fontWeight: 700 }}>{`${name}`}</p>{" "}
-        {/* Display the name of the hovered bar */}
+        <p style={{ color: "#0088FE", fontWeight: 700 }}>{`${name}`}</p>
         <p>
-          {`Net: `}
-          <span style={{ color: "#0088FE", fontWeight: 600 }}>
+          {`Montant Saisie: `}
+          <span style={{ color: "#88c8ff", fontWeight: 600 }}>
             {formatNumber(payload[0].value)}
           </span>
-        </p>{" "}
+        </p>
+        <p>
+          {`Montant En cours: `}
+          <span style={{ color: "#003461", fontWeight: 600 }}>
+            {formatNumber(payload[1].value)}
+          </span>
+        </p>
       </div>
     );
   }
   return null;
 };
 
+// Custom legend component
+const CustomLegend = (props) => {
+  const { payload } = props;
+
+  // Map data keys to display names
+  const legendLabels = {
+    montantSaisie: "Montant Saisie",
+    montantEnCours: "Montant En Cours",
+  };
+
+  return (
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <ul style={{ listStyleType: "none", padding: 0, display: "flex" }}>
+        {payload.map((entry, index) => (
+          <li
+            key={`item-${index}`}
+            style={{ marginRight: 20, display: "flex", alignItems: "center" }}
+          >
+            <span
+              style={{
+                backgroundColor: entry.color,
+                width: 12,
+                height: 12,
+                // display: "inline-block",
+                marginRight: 5,
+              }}
+            />
+            <span style={{ fontWeight: "normal", color: entry.color }}>
+              {legendLabels[entry.dataKey] || entry.value}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+// Main chart component
 const ChartOverDueInvoices = () => {
   return (
     <ListBase resource="overdueInvoices" disableSyncWithLocation>
@@ -70,14 +111,24 @@ const ChartOverDueInvoices = () => {
               <XAxis dataKey="name" />
               <YAxis tickFormatter={formatYAxisNumber} />
               <Tooltip content={<CustomTooltip />} />
-              <Legend />
+              <Legend content={<CustomLegend />} />
               <CartesianGrid stroke="#eee" />
-              <Bar dataKey="montant" fill="#0088FE" barSize={30} />
+              <Bar
+                dataKey="montantSaisie"
+                fill="#88c8ff"
+                barSize={30}
+                stackId="stack"
+              />
+              <Bar
+                dataKey="montantEnCours"
+                fill="#003461"
+                barSize={30}
+                stackId="stack"
+              />
             </BarChart>
           </ResponsiveContainer>
         )}
       />
-      {/* </ResponsiveContainer> */}
     </ListBase>
   );
 };

@@ -85,6 +85,7 @@ export const FactureSaisieCreate = (props) => {
   const dataProvider = useDataProvider();
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
   const [designation, setDesignation] = useState([]);
+  const [FourRasIR, setFourRasIR] = useState("");
   const [asideData, setAsideData] = useState({
     chantier: "champe Boncommade est vide",
     redacteur: "champe Boncommade est vide",
@@ -167,24 +168,6 @@ export const FactureSaisieCreate = (props) => {
       name: `${codeDesignation}||${designation}`,
     })
   );
-  useEffect(() => {
-    // Désactiver l'autocomplétion après le chargement du DOM
-    // const inputnumeroFacture = document.getElementById("numeroFacture");
-    // const inputTTC = document.getElementById("TTC");
-    // const inputBonCommande = document.getElementById("BonCommande");
-    // const inputdateEcheance = document.getElementById("dateEcheance");
-    // if (
-    //   inputnumeroFacture ||
-    //   inputTTC ||
-    //   inputBonCommande ||
-    //   inputdateEcheance
-    // ) {
-    //   inputnumeroFacture.autocomplete = "off";
-    //   inputTTC.autocomplete = "off";
-    //   inputBonCommande.autocomplete = "off";
-    //   inputdateEcheance.autocomplete = "off";
-    // }
-  }, []);
 
   const validateprice = regex(
     /[+-]?([0-9]*[.])?[0-9]+/,
@@ -211,10 +194,9 @@ export const FactureSaisieCreate = (props) => {
     if (!value.idfournisseur) {
       errors.idfournisseur = "choisir le fournisseur";
     }
-    // if (!value.BonCommande) {
-    //   errors.BonCommande = "Le BonCommande est obligatoire"; // Assuming BonCommande is required
-    // }
-
+    if (!value.EtatIR && FourRasIR.RasIr === "Oui") {
+      errors.EtatIR = "Etat RAS IR est obligatoire";
+    }
     if (!value.DateFacture) {
       value.DateFacture = "La Date Facture est obligatoire";
     } else {
@@ -553,6 +535,8 @@ export const FactureSaisieCreate = (props) => {
               choices={fournisseur_choices}
               onChange={async (e) => {
                 if (e) {
+                  const foundItem = fournisseur.find((item) => item.id === e);
+                  setFourRasIR(foundItem || null);
                   setFormData({ ...formData, idfournisseur: e });
                   await getAvancePayénonRestituer(e);
                 }
@@ -606,6 +590,22 @@ export const FactureSaisieCreate = (props) => {
               <>{dateecheance}</>
             </>
           </Grid>
+          {FourRasIR.RasIr === "Oui" ? (
+            <Grid item md={6}>
+              <SelectInput
+                className={classes.autocomplete}
+                source="EtatIR"
+                label="Etat Ras IR"
+                validate={FourRasIR.RasIr === "Oui" ? required("") : undefined}
+                choices={[
+                  { id: "Oui", name: "Oui" },
+                  { id: "Non", name: "Non" },
+                ]}
+              />
+            </Grid>
+          ) : (
+            ""
+          )}
         </Grid>
       </SimpleForm>
     </Create>

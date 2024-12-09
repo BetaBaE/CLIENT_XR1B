@@ -113,11 +113,13 @@ export const VirementCreate = () => {
         const montantMatch = selectedFacture.name.match(
           /MontantAPaye -?(\d+(\.\d+)?)/
         );
+        console.log(montantMatch);
         if (montantMatch) {
           const montantAPaye = parseFloat(montantMatch[0].split(" ")[1]);
           if (!isNaN(montantAPaye)) {
             sum += montantAPaye;
           }
+          // console.log(montantMatch);
         }
       }
     });

@@ -69,6 +69,10 @@ export const UserEdit = (props) => {
               id: "direction générale",
               name: "Direction générale",
             },
+            {
+              id: "consultation directeur",
+              name: "Consultation directeur",
+            },
           ]}
         />
 
