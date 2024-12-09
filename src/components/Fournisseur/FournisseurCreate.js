@@ -25,7 +25,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 export const FournisseurCreate = (props) => {
+  // eslint-disable-next-line
   const [loadingSuggestions, setLoadingSuggestions] = useState(false); // État pour gérer le chargement des suggestions
+  // eslint-disable-next-line
   const [errorSuggestions, setErrorSuggestions] = useState(null); // État pour gérer les erreurs de suggestions
 
   const [NomFournisseur, setNomFournisseur] = useState([]); // État pour stocker les noms des fournisseurs
@@ -171,7 +173,7 @@ export const FournisseurCreate = (props) => {
             { id: "personne physique", name: "personne physique" },
             { id: "personne morale", name: "personne morale" },
           ]}
-        ></SelectInput>
+        />
 
         <SelectInput
           className={classes.autocomplete}
@@ -182,7 +184,18 @@ export const FournisseurCreate = (props) => {
             { id: "Oui", name: "Oui" },
             { id: "Non", name: "Non" },
           ]}
-        ></SelectInput>
+        />
+
+        <SelectInput
+          className={classes.autocomplete}
+          source="RasIr"
+          label="RAS IR"
+          validate={required()} // Validation requise
+          choices={[
+            { id: "Oui", name: "Oui" },
+            { id: "Non", name: "Non" },
+          ]}
+        />
       </SimpleForm>
     </Create>
   );

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  AutocompleteInput,
+  useEditController,
   Edit,
   FormDataConsumer,
   NumberInput,
@@ -27,6 +27,8 @@ const useStyles = makeStyles(() => ({
 }));
 export const AvanceForupdateEdit = (props) => {
   const { identity, isLoading: identityLoading } = useGetIdentity();
+  const { record } = useEditController();
+  console.log(record);
 
   const UserEditToolbar = (props) => (
     <Toolbar {...props}>
@@ -190,7 +192,22 @@ export const AvanceForupdateEdit = (props) => {
             { id: "FET", name: "Fourniture Equipement Travaux" },
             { id: "Service", name: "Service" },
           ]}
-        ></SelectInput>
+        />
+
+        {record.EtatIR === "Oui" ? (
+          <SelectInput
+            className={classes.autocomplete}
+            source="EtatIR"
+            label="Etat Ras IR"
+            validate={record.EtatIR ? required("") : undefined}
+            choices={[
+              { id: "Oui", name: "Oui" },
+              { id: "Non", name: "Non" },
+            ]}
+          />
+        ) : (
+          ""
+        )}
       </SimpleForm>
     </Edit>
   );

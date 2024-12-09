@@ -8,13 +8,13 @@ import {
   List,
   NumberField,
   Pagination,
-  ReferenceField,
   SelectColumnsButton,
   SimpleShowLayout,
   TextField,
   TextInput,
   TopToolbar,
   useGetOne,
+  usePermissions,
   useRecordContext,
 } from "react-admin";
 import FilterFactureDetailList from "./FilterFactureDetailList";
@@ -37,14 +37,16 @@ const newLoGFilter = [
   <TextInput source="Bank" />,
 ];
 
-const FactureDetailsActions = () => (
-  <TopToolbar>
-    <FilterButton filters={newLoGFilter} />
-    <SelectColumnsButton />
-    <CreateButton />
-    <ExportButton />
-  </TopToolbar>
-);
+const FactureDetailsActions = () => {
+  return (
+    <TopToolbar>
+      <FilterButton userRolee="admin" filters={newLoGFilter} />
+      <SelectColumnsButton />
+      <CreateButton />
+      <ExportButton />
+    </TopToolbar>
+  );
+};
 
 const FactureDetail = () => {
   const record = useRecordContext(); // Fetch current row data (the expanded row)
@@ -145,12 +147,30 @@ const FactureDetail = () => {
 };
 
 export const GetfacturedetailList = () => {
+  const { permissions } = usePermissions();
+
+  let filterChantier;
+
+  switch (permissions) {
+    case "montage":
+      filterChantier = "A-9994";
+      break;
+    case "electricite":
+      filterChantier = "A-9991";
+      break;
+    default:
+      filterChantier = "";
+      break;
+  }
   return (
     <List
       pagination={<FacturePagination />}
       filters={<FilterFactureDetailList />}
       actions={<FactureDetailsActions />}
-      filterDefaultValues={{ dateExercices: "2024-01-01" }}
+      filterDefaultValues={{
+        dateExercices: "2024-01-01",
+        codechantier: filterChantier,
+      }}
       title="nouv. Facture Log"
     >
       <DatagridConfigurable

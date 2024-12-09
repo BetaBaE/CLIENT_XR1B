@@ -196,6 +196,8 @@ export const CustomMenu = (props) => {
       {(permissions === "admin" ||
         permissions === "direction générale" ||
         permissions === "consultation directeur" ||
+        permissions === "montage" ||
+        permissions === "electricite" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
@@ -237,6 +239,8 @@ export const CustomMenu = (props) => {
       {(permissions === "admin" ||
         permissions === "direction générale" ||
         permissions === "consultation directeur" ||
+        permissions === "montage" ||
+        permissions === "electricite" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||

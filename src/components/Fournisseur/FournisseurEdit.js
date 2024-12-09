@@ -1,5 +1,4 @@
 import {
-  DateInput,
   Edit,
   required,
   SaveButton,
@@ -35,7 +34,6 @@ export const FournisseurEdit = () => {
 
   return (
     <Edit label="Modifier" undoable={false}>
-      {" "}
       {/* Édition de l'entité sans possibilité d'annuler */}
       <SimpleForm toolbar={<UserEditToolbar />}>
         <TextInput
@@ -77,6 +75,16 @@ export const FournisseurEdit = () => {
             { id: "Non", name: "Non" },
           ]}
         ></SelectInput>
+        <SelectInput
+          className={classes.autocomplete}
+          source="RasIr"
+          label="RAS IR"
+          validate={required()} // Validation requise
+          choices={[
+            { id: "Oui", name: "Oui" },
+            { id: "Non", name: "Non" },
+          ]}
+        />
       </SimpleForm>
     </Edit>
   );

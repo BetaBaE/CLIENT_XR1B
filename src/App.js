@@ -808,6 +808,8 @@ function App(props) {
         permissions === "admin" ||
         permissions === "direction générale" ||
         permissions === "consultation directeur" ||
+        permissions === "montage" ||
+        permissions === "electricite" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
