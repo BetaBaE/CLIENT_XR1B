@@ -42,8 +42,8 @@ export const ChequeCreate = (props) => {
   const [sumfacturewithoutfn, setSumfacturewithoutfn] = useState([]);
   const [sumavance, setSumavance] = useState([]);
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
-  const [selectedSupplierFactureCategory, setSelectedSupplierFactureCategory] =
-    useState("");
+  // const [selectedSupplierFactureCategory, setSelectedSupplierFactureCategory] =
+  useState("");
   const [
     selectedSupplierFournisseurCategory,
     setSelectedSupplierFournisseurCategory,
@@ -63,7 +63,7 @@ export const ChequeCreate = (props) => {
     e.forEach((fa) => {
       const selectedFacture = facture_choices.find((f) => f.id === fa);
       if (selectedFacture) {
-        setSelectedSupplierFactureCategory(selectedFacture.categorie);
+        // setSelectedSupplierFactureCategory(selectedFacture.categorie);
 
         // Condition pour les alertes basées sur la catégorie du fournisseur
         if (
@@ -200,6 +200,57 @@ export const ChequeCreate = (props) => {
     name: nom,
   }));
 
+  const getRestitByFourniseurId = (id) => {
+    let url = `${apiUrl}/getAvanceNonRestit/${id}`;
+    console.log(url);
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        // setRestit(json);
+        checkTheRestit(json); // Pass the json directly to checkTheRestit
+      });
+  };
+
+  const checkTheRestit = (restit) => {
+    // Accept restit as a parameter
+    console.log("number", restit);
+
+    if (restit.number > 0) {
+      Swal.fire({
+        title: "Alerte",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        html: `Le fournisseur sélectionné a <b style="font-size: 1.5em;">${restit.number}</b> avance(s) non restituée(s).<br>
+                Souhaitez-vous continuer quand même ?`,
+        cancelButtonText: "Non, annuler",
+        confirmButtonText: "Oui, continuer!",
+        position: "top-right", // Adjust the position here
+        allowOutsideClick: false, // Prevent interaction outside the popup
+        allowEscapeKey: false,
+        customClass: {
+          popup: "swal2-left",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "Confirmation",
+            text: "Vous avez choisi de continuer",
+            icon: "success",
+          });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire(
+            "L'operation a été annulé",
+            "Vous avez choisi d'annuler L'operation"
+          );
+
+          redirect("list", "cheque");
+        }
+      });
+    }
+  };
+
   const classes = useStyles();
 
   if (identityLoading) return <>Loading</>;
@@ -254,6 +305,7 @@ export const ChequeCreate = (props) => {
               const selectedFournisseur = fournisseurs_choices.find(
                 (f) => f.id === e
               );
+              getRestitByFourniseurId(e);
               setFournisseurIdField(false);
               getFactureByFourniseur(e);
               getsumfacturewithfnByFourniseurId(e);

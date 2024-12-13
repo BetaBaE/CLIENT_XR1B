@@ -54,7 +54,14 @@ const CustomTooltip = ({ active, payload }) => {
           {`Change: `}
           <span
             style={{
-              color: percentageChange >= 0 ? "green" : "red",
+              color:
+                isNaN(percentageChange) ||
+                percentageChange === Infinity ||
+                percentageChange === -Infinity
+                  ? 0
+                  : percentageChange >= 0
+                  ? "green"
+                  : "red",
               fontWeight: 600,
             }}
           >
