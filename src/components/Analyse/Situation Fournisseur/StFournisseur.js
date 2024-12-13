@@ -44,8 +44,9 @@ const StFournisseur = () => {
       return;
     }
 
+    // Use includes to filter countries based on the input value
     const filtered = countries.filter((fournisseur) =>
-      fournisseur.toLowerCase().startsWith(value.toLowerCase())
+      fournisseur.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredCountries(filtered);
     setCurrentFocus(-1);
@@ -93,18 +94,38 @@ const StFournisseur = () => {
           />
           {filteredCountries.length > 0 && (
             <div className="autocomplete-items">
-              {filteredCountries.map((country, index) => (
-                <div
-                  key={country}
-                  className={
-                    currentFocus === index ? "autocomplete-active" : ""
-                  }
-                  onClick={() => handleItemClick(country)}
-                >
-                  <strong>{country.slice(0, inputValue.length)}</strong>
-                  {country.slice(inputValue.length)}
-                </div>
-              ))}
+              {filteredCountries.map((country, index) => {
+                const matchIndex = country
+                  .toLowerCase()
+                  .indexOf(inputValue.toLowerCase());
+
+                if (matchIndex === -1) {
+                  return null; // If no match, return null
+                }
+
+                const beforeMatch = country.slice(0, matchIndex);
+                const match = country.slice(
+                  matchIndex,
+                  matchIndex + inputValue.length
+                );
+                const afterMatch = country.slice(
+                  matchIndex + inputValue.length
+                );
+
+                return (
+                  <div
+                    key={country}
+                    className={
+                      currentFocus === index ? "autocomplete-active" : ""
+                    }
+                    onClick={() => handleItemClick(country)}
+                  >
+                    {beforeMatch}
+                    <strong>{match}</strong>
+                    {afterMatch}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>

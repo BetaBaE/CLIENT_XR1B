@@ -2,7 +2,6 @@ import { makeStyles } from "@material-ui/core"; // Importation des styles person
 import {
   DateInput,
   Edit,
-  FormDataConsumer,
   NumberInput,
   required,
   SaveButton,

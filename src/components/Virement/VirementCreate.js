@@ -70,9 +70,6 @@ export const VirementCreate = () => {
       MontantFacture: 0.0,
     },
   ]);
-  // const [factureFilter, setFactureFilter] = useState([
-  //   { id: "", DATEDOC: "1960-01-01T00:00:00.000Z", nom: "", NETAPAYER: 0.0 },
-  // ]);
 
   const [sum, setSum] = useState(0);
 
@@ -173,13 +170,61 @@ export const VirementCreate = () => {
         return fournisseur.FournisseurId === onchangefournisseur;
       });
       setRibFournisseur(filterRib);
-
-      // let filterFactureByFournisseur = facture.filter((facture) => {
-      //   return facture.nom === ribFournisseur[0].nom;
-      // });
-      // setFactureFilter(filterFactureByFournisseur);
     }
   }, [onchangefournisseur, fournisseur]);
+
+  const getRestitByFourniseurId = (id) => {
+    let url = `${apiUrl}/getAvanceNonRestit/${id}`;
+    console.log(url);
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        // setRestit(json);
+        checkTheRestit(json); // Pass the json directly to checkTheRestit
+      });
+  };
+
+  const checkTheRestit = (restit) => {
+    // Accept restit as a parameter
+    console.log("number", restit);
+
+    if (restit.number > 0) {
+      Swal.fire({
+        title: "Alerte",
+        // text: `Le fournisseur sélectionné a de(s) avance(s) non restituée(s) : ${restit.number}.
+        // Souhaitez-vous continuer avec l'OV ou annuler le virement ?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        html: `Le fournisseur sélectionné a <b style="font-size: 1.5em;">${restit.number}</b> avance(s) non restituée(s).<br>
+                Souhaitez-vous continuer quand même ?`,
+        cancelButtonText: "Non, annuler",
+        confirmButtonText: "Oui, continuer!",
+        position: "top-right", // Adjust the position here
+        allowOutsideClick: false, // Prevent interaction outside the popup
+        allowEscapeKey: false,
+        customClass: {
+          popup: "swal2-left",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "Confirmation",
+            text: "Vous avez choisi de continuer",
+            icon: "success",
+          });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire(
+            "L'operation a été annulé",
+            "Vous avez choisi d'annuler L'operation"
+          );
+
+          redirect("list", "virements");
+        }
+      });
+    }
+  };
 
   const getFactureByFourniseurId = (id) => {
     let url = `${apiUrl}/getfacturebyfournisseurid/` + id;
@@ -394,6 +439,7 @@ export const VirementCreate = () => {
               setSelectedSupplierFournisseurCategory(
                 selectedFournisseur?.categorie || ""
               );
+              getRestitByFourniseurId(e);
               console.log(
                 "selectedFournisseur.catFournisseur",
                 selectedFournisseur
