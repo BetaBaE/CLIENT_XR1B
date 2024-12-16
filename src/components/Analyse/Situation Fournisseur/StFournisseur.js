@@ -88,6 +88,7 @@ const StFournisseur = () => {
             type="text"
             name="myCountry"
             placeholder="Fournisseur"
+            autocomplete="off"
             value={inputValue}
             onChange={handleChange}
             onKeyDown={handleKeyDown}

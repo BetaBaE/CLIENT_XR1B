@@ -300,6 +300,11 @@ export const CustomMenu = (props) => {
             primaryText="Situation Fournisseur"
             leftIcon={<FaFileInvoiceDollar />}
           />
+          <Menu.Item
+            to="/situationchantier"
+            primaryText="Situation Chantier"
+            leftIcon={<FaFileInvoiceDollar />}
+          />
         </SubMenu>
       )}
       {(permissions === "admin" || permissions === "direction générale") && (
