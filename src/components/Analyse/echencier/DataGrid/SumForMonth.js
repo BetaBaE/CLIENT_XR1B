@@ -23,7 +23,7 @@ const SumForMonth = ({ id }) => {
           id: four.id,
           nom: four.id,
           TotalFournisseur: four.TotalFournisseur,
-          TotalMois: four.TotalMois,
+          SumFaByFour: four.SumFaByFour,
         }));
         setDataTable1(formattedData1);
       } catch (error) {
@@ -82,7 +82,7 @@ const SumForMonth = ({ id }) => {
               <th onClick={() => requestSort1("TotalFournisseur")}>
                 Tot. Four
               </th>
-              <th onClick={() => requestSort1("TotalMois")}>Tot. Mois</th>
+              <th onClick={() => requestSort1("SumFaByFour")}>FA ayant FN</th>
             </tr>
           </thead>
           <tbody>
@@ -93,7 +93,7 @@ const SumForMonth = ({ id }) => {
                   {formatNumber(item.TotalFournisseur)}
                 </td>
                 <td style={{ textAlign: "right" }}>
-                  {formatNumber(item.TotalMois)}
+                  {formatNumber(item.SumFaByFour)}
                 </td>
               </tr>
             ))}
