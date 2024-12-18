@@ -1,8 +1,65 @@
-import { Datagrid, DateField, List, NumberField, TextField } from "react-admin";
+import {
+  Datagrid,
+  DateField,
+  List,
+  NumberField,
+  TextField,
+  downloadCSV,
+} from "react-admin";
 import LogTvaFilter from "./TvaLogFilter";
+import jsonExport from "jsonexport/dist";
+
+const exporter = (records) => {
+  const recordsForExport = records.map((record) => {
+    const { backlinks, author, ...recordForExport } = record; // omit any unwanted fields
+    // Format the numeric fields
+    recordForExport.TOTHTNET = record.TOTHTNET
+      ? record.TOTHTNET.toFixed(2).replace(",", ".")
+      : "0.00";
+    recordForExport.TOTTVANET = record.TOTTVANET
+      ? record.TOTTVANET.toFixed(2).replace(",", ".")
+      : "0.00";
+    recordForExport.TOTALTTC = record.TOTALTTC
+      ? record.TOTALTTC.toFixed(2).replace(",", ".")
+      : "0.00";
+    recordForExport.Ras = record.Ras
+      ? record.Ras.toFixed(2).replace(",", ".")
+      : "0.00";
+    return recordForExport;
+  });
+
+  jsonExport(
+    recordsForExport,
+    {
+      headers: [
+        "CODECHT",
+        "nom",
+        "CODEDOCUTIL",
+        "DateDouc",
+        "TOTHTNET",
+        "TOTTVANET",
+        "TOTALTTC",
+        "modepaiement",
+        "RefPay",
+        "DateOperation",
+        "Ras",
+        "NETAPAYER",
+        "typeDoc",
+      ], // order fields in the export
+      delimiter: ";", // Set the delimiter to semicolon
+    },
+    (err, csv) => {
+      if (err) {
+        console.error("Error exporting CSV:", err);
+        return;
+      }
+      downloadCSV(csv, "log_tva"); // download as 'log_tva.csv' file
+    }
+  );
+};
 
 export const TvalogList = () => (
-  <List filters={<LogTvaFilter />} title="Log Tva">
+  <List exporter={exporter} filters={<LogTvaFilter />} title="Log Tva">
     <Datagrid bulkActionButtons={false}>
       <TextField source="CODECHT" label="chantier" />
       <TextField source="nom" label="fournisseur" />

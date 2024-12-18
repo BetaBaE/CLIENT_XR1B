@@ -23,7 +23,7 @@ const TableSumMensuel = ({ onRowClick }) => {
           mois: four.id.split("T")[0],
           TTCMois: four.TTCMois,
           anc: four.anc,
-          TOTAL: four.TOTAL,
+          SumFN: four.SumFN,
           prcnt: four.prcnt,
         }));
         setDataTable1(formattedData1);
@@ -79,7 +79,7 @@ const TableSumMensuel = ({ onRowClick }) => {
               <th onClick={() => requestSort1("id")}>Mois</th>
               <th onClick={() => requestSort1("TTCMois")}>TTC/Mois</th>
               <th onClick={() => requestSort1("anc")}>Anc/Mois</th>
-              <th onClick={() => requestSort1("TOTAL")}>Total</th>
+              <th onClick={() => requestSort1("SumFN")}>FA ayant FN</th>
               <th onClick={() => requestSort1("prcnt")}>%</th>
             </tr>
           </thead>
@@ -92,7 +92,7 @@ const TableSumMensuel = ({ onRowClick }) => {
                 </td>
                 <td>{item.anc}</td>
                 <td style={{ textAlign: "right" }}>
-                  {formatNumber(item.TOTAL)}
+                  {formatNumber(item.SumFN)}
                 </td>
                 <td>{`${item.prcnt}%`}</td>
               </tr>
