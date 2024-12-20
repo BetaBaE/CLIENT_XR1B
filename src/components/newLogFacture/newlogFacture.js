@@ -19,6 +19,7 @@ import {
 } from "react-admin";
 import FilterFactureDetailList from "./FilterFactureDetailList";
 import { Box, Grid, Typography } from "@material-ui/core";
+import { createExporter } from "../GlobalFunction/CustomExportCsv";
 const FacturePagination = () => (
   <Pagination rowsPerPageOptions={[10, 25, 50, 100]} />
 );
@@ -149,6 +150,11 @@ const FactureDetail = () => {
 export const GetfacturedetailList = () => {
   const { permissions } = usePermissions();
 
+  const fileName = "Log_Facture";
+  const headers = [];
+
+  const exporter = createExporter(fileName, headers);
+
   let filterChantier;
 
   switch (permissions) {
@@ -164,6 +170,7 @@ export const GetfacturedetailList = () => {
   }
   return (
     <List
+      exporter={exporter}
       pagination={<FacturePagination />}
       filters={<FilterFactureDetailList />}
       actions={<FactureDetailsActions />}
