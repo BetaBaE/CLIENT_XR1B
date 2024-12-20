@@ -14,6 +14,7 @@ import {
   TopToolbar,
 } from "react-admin";
 import FilterAvanceDetailList from "./FilterAvanceDetailList";
+import { createExporter } from "../GlobalFunction/CustomExportCsv";
 
 const FacturePagination = () => (
   <Pagination rowsPerPageOptions={[10, 25, 50, 100]} />
@@ -41,8 +42,13 @@ const AvanceDetailsActions = () => (
 );
 
 export const GetavancedetailList = () => {
+  const fileName = "Log_Avance";
+  const headers = [];
+
+  const exporter = createExporter(fileName, headers);
   return (
     <List
+      exporter={exporter}
       pagination={<FacturePagination />}
       filters={<FilterAvanceDetailList />}
       actions={<AvanceDetailsActions />}
