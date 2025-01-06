@@ -9,7 +9,7 @@ import RasTvaFilter from "./RasTvaFilter";
 import { createExporter } from "../GlobalFunction/CustomExportCsv";
 
 export const RastvaList = () => {
-  const fileName = "log_tva";
+  const fileName = "RAS_tva";
   const headers = [
     "catFournisseur",
     "Identifiant fiscal",

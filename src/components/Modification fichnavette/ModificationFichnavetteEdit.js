@@ -135,7 +135,7 @@ export const ModificationFichnavetteEdit = (props) => {
                   className={classes.autocomplete}
                   source="ficheNavette"
                 />
-                <SelectInput
+                {/* <SelectInput
                   source="annulation"
                   className={classes.autocomplete}
                   onChange={(e) => {
@@ -144,7 +144,7 @@ export const ModificationFichnavetteEdit = (props) => {
                   }}
                   // validate={required()}
                   choices={[{ id: "Annuler", name: "Annuler" }]}
-                />
+                /> */}
               </>
             )
           }
