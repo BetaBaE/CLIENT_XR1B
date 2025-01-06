@@ -85,6 +85,7 @@ import FaAyantFnList from "./components/Alerts/FaAyantFn";
 import StFournisseur from "./components/Analyse/Situation Fournisseur/StFournisseur";
 import { TvalogList } from "./components/newLogFacture/TvaLog";
 import StChantier from "./components/Analyse/Situation chantier/StChantier";
+import PaiementPage from "./components/Analyse/Paiement/PaiementPage";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -859,6 +860,18 @@ function App(props) {
         permissions === "comptable" ? (
           <CustomRoutes>
             <Route path="/situationchantier" element={<StChantier />} />
+          </CustomRoutes>
+        ) : null,
+        permissions === "admin" ||
+        permissions === "direction générale" ||
+        permissions === "consultation directeur" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <CustomRoutes>
+            <Route path="/atnerpaiements" element={<PaiementPage />} />
           </CustomRoutes>
         ) : null,
       ]}
