@@ -11,9 +11,13 @@ import TableSumMensuel from "./DataGrid/SumMensuel";
 import { useState } from "react";
 import SumForMonth from "./DataGrid/SumForMonth";
 import ChartOverDueInvoices from "./charts/ChartOverDueInvoices";
+import DetailEffetEcheance from "./DataGrid/DetailEffetEcheance";
+import { formatNumber } from "../globalFunction";
 
 export const Echencier = () => {
   const [selectedId, setSelectedId] = useState(null);
+
+  const [sommeEffet, setSommeEffet] = useState(0);
 
   const handleRowClick = (id) => {
     setSelectedId(id); // Set the selected ID when a row is clicked
@@ -42,7 +46,7 @@ export const Echencier = () => {
         </Card>
       </Grid>
 
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12} sm={4}>
         <Card>
           <CardHeader title="Résumé Mensuel des Factures" />
           <CardContent>
@@ -51,7 +55,7 @@ export const Echencier = () => {
         </Card>
       </Grid>
 
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12} sm={3}>
         <Card>
           <CardHeader
             title={
@@ -66,6 +70,16 @@ export const Echencier = () => {
             ) : (
               <SumForMonth id={selectedId} />
             )}
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12} sm={5}>
+        <Card>
+          <CardHeader
+            title={`Dates Échéance Effets : ${formatNumber(sommeEffet)}`}
+          />
+          <CardContent>
+            <DetailEffetEcheance sommeEffet={setSommeEffet} />
           </CardContent>
         </Card>
       </Grid>
