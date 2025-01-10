@@ -7,6 +7,7 @@
 .button-container {
   display: flex;
   justify-content: center;
+  margin-left: 20px;
 }
 .logo {
   width: 10%;
@@ -74,8 +75,8 @@ td {
   color: #444;
   line-height: 1.3;
   padding: 0.6em 1.4em 0.5em 0.8em;
-  width: 100%;
-  max-width: 100%; /* useful when width is set to anything other than 100% */
+  width: 70%;
+ /* max-width: 100%; /* useful when width is set to anything other than 100% */
   box-sizing: border-box;
   margin: 0;
   border: 1px solid #aaa;
@@ -168,7 +169,6 @@ td {
   -webkit-user-select: none;
   touch-action: manipulation;
   vertical-align: baseline;
-  width: 40%;
 }
 
 .button-6:hover,
