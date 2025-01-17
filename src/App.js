@@ -144,6 +144,7 @@ function App(props) {
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <Resource
@@ -172,6 +173,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <Resource
             name="Attestaion"
@@ -194,6 +196,7 @@ function App(props) {
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "superviseur comptabilite" ? (
           <Resource
             name="ribfournisseurs"
@@ -212,6 +215,7 @@ function App(props) {
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <Resource
@@ -235,6 +239,7 @@ function App(props) {
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <Resource
@@ -249,6 +254,7 @@ function App(props) {
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <Resource
@@ -272,6 +278,7 @@ function App(props) {
         permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
@@ -295,6 +302,7 @@ function App(props) {
         permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
@@ -315,6 +323,7 @@ function App(props) {
         permissions === "admin" ||
         permissions === "direction générale" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ||
         permissions === "normal user" ||
         permissions === "admin" ||
@@ -367,6 +376,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ||
+        permissions === "comptable PdT" ||
         permissions === "superviseur comptabilite midelt" ? (
           <Resource
             name="historiquefacture"
@@ -381,6 +391,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ||
+        permissions === "comptable PdT" ||
         permissions === "superviseur comptabilite midelt" ? (
           <Resource
             name="FicheNavette"
@@ -411,6 +422,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ||
+        permissions === "comptable PdT" ||
         permissions === "superviseur comptabilite midelt" ? (
           <Resource
             name="SuivieFacture"
@@ -425,6 +437,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ||
+        permissions === "comptable PdT" ||
         permissions === "superviseur comptabilite midelt" ? (
           <Resource
             name="FactureNonPaye"
@@ -452,6 +465,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <Resource
             name="ordervirement"
@@ -513,6 +527,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <Resource
             name="cheque"
@@ -523,6 +538,7 @@ function App(props) {
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite midelt" ||
               permissions === "superviseur comptabilite" ||
+              permissions === "comptable PdT" ||
               permissions === "comptable"
                 ? ChequeCreate
                 : null
@@ -544,6 +560,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <Resource
             name="espece"
@@ -554,6 +571,7 @@ function App(props) {
               permissions === "comptable midelt" ||
               permissions === "superviseur comptabilite midelt" ||
               permissions === "superviseur comptabilite" ||
+              permissions === "comptable PdT" ||
               permissions === "comptable"
                 ? EspeceCreate
                 : null
@@ -566,6 +584,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <Resource
             name="factures"
@@ -625,6 +644,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <Resource
             name="virements"
@@ -657,6 +677,7 @@ function App(props) {
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <Resource name="logfactures" list={AvancePayerList} />
         ) : null,
@@ -666,6 +687,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <CustomRoutes>
             <Route path="/print" element={<PrintModule />} />
@@ -687,6 +709,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <CustomRoutes>
             <Route
@@ -702,6 +725,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <Resource
             name="Avance"
@@ -726,6 +750,7 @@ function App(props) {
         permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable" ? (
           <Resource
@@ -761,6 +786,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <Resource
             name="alertattestationregfisc"
@@ -774,6 +800,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <Resource name="faayantfn" list={FaAyantFnList} />
         ) : null,
@@ -784,6 +811,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <CustomRoutes>
             <Route path="/echencier" element={<Echencier />} />
@@ -796,6 +824,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <CustomRoutes>
             <Route path="/situationfn" element={<SituationFn />} />
@@ -804,6 +833,7 @@ function App(props) {
         permissions === "admin" ||
         permissions === "direction générale" ||
         permissions === "comptable midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "superviseur comptabilite midelt" ? (
           <Resource name="rastva" list={RastvaList} />
         ) : null,
@@ -816,6 +846,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <Resource name="getfacturedetails" list={GetfacturedetailList} />
         ) : null,
@@ -826,6 +857,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <Resource name="getavancedetails" list={GetavancedetailList} />
         ) : null,
@@ -835,6 +867,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <Resource name="gettvalog" list={<TvalogList />} />
         ) : null,
@@ -845,6 +878,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <CustomRoutes>
             <Route path="/situationfournisseur" element={<StFournisseur />} />
@@ -857,6 +891,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <CustomRoutes>
             <Route path="/situationchantier" element={<StChantier />} />
@@ -869,6 +904,7 @@ function App(props) {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <CustomRoutes>
             <Route path="/atnerpaiements" element={<PaiementPage />} />

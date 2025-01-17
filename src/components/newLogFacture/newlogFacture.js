@@ -63,6 +63,7 @@ const FactureDetail = () => {
   } = useGetOne("getavancedetails", { id: idAvance });
 
   // Handle cases where `idAvance` is undefined (before calling useGetOne)
+  // eslint-disable-next-line eqeqeq
   if (idAvance == "null") {
     return <div>Pas D'avance sur cette Facture</div>;
   }

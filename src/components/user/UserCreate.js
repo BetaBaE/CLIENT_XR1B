@@ -32,6 +32,7 @@ export const UserCreate = () => (
             name: "Superviseur Comptabilité",
           },
           { id: "comptable", name: "Comptable" },
+          { id: "comptable PdT", name: "Comptable PdT" },
           { id: "comptable midelt", name: "Comptable Midelt" },
           {
             id: "superviseur comptabilite midelt",

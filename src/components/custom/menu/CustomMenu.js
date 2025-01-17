@@ -30,6 +30,7 @@ export const CustomMenu = (props) => {
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable") && (
         <SubMenu primaryText="Section Facture" leftIcon={<ChevronRightIcon />}>
@@ -82,6 +83,7 @@ export const CustomMenu = (props) => {
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable") && (
         <SubMenu
           primaryText="Section Fournisseur"
@@ -126,6 +128,7 @@ export const CustomMenu = (props) => {
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable") && (
         <SubMenu primaryText="Section  Atner" leftIcon={<ChevronRightIcon />}>
           <Menu.Item
@@ -152,6 +155,7 @@ export const CustomMenu = (props) => {
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable") && (
         <SubMenu primaryText="Section Paiement" leftIcon={<ChevronRightIcon />}>
           <Menu.Item
@@ -176,7 +180,7 @@ export const CustomMenu = (props) => {
           />
           <Menu.Item
             to="/print"
-            primaryText="Imp. Order Virement"
+            primaryText="Imp. Documents"
             leftIcon={<FaPrint />}
           />
         </SubMenu>
@@ -202,6 +206,7 @@ export const CustomMenu = (props) => {
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable") && (
         <SubMenu primaryText="Suive Facture" leftIcon={<ChevronRightIcon />}>
           {/* <Menu.Item
@@ -245,6 +250,7 @@ export const CustomMenu = (props) => {
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable") && (
         <SubMenu primaryText="Alerte" leftIcon={<ChevronRightIcon />}>
           <Menu.Item
@@ -283,6 +289,7 @@ export const CustomMenu = (props) => {
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable") && (
         <SubMenu primaryText="Analyse" leftIcon={<ChevronRightIcon />}>
           <Menu.Item

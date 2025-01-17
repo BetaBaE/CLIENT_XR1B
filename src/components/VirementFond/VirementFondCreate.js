@@ -28,6 +28,7 @@ const useStyles = makeStyles(() => ({
 
 // Composant pour la création d'un virement
 export const VirementFondCreate = () => {
+  // eslint-disable-next-line no-unused-vars
   const { identity, isLoading: identityLoading } = useGetIdentity(); // Récupération de l'identité de l'utilisateur
   const [orderVirement, setOrderVirement] = useState([
     // État pour les commandes de virement

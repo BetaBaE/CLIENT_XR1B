@@ -6,6 +6,7 @@ import apiUrl from "../../config";
 import Card from "@mui/material/Card";
 import { CardContent, CardHeader, Grid } from "@material-ui/core";
 import { Title } from "react-admin";
+import PDFViewer from "./PDFViewer";
 
 const PrintModule = () => {
   const [orderVirement, setOrderVirement] = useState([
@@ -35,6 +36,8 @@ const PrintModule = () => {
   const [selctov, setSelctov] = useState();
   const [selctovFond, setSelctovFond] = useState();
   const [idcheque, setIdcheque] = useState();
+  const [buffredPdf, setBuffredPdf] = useState();
+  const [pdfTitle, setPdfTitle] = useState("");
 
   useEffect(() => {
     fetch(`${apiUrl}/ordervirementetat`)
@@ -55,10 +58,10 @@ const PrintModule = () => {
   }, []);
 
   const showLoadingPdf = (json) => {
-    let jsonPath = "file:" + json.path.replaceAll("\\", "/");
+    // let jsonPath = "file:" + json.path.replaceAll("\\", "/");
     Swal.fire({
       title: "Pdf est prêt",
-      html: `${jsonPath}`,
+      // html: `${jsonPath}`,
       icon: "success",
       allowOutsideClick: false,
       allowEscapeKey: false,
@@ -69,8 +72,7 @@ const PrintModule = () => {
     <Grid
       container
       spacing={2}
-      jusImprimer
-      des
+      justifyContent="center"
       documentstifyContent="space-around"
     >
       <Title title="Impression des Documents" />
@@ -88,6 +90,7 @@ const PrintModule = () => {
               >
                 <select
                   className="select-css"
+                  id="sl1"
                   required
                   onChange={(e) => {
                     setSelctov(e.target.value);
@@ -141,8 +144,14 @@ const PrintModule = () => {
                             return response.json();
                           })
                           .then((json) => {
-                            console.log(json);
+                            // console.log(json);
                             showLoadingPdf(json);
+                            console.log(json);
+                            setBuffredPdf(json.base64);
+                            setPdfTitle(json.header[0].id);
+                            let selectElement = document.getElementById("sl1");
+                            selectElement.selectedIndex = 0;
+                            setSelctov(null);
                           })
                           .catch((error) => {
                             console.error(
@@ -191,6 +200,7 @@ const PrintModule = () => {
               >
                 <select
                   className="select-css"
+                  id="sl2"
                   required
                   onChange={(e) => {
                     setSelctovFond(e.target.value);
@@ -212,7 +222,7 @@ const PrintModule = () => {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      console.log("selctovFond", selctovFond);
+                      // console.log("selctovFond", selctovFond);
                       if (selctovFond) {
                         Swal.fire({
                           title: "Preparation du pdf en cours",
@@ -248,6 +258,11 @@ const PrintModule = () => {
                           .then((json) => {
                             console.log(json);
                             showLoadingPdf(json);
+                            setBuffredPdf(json.base64);
+                            setPdfTitle(json.header[0].id);
+                            let selectElement = document.getElementById("sl2");
+                            selectElement.selectedIndex = 0;
+                            setSelctovFond(null);
                           })
                           .catch((error) => {
                             console.error(
@@ -296,6 +311,7 @@ const PrintModule = () => {
               >
                 <select
                   className="select-css"
+                  id="sl3"
                   required
                   onChange={(e) => {
                     setIdcheque(e.target.value);
@@ -353,6 +369,13 @@ const PrintModule = () => {
                           .then((json) => {
                             console.log(json);
                             showLoadingPdf(json);
+                            setBuffredPdf(json.base64);
+                            setPdfTitle(
+                              `${json.header[0].type} : ${json.header[0].numerocheque} - ${json.header[0].bank}`
+                            );
+                            let selectElement = document.getElementById("sl3");
+                            selectElement.selectedIndex = 0;
+                            setIdcheque(null);
                           })
                           .catch((error) => {
                             console.error(
@@ -371,7 +394,7 @@ const PrintModule = () => {
                         Swal.fire({
                           icon: "error",
                           title: "Error",
-                          text: "Veuillez choisir un order de virement",
+                          text: "Veuillez choisir un cheque ou effet",
                           allowOutsideClick: false,
                           allowEscapeKey: false,
                         });
@@ -386,6 +409,7 @@ const PrintModule = () => {
           </CardContent>
         </Card>
       </Grid>
+      <PDFViewer base64={buffredPdf} title={pdfTitle} />
     </Grid>
   );
 };

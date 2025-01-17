@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-  AutocompleteInput,
   Edit,
   FormDataConsumer,
   required,
@@ -11,11 +10,10 @@ import {
   Toolbar,
   useDataProvider,
   useGetIdentity,
-  useRedirect,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import apiUrl from "../../config";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 const useStyles = makeStyles(() => ({
   autocomplete: {
     width: "650px",
@@ -33,74 +31,73 @@ export const ModificationFichnavetteEdit = (props) => {
     </Toolbar>
   );
   const dataProvider1 = useDataProvider();
-  const [fournisseur, setFournisseur] = useState([]);
-  const [facture, setFacture] = useState([{ id: "", BonCommande: "" }]);
+  // const [fournisseur, setFournisseur] = useState([]);
+  // const [facture, setFacture] = useState([{ id: "", BonCommande: "" }]);
   const dataProvider = useDataProvider();
-  const redirect = useRedirect();
+  // const redirect = useRedirect();
 
-  const [fournisseurIdField, setFournisseurIdField] = useState(true);
   const [chantier, setChantier] = useState([]);
-  const annuleAlert = (params) => {
-    if (params === "Annuler") {
-      Swal.fire({
-        title: "Êtes-vous sûr?",
-        text: "Voulez-vous vraiment Annuler cette ficheNavette?",
-        icon: "warning",
-        showCancelButton: true,
-        cancelButtonText: "Non!",
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Oui, Annule!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          document.querySelector("#save").click();
-          Swal.fire("Annulé!", "FicheNavette Annulée", "success");
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire(
-            "Modification annulée",
-            "FicheNavette ne sera pas modifiée.",
-            "error"
-          );
-          redirect("list", "factureRech");
-        }
-      });
-    }
-  };
+  // const annuleAlert = (params) => {
+  //   if (params === "Annuler") {
+  //     Swal.fire({
+  //       title: "Êtes-vous sûr?",
+  //       text: "Voulez-vous vraiment Annuler cette ficheNavette?",
+  //       icon: "warning",
+  //       showCancelButton: true,
+  //       cancelButtonText: "Non!",
+  //       confirmButtonColor: "#3085d6",
+  //       cancelButtonColor: "#d33",
+  //       confirmButtonText: "Oui, Annule!",
+  //     }).then((result) => {
+  //       if (result.isConfirmed) {
+  //         document.querySelector("#save").click();
+  //         Swal.fire("Annulé!", "FicheNavette Annulée", "success");
+  //       } else if (result.dismiss === Swal.DismissReason.cancel) {
+  //         Swal.fire(
+  //           "Modification annulée",
+  //           "FicheNavette ne sera pas modifiée.",
+  //           "error"
+  //         );
+  //         redirect("list", "factureRech");
+  //       }
+  //     });
+  //   }
+  // };
   function formatDate(string) {
     var options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(string).toLocaleDateString([], options);
   }
 
   useEffect(() => {
-    dataProvider
-      .getList("fournisseurs", {
-        pagination: { page: 1, perPage: 3000 },
-        sort: { field: "nom", order: "ASC" },
-      })
-      .then(({ data }) => {
-        setFournisseur(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // dataProvider
+    //   .getList("fournisseurs", {
+    //     pagination: { page: 1, perPage: 3000 },
+    //     sort: { field: "nom", order: "ASC" },
+    //   })
+    //   .then(({ data }) => {
+    //     setFournisseur(data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   }, [dataProvider]);
-  const getFactureByFourniseur = (id) => {
-    let url = `${apiUrl}/facturebyfournisseur/` + id;
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => setFacture(json));
-  };
-  let facture_choices = { id: "", BonCommande: "" };
-  let fournisseurs_choices = fournisseur.map(
-    ({ id, nom, CodeFournisseur }) => ({
-      id: id,
-      name: `${nom} | ${CodeFournisseur} `,
-    })
-  );
-  facture_choices = facture.map(({ id, numeroFacture, TTC, DateFacture }) => ({
-    id: id,
-    name: `${numeroFacture} | ${TTC} DH | ${formatDate(DateFacture)}`,
-  }));
+  // const getFactureByFourniseur = (id) => {
+  //   let url = `${apiUrl}/facturebyfournisseur/` + id;
+  //   fetch(url)
+  //     .then((response) => response.json())
+  //     .then((json) => setFacture(json));
+  // };
+  // let facture_choices = { id: "", BonCommande: "" };
+  // let fournisseurs_choices = fournisseur.map(
+  //   ({ id, nom, CodeFournisseur }) => ({
+  //     id: id,
+  //     name: `${nom} | ${CodeFournisseur} `,
+  //   })
+  // );
+  // facture_choices = facture.map(({ id, numeroFacture, TTC, DateFacture }) => ({
+  //   id: id,
+  //   name: `${numeroFacture} | ${TTC} DH | ${formatDate(DateFacture)}`,
+  // }));
   useEffect(() => {
     dataProvider1
       .getList("chantier", {
@@ -114,10 +111,6 @@ export const ModificationFichnavetteEdit = (props) => {
         console.log(error);
       });
   }, [dataProvider1]);
-  let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
-    id: id,
-    name: `${LIBELLE} | ${id} `,
-  }));
 
   const classes = useStyles();
   const { isLoading, error } = useGetIdentity();
