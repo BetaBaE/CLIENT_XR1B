@@ -284,8 +284,6 @@ export const CustomMenu = (props) => {
       )}
       {(permissions === "admin" ||
         permissions === "direction générale" ||
-        permissions === "consultation directeur" ||
-        permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
