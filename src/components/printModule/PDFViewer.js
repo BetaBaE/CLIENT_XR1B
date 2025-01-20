@@ -18,6 +18,7 @@ const PdfViewer = ({ base64, title }) => {
         <CardContent>
           {base64 ? (
             <iframe
+              toolbar="0"
               src={pdfDataUrl}
               width="100%"
               zoom="129%"
