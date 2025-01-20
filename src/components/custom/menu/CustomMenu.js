@@ -284,6 +284,7 @@ export const CustomMenu = (props) => {
       )}
       {(permissions === "admin" ||
         permissions === "direction générale" ||
+        permissions === "consultation directeur" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
@@ -310,11 +311,15 @@ export const CustomMenu = (props) => {
             primaryText="Situation Chantier"
             leftIcon={<FaFileInvoiceDollar />}
           />
-          <Menu.Item
-            to="/atnerpaiements"
-            primaryText="ATNER Paiements"
-            leftIcon={<FaFileInvoiceDollar />}
-          />
+          {permissions !== "consultation directeur" ? (
+            <Menu.Item
+              to="/atnerpaiements"
+              primaryText="ATNER Paiements"
+              leftIcon={<FaFileInvoiceDollar />}
+            />
+          ) : (
+            ""
+          )}
         </SubMenu>
       )}
       {(permissions === "admin" || permissions === "direction générale") && (
