@@ -899,8 +899,6 @@ function App(props) {
         ) : null,
         permissions === "admin" ||
         permissions === "direction générale" ||
-        permissions === "consultation directeur" ||
-        permissions === "normal user" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "superviseur comptabilite" ||
