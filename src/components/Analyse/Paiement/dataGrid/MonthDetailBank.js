@@ -7,8 +7,8 @@ import { formatNumber } from "../../globalFunction";
 const MonthDetailBank = ({ id }) => {
   const [dataTable1, setDataTable1] = useState([]);
   const [sortConfig1, setSortConfig1] = useState({
-    key: "id",
-    direction: "ascending",
+    key: "TTC",
+    direction: "descending",
   });
 
   const [loading, setLoading] = useState(true);
