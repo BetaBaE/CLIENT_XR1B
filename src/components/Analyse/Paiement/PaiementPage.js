@@ -49,7 +49,7 @@ const PaiementPage = () => {
         </Card>
       </Grid>
 
-      <Grid item xs={12} sm={4}>
+      <Grid item xs={12} sm={5}>
         <Card>
           {/* Les paiements fournisseurs pour le mois 2024-12. */}
 
@@ -77,7 +77,7 @@ const PaiementPage = () => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={4}>
+      <Grid item xs={12} sm={3}>
         <Card>
           <CardHeader title="Tableau : Évolution Mensuelle des Paiements" />
           <CardContent>

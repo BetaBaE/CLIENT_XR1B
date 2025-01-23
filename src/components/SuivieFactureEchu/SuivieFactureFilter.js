@@ -1,44 +1,25 @@
-import { DateInput, Filter,  SelectInput,  TextInput } from "react-admin";
+import { DateInput, Filter, TextInput } from "react-admin";
 
 const SuivieFactureEchuFilter = (props) => (
+  <Filter {...props}>
+    <TextInput source="chantier" label="chantier" />
 
-    <Filter {...props } >
-    <TextInput source = "chantier"
-    label = "chantier" />
+    <TextInput source="designation" label="designation" />
 
+    <DateInput source="DateFactureMin" label="DateFactureMin" />
+    <DateInput source="DateFacturemax" label="DateFacturemax" />
 
-    <TextInput source = "designation"
-    label = "designation" />
+    <DateInput source="dateOperationMin" label="dateOperation" />
 
-    <DateInput source = "DateFactureMin"
-    label = "DateFactureMin" />
-    <DateInput source = "DateFacturemax"
-    label = "DateFacturemax" />
+    <DateInput source="dateOperationmax" label="dateOperationmax" />
 
-    <DateInput source = "dateOperationMin"
-    label = "dateOperation" />
+    <TextInput source="numerofacture" label="numerofacture" />
 
-<DateInput source = "dateOperationmax"
-    label = "dateOperationmax" />
+    <TextInput source="CodeFournisseur" label="codefournisseur" />
+    <TextInput source="fournisseur" label="fournisseur" />
+    <TextInput source="ficheNavette" label="ficheNavette" />
 
-<TextInput source = "numerofacture"
-    label = "numerofacture" />
-
-
-    <TextInput source = "CodeFournisseur"
-    label = "codefournisseur" />
-    <TextInput source = "fournisseur"
-    label = "fournisseur" />
-    <TextInput source = "ficheNavette"
-    label = "ficheNavette" />
-
-<DateInput source = "DateEcheancePaiement"
-    label = "DateEcheance" />
-
-
-  
-
-    </Filter>
-
+    <DateInput source="DateEcheancePaiement" label="DateEcheance" />
+  </Filter>
 );
 export default SuivieFactureEchuFilter;

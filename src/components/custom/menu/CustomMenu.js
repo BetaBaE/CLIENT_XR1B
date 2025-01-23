@@ -54,11 +54,11 @@ export const CustomMenu = (props) => {
             primaryText="Restitution Avance"
             leftIcon={<TbReportMoney />}
           />
-          {/* <Menu.Item
-            to="/ModificationFichnavette"
-            primaryText="Modif/Annul Av/FN"
+          <Menu.Item
+            to="/designations"
+            primaryText="Designations"
             leftIcon={<FaFileInvoiceDollar />}
-          /> */}
+          />
 
           {/* <Menu.Item
             to="/FactureValider"

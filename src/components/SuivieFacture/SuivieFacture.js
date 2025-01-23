@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Datagrid, DateField, List, NumberField, TextField } from "react-admin";
 
 import ColorfulText from "../custom/layout/ColorfulText";
 import SuivieFactureFilter from "./SuivieFactureFilter";
 
 export const SuivieFacture = (props) => {
-  const [recordCount, setRecordCount] = useState(0);
+  // const [recordCount, setRecordCount] = useState(0);
 
   /*
   useEffect(() => {

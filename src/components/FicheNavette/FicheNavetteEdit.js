@@ -1,9 +1,7 @@
 import {
   Edit,
   FormDataConsumer,
-  required,
   SaveButton,
-  SelectInput,
   SimpleForm,
   TextInput,
   Toolbar,
@@ -11,7 +9,6 @@ import {
   useRedirect,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
-import apiUrl from "../../config";
 import Swal from "sweetalert2";
 const useStyles = makeStyles(() => ({
   autocomplete: {
@@ -22,8 +19,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 export const FicheNavetteEdit = (props) => {
-  const { identity, isLoading: identityLoading } = useGetIdentity();
-
   const UserEditToolbar = (props) => (
     <Toolbar {...props}>
       <SaveButton id="save" />
@@ -31,33 +26,6 @@ export const FicheNavetteEdit = (props) => {
   );
 
   const redirect = useRedirect();
-
-  const annuleAlert = (params) => {
-    if (params === "Annuler") {
-      Swal.fire({
-        title: "Êtes-vous sûr?",
-        text: "Voulez-vous vraiment Annuler cette ficheNavette?",
-        icon: "warning",
-        showCancelButton: true,
-        cancelButtonText: "Non!",
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Oui, Annule!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          document.querySelector("#save").click();
-          Swal.fire("Annulé!", "FicheNavette Annulée", "success");
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire(
-            "Modification annulée",
-            "FicheNavette ne sera pas modifiée.",
-            "error"
-          );
-          redirect("list", "factureRech");
-        }
-      });
-    }
-  };
 
   const classes = useStyles();
   const { isLoading, error } = useGetIdentity();
