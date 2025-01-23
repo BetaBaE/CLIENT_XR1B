@@ -12,7 +12,6 @@ import {
   useGetIdentity,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
-import apiUrl from "../../config";
 // import Swal from "sweetalert2";
 const useStyles = makeStyles(() => ({
   autocomplete: {
@@ -23,20 +22,17 @@ const useStyles = makeStyles(() => ({
   },
 }));
 export const ModificationFichnavetteEdit = (props) => {
-  const { identity, isLoading: identityLoading } = useGetIdentity();
-
   const UserEditToolbar = (props) => (
     <Toolbar {...props}>
       <SaveButton id="save" />
     </Toolbar>
   );
-  const dataProvider1 = useDataProvider();
+
   // const [fournisseur, setFournisseur] = useState([]);
   // const [facture, setFacture] = useState([{ id: "", BonCommande: "" }]);
   const dataProvider = useDataProvider();
   // const redirect = useRedirect();
 
-  const [chantier, setChantier] = useState([]);
   // const annuleAlert = (params) => {
   //   if (params === "Annuler") {
   //     Swal.fire({
@@ -98,19 +94,6 @@ export const ModificationFichnavetteEdit = (props) => {
   //   id: id,
   //   name: `${numeroFacture} | ${TTC} DH | ${formatDate(DateFacture)}`,
   // }));
-  useEffect(() => {
-    dataProvider1
-      .getList("chantier", {
-        pagination: { page: 1, perPage: 3000 },
-        sort: { field: "LIBELLE", order: "ASC" },
-      })
-      .then(({ data }) => {
-        setChantier(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [dataProvider1]);
 
   const classes = useStyles();
   const { isLoading, error } = useGetIdentity();

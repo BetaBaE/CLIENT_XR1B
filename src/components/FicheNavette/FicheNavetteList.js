@@ -1,14 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import {
-  ChipField,
-  Datagrid,
-  DateField,
-  List,
-  NumberField,
-  ReferenceArrayField,
-  SingleFieldList,
-  TextField,
-} from "react-admin";
+import { Datagrid, DateField, List, NumberField, TextField } from "react-admin";
 import FactureFicheNavetteFilter from "./FicheNavetteFilter";
 
 const useStyles = makeStyles({

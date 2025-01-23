@@ -86,6 +86,9 @@ import StFournisseur from "./components/Analyse/Situation Fournisseur/StFourniss
 import { TvalogList } from "./components/newLogFacture/TvaLog";
 import StChantier from "./components/Analyse/Situation chantier/StChantier";
 import PaiementPage from "./components/Analyse/Paiement/PaiementPage";
+import { DesignationList } from "./components/Designations/DesignationList";
+import { DesignationEdit } from "./components/Designations/EditDesignation";
+import { DesignationCreate } from "./components/Designations/DesignationCreate";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -162,6 +165,34 @@ function App(props) {
               permissions === "superviseur comptabilite midelt" ||
               permissions === "comptable midelt"
                 ? FournisseurEdit
+                : null
+            }
+            icon={FaTruck}
+          />
+        ) : null,
+        permissions === "admin" ||
+        permissions === "direction générale" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable PdT" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable" ? (
+          <Resource
+            name="designations"
+            list={DesignationList}
+            create={
+              permissions === "admin" ||
+              permissions === "superviseur comptabilite midelt"
+                ? // || permissions === "comptable midelt"
+                  DesignationCreate
+                : null
+            }
+            edit={
+              permissions === "admin" ||
+              permissions === "superviseur comptabilite midelt"
+                ? // || permissions === "comptable midelt"
+                  DesignationEdit
                 : null
             }
             icon={FaTruck}
