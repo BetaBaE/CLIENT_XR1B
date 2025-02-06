@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   AutocompleteInput,
   Create,
+  DateInput,
   NumberInput,
   required,
   SelectInput,
@@ -12,10 +13,14 @@ import {
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import apiUrl from "../../config";
+import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
   autocomplete: {
-    width: "650px",
+    width: "95%",
+  },
+  chip: {
+    fontWeight: "bold",
   },
 }));
 
@@ -25,9 +30,10 @@ export const AvanceForupdateCreate = () => {
   const { identity } = useGetIdentity(); // Hook pour récupérer l'identité de l'utilisateur actuel
   const classes = useStyles(); // Utilisation des styles définis
   const [ttc, setTTC] = useState(0);
+
   const [tvainput, setTVAinput] = useState("");
-  const [ht, setHT] = useState("");
-  const [PourcentageTva, setPourcentageTVA] = useState(0);
+  const [ht, setHT] = useState(0);
+  const [prctTVA, setPrctTVA] = useState(1);
   // États pour les données des fournisseurs et chantiers
   const [fournisseur, setFournisseur] = useState([]);
   const [chantier, setChantier] = useState([]);
@@ -41,7 +47,6 @@ export const AvanceForupdateCreate = () => {
   const [FourRasIR, setFourRasIR] = useState("");
   // État pour stocker le code du chantier sélectionné
   const [selectedCodeChantier, setSelectedCodeChantier] = useState("");
-
   // État pour la catégorie de fournisseur sélectionnée
   const [selectedSupplierCategory, setSelectedSupplierCategory] = useState("");
 
@@ -65,31 +70,10 @@ export const AvanceForupdateCreate = () => {
     fetchFournisseurs(); // Appel de la fonction pour charger les fournisseurs au montage
   }, [dataProvider]); // Dépendance au fournisseur de données pour l'exécution de l'effet
 
-  const getTVA = (PourcentageTva) => {
-    let HT = (ttc / PourcentageTva).toFixed(2);
-    let TVA = (ttc - ttc / PourcentageTva).toFixed(2);
-    console.log("HT", HT);
-    console.log("TVA", TVA);
-
-    setTVAinput(TVA);
-    setHT(HT);
-  };
-
-  const getTTC = (TTC, PourcentageTva) => {
-    console.log("PourcentageTva", PourcentageTva);
-    let calculPerTva = PourcentageTva > 0 ? PourcentageTva : 1;
-    console.log("calculPerTva", calculPerTva);
-    let HT = (TTC / calculPerTva).toFixed(2);
-    let TVA = (TTC - HT).toFixed(2);
-    console.log("HT", HT);
-    console.log("TVA", TVA);
-    setTVAinput(TVA);
-    setHT(HT);
-  };
-
+  // Effet pour charger la liste des chantiers au montage du composant
   useEffect(() => {
     dataProvider1
-      .getList("getPourcentageTva", {
+      .getList("designation", {
         pagination: { page: 1, perPage: 3000 },
         sort: { field: "id", order: "ASC" },
       })
@@ -101,9 +85,6 @@ export const AvanceForupdateCreate = () => {
         console.log(error);
       });
   }, [dataProvider1]);
-
-  // Effet pour charger la liste des chantiers au montage du composant
-
   useEffect(() => {
     const fetchChantier = async () => {
       try {
@@ -117,7 +98,13 @@ export const AvanceForupdateCreate = () => {
     };
     fetchChantier(); // Appel de la fonction pour charger les chantiers au montage
   }, []); // Utilisation d'un tableau de dépendances vide pour que cet effet s'exécute une seule fois au montage
-
+  let designation_choices = designation.map(
+    ({ id, designation, codeDesignation, PourcentageTVA }) => ({
+      id: id,
+      name: `${codeDesignation}||${designation}`,
+      percent: PourcentageTVA,
+    })
+  );
   // Transformation des fournisseurs en choix pour l'autocomplétion
   const fournisseurs_choices = fournisseur.map(
     ({ id, nom, CodeFournisseur, catFournisseur }) => ({
@@ -132,10 +119,6 @@ export const AvanceForupdateCreate = () => {
     id: id,
     name: `${LIBELLE} | ${id}`,
   }));
-  let designation_choices = designation.map(({ id, PourcentageTva100 }) => ({
-    id: id,
-    name: `${PourcentageTva100}`,
-  }));
 
   // Gestion de l'état de chargement et d'erreur pour l'identité de l'utilisateur
   const { isLoading, error } = useGetIdentity();
@@ -143,190 +126,193 @@ export const AvanceForupdateCreate = () => {
   if (error) return <>Erreur...</>; // Affichage d'un message d'erreur si la récupération de l'identité a échoué
 
   return (
-    <Create>
+    <Create title="Créer une avance">
       <SimpleForm>
         {/* Champ de texte pour afficher le nom complet de l'utilisateur */}
-        <TextInput
-          defaultValue={identity.fullName}
-          label="Vous êtes"
-          className={classes.autocomplete}
-          disabled
-          source="fullName"
-        />
 
-        {/* Sélecteur d'autocomplétion pour choisir un fournisseur */}
-        <AutocompleteInput
-          label="Fournisseur"
-          validate={required("Le fournisseur est obligatoire")}
-          className={classes.autocomplete}
-          source="idfournisseur"
-          choices={fournisseurs_choices}
-          onChange={(e) => {
-            const foundItem = fournisseur.find((item) => item.id === e);
-            setFourRasIR(foundItem || null);
-            console.log(foundItem);
-            if (!e) {
-              // Si aucun fournisseur n'est sélectionné
-              setFournisseurIdField(true); // Désactiver le champ ID fournisseur
-              setChantierIdField(false); // Activer le champ ID chantier
+        <Grid container>
+          <Grid item md={6}>
+            <TextInput
+              defaultValue={identity.fullName}
+              label="Vous êtes"
+              className={classes.autocomplete}
+              disabled
+              source="fullName"
+            />
+          </Grid>
+          <Grid item md={6}>
+            <TextInput
+              // defaultValue={identity.fullName}
+              label="N° Proforma / Devis"
+              className={classes.autocomplete}
+              validate={required("N° Proforma / Devis est obligatoire")}
+              source="NdocAchat"
+            />
+          </Grid>
+          <Grid item md={6}>
+            <DateInput
+              // defaultValue={identity.fullName}
+              label="Date de document"
+              className={classes.autocomplete}
+              validate={required("Date de document est obligatoire")}
+              source="DateDocAchat"
+            />
+          </Grid>
+          {/* Sélecteur d'autocomplétion pour choisir un fournisseur */}
+          <Grid item md={6}>
+            <AutocompleteInput
+              label="Fournisseur"
+              validate={required("Le fournisseur est obligatoire")}
+              className={classes.autocomplete}
+              source="idfournisseur"
+              choices={fournisseurs_choices}
+              onChange={(e) => {
+                const foundItem = fournisseur.find((item) => item.id === e);
+                setFourRasIR(foundItem || null);
+                console.log(foundItem);
+                if (!e) {
+                  // Si aucun fournisseur n'est sélectionné
+                  setFournisseurIdField(true); // Désactiver le champ ID fournisseur
+                  setChantierIdField(false); // Activer le champ ID chantier
 
-              setSelectedSupplierCategory(""); // Remettre à zéro la catégorie de fournisseur sélectionnée
-            } else {
-              // Si un fournisseur est sélectionné
-              const selectedFournisseur = fournisseurs_choices.find(
-                (f) => f.id === e
-              );
-              setFournisseurIdField(false); // Activer le champ ID fournisseur
-              setChantierIdField(true); // Désactiver le champ ID chantier
+                  setSelectedSupplierCategory(""); // Remettre à zéro la catégorie de fournisseur sélectionnée
+                } else {
+                  // Si un fournisseur est sélectionné
+                  const selectedFournisseur = fournisseurs_choices.find(
+                    (f) => f.id === e
+                  );
+                  setFournisseurIdField(false); // Activer le champ ID fournisseur
+                  setChantierIdField(true); // Désactiver le champ ID chantier
 
-              setSelectedSupplierCategory(selectedFournisseur.categorie); // Mettre à jour la catégorie de fournisseur sélectionnée
-            }
-          }}
-        />
+                  setSelectedSupplierCategory(selectedFournisseur.categorie); // Mettre à jour la catégorie de fournisseur sélectionnée
+                }
+              }}
+            />
+          </Grid>
+          {/* Sélecteur d'autocomplétion pour choisir un chantier */}
+          <Grid item md={6}>
+            <AutocompleteInput
+              validate={required("Le chantier est obligatoire")}
+              className={classes.autocomplete}
+              source="codechantier"
+              choices={chantier_choices}
+              onChange={(e) => setSelectedCodeChantier(e)}
+            />
+          </Grid>
+          {/* Condition pour afficher le sélecteur de service si le chantier sélectionné est "A-9999" */}
 
-        {/* Sélecteur d'autocomplétion pour choisir un chantier */}
-        <AutocompleteInput
-          validate={required("Le chantier est obligatoire")}
-          className={classes.autocomplete}
-          source="codechantier"
-          choices={chantier_choices}
-          onChange={(e) => setSelectedCodeChantier(e)}
-        />
+          {selectedCodeChantier === "A-9999" && (
+            <Grid item md={6}>
+              <SelectInput
+                className={classes.autocomplete}
+                source="service"
+                choices={[
+                  { id: "comm", name: "Communication" },
+                  { id: "SI", name: "Service informatique" },
+                  { id: "RH", name: "Ressource Humaine" },
+                  { id: "QUALITE", name: "Qualité" },
+                  { id: "MC", name: "Moyen commun" },
+                ]}
+              />
+            </Grid>
+          )}
 
-        {/* Condition pour afficher le sélecteur de service si le chantier sélectionné est "A-9999" */}
-        {selectedCodeChantier === "A-9999" && (
-          <SelectInput
-            className={classes.autocomplete}
-            source="service"
-            choices={[
-              { id: "comm", name: "Communication" },
-              { id: "SI", name: "Service informatique" },
-              { id: "RH", name: "Ressource Humaine" },
-              { id: "QUALITE", name: "Qualité" },
-              { id: "MC", name: "Moyen commun" },
-            ]}
-          />
-        )}
+          {/* Champ de texte pour entrer la fiche navette */}
+          <Grid item md={6}>
+            <TextInput
+              label="Fiche navette"
+              validate={required("La fiche navette est obligatoire")}
+              className={classes.autocomplete}
+              source="ficheNavette"
+            />
+          </Grid>
+          {/* Champ de texte pour entrer le montant TTC d'avance */}
+          <Grid item md={6}>
+            <NumberInput
+              label="TTC D'Avance"
+              validate={required("Le montant d'avance est obligatoire")}
+              className={classes.autocomplete}
+              source="TTC"
+              onChange={(e) => {
+                setTTC(e.target.value);
+                setHT(e.target.value / prctTVA);
+                setTVAinput(e.target.value - e.target.value / prctTVA);
+                e.target.value === "" ? setPrctTVA(1) : setPrctTVA(prctTVA);
+                // getTTC(e.target.value, PourcentageTva);
+              }}
+            />
+          </Grid>
+          {/* Champ de texte pour entrer le bon de commande d'avance */}
+          <Grid item md={6}>
+            <TextInput
+              label="Bon de commande d'avance"
+              className={classes.autocomplete}
+              validate={required("Le bon de commande est obligatoire")}
+              source="Bcommande"
+            />
+          </Grid>
 
-        {/* Champ de texte pour entrer la fiche navette */}
-        <TextInput
-          label="Fiche navette"
-          validate={required("La fiche navette est obligatoire")}
-          className={classes.autocomplete}
-          source="ficheNavette"
-        />
-
-        {/* Champ de texte pour entrer le bon de commande d'avance */}
-        <TextInput
-          label="Bon de commande d'avance"
-          className={classes.autocomplete}
-          validate={required("Le bon de commande est obligatoire")}
-          source="Bcommande"
-        />
-
-        {/* Champ de texte pour entrer le montant d'avance */}
-        {/* <NumberInput
-          label="Montant d'avance"
-          className={classes.autocomplete}
-          validate={(value) => {
-            const numericValue = parseFloat(value);
-            return numericValue >= 1
-              ? undefined
-              : "Le montant d'avance doit être supérieur ou égal à 1";
-          }}
-          source="montantAvance"
-        /> */}
-
-        {/* Condition pour afficher le sélecteur de catégorie de document 
-        
-        {selectedSupplierCategory !== "personne morale" && (
-          <SelectInput
-            disabled={fournisseurIdField}
-            className={classes.autocomplete}
-            validate={required("Mentionnez la catégorie")}
-            source="CatFn"
-            choices={[
-              { id: "FET", name: "Fourniture Equipement Travaux" },
-              { id: "Service", name: "Service" },
-            ]}
-            label="Catégorie de document"
-          />
-        )}
-*/}
-        {/* Champ de texte pour entrer le montant TTC d'avance */}
-        <NumberInput
-          label="TTC D'Avance"
-          validate={required("Le montant d'avance est obligatoire")}
-          className={classes.autocomplete}
-          source="TTC"
-          onChange={(e) => {
-            setTTC(e.target.value);
-
-            getTTC(e.target.value, PourcentageTva);
-          }}
-          // onChange={(e) => {
-          //   getTTC(e, PourcentageTva);
-          // }}
-        />
-        <AutocompleteInput
-          // eslint-disable-next-line
-          disabled={ttc == 0 ? true : false}
-          label="TauxTVA"
-          validate={required("selectionnez la designation")}
-          className={classes.autocomplete}
-          source="iddesignation"
-          choices={designation_choices}
-          onChange={(e) => {
-            console.log("e", e);
-            setPourcentageTVA(e);
-            // getTVA(e );
-            if (e) {
-              getTVA(e);
-            } else {
-            }
-          }}
-        />
-
-        {tvainput.length > 0 && <div>le montant TVA : : {tvainput} DH</div>}
-
-        {ht.length > 0 && <div>le montant HT : : {ht} DH</div>}
-
-        {/* Champ de texte pour entrer le montant TVA */}
-        {/* <TextInput
-          id="TVAid"
-          label="TVA"
-          validate={required("TVA est obligatoire")}
-          className={classes.autocomplete}
-          source="MontantTVA"
-          defaultValue={tvainput}
-          disabled={true}
-        /> */}
-        <SelectInput
-          disabled={fournisseurIdField}
-          className={classes.autocomplete}
-          validate={required("Mentionnez la catégorie")}
-          source="CatFn"
-          choices={[
-            { id: "FET", name: "Fourniture Equipement Travaux" },
-            { id: "Service", name: "Service" },
-          ]}
-          label="Catégorie de document"
-        />
-        {FourRasIR.RasIr === "Oui" ? (
-          <SelectInput
-            className={classes.autocomplete}
-            source="EtatIR"
-            label="Etat Ras IR"
-            validate={
-              FourRasIR.RasIr === "Oui"
-                ? required("Etat RAS IR est obligatoire")
-                : undefined
-            }
-            choices={[
-              { id: "Oui", name: "Oui" },
-              { id: "Non", name: "Non" },
-            ]}
-          />
+          <Grid item md={6}>
+            <AutocompleteInput
+              label="designation"
+              validate={required("selectionnez la designation")}
+              className={classes.autocomplete}
+              source="iddesignation"
+              choices={designation_choices}
+              onChange={(e) => {
+                // console.log(e);
+                let prc = designation_choices.find((item) => item.id === e);
+                console.log(prc.percent);
+                setPrctTVA(prc.percent);
+                setHT(ttc / prc.percent);
+                let newht = ttc / prc.percent;
+                setTVAinput(ttc - newht);
+              }}
+            />
+          </Grid>
+          <Grid item md={6}>
+            <SelectInput
+              disabled={fournisseurIdField}
+              className={classes.autocomplete}
+              validate={required("Mentionnez la catégorie")}
+              source="CatFn"
+              choices={[
+                { id: "FET", name: "Fourniture Equipement Travaux" },
+                { id: "Service", name: "Service" },
+              ]}
+              label="Catégorie de document"
+            />
+          </Grid>
+          {FourRasIR.RasIr === "Oui" ? (
+            <Grid item md={6}>
+              <SelectInput
+                className={classes.autocomplete}
+                source="EtatIR"
+                label="Etat Ras IR"
+                validate={
+                  FourRasIR.RasIr === "Oui"
+                    ? required("Etat RAS IR est obligatoire")
+                    : undefined
+                }
+                choices={[
+                  { id: "Oui", name: "Oui" },
+                  { id: "Non", name: "Non" },
+                ]}
+              />
+            </Grid>
+          ) : (
+            ""
+          )}
+        </Grid>
+        {ttc > 0 ? (
+          <div>
+            HT : {ht.toFixed(2)}
+            <br />
+            TVA : {tvainput.toFixed(2)} / Taux TVA :
+            {ttc > 0 ? `${((prctTVA - 1) * 100).toFixed(2)}%` : "0"}
+            <br />
+            TTC : {ttc}
+          </div>
         ) : (
           ""
         )}

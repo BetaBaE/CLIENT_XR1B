@@ -13,13 +13,16 @@ import {
   useDataProvider,
   useGetIdentity,
   useRedirect,
+  AutocompleteInput,
+  DateInput,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import apiUrl from "../../config";
 import Swal from "sweetalert2";
+import { Grid } from "@material-ui/core";
 const useStyles = makeStyles(() => ({
   autocomplete: {
-    width: "650px",
+    width: "95%",
   },
   chip: {
     fontWeight: "bold",
@@ -27,6 +30,12 @@ const useStyles = makeStyles(() => ({
 }));
 export const AvanceForupdateEdit = (props) => {
   const { identity, isLoading: identityLoading } = useGetIdentity();
+  const [designation, setDesignation] = useState([]);
+  const [ttc, setTTC] = useState(0);
+
+  const [tvainput, setTVAinput] = useState("");
+  const [ht, setHT] = useState(0);
+  const [prctTVA, setPrctTVA] = useState(1);
   const { record } = useEditController();
   console.log(record);
 
@@ -73,7 +82,20 @@ export const AvanceForupdateEdit = (props) => {
     var options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(string).toLocaleDateString([], options);
   }
+  useEffect(() => {
+    dataProvider1
+      .getList("designation", {
+        pagination: { page: 1, perPage: 3000 },
+        sort: { field: "id", order: "ASC" },
+      })
 
+      .then(({ data }) => {
+        setDesignation(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [dataProvider1]);
   useEffect(() => {
     dataProvider
       .getList("fournisseurs", {
@@ -93,17 +115,15 @@ export const AvanceForupdateEdit = (props) => {
       .then((response) => response.json())
       .then((json) => setFacture(json));
   };
-  let facture_choices = { id: "", BonCommande: "" };
-  let fournisseurs_choices = fournisseur.map(
-    ({ id, nom, CodeFournisseur }) => ({
+
+  let designation_choices = designation.map(
+    ({ id, designation, codeDesignation, PourcentageTVA }) => ({
       id: id,
-      name: `${nom} | ${CodeFournisseur} `,
+      name: `${codeDesignation}||${designation}`,
+      percent: PourcentageTVA,
     })
   );
-  facture_choices = facture.map(({ id, numeroFacture, TTC, DateFacture }) => ({
-    id: id,
-    name: `${numeroFacture} | ${TTC} DH | ${formatDate(DateFacture)}`,
-  }));
+
   useEffect(() => {
     dataProvider1
       .getList("chantier", {
@@ -129,82 +149,145 @@ export const AvanceForupdateEdit = (props) => {
   return (
     <Edit>
       <SimpleForm toolbar={<UserEditToolbar />}>
-        <FormDataConsumer>
-          {({ formData }) =>
-            formData.ficheNavette !== "Annuler" && (
-              <>
-                {/* <TextInput
+        <Grid container>
+          <FormDataConsumer>
+            {({ formData }) =>
+              formData.ficheNavette !== "Annuler" && (
+                <Grid item md={6}>
+                  {/* <TextInput
                   label="Fiche Navette"
                   className={classes.autocomplete}
                   source="ficheNavette"
                 /> */}
-                <SelectInput
-                  source="annulation"
-                  className={classes.autocomplete}
-                  onChange={(e) => {
-                    console.log(e.target.value);
-                    annuleAlert(e.target.value);
-                  }}
-                  // validate={required()}
-                  choices={[{ id: "Annuler", name: "Annuler" }]}
-                />
-              </>
-            )
-          }
-        </FormDataConsumer>
-
-        <TextInput
-          label="Bon commande"
-          className={classes.autocomplete}
-          source="BonCommande"
-        />
-
-        <NumberInput
-          label="MontantAvanceTTC"
-          className={classes.autocomplete}
-          min="10"
-          source="MontantAvanceTTC"
-          validate={required()}
-        />
-
-        <NumberInput
-          label="MontantAvanceHT"
-          className={classes.autocomplete}
-          min="10"
-          source="MontantAvanceHT"
-          validate={required()}
-        />
-
-        <NumberInput
-          label="MontantAvanceTVA"
-          className={classes.autocomplete}
-          min="0"
-          defaultValue={0}
-          source="MontantAvanceTVA"
-        />
-
-        <SelectInput
-          className={classes.autocomplete}
-          source="CatFn"
-          label="Catégorie Facture"
-          validate={required()}
-          choices={[
-            { id: "FET", name: "Fourniture Equipement Travaux" },
-            { id: "Service", name: "Service" },
-          ]}
-        />
-
-        {record.EtatIR === "Oui" ? (
-          <SelectInput
-            className={classes.autocomplete}
-            source="EtatIR"
-            label="Etat Ras IR"
-            validate={record.EtatIR ? required("") : undefined}
-            choices={[
-              { id: "Oui", name: "Oui" },
-              { id: "Non", name: "Non" },
-            ]}
-          />
+                  <SelectInput
+                    source="annulation"
+                    className={classes.autocomplete}
+                    onChange={(e) => {
+                      console.log(e.target.value);
+                      annuleAlert(e.target.value);
+                    }}
+                    // validate={required()}
+                    choices={[{ id: "Annuler", name: "Annuler" }]}
+                  />
+                </Grid>
+              )
+            }
+          </FormDataConsumer>
+          <Grid item md={6}>
+            <TextInput
+              // defaultValue={identity.fullName}
+              label="N° Proforma / Devis"
+              className={classes.autocomplete}
+              validate={required("N° Proforma / Devis est obligatoire")}
+              source="NdocAchat"
+            />
+          </Grid>
+          <Grid item md={6}>
+            <DateInput
+              // defaultValue={identity.fullName}
+              label="Date de document"
+              className={classes.autocomplete}
+              validate={required("Date de document est obligatoire")}
+              source="DateDocAchat"
+            />
+          </Grid>
+          <Grid item md={6}>
+            <TextInput
+              label="Bon commande"
+              className={classes.autocomplete}
+              source="BonCommande"
+            />
+          </Grid>
+          <Grid item md={6}>
+            <NumberInput
+              label="TTC"
+              className={classes.autocomplete}
+              min="10"
+              source="MontantAvanceTTC"
+              onChange={(e) => {
+                setTTC(e.target.value);
+                setHT(e.target.value / prctTVA);
+                setTVAinput(e.target.value - e.target.value / prctTVA);
+                e.target.value === "" ? setPrctTVA(1) : setPrctTVA(prctTVA);
+                // getTTC(e.target.value, PourcentageTva);
+              }}
+              validate={required()}
+            />
+          </Grid>
+          <Grid item md={6}>
+            <AutocompleteInput
+              label="designation"
+              validate={required("selectionnez la designation")}
+              className={classes.autocomplete}
+              source="idDesignation"
+              choices={designation_choices}
+              onChange={(e) => {
+                // console.log(e);
+                let prc = designation_choices.find((item) => item.id === e);
+                console.log(prc.percent);
+                setPrctTVA(prc.percent);
+                setHT(ttc / prc.percent);
+                let newht = ttc / prc.percent;
+                setTVAinput(ttc - newht);
+              }}
+            />
+          </Grid>
+          {/* <Grid item md={6}>
+            <NumberInput
+              label="MontantAvanceHT"
+              className={classes.autocomplete}
+              min="10"
+              source="MontantAvanceHT"
+              validate={required()}
+            />
+          </Grid>
+          <Grid item md={6}>
+            <NumberInput
+              label="MontantAvanceTVA"
+              className={classes.autocomplete}
+              min="0"
+              defaultValue={0}
+              source="MontantAvanceTVA"
+            />
+          </Grid> */}
+          <Grid item md={6}>
+            <SelectInput
+              className={classes.autocomplete}
+              source="CatFn"
+              label="Catégorie Facture"
+              validate={required()}
+              choices={[
+                { id: "FET", name: "Fourniture Equipement Travaux" },
+                { id: "Service", name: "Service" },
+              ]}
+            />
+          </Grid>
+          {record.EtatIR === "Oui" ? (
+            <Grid item md={6}>
+              <SelectInput
+                className={classes.autocomplete}
+                source="EtatIR"
+                label="Etat Ras IR"
+                validate={record.EtatIR ? required("") : undefined}
+                choices={[
+                  { id: "Oui", name: "Oui" },
+                  { id: "Non", name: "Non" },
+                ]}
+              />
+            </Grid>
+          ) : (
+            ""
+          )}
+        </Grid>
+        {ttc > 0 ? (
+          <div>
+            HT : {ht.toFixed(2)}
+            <br />
+            TVA : {tvainput.toFixed(2)} / Taux TVA :
+            {ttc > 0 ? `${((prctTVA - 1) * 100).toFixed(2)}%` : "0"}
+            <br />
+            TTC : {ttc}
+          </div>
         ) : (
           ""
         )}
