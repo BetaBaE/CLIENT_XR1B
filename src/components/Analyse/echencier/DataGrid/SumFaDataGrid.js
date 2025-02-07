@@ -78,8 +78,8 @@ const TableSumFA = ({ onRowClick }) => {
             <tr>
               <th onClick={() => requestSort1("codechantier")}>Chantier</th>
               <th onClick={() => requestSort1("totTTC")}>Total TTC</th>
-              <th onClick={() => requestSort1("MinDate")}>Min Date</th>
-              <th onClick={() => requestSort1("MaxDate")}>Max Date</th>
+              {/* <th onClick={() => requestSort1("MinDate")}>Min Date</th>
+              <th onClick={() => requestSort1("MaxDate")}>Max Date</th> */}
               <th onClick={() => requestSort1("NombreFacture")}>
                 Nomber Facture
               </th>
@@ -92,8 +92,8 @@ const TableSumFA = ({ onRowClick }) => {
                 <td className="my-custom-right-align">
                   {formatNumber(item.totTTC)}
                 </td>
-                <td>{item.MinDate.split("T00")[0]}</td>
-                <td>{item.MaxDate.split("T00")[0]}</td>
+                {/* <td>{item.MinDate.split("T00")[0]}</td>
+                <td>{item.MaxDate.split("T00")[0]}</td> */}
                 <td>{item.NombreFacture}</td>
               </tr>
             ))}

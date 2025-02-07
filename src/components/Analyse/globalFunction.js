@@ -20,3 +20,14 @@ export function formatNumber(num) {
   // Combine the integer and decimal parts
   return `${formattedInteger}.${formattedDecimal}`;
 }
+
+export function formatDateToFrench(dateString) {
+  // Create a Date object from the input string
+  const date = new Date(dateString);
+
+  // Options for formatting in French
+  const options = { year: "numeric", month: "long" };
+
+  // Format the date to "décembre 2024"
+  return date.toLocaleString("fr-FR", options);
+}

@@ -86,8 +86,8 @@ const DetailFactureFournisseur = ({ id }) => {
               <th onClick={() => requestSort1("chantier")}>Chantier</th>
               <th onClick={() => requestSort1("numeroFacture")}>N° Facture</th>
               <th onClick={() => requestSort1("DateFacture")}>Date</th>
-              <th onClick={() => requestSort1("HT")}>HT</th>
-              <th onClick={() => requestSort1("TVA")}>TVA</th>
+              {/* <th onClick={() => requestSort1("HT")}>HT</th>
+              <th onClick={() => requestSort1("TVA")}>TVA</th> */}
               <th onClick={() => requestSort1("TTC")}>TTC</th>
             </tr>
           </thead>
@@ -97,8 +97,8 @@ const DetailFactureFournisseur = ({ id }) => {
                 <td>{item.chantier}</td>
                 <td>{item.numeroFacture}</td>
                 <td>{item.DateFacture.split("T00")[0]}</td>
-                <td style={{ textAlign: "right" }}>{formatNumber(item.HT)}</td>
-                <td style={{ textAlign: "right" }}>{formatNumber(item.TVA)}</td>
+                {/* <td style={{ textAlign: "right" }}>{formatNumber(item.HT)}</td>
+                <td style={{ textAlign: "right" }}>{formatNumber(item.TVA)}</td> */}
                 <td style={{ textAlign: "right" }}>{formatNumber(item.TTC)}</td>
               </tr>
             ))}
