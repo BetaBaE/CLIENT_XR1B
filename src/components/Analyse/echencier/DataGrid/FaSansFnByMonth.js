@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./styles.css"; // Import the CSS for styling
 import apiUrl from "../../../../config";
-import { formatNumber } from "../../globalFunction";
 
 // SortableTable component
-const SituationFournisseur = ({ onRowClick }) => {
+const FaSansFnByMonth = ({ onRowClickFnCount }) => {
   const [dataTable1, setDataTable1] = useState([]);
   const [sortConfig1, setSortConfig1] = useState({
     key: "id",
@@ -16,15 +15,12 @@ const SituationFournisseur = ({ onRowClick }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response1 = await fetch(`${apiUrl}/situationfournisseurs`);
+        const response1 = await fetch(`${apiUrl}/countfafansfnBymonth`);
         const result1 = await response1.json();
         const formattedData1 = result1.map((four) => ({
           id: four.id,
-          nom: four.nom,
-          TotTTC: four.TotTTC,
-          MinDate: four.MinDate,
-          MaxDate: four.MaxDate,
-          NombreFacture: four.NombreFacture,
+          count: four.count,
+          NetAPaye: four.NetAPaye,
         }));
         setDataTable1(formattedData1);
       } catch (error) {
@@ -76,28 +72,21 @@ const SituationFournisseur = ({ onRowClick }) => {
         <table>
           <thead>
             <tr>
-              <th onClick={() => requestSort1("nom")}>Nom</th>
-              <th onClick={() => requestSort1("TotTTC")}>TotTTC</th>
+              <th onClick={() => requestSort1("id")}>Mois</th>
+              <th onClick={() => requestSort1("count")}>nombre de FA</th>
               {/* <th onClick={() => requestSort1("MinDate")}>MinDate</th>
               <th onClick={() => requestSort1("MaxDate")}>MaxDate</th> */}
-              <th onClick={() => requestSort1("NombreFacture")}>
-                NombreFacture
-              </th>
+              <th onClick={() => requestSort1("NetAPaye")}>Net A Paye</th>
             </tr>
           </thead>
           <tbody>
             {sortedData1.map((item) => (
-              <tr
-                key={item.id}
-                onClick={() => onRowClick(`${item.id}|${item.nom}`)}
-              >
-                <td>{item.nom}</td>
-                <td style={{ textAlign: "right" }}>
-                  {formatNumber(item.TotTTC)}
-                </td>
+              <tr key={item.id} onClick={() => onRowClickFnCount(`${item.id}`)}>
+                <td>{item.id}</td>
+                <td style={{ textAlign: "right" }}>{item.count}</td>
                 {/* <td>{item.MinDate.split("T00")[0]}</td>
                 <td>{item.MaxDate.split("T00")[0]}</td> */}
-                <td style={{ textAlign: "right" }}>{item.NombreFacture}</td>
+                <td style={{ textAlign: "right" }}>{item.NetAPaye}</td>
               </tr>
             ))}
           </tbody>
@@ -107,4 +96,4 @@ const SituationFournisseur = ({ onRowClick }) => {
   );
 };
 
-export default SituationFournisseur;
+export default FaSansFnByMonth;

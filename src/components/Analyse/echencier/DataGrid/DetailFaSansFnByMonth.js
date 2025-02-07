@@ -4,27 +4,28 @@ import apiUrl from "../../../../config";
 import { formatNumber } from "../../globalFunction";
 
 // SortableTable component
-const SituationFournisseur = ({ onRowClick }) => {
+const DetailFaSansFnByMonth = ({ id }) => {
   const [dataTable1, setDataTable1] = useState([]);
   const [sortConfig1, setSortConfig1] = useState({
     key: "id",
     direction: "ascending",
   });
+
   const [loading, setLoading] = useState(true);
 
   // Fetch data from two different endpoints
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response1 = await fetch(`${apiUrl}/situationfournisseurs`);
+        const response1 = await fetch(`${apiUrl}/detailfasansfnbymonth/${id}`);
         const result1 = await response1.json();
         const formattedData1 = result1.map((four) => ({
           id: four.id,
+          numeroFacture: four.numeroFacture,
+          DateFacture: four.DateFacture,
           nom: four.nom,
-          TotTTC: four.TotTTC,
-          MinDate: four.MinDate,
-          MaxDate: four.MaxDate,
-          NombreFacture: four.NombreFacture,
+          TTC: four.TTC,
+          cht: four.cht,
         }));
         setDataTable1(formattedData1);
       } catch (error) {
@@ -34,8 +35,11 @@ const SituationFournisseur = ({ onRowClick }) => {
       }
     };
 
-    fetchData();
-  }, []);
+    if (id) {
+      // Only fetch if id is not null
+      fetchData();
+    }
+  }, [id]);
 
   // Sorting logic for table 1
   const sortedData1 = React.useMemo(() => {
@@ -76,28 +80,25 @@ const SituationFournisseur = ({ onRowClick }) => {
         <table>
           <thead>
             <tr>
-              <th onClick={() => requestSort1("nom")}>Nom</th>
-              <th onClick={() => requestSort1("TotTTC")}>TotTTC</th>
-              {/* <th onClick={() => requestSort1("MinDate")}>MinDate</th>
-              <th onClick={() => requestSort1("MaxDate")}>MaxDate</th> */}
-              <th onClick={() => requestSort1("NombreFacture")}>
-                NombreFacture
-              </th>
+              <th onClick={() => requestSort1("cht")}>cht</th>
+              <th onClick={() => requestSort1("nom")}>nom</th>
+              <th onClick={() => requestSort1("numeroFacture")}>N° Facture</th>
+              <th onClick={() => requestSort1("DateFacture")}>Date</th>
+              {/* <th onClick={() => requestSort1("HT")}>HT</th>
+              <th onClick={() => requestSort1("TVA")}>TVA</th> */}
+              <th onClick={() => requestSort1("TTC")}>TTC</th>
             </tr>
           </thead>
           <tbody>
             {sortedData1.map((item) => (
-              <tr
-                key={item.id}
-                onClick={() => onRowClick(`${item.id}|${item.nom}`)}
-              >
+              <tr key={item.id}>
+                <td>{item.cht}</td>
                 <td>{item.nom}</td>
-                <td style={{ textAlign: "right" }}>
-                  {formatNumber(item.TotTTC)}
-                </td>
-                {/* <td>{item.MinDate.split("T00")[0]}</td>
-                <td>{item.MaxDate.split("T00")[0]}</td> */}
-                <td style={{ textAlign: "right" }}>{item.NombreFacture}</td>
+                <td>{item.numeroFacture}</td>
+                <td>{item.DateFacture.split("T00")[0]}</td>
+                {/* <td style={{ textAlign: "right" }}>{formatNumber(item.HT)}</td>
+                <td style={{ textAlign: "right" }}>{formatNumber(item.TVA)}</td> */}
+                <td style={{ textAlign: "right" }}>{formatNumber(item.TTC)}</td>
               </tr>
             ))}
           </tbody>
@@ -107,4 +108,4 @@ const SituationFournisseur = ({ onRowClick }) => {
   );
 };
 
-export default SituationFournisseur;
+export default DetailFaSansFnByMonth;
