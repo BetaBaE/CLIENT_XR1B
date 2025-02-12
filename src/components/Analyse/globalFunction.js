@@ -31,3 +31,8 @@ export function formatDateToFrench(dateString) {
   // Format the date to "décembre 2024"
   return date.toLocaleString("fr-FR", options);
 }
+
+export function truncateString(str, maxLength) {
+  if (!str || str.length <= maxLength) return str;
+  return str.slice(0, maxLength) + "...";
+}

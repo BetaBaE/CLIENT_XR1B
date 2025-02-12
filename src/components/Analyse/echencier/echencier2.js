@@ -29,6 +29,7 @@ export const SituationFn = () => {
   return (
     <Grid container spacing={2} justifyContent="space-around">
       <Title title="Situation FN" />
+
       <Grid item xs={12} sm={3}>
         <Card>
           <CardHeader title="Factures: Avec et Sans Fiche Navette" />
@@ -84,6 +85,7 @@ export const SituationFn = () => {
           </CardContent>
         </Card>
       </Grid>
+
       <Grid item xs={12} sm={5}>
         <Card>
           <CardHeader
