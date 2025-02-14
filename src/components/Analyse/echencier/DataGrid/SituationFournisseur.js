@@ -95,8 +95,8 @@ const SituationFournisseur = ({ onRowClick }) => {
                 <td style={{ textAlign: "right" }}>
                   {formatNumber(item.TotTTC)}
                 </td>
-                {/* <td>{item.MinDate.split("T00")[0]}</td>
-                <td>{item.MaxDate.split("T00")[0]}</td> */}
+                <td>{item.MinDate.split("T00")[0]}</td>
+                <td>{item.MaxDate.split("T00")[0]}</td>
                 <td style={{ textAlign: "right" }}>{item.NombreFacture}</td>
               </tr>
             ))}
