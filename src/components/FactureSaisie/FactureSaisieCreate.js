@@ -5,11 +5,14 @@ import {
   NumberInput,
   regex,
   required,
+  SaveButton,
   SelectInput,
   SimpleForm,
   TextInput,
+  Toolbar,
   useDataProvider,
   useGetIdentity,
+  useNotify,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import { useEffect, useState } from "react";
@@ -76,8 +79,18 @@ const Aside = ({ asideData }) => {
   );
 };
 
+const SaveButtonFA = ({ data }) => (
+  <Toolbar>
+    <SaveButton
+      disabled={data.length === 0 ? false : true}
+      // label="Create post"
+    />
+  </Toolbar>
+);
+
 export const FactureSaisieCreate = (props) => {
   const classes = useStyles();
+  const notify = useNotify();
   const [dateecheance, setdateecheance] = useState(null);
   // const [inputDateEcheance, setInputDateEcheance] = useState(null);
   const dataProvider1 = useDataProvider();
@@ -99,8 +112,62 @@ export const FactureSaisieCreate = (props) => {
   const [fournisseur, setFournisseur] = useState([]);
   const [chantier, setChantier] = useState([]);
   const { identity, isLoading: identityLoading } = useGetIdentity();
-  // console.log(identityLoading);
 
+  // check facture deplication
+  const [nfa, setNfa] = useState(null);
+  const [fdate, setfdate] = useState(null);
+  const [idf, setIdf] = useState(null);
+  const [data, setData] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        const response = await fetch(
+          `${apiUrl}/checkfacturecreation?filter=${encodeURIComponent(
+            JSON.stringify({ nfa, fdate, idf })
+          )}`
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result1 = await response.json();
+        if (!Array.isArray(result1)) {
+          console.error("Unexpected API response:", result1);
+          return;
+        }
+
+        const formattedData = result1.map((four) => ({
+          id: four.numeroFacture,
+          numeroFacture: four.numeroFacture,
+          DateFacture: four.DateFacture,
+          TVA: four.MontantTVA,
+          TTC: four.TTC,
+        }));
+
+        if (formattedData.length > 0) {
+          notify(`La facture ${formattedData[0].id} deja existe`, {
+            type: "warning",
+            autoHideDuration: 10000,
+          });
+        }
+
+        setData(formattedData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (nfa && fdate && idf) {
+      fetchData();
+    }
+  }, [nfa, fdate, idf]);
+  console.log(data);
   const [formData, setFormData] = useState({
     idfournisseur: null,
     DateFacture: null, // Initialize to null or the desired default value
@@ -203,33 +270,38 @@ export const FactureSaisieCreate = (props) => {
       const dateref = new Date(new Date().getFullYear(), 2, 31); // March 31 of the current year
       const dateFA = new Date(value.DateFacture);
       const todayDate = new Date();
-      console.log(dateFA);
+      const maxAllowedDate = new Date();
+      maxAllowedDate.setDate(todayDate.getDate() + 5); // Today + 5 days
 
-      // validation facture
-
-      if (todayDate <= dateref) {
-        // Before or on March 31 of the current year
-        if (
-          dateFA.getFullYear() === todayDate.getFullYear() ||
-          dateFA.getFullYear() === todayDate.getFullYear() - 1
-        ) {
-          console.log("OK: Valid facture date for this year or last year.");
-        } else {
-          // console.error("Error: Invalid facture year.");
-          errors.DateFacture =
-            "Année de facturation doit être égale à l'année saisie ou l'année dernière.";
-        }
+      // Validation: The invoice date must not exceed today + 5 days
+      if (dateFA > maxAllowedDate) {
+        errors.DateFacture =
+          "La date de facturation ne peut pas dépasser 5 jours à partir d'aujourd'hui.";
       } else {
-        // After March 31 of the current year
-        if (dateFA.getFullYear() === todayDate.getFullYear()) {
-          console.log("OK: Valid facture date for this year.");
+        // Existing validation logic
+        if (todayDate <= dateref) {
+          // Before or on March 31 of the current year
+          if (
+            dateFA.getFullYear() === todayDate.getFullYear() ||
+            dateFA.getFullYear() === todayDate.getFullYear() - 1
+          ) {
+            // Valid facture date for this year or last year
+          } else {
+            errors.DateFacture =
+              "Année de facturation doit être égale à l'année saisie ou l'année dernière.";
+          }
         } else {
-          // console.error("Error: Invalid facture year.");
-          errors.DateFacture =
-            "Année de facturation doit être égale à l'année saisie.";
+          // After March 31 of the current year
+          if (dateFA.getFullYear() === todayDate.getFullYear()) {
+            console.log("OK: Valid facture date for this year.");
+          } else {
+            errors.DateFacture =
+              "Année de facturation doit être égale à l'année saisie.";
+          }
         }
       }
     }
+
     if (!value.dateecheance) {
       errors.dateecheance = "La date d'échéance est obligatoire"; // Assuming dateecheance is required
     }
@@ -448,7 +520,10 @@ export const FactureSaisieCreate = (props) => {
 
   return (
     <Create label="ajouter" aside={<Aside asideData={asideData} {...props} />}>
-      <SimpleForm validate={validationFacture}>
+      <SimpleForm
+        toolbar={<SaveButtonFA data={data} />}
+        validate={validationFacture}
+      >
         <Grid container>
           <Grid item md={6}>
             <TextInput
@@ -469,6 +544,7 @@ export const FactureSaisieCreate = (props) => {
                 numerofacturevalidation,
               ]}
               className={classes.autocomplete}
+              onChange={(e) => setNfa(e.target.value)}
             />
           </Grid>
           <Grid item md={6}>
@@ -524,7 +600,7 @@ export const FactureSaisieCreate = (props) => {
               onBlur={handleBlur}
               className={classes.autocomplete}
             />
-            {loading && <Typography>Loading...</Typography>}{" "}
+            {/* {loading && <Typography>Loading...</Typography>}{" "} */}
           </Grid>
           <Grid item md={6}>
             <AutocompleteInput
@@ -535,6 +611,7 @@ export const FactureSaisieCreate = (props) => {
               choices={fournisseur_choices}
               onChange={async (e) => {
                 if (e) {
+                  setIdf(e);
                   const foundItem = fournisseur.find((item) => item.id === e);
                   setFourRasIR(foundItem || null);
                   setFormData({ ...formData, idfournisseur: e });
@@ -566,6 +643,8 @@ export const FactureSaisieCreate = (props) => {
               className={classes.autocomplete}
               onChange={async (event) => {
                 handleDateChange(event);
+                console.log("event", event.target.value);
+                setfdate(event.target.value);
                 // validationDateFacture(event.target.value);
               }}
             />
