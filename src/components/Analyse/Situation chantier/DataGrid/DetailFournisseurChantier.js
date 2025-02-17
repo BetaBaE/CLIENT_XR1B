@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
-import "./styles.css"; // Import the CSS for styling
+import { useEffect, useMemo, useState } from "react";
 import apiUrl from "../../../../config";
-import { formatNumber, truncateString } from "../../globalFunction";
+import "./styles.css";
+import { formatNumber } from "../../globalFunction";
 
-// SortableTable component
-const MonthDetailFournisseur = ({ id }) => {
+const DetailFournisseurChantier = ({ onRowClick2, chantier }) => {
   const [dataTable1, setDataTable1] = useState([]);
   const [sortConfig1, setSortConfig1] = useState({
-    key: "ttc",
-    direction: "descending",
+    key: "id",
+    direction: "ascending",
   });
 
   const [loading, setLoading] = useState(true);
@@ -16,15 +15,16 @@ const MonthDetailFournisseur = ({ id }) => {
   // Fetch data from two different endpoints
   useEffect(() => {
     const fetchData = async () => {
+      ///chantierdetailfournisser?date={"chantier":"A-2010"}
       try {
         const response1 = await fetch(
-          `${apiUrl}/atnerpaiementsfournisseur/${id}`
+          `${apiUrl}/chantierdetailfournisser?date={"chantier":"${chantier}"}`
         );
         const result1 = await response1.json();
         const formattedData1 = result1.map((four) => ({
-          id: four.id,
+          id: four.nom,
           nom: four.nom,
-          TTC: four.TTC,
+          SUMHT: four.SUMHT,
         }));
         setDataTable1(formattedData1);
       } catch (error) {
@@ -34,14 +34,14 @@ const MonthDetailFournisseur = ({ id }) => {
       }
     };
 
-    if (id) {
+    if (chantier) {
       // Only fetch if id is not null
       fetchData();
     }
-  }, [id]);
+  }, [chantier]);
 
   // Sorting logic for table 1
-  const sortedData1 = React.useMemo(() => {
+  const sortedData1 = useMemo(() => {
     let sortableItems = [...dataTable1];
     if (sortConfig1 !== null) {
       sortableItems.sort((a, b) => {
@@ -73,28 +73,32 @@ const MonthDetailFournisseur = ({ id }) => {
     return <div>Loading...</div>;
   }
 
-  return (
+  return dataTable1.length > 0 ? (
     <div className="my-custom-table">
       <div className="table-container">
         <table>
           <thead>
             <tr>
-              <th onClick={() => requestSort1("id")}>Fournisseur</th>
-              <th onClick={() => requestSort1("TTC")}>TTC</th>
+              <th onClick={() => requestSort1("id")}>nom</th>
+              <th onClick={() => requestSort1("SUMHT")}>HT de Mois</th>
             </tr>
           </thead>
           <tbody>
             {sortedData1.map((item) => (
-              <tr key={item.id}>
-                <td>{truncateString(item.id, 40)}</td>
-                <td style={{ textAlign: "right" }}>{formatNumber(item.TTC)}</td>
+              <tr key={item.id} onClick={() => onRowClick2(item.id)}>
+                <td>{item.id}</td>
+                <td style={{ textAlign: "right" }}>
+                  {formatNumber(item.SUMHT)}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
     </div>
+  ) : (
+    <div>Aucune Données disponible</div>
   );
 };
 
-export default MonthDetailFournisseur;
+export default DetailFournisseurChantier;

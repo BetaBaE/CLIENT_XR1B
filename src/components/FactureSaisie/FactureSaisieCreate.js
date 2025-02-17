@@ -166,7 +166,7 @@ export const FactureSaisieCreate = (props) => {
     if (nfa && fdate && idf) {
       fetchData();
     }
-  }, [nfa, fdate, idf]);
+  }, [nfa, fdate, idf, notify]);
   console.log(data);
   const [formData, setFormData] = useState({
     idfournisseur: null,

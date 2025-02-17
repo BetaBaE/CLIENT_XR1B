@@ -22,7 +22,7 @@ const PaiementByMonthGrid = ({ onRowClick }) => {
         const formattedData1 = result1.map((four) => ({
           id: four.id,
           name: four.name,
-          TTC: four.TTC,
+          TTC: four.TTCPay,
         }));
         setDataTable1(formattedData1);
       } catch (error) {

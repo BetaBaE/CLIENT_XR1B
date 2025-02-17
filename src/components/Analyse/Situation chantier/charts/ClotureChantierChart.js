@@ -1,5 +1,5 @@
 import { ListBase, WithListContext } from "react-admin";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   XAxis,
   YAxis,
@@ -28,34 +28,27 @@ const formatYAxisNumber = (num) => {
 
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
-    const { name, TTCPay, TTCfa, TTCAvg3 } = payload[0].payload;
+    const { mois, HT_mois, cumul1 } = payload[0].payload;
 
     return (
       <div
         style={{
           backgroundColor: "#fff",
-          padding: "3px",
+          padding: "5px",
           border: "0.1px solid #000",
-          fontSize: "18px",
         }}
       >
-        <p style={{ color: "#0088FE", fontWeight: 700 }}>{`Mois : ${name}`}</p>
+        <p style={{ color: "#0088FE", fontWeight: 700 }}>{`${mois}`}</p>
         <p>
-          {`PAI : `}
-          <span style={{ color: "#87ceeb", fontWeight: 600 }}>
-            {formatNumber(TTCPay)}
+          {`HT: `}
+          <span style={{ color: "#0088FE", fontWeight: 600 }}>
+            {formatNumber(HT_mois)}
           </span>
         </p>
         <p>
-          {`FA : `}
-          <span style={{ color: "#FF748B", fontWeight: 600 }}>
-            {formatNumber(TTCfa)}
-          </span>
-        </p>
-        <p>
-          {`MF3M: `}
+          {`Cumul: `}
           <span style={{ color: "#000039", fontWeight: 600 }}>
-            {formatNumber(TTCAvg3)}
+            {formatNumber(cumul1)}
           </span>
         </p>
       </div>
@@ -64,10 +57,11 @@ const CustomTooltip = ({ active, payload }) => {
   return null;
 };
 
-const PaimentByMonth = () => {
+const ClotureChantierChart = ({ chantier }) => {
   const [loading, setLoading] = useState(true);
   const [dataWithPercentageChange, setDataWithPercentageChange] = useState([]);
-  const route = `atnerpaiements`;
+  // chantier={%22id%22:%22A-9995%22}
+  const route = `clotuerchantier?chantier={%22id%22:%22${chantier}%22}&`;
 
   const processChartData = (data) => {
     if (!data || data.length === 0) return [];
@@ -75,13 +69,17 @@ const PaimentByMonth = () => {
       if (index === 0) {
         return { ...item, percentageChange: 0 };
       }
-      const previousValue = data[index - 1].TTCPay;
+      const previousValue = data[index - 1].HT_mois;
       const percentageChange =
-        ((item.TTCPay - previousValue) / previousValue) * 100;
+        ((item.HT_mois - previousValue) / previousValue) * 100;
       return { ...item, percentageChange };
     });
   };
 
+  useEffect(() => {
+    setLoading(true);
+    setDataWithPercentageChange([]);
+  }, [chantier]);
   return (
     <ListBase resource={route}>
       <WithListContext
@@ -107,32 +105,16 @@ const PaimentByMonth = () => {
                 margin={{ top: 5, right: 65, left: 20, bottom: 5 }}
               >
                 <CartesianGrid stroke="#eee" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="mois" />
                 <YAxis tickFormatter={formatYAxisNumber} />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend
                   verticalAlign="top"
                   wrapperStyle={{ lineHeight: "40px" }}
                 />
-                <Brush dataKey="name" height={30} stroke="#0088FE" />
-                <Bar
-                  dataKey="TTCPay"
-                  fill="#87ceeb"
-                  barSize={15}
-                  name="Paiement (PAI)"
-                />
-                <Bar
-                  dataKey="TTCfa"
-                  fill="#FF748B"
-                  barSize={15}
-                  name="Facturation (FA)"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="TTCAvg3"
-                  stroke="#000039"
-                  name="Moyenne Facturation 3 mois (MF3M)"
-                />
+                <Brush dataKey="mois" height={30} stroke="#0088FE" />
+                <Bar dataKey="HT_mois" fill="#87ceeb" barSize={15} name="HT" />
+                <Line dataKey="cumul1" stroke="#000039" name="Cumul" />
               </ComposedChart>
             </ResponsiveContainer>
           );
@@ -142,4 +124,4 @@ const PaimentByMonth = () => {
   );
 };
 
-export default PaimentByMonth;
+export default ClotureChantierChart;
