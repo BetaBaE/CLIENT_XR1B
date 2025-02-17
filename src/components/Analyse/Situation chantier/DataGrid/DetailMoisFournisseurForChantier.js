@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
-import "./styles.css"; // Import the CSS for styling
+import { useEffect, useMemo, useState } from "react";
 import apiUrl from "../../../../config";
-import { formatNumber, truncateString } from "../../globalFunction";
+import "./styles.css";
+import { formatNumber } from "../../globalFunction";
 
-// SortableTable component
-const MonthDetailFournisseur = ({ id }) => {
+const DetailMoisFournisseurForChantier = ({ chantier, nom }) => {
   const [dataTable1, setDataTable1] = useState([]);
   const [sortConfig1, setSortConfig1] = useState({
-    key: "ttc",
-    direction: "descending",
+    key: "id",
+    direction: "ascending",
   });
 
   const [loading, setLoading] = useState(true);
@@ -16,15 +15,17 @@ const MonthDetailFournisseur = ({ id }) => {
   // Fetch data from two different endpoints
   useEffect(() => {
     const fetchData = async () => {
+      //moisfournisseurforchantier?date={"chantier":"A-2010","nom":"ONEE"}
       try {
         const response1 = await fetch(
-          `${apiUrl}/atnerpaiementsfournisseur/${id}`
+          `${apiUrl}/moisfournisseurforchantier?date={"chantier":"${chantier}","nom":"${nom}"}`
         );
+
         const result1 = await response1.json();
         const formattedData1 = result1.map((four) => ({
-          id: four.id,
-          nom: four.nom,
-          TTC: four.TTC,
+          id: four.mois,
+          mois: four.mois,
+          SUMHT: four.SUMHT,
         }));
         setDataTable1(formattedData1);
       } catch (error) {
@@ -34,14 +35,14 @@ const MonthDetailFournisseur = ({ id }) => {
       }
     };
 
-    if (id) {
+    if (chantier) {
       // Only fetch if id is not null
       fetchData();
     }
-  }, [id]);
+  }, [chantier, nom]);
 
   // Sorting logic for table 1
-  const sortedData1 = React.useMemo(() => {
+  const sortedData1 = useMemo(() => {
     let sortableItems = [...dataTable1];
     if (sortConfig1 !== null) {
       sortableItems.sort((a, b) => {
@@ -73,28 +74,32 @@ const MonthDetailFournisseur = ({ id }) => {
     return <div>Loading...</div>;
   }
 
-  return (
+  return dataTable1.length > 0 ? (
     <div className="my-custom-table">
       <div className="table-container">
         <table>
           <thead>
             <tr>
-              <th onClick={() => requestSort1("id")}>Fournisseur</th>
-              <th onClick={() => requestSort1("TTC")}>TTC</th>
+              <th onClick={() => requestSort1("id")}>Mois</th>
+              <th onClick={() => requestSort1("SUMHT")}>Somme HT</th>
             </tr>
           </thead>
           <tbody>
             {sortedData1.map((item) => (
-              <tr key={item.id}>
-                <td>{truncateString(item.id, 40)}</td>
-                <td style={{ textAlign: "right" }}>{formatNumber(item.TTC)}</td>
+              <tr key={item.mois}>
+                <td>{item.mois}</td>
+                <td style={{ textAlign: "right" }}>
+                  {formatNumber(item.SUMHT)}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
     </div>
+  ) : (
+    <div>Aucune Données disponible</div>
   );
 };
 
-export default MonthDetailFournisseur;
+export default DetailMoisFournisseurForChantier;

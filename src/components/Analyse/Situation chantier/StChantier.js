@@ -6,6 +6,9 @@ import ClotureChantier from "./DataGrid/ClotureChantier";
 import Card from "@mui/material/Card";
 import { CardContent, CardHeader, Grid } from "@material-ui/core";
 import SummaryMonthChnatier from "./DataGrid/SummaryMonthChnatier";
+import ClotureChantierChart from "./charts/ClotureChantierChart";
+import DetailFournisseurChantier from "./DataGrid/DetailFournisseurChantier";
+import DetailMoisFournisseurForChantier from "./DataGrid/DetailMoisFournisseurForChantier";
 
 const StChantier = () => {
   const [inputValue, setInputValue] = useState("");
@@ -14,9 +17,14 @@ const StChantier = () => {
   const [currentFocus, setCurrentFocus] = useState(-1);
   const [countries, setCountries] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
+  const [selectedId2, setSelectedId2] = useState(null);
 
   const handleRowClick = (id) => {
     setSelectedId(id); // Set the selected ID when a row is clicked
+  };
+
+  const handleRowClick2 = (id) => {
+    setSelectedId2(id); // Set the selected ID when a row is clicked
   };
 
   useEffect(() => {
@@ -37,10 +45,12 @@ const StChantier = () => {
 
     fetchFourniseur();
   }, []);
+
   const handleItemClick = (country) => {
     setInputValue(country);
     setFilteredCountries([]);
   };
+
   const handleKeyDown = (e) => {
     if (e.keyCode === 40) {
       setCurrentFocus((prev) =>
@@ -55,6 +65,7 @@ const StChantier = () => {
       }
     }
   };
+
   const handleChange = (e) => {
     const value = e.target.value;
     setInputValue(value);
@@ -71,6 +82,7 @@ const StChantier = () => {
     setFilteredCountries(filtered);
     setCurrentFocus(-1);
   };
+
   const handleSubmit = () => {
     if (inputValue.trim()) {
       setDataToSend(inputValue.trim());
@@ -138,6 +150,26 @@ const StChantier = () => {
             title={
               dataToSend == null
                 ? "Saisir le Chantier"
+                : `${dataToSend.split(" | ")[1]} : Graphique de Clôture`
+            }
+          />
+          <CardContent>
+            {dataToSend == null ? (
+              "Saisir le Chantier"
+            ) : (
+              <>
+                <ClotureChantierChart chantier={dataToSend.split(" | ")[0]} />
+              </>
+            )}
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12} sm={3}>
+        <Card>
+          <CardHeader
+            title={
+              dataToSend == null
+                ? "Saisir le Chantier"
                 : `${dataToSend.split(" | ")[1]} : Détails de Clôture`
             }
           />
@@ -153,7 +185,7 @@ const StChantier = () => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12} sm={3}>
         <Card>
           {/* Détails STEP Azemmour - Trx - 2024-09 */}
           <CardHeader
@@ -175,7 +207,49 @@ const StChantier = () => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={6}></Grid>
+      <Grid item xs={12} sm={6}>
+        <Card>
+          <CardHeader
+            title={
+              dataToSend == null
+                ? "Saisir le Chantier"
+                : ` Détails : ${dataToSend}`
+            }
+          />
+          <CardContent>
+            {dataToSend == null ? (
+              "Saisir le Chantier"
+            ) : (
+              <DetailFournisseurChantier
+                chantier={dataToSend.split(" | ")[0]}
+                onRowClick2={handleRowClick2}
+              />
+            )}
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <Card>
+          {/* Détails STEP Azemmour - Trx - 2024-09 */}
+          <CardHeader
+            title={
+              dataToSend == null || selectedId2 == null
+                ? "Saisir le Chantier"
+                : ` Détails  ${dataToSend.split(" | ")[1]} | ${selectedId2}`
+            }
+          />
+          <CardContent>
+            {dataToSend == null || selectedId2 == null ? (
+              "Saisir le Chantier"
+            ) : (
+              <DetailMoisFournisseurForChantier
+                nom={selectedId2}
+                chantier={dataToSend.split(" | ")[0]}
+              />
+            )}
+          </CardContent>
+        </Card>
+      </Grid>
     </Grid>
   );
 };
