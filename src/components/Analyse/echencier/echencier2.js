@@ -60,7 +60,7 @@ export const SituationFn = () => {
 
       <Grid item xs={12} sm={3}>
         <Card>
-          <CardHeader title="FA sans FN: Total et Date" />
+          <CardHeader title="FA sans FN: Total" />
           <CardContent>
             <TableSumFA />
           </CardContent>

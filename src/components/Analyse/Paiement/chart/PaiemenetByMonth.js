@@ -53,7 +53,7 @@ const CustomTooltip = ({ active, payload }) => {
           </span>
         </p>
         <p>
-          {`MF3M: `}
+          {`SMP: `}
           <span style={{ color: "#000039", fontWeight: 600 }}>
             {formatNumber(TTCAvg3)}
           </span>
@@ -131,7 +131,7 @@ const PaimentByMonth = () => {
                   type="monotone"
                   dataKey="TTCAvg3"
                   stroke="#000039"
-                  name="Moyenne Facturation 3 mois (MF3M)"
+                  name="Seuil Min Paiement (SMP)"
                 />
               </ComposedChart>
             </ResponsiveContainer>

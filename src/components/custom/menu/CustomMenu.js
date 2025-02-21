@@ -291,6 +291,15 @@ export const CustomMenu = (props) => {
         permissions === "comptable PdT" ||
         permissions === "comptable") && (
         <SubMenu primaryText="Analyse" leftIcon={<ChevronRightIcon />}>
+          {permissions !== "consultation directeur" ? (
+            <Menu.Item
+              to="/atnerpaiements"
+              primaryText="ATNER Paiements"
+              leftIcon={<FaFileInvoiceDollar />}
+            />
+          ) : (
+            ""
+          )}
           <Menu.Item
             to="/echencier"
             primaryText="Échéancier"
@@ -311,15 +320,6 @@ export const CustomMenu = (props) => {
             primaryText="Situation Chantier"
             leftIcon={<FaFileInvoiceDollar />}
           />
-          {permissions !== "consultation directeur" ? (
-            <Menu.Item
-              to="/atnerpaiements"
-              primaryText="ATNER Paiements"
-              leftIcon={<FaFileInvoiceDollar />}
-            />
-          ) : (
-            ""
-          )}
         </SubMenu>
       )}
       {(permissions === "admin" || permissions === "direction générale") && (
