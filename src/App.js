@@ -1,7 +1,7 @@
 import { Admin, CustomRoutes, Resource } from "react-admin";
 import restProvider from "ra-data-simple-rest";
 
-import { FaTruck, FaCreditCard, FaLastfm } from "react-icons/fa";
+import { FaTruck, FaCreditCard } from "react-icons/fa";
 import { RibtempoList } from "./components/RIBtempo/RibtempoList";
 import { RibtempoCreate } from "./components/RIBtempo/RibtempoCreate";
 import { RibfournisseurList } from "./components/RIBFournisseurs/RibfournisseurList";
@@ -66,10 +66,10 @@ import { HistoriqueFactureList } from "./components/HistoriqueFacture/Historique
 // import { FactureValiderList } from "./components/FactureValider/FactureValiderList";
 // import { FactureValiderEdit } from "./components/FactureValider/FactureValiderEdit";
 import { FournisseurEdit } from "./components/Fournisseur/FournisseurEdit";
-import { EcheanceReeList } from "./components/EcheanceReelList/EcheanceReeList";
-import EcheanceReelCreate from "./components/EcheanceReelList/EcheanceReelCreate";
-import { EcheanceLoiList } from "./components/EcheanceLoi/EcheanceLoiList";
-import EcheanceLoiCreate from "./components/EcheanceLoi/EcheanceLoiCreate";
+// import { EcheanceReeList } from "./components/EcheanceReelList/EcheanceReeList";
+// import EcheanceReelCreate from "./components/EcheanceReelList/EcheanceReelCreate";
+// import { EcheanceLoiList } from "./components/EcheanceLoi/EcheanceLoiList";
+// import EcheanceLoiCreate from "./components/EcheanceLoi/EcheanceLoiCreate";
 import { AvanceRestituerDetatailList } from "./components/AvanceRestituerDetatail/AvanceRestituerDetatailList";
 import { AvanceForupdateList } from "./components/AvanceForupdate/AvanceForupdateList";
 import { AvanceForupdateEdit } from "./components/AvanceForupdate/AvanceForupdateEdit";
@@ -244,30 +244,7 @@ function App(props) {
             icon={FaCreditCard}
           />
         ) : null,
-        permissions === "admin" ||
-        permissions === "direction générale" ||
-        permissions === "normal user" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable PdT" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable" ? (
-          <Resource
-            name="EcheanceReel"
-            list={EcheanceReeList}
-            create={
-              permissions === "admin" ||
-              permissions === "normal user" ||
-              permissions === "comptable midelt" ||
-              permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite" ||
-              permissions === "comptable"
-                ? EcheanceReelCreate
-                : ""
-            }
-            icon={FaCreditCard}
-          />
-        ) : null,
+
         permissions === "admin" ||
         permissions === "direction générale" ||
         permissions === "normal user" ||
@@ -280,31 +257,6 @@ function App(props) {
             name="getAvanceDetailRestit"
             list={AvanceRestituerDetatailList}
             icon={FaTruck}
-          />
-        ) : null,
-
-        permissions === "admin" ||
-        permissions === "direction générale" ||
-        permissions === "normal user" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable PdT" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable" ? (
-          <Resource
-            name="EcheanceLoi"
-            list={EcheanceLoiList}
-            create={
-              permissions === "admin" ||
-              permissions === "normal user" ||
-              permissions === "comptable midelt" ||
-              permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite" ||
-              permissions === "comptable"
-                ? EcheanceLoiCreate
-                : ""
-            }
-            icon={FaLastfm}
           />
         ) : null,
 
