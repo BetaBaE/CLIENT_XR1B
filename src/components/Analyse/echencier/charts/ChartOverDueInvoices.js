@@ -118,12 +118,14 @@ const ChartOverDueInvoices = () => {
                 fill="#88c8ff"
                 barSize={30}
                 stackId="stack"
+                onClick={(e) => console.log(e)}
               />
               <Bar
                 dataKey="montantEnCours"
                 fill="#003461"
                 barSize={30}
                 stackId="stack"
+                onClick={(e) => console.log(e)}
               />
             </BarChart>
           </ResponsiveContainer>

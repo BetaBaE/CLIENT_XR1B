@@ -8,7 +8,6 @@ import {
   FaUserTie,
   FaUser,
   FaEquals,
-  FaRegMoneyBillAlt,
   FaPaperPlane,
   FaPrint,
 } from "react-icons/fa";
@@ -104,14 +103,19 @@ export const CustomMenu = (props) => {
             primaryText="RIB Fournisseurs"
             leftIcon={<FaCreditCard />}
           />
-          <Menu.Item
+          {/* <Menu.Item
             to="EcheanceReel"
             primaryText="Echeance Fournisseur Reel"
             leftIcon={<FaRegMoneyBillAlt />}
-          />
-          <Menu.Item
+          /> */}
+          {/* <Menu.Item
             to="EcheanceLoi"
             primaryText="Echeance Fournisseur Loi"
+            leftIcon={<FaEquals />}
+          /> */}
+          <Menu.Item
+            to="echeancefournisseur"
+            primaryText="Modalité Paiement"
             leftIcon={<FaEquals />}
           />
           <Menu.Item
