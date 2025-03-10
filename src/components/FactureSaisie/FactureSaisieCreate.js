@@ -34,25 +34,17 @@ const Aside = ({ asideData }) => {
 
   return (
     <Box sx={{ width: "40%", margin: "1em" }}>
-      <Typography fon variant="h4">
+      <Typography variant="h4">
         {`Donnée BC ${!asideData.Bc ? "" : asideData.Bc}`}
       </Typography>
-      <Typography fon variant="h6">
-        chantier : {asideData.chantier}
-      </Typography>
-      <Typography fon variant="h6">
-        Redacteur : {asideData.redacteur}
-      </Typography>
-      <Typography fon variant="h6">
+      <Typography variant="h6">chantier : {asideData.chantier}</Typography>
+      <Typography variant="h6">Redacteur : {asideData.redacteur}</Typography>
+      <Typography variant="h6">
         Fournisseur : {asideData.fournisseur}
       </Typography>
-      <Typography fon variant="h6">
-        BC TTC: {asideData.bcttc}
-      </Typography>
+      <Typography variant="h6">BC TTC: {asideData.bcttc}</Typography>
       <br />
-      <Typography fon variant="h4">
-        Donnée FA
-      </Typography>
+      <Typography variant="h4">Donnée FA</Typography>
       <div className="my-custom-table">
         <div className="table-container">
           <table>
@@ -99,6 +91,7 @@ export const FactureSaisieCreate = (props) => {
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
   const [designation, setDesignation] = useState([]);
   const [FourRasIR, setFourRasIR] = useState("");
+  const [fournisseurEche, setfournisseurEche] = useState("");
   const [asideData, setAsideData] = useState({
     chantier: "champe Boncommade est vide",
     redacteur: "champe Boncommade est vide",
@@ -118,6 +111,45 @@ export const FactureSaisieCreate = (props) => {
   const [fdate, setfdate] = useState(null);
   const [idf, setIdf] = useState(null);
   const [data, setData] = useState(false);
+
+  function calculateDaysBetweenDates(date1, date2) {
+    // Convert the date strings to Date objects
+    const startDate = new Date(date1);
+    const endDate = new Date(date2);
+
+    // Check if the dates are valid
+    // if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+    //   throw new Error("Invalid date");
+    // }
+
+    // Calculate the difference in milliseconds
+    const differenceInTime = endDate - startDate;
+
+    // Convert milliseconds to days
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+    return differenceInDays;
+  }
+  useEffect(() => {
+    if (fournisseurEche) {
+      let { EcheanceJR } = fournisseurEche;
+      if (EcheanceJR && fdate) {
+        const originalDate = new Date(fdate);
+
+        // Check if the date is valid
+        if (isNaN(originalDate.getTime())) {
+          throw new Error("Invalid date");
+        }
+
+        originalDate.setDate(originalDate.getDate() + EcheanceJR);
+
+        // Format the new date as YYYY-MM-DD
+        const newDate = originalDate.toISOString().split("T")[0];
+        setdateecheance(newDate); // Update state
+        console.log("newDate", newDate);
+      }
+    }
+  }, [fdate, fournisseurEche]); // Removed dateecheance from dependencies
 
   useEffect(() => {
     const fetchData = async () => {
@@ -304,20 +336,29 @@ export const FactureSaisieCreate = (props) => {
 
     if (!value.dateecheance) {
       errors.dateecheance = "La date d'échéance est obligatoire"; // Assuming dateecheance is required
+    } else if (
+      calculateDaysBetweenDates(value.DateFacture, value.dateecheance) < 0 ||
+      calculateDaysBetweenDates(value.DateFacture, value.dateecheance) > 119
+    ) {
+      errors.dateecheance =
+        "La date d'échéance doit être suprieur à la date de la facture et ne pas dépasser 120 jours";
     }
     if (!value.CatFn) {
       errors.CatFn = "Mentionnez la catégorie"; // Assuming dateecheance is required
     }
 
-    // Add any additional validations as needed
-    // For example, if you have specific validations for the date format
-    // if (value.dateecheance && !dateFormatRegex.test(value.dateecheance)) {
-    //   errors.dateecheance = "Format de date invalide, utilisez yyyy-mm-dd";
-    // }
-
     return errors;
   };
-
+  const getFournisseurEcheance = async (idfournisseur) => {
+    let url = `${apiUrl}/echeancebyfournisseur/${idfournisseur}`;
+    try {
+      const response = await fetch(url);
+      const json = await response.json();
+      setfournisseurEche(json);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   const getchantierByBCommande = async (Boncommande) => {
     let url = `${apiUrl}/getchantierbyBonCommande/${Boncommande}`;
 
@@ -326,9 +367,6 @@ export const FactureSaisieCreate = (props) => {
     try {
       const response = await fetch(url);
       const json = await response.json();
-      // setLibelleChantier(json);
-      // Update asideData only if the response has the expected structure
-      // console.log(json);
 
       if (json.BC.length > 0) {
         setAsideData({
@@ -374,93 +412,7 @@ export const FactureSaisieCreate = (props) => {
       .then((json) => json);
   };
 
-  const getEcheanceLoiByFournisseur = async (idfournisseur) => {
-    try {
-      const response = await fetch(
-        `${apiUrl}/getEcheanceLoibyfournisseur/${idfournisseur}`
-      );
-      const json = await response.json();
-
-      if (
-        !json ||
-        json.length === 0 ||
-        json[0].modalitePaiement === undefined
-      ) {
-        return null; // Retournez null si les données ne sont pas valides ou manquantes
-      }
-
-      return json[0].modalitePaiement; // Retournez directement la valeur de modalitePaiement
-    } catch (error) {
-      console.error("Error in getEcheanceLoiByFournisseur:", error);
-      throw error;
-    }
-  };
-
-  const getEcheanceReelByFournisseur = async (idfournisseur) => {
-    try {
-      const response = await fetch(
-        `${apiUrl}/getEcheanceReelbyfournisseur/${idfournisseur}`
-      );
-      const json = await response.json();
-
-      if (
-        !json ||
-        json.length === 0 ||
-        json[0].modalitePaiement === undefined
-      ) {
-        return null; // Retournez null si les données ne sont pas valides ou manquantes
-      }
-
-      return json[0].modalitePaiement;
-    } catch (error) {
-      console.error("Error in getEcheanceReelByFournisseur:", error);
-      throw error;
-    }
-  };
-
-  const getEcheanceByFournisseur = async (idfournisseur, DateFacture) => {
-    try {
-      let modalitePaiement = null;
-      const modaliteReel = await getEcheanceReelByFournisseur(idfournisseur);
-      if (modaliteReel !== null) {
-        modalitePaiement = modaliteReel.toString();
-      } else {
-        const modaliteLoi = await getEcheanceLoiByFournisseur(idfournisseur);
-        if (modaliteLoi !== null) {
-          modalitePaiement = modaliteLoi.toString();
-        } else {
-          let modalitePaiementDefault = 60;
-          modalitePaiement = modalitePaiementDefault.toString();
-        }
-      }
-
-      const modalitePaiementDays = parseInt(modalitePaiement, 10);
-      console.log("Modalité de paiement :", modalitePaiement);
-
-      let dateFacture = new Date(Date.parse(DateFacture));
-      if (modalitePaiement.endsWith("fm")) {
-        // Convertir la dateFacture à la fin du mois
-        dateFacture = new Date(
-          dateFacture.getFullYear(),
-          dateFacture.getMonth() + 1,
-          0
-        );
-      }
-
-      // console.log("date facture", dateFacture);
-
-      let dueDate = new Date(
-        dateFacture.getTime() + modalitePaiementDays * 24 * 60 * 60 * 1000
-      ); // Convertir les jours en millisecondes
-      // console.log("Date d'échéance : ", dueDate);
-      const dateEcheance = dueDate.toISOString().split("T")[0];
-      console.log("Date d'échéance formatée : ", dateEcheance);
-      return dateEcheance;
-    } catch (error) {
-      console.error("Erreur dans getEcheanceByFournisseur :", error);
-      throw error;
-    }
-  };
+  console.log(loading);
 
   const handleDateChange = async (event) => {
     const inputDate = event.target.value;
@@ -468,18 +420,19 @@ export const FactureSaisieCreate = (props) => {
     if (identityLoading) return <div>Loading...</div>;
     console.log("inputDate", inputDate);
     if (isValidPartialDate(inputDate)) {
-      try {
-        const dateEcheance = await getEcheanceByFournisseur(
-          formData.idfournisseur,
-          inputDate
-        );
-        setdateecheance(dateEcheance);
-      } catch (error) {
-        console.error("Error updating dateEcheance:", error);
-        setdateecheance(null); // Set dateEcheance to null in case of error
+      if (fournisseurEche) {
+        let { EcheanceJR } = fournisseurEche;
+
+        const originalDate = new Date(inputDate);
+
+        // Check if the date is valid
+        if (isNaN(originalDate.getTime())) {
+          throw new Error("Invalid date");
+        }
+
+        // Add the specified number of days
+        originalDate.setDate(originalDate.getDate() + EcheanceJR);
       }
-    } else {
-      setdateecheance(null); // Set dateEcheance to null if the inputDate is not valid
     }
   };
 
@@ -490,10 +443,6 @@ export const FactureSaisieCreate = (props) => {
     return regex.test(dateString);
   }
 
-  const dateFormatRegex = regex(
-    /^\d{4}-\d{2}-\d{2}$/,
-    "veuillez saisir une date de format aaaa-mm-dd"
-  );
   const getAvancePayénonRestituer = async (id) => {
     try {
       const avance_choices = await getavancebyfournisseur(id);
@@ -616,6 +565,10 @@ export const FactureSaisieCreate = (props) => {
                   setFourRasIR(foundItem || null);
                   setFormData({ ...formData, idfournisseur: e });
                   await getAvancePayénonRestituer(e);
+                  await getFournisseurEcheance(e);
+
+                  // document.querySelector("input[name='dateecheance']").value =
+                  //   "";
                 }
               }}
             />
@@ -635,7 +588,9 @@ export const FactureSaisieCreate = (props) => {
           <Grid item md={6}>
             <DateInput
               source="DateFacture"
+              name="DateFacture"
               label="date de la facture"
+              disabled={fournisseurEche ? false : true}
               validate={[
                 required("Date obligatoire"),
                 // validationDateFacture(datefacture),
@@ -645,6 +600,8 @@ export const FactureSaisieCreate = (props) => {
                 handleDateChange(event);
                 console.log("event", event.target.value);
                 setfdate(event.target.value);
+                // document.querySelector("input[name='dateecheance']").value =
+                //   dateecheance;
                 // validationDateFacture(event.target.value);
               }}
             />
@@ -657,16 +614,25 @@ export const FactureSaisieCreate = (props) => {
               choices={chantier_choices}
             />
           </Grid>
+
           <Grid item md={6}>
             <>
-              <TextInput
+              <DateInput
                 source="dateecheance"
+                disabled={fdate ? false : true}
                 className={classes.autocomplete}
-                label="format date Echeance: yyyy-mm-dd"
-                defaultValue={dateecheance} // Utiliser dateEcheance comme valeur
-                validate={dateFormatRegex}
+                label="Date Echeance"
+                defaultValue={dateecheance}
+                // onChange={(event) => setdateecheance(event.target.value)} // Handle change
               />
-              <>{dateecheance}</>
+              {dateecheance ? (
+                <p>
+                  {dateecheance}|Number of days until due date:
+                  {calculateDaysBetweenDates(fdate, dateecheance) + 1}
+                </p>
+              ) : (
+                ""
+              )}
             </>
           </Grid>
           {FourRasIR.RasIr === "Oui" ? (

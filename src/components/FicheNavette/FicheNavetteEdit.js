@@ -1,15 +1,15 @@
 import {
   Edit,
   FormDataConsumer,
+  required,
   SaveButton,
   SimpleForm,
   TextInput,
   Toolbar,
   useGetIdentity,
-  useRedirect,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
-import Swal from "sweetalert2";
+
 const useStyles = makeStyles(() => ({
   autocomplete: {
     width: "650px",
@@ -24,8 +24,6 @@ export const FicheNavetteEdit = (props) => {
       <SaveButton id="save" />
     </Toolbar>
   );
-
-  const redirect = useRedirect();
 
   const classes = useStyles();
   const { isLoading, error } = useGetIdentity();
@@ -42,6 +40,7 @@ export const FicheNavetteEdit = (props) => {
                   label="Fiche Navette"
                   className={classes.autocomplete}
                   source="ficheNavette"
+                  validate={required("Numero FN est obligatoire")}
                 />
                 {/* <SelectInput
                   source="annulation"

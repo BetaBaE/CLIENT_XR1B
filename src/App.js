@@ -89,6 +89,9 @@ import PaiementPage from "./components/Analyse/Paiement/PaiementPage";
 import { DesignationList } from "./components/Designations/DesignationList";
 import { DesignationEdit } from "./components/Designations/EditDesignation";
 import { DesignationCreate } from "./components/Designations/DesignationCreate";
+import { EcheancefournisseurList } from "./components/EcheanceFournisseur/EcheancefournisseurList";
+import { EcheancefournisseurEdit } from "./components/EcheanceFournisseur/EcheancefournisseurEdit";
+import { EcheancefournisseurCreate } from "./components/EcheanceFournisseur/EcheancefournisseurCreate";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -901,6 +904,21 @@ function App(props) {
         permissions === "comptable PdT" ||
         permissions === "comptable" ? (
           <Resource name="gettvalog" list={<TvalogList />} />
+        ) : null,
+        permissions === "admin" ||
+        permissions === "direction générale" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
+        permissions === "comptable" ? (
+          <Resource
+            name="echeancefournisseur"
+            list={EcheancefournisseurList}
+            edit={EcheancefournisseurEdit}
+            create={EcheancefournisseurCreate}
+          />
         ) : null,
         permissions === "admin" ||
         permissions === "direction générale" ||

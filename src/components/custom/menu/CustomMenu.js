@@ -115,6 +115,11 @@ export const CustomMenu = (props) => {
             leftIcon={<FaEquals />}
           />
           <Menu.Item
+            to="echeancefournisseur"
+            primaryText="Modalité Paiement"
+            leftIcon={<FaEquals />}
+          />
+          <Menu.Item
             to="Attestaion"
             primaryText="Attestation Fiscalité"
             leftIcon={<FaPaperPlane />}
