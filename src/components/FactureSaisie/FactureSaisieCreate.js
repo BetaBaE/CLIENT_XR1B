@@ -91,7 +91,7 @@ export const FactureSaisieCreate = (props) => {
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
   const [designation, setDesignation] = useState([]);
   const [FourRasIR, setFourRasIR] = useState("");
-  const [fournisseurEche, setfournisseurEche] = useState("");
+  const [fournisseurEche, setfournisseurEche] = useState(null);
   const [asideData, setAsideData] = useState({
     chantier: "champe Boncommade est vide",
     redacteur: "champe Boncommade est vide",
