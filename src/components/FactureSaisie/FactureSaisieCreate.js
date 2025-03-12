@@ -20,6 +20,7 @@ import Swal from "sweetalert2";
 import apiUrl from "../../config";
 import { Box, Grid, Typography } from "@material-ui/core";
 import "../Analyse/echencier/DataGrid/styles.css";
+import { useFormContext } from "react-hook-form";
 const useStyles = makeStyles(() => ({
   autocomplete: {
     width: "95%",
@@ -80,9 +81,84 @@ const SaveButtonFA = ({ data }) => (
   </Toolbar>
 );
 
+const getFournisseurEcheance = async (idfournisseur) => {
+  console.log(`Fetching Echeance for fournisseur ID: ${idfournisseur}`); // ✅ Debugging log
+  if (!idfournisseur) return null;
+
+  let url = `${apiUrl}/echeancebyfournisseur/${idfournisseur}`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+    const json = await response.json();
+    console.log("API Response:", json); // ✅ Debug API response
+    return json; // Expected: { EcheanceJR: number }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return null;
+  }
+};
+
+const AutoDateInput = () => {
+  const classes = useStyles();
+  const { watch, setValue } = useFormContext();
+  const [echeance, setEcheance] = useState(60); // Default: 60 days
+
+  const startDate = watch("DateFacture");
+  const fournisseurId = watch("idfournisseur");
+
+  useEffect(() => {
+    console.log("fournisseurId changed:", fournisseurId); // ✅ Debug if fournisseurId updates
+    if (!fournisseurId) return;
+
+    const fetchEcheance = async () => {
+      const fetchedEcheance = await getFournisseurEcheance(fournisseurId);
+
+      if (fetchedEcheance && fetchedEcheance.EcheanceJR) {
+        console.log("Updating echeance to:", fetchedEcheance.EcheanceJR);
+        setEcheance(() => fetchedEcheance.EcheanceJR); // ✅ Fix stale state issue
+      } else {
+        console.warn(
+          "No valid EcheanceJR received, keeping default:",
+          echeance
+        );
+      }
+    };
+
+    fetchEcheance();
+  }, [fournisseurId]); // ✅ Removed `echeance` from dependencies to prevent loops
+
+  useEffect(() => {
+    console.log("Calculating dateEcheance with echeance:", echeance); // ✅ Debug calculation
+
+    if (!startDate) return;
+
+    const originalDate = new Date(startDate);
+    const calculatedDate = new Date(
+      originalDate.getTime() + echeance * 24 * 60 * 60 * 1000
+    );
+
+    console.log(
+      "Setting new dateEcheance:",
+      calculatedDate.toISOString().split("T")[0]
+    );
+    setValue("dateecheance", calculatedDate.toISOString().split("T")[0]); // Format YYYY-MM-DD
+  }, [startDate, echeance, setValue]);
+
+  return (
+    <DateInput
+      source="dateecheance"
+      className={classes.autocomplete}
+      disabled={!startDate}
+      label="Date Échéance"
+    />
+  );
+};
+
 export const FactureSaisieCreate = (props) => {
   const classes = useStyles();
   const notify = useNotify();
+
   const [dateecheance, setdateecheance] = useState(null);
   // const [inputDateEcheance, setInputDateEcheance] = useState(null);
   const dataProvider1 = useDataProvider();
@@ -146,6 +222,7 @@ export const FactureSaisieCreate = (props) => {
         // Format the new date as YYYY-MM-DD
         const newDate = originalDate.toISOString().split("T")[0];
         setdateecheance(newDate); // Update state
+
         console.log("newDate", newDate);
       }
     }
@@ -617,24 +694,27 @@ export const FactureSaisieCreate = (props) => {
 
           <Grid item md={6}>
             <>
-              <DateInput
+              {/* <DateInput
                 source="dateecheance"
                 disabled={fdate ? false : true}
                 className={classes.autocomplete}
                 label="Date Echeance"
-                defaultValue={dateecheance}
+                // defaultValue={dateecheance}
+                value={dateecheance}
                 // onChange={(event) => setdateecheance(event.target.value)} // Handle change
-              />
+              /> */}
+              <AutoDateInput className={classes.autocomplete} />
               {dateecheance ? (
                 <p>
                   {dateecheance}|Number of days until due date:
-                  {calculateDaysBetweenDates(fdate, dateecheance) + 1}
+                  {calculateDaysBetweenDates(fdate, dateecheance)}
                 </p>
               ) : (
                 ""
               )}
             </>
           </Grid>
+          {/* <AutoDateInput className={classes.autocomplete} /> */}
           {FourRasIR.RasIr === "Oui" ? (
             <Grid item md={6}>
               <SelectInput
