@@ -126,6 +126,7 @@ const AutoDateInput = () => {
     };
 
     fetchEcheance();
+    // eslint-disable-next-line
   }, [fournisseurId]); // ✅ Removed `echeance` from dependencies to prevent loops
 
   useEffect(() => {
