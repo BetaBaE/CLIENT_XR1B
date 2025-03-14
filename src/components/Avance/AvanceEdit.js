@@ -12,11 +12,13 @@ import {
   useNotify,
   useRedirect,
   useRefresh,
+  useUpdate,
 } from "react-admin";
 import { makeStyles } from "@material-ui/styles";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import apiUrl from "../../config";
+import { useFormContext } from "react-hook-form";
 
 const useStyles = makeStyles(() => ({
   autocomplete: {
@@ -32,6 +34,60 @@ const UserEditToolbar = (props) => (
     <SaveButton id="save" disabled={props.disabled} />
   </Toolbar>
 );
+
+const MyToolbar = (props) => {
+  const [update, { isLoading }] = useUpdate();
+  const notify = useNotify();
+  const { getValues } = useFormContext();
+  const [showAlert, setShowAlert] = useState(false); // Starts hidden
+  const redirect = useRedirect();
+
+  const handleClick = (e) => {
+    e.preventDefault(); // Prevent default SaveButton submit behavior
+
+    const { id, ...data } = getValues();
+
+    update(
+      "Avance",
+      { id, data },
+      {
+        onSuccess: () => {
+          setShowAlert(true); // Show alert before processing
+          notify("Enregistrement des données...", { type: "info" });
+
+          setTimeout(() => {
+            setShowAlert(false); // Hide the alert after 5 sec
+            notify("Les données ont été traitées avec succès!", {
+              type: "success",
+            });
+            redirect("list", "Avance"); // Redirect after success
+          }, 5000);
+        },
+        onError: (error) => {
+          notify(`Error: ${error.message}`, { type: "error" });
+        },
+      }
+    );
+  };
+
+  return (
+    <Toolbar>
+      <SaveButton
+        type="button"
+        onClick={handleClick}
+        disabled={isLoading}
+        // disabled={props.disabled}
+      />
+
+      {/* Processing Alert */}
+      {showAlert && (
+        <div style={{ color: "blue", marginLeft: "10px" }}>
+          Traitement... ⏳
+        </div>
+      )}
+    </Toolbar>
+  );
+};
 
 export const AvanceEdit = (props) => {
   const classes = useStyles();
@@ -155,7 +211,7 @@ export const AvanceEdit = (props) => {
         </div>
       ) : (
         <SimpleForm
-          toolbar={<UserEditToolbar disabled={!isRefreshed} />}
+          toolbar={<MyToolbar disabled={!isRefreshed} />}
           validate={validateMontantRestantARestituer}
           save={handleSave}
         >
