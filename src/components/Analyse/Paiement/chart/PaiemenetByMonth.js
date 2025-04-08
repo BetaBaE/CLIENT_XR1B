@@ -9,7 +9,6 @@ import {
   Legend,
   ResponsiveContainer,
   Brush,
-  Line,
   ComposedChart,
 } from "recharts";
 import { formatNumber } from "../../globalFunction";
@@ -28,18 +27,25 @@ const formatYAxisNumber = (num) => {
 
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
-    const { name, TTCPay, TTCfa, TTCAvg3 } = payload[0].payload;
+    const {
+      name,
+      TTCPay,
+      TTCfa,
+      montantReglee,
+      montantEnCours,
+      montantSaisie,
+    } = payload[0].payload;
 
     return (
       <div
         style={{
           backgroundColor: "#fff",
-          padding: "3px",
+          padding: "2px",
           border: "0.1px solid #000",
-          fontSize: "18px",
+          fontSize: "14px",
         }}
       >
-        <p style={{ color: "#0088FE", fontWeight: 700 }}>{`Mois : ${name}`}</p>
+        <p style={{ color: "#0088FE", fontWeight: 600 }}>{`Mois : ${name}`}</p>
         <p>
           {`PAI : `}
           <span style={{ color: "#87ceeb", fontWeight: 600 }}>
@@ -48,14 +54,26 @@ const CustomTooltip = ({ active, payload }) => {
         </p>
         <p>
           {`FA : `}
-          <span style={{ color: "#FF748B", fontWeight: 600 }}>
+          <span style={{ color: "#007f66", fontWeight: 600 }}>
             {formatNumber(TTCfa)}
           </span>
         </p>
         <p>
-          {`SMP: `}
+          {`R: `}
           <span style={{ color: "#000039", fontWeight: 600 }}>
-            {formatNumber(TTCAvg3)}
+            {formatNumber(montantReglee)}
+          </span>
+        </p>
+        <p>
+          {`EC: `}
+          <span style={{ color: "#ffa500", fontWeight: 600 }}>
+            {formatNumber(montantEnCours)}
+          </span>
+        </p>
+        <p>
+          {`S: `}
+          <span style={{ color: "#FF748B", fontWeight: 600 }}>
+            {formatNumber(montantSaisie)}
           </span>
         </p>
       </div>
@@ -123,15 +141,38 @@ const PaimentByMonth = () => {
                 />
                 <Bar
                   dataKey="TTCfa"
-                  fill="#FF748B"
+                  fill="#007f66"
                   barSize={15}
                   name="Facturation (FA)"
                 />
-                <Line
+                {/* <Line
                   type="monotone"
                   dataKey="TTCAvg3"
                   stroke="#000039"
                   name="Seuil Min Paiement (SMP)"
+                /> */}
+
+                <Bar
+                  dataKey="montantReglee"
+                  fill="#88c888"
+                  barSize={15}
+                  stackId="stack"
+                  name="Reglee (R)"
+                  // onClick={(e) => console.log(e)}
+                />
+                <Bar
+                  dataKey="montantEnCours"
+                  fill="#ffa500"
+                  barSize={15}
+                  stackId="stack"
+                  name="En Cours (EC)"
+                />
+                <Bar
+                  dataKey="montantSaisie"
+                  fill="#FF748B"
+                  barSize={15}
+                  stackId="stack"
+                  name="Saisie (S)"
                 />
               </ComposedChart>
             </ResponsiveContainer>
