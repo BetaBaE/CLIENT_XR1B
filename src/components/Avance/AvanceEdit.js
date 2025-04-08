@@ -29,11 +29,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const UserEditToolbar = (props) => (
-  <Toolbar {...props}>
-    <SaveButton id="save" disabled={props.disabled} />
-  </Toolbar>
-);
+// const UserEditToolbar = (props) => (
+//   <Toolbar {...props}>
+//     <SaveButton id="save" disabled={props.disabled} />
+//   </Toolbar>
+// );
 
 const MyToolbar = (props) => {
   const [update, { isLoading }] = useUpdate();
