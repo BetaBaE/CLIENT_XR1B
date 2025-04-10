@@ -35,17 +35,17 @@ export const AvanceList = (props) => {
         >
           {/* <TextField source="chantier" label="chantier" /> */}
           <TextField source="catFournisseur" label="catFournisseur" />
-          <NumberField source="MontantAvanceTVA" label="MontantAvanceTVA" />
-          <NumberField source="MontantAvanceHT" label="MontantAvanceHT" />
-          <NumberField source="MontantAvanceTTC" label="MontantAvanceTTC" />
-          <TextField source="BonCommande" label="BonCommande" />
+          <NumberField source="MontantAvanceTVA" label="TVA" />
+          <NumberField source="MontantAvanceHT" label="HT" />
+          <NumberField source="MontantAvanceTTC" label="TTC" />
+          <NumberField source="Montant" label="Restant" />
+          <TextField source="BonCommande" label="BC" />
           <TextField source="nom" label="nom" />
-          <TextField source="CodeFournisseur" label="CodeFournisseur" />
-          <TextField source="ficheNavette" label="fiche navette" />
-
+          <TextField source="CodeFournisseur" label="Code Tier" />
+          <TextField source="ficheNavette" label="FN" />
           <TextField source="Etat" label="Etat" />
-          <TextField source="categorieDoc" label="categorieDoc" />
-          <TextField source="EtatRestit" label="EtatRestit" />
+          <TextField source="categorieDoc" label="Cat Doc" />
+          {/* <TextField source="EtatRestit" label="EtatRestit" /> */}
         </Datagrid>
       </List>
     </>
