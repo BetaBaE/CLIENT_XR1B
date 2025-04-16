@@ -341,12 +341,14 @@ export const VirementCreate = () => {
   };
 
   let orderVirement_choices = orderVirement.map(
-    ({ id, alert, dateExpiration }) => ({
+    ({ id, alert, dateExpiration, ligne }) => ({
       id: id,
       name:
         `${id}|${alert}|${dateExpiration}`.length < 40
-          ? `${id}`
-          : `⚠️${id} | ${alert} | le ${dateExpiration.split("T")[0]}⚠️`,
+          ? `${id} - ligne(s) ${ligne}`
+          : `⚠️${id} - ligne(s) ${ligne} | ${alert} | le ${
+              dateExpiration.split("T")[0]
+            }⚠️`,
     })
   );
   let fournisseurs_choices = fournisseur.map(
