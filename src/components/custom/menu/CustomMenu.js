@@ -58,22 +58,6 @@ export const CustomMenu = (props) => {
             primaryText="Designations"
             leftIcon={<FaFileInvoiceDollar />}
           />
-
-          {/* <Menu.Item
-            to="/FactureValider"
-            primaryText="Archivage Facture"
-            leftIcon={<FaFileInvoice />}
-          /> */}
-          {/* <Menu.Item
-            to="/historiquefacture"
-            primaryText="Historique Facture"
-            leftIcon={<FaFileInvoice />}
-          />
-          <Menu.Item
-            to="/getAvanceDetailRestit"
-            primaryText="AvanceRestituerDetatailList"
-            leftIcon={<FaBatteryEmpty />}
-          /> */}
         </SubMenu>
       )}
       {(permissions === "admin" ||
@@ -83,46 +67,48 @@ export const CustomMenu = (props) => {
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable PdT" ||
+        permissions === "achateur" ||
         permissions === "comptable") && (
         <SubMenu
           primaryText="Section Fournisseur"
           leftIcon={<ChevronRightIcon />}
         >
           <Menu.Item
+            to="tmpfournisseurs"
+            primaryText="Fournisseurs Achat"
+            leftIcon={<FaUserTie />}
+          />
+          <Menu.Item
             to="fournisseurs"
             primaryText="Fournisseurs"
             leftIcon={<FaUserTie />}
           />
-          <Menu.Item
-            to="ribtempo"
-            primaryText="RIB Temporaire"
-            leftIcon={<FaCreditCard />}
-          />
-          <Menu.Item
-            to="ribfournisseurs"
-            primaryText="RIB Fournisseurs"
-            leftIcon={<FaCreditCard />}
-          />
-          {/* <Menu.Item
-            to="EcheanceReel"
-            primaryText="Echeance Fournisseur Reel"
-            leftIcon={<FaRegMoneyBillAlt />}
-          /> */}
-          {/* <Menu.Item
-            to="EcheanceLoi"
-            primaryText="Echeance Fournisseur Loi"
-            leftIcon={<FaEquals />}
-          /> */}
-          <Menu.Item
-            to="echeancefournisseur"
-            primaryText="Modalité Paiement"
-            leftIcon={<FaEquals />}
-          />
-          <Menu.Item
-            to="Attestaion"
-            primaryText="Attestation Fiscalité"
-            leftIcon={<FaPaperPlane />}
-          />
+          {permissions !== "achateur" ? (
+            <>
+              <Menu.Item
+                to="ribtempo"
+                primaryText="RIB Temporaire"
+                leftIcon={<FaCreditCard />}
+              />
+              <Menu.Item
+                to="ribfournisseurs"
+                primaryText="RIB Fournisseurs"
+                leftIcon={<FaCreditCard />}
+              />
+              <Menu.Item
+                to="echeancefournisseur"
+                primaryText="Modalité Paiement"
+                leftIcon={<FaEquals />}
+              />
+              <Menu.Item
+                to="Attestaion"
+                primaryText="Attestation Fiscalité"
+                leftIcon={<FaPaperPlane />}
+              />{" "}
+            </>
+          ) : (
+            ""
+          )}
         </SubMenu>
       )}
 

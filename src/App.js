@@ -92,6 +92,9 @@ import { DesignationCreate } from "./components/Designations/DesignationCreate";
 import { EcheancefournisseurList } from "./components/EcheanceFournisseur/EcheancefournisseurList";
 import { EcheancefournisseurEdit } from "./components/EcheanceFournisseur/EcheancefournisseurEdit";
 import { EcheancefournisseurCreate } from "./components/EcheanceFournisseur/EcheancefournisseurCreate";
+import { FournisseurTmpCreate } from "./components/FournisseurTmp/FournissuerTmpCreate";
+import { TmpfournisseurList } from "./components/FournisseurTmp/TmpfournisseurList";
+import { TmpfournisseurEdit } from "./components/FournisseurTmp/TmpfournisseurEdit";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -152,6 +155,7 @@ function App(props) {
         permissions === "superviseur comptabilite midelt" ||
         permissions === "comptable PdT" ||
         permissions === "superviseur comptabilite" ||
+        permissions === "achateur" ||
         permissions === "comptable" ? (
           <Resource
             name="fournisseurs"
@@ -171,6 +175,33 @@ function App(props) {
                 : null
             }
             icon={FaTruck}
+          />
+        ) : null,
+        permissions === "admin" ||
+        permissions === "direction générale" ||
+        permissions === "normal user" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
+        permissions === "achateur" ||
+        permissions === "comptable" ? (
+          <Resource
+            lable="Fournisseurs Achat"
+            name="tmpfournisseurs"
+            list={TmpfournisseurList}
+            create={
+              permissions === "admin" || permissions === "achateur"
+                ? FournisseurTmpCreate
+                : null
+            }
+            edit={
+              permissions === "admin" ||
+              permissions === "superviseur comptabilite midelt" ||
+              permissions === "comptable midelt"
+                ? TmpfournisseurEdit
+                : null
+            }
           />
         ) : null,
         permissions === "admin" ||
