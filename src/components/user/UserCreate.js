@@ -46,6 +46,10 @@ export const UserCreate = () => (
             id: "consultation directeur",
             name: "Consultation directeur",
           },
+          {
+            id: "achateur",
+            name: "Achateur",
+          },
         ]}
       />
     </SimpleForm>
