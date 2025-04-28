@@ -25,7 +25,7 @@ const useStyles = makeStyles(() => ({
 const Aside = ({ asideData }) => {
   // Safely destructure with default empty object and array
   const { json = [] } = asideData || {};
-  console.log(json);
+  console.log("test", json);
 
   return (
     <Card sx={{ width: "40%", margin: "1em" }}>
