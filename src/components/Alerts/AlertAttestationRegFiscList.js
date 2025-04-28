@@ -5,10 +5,10 @@ export const AlertAttestationRegFiscList = () => (
     <Datagrid bulkActionButtons={false}>
       <TextField source="nom" />
       {/* <DateField source="dateDebut" /> */}
-      <DateField source="dateExpiration" />
-      <NumberField source="ExpiréDans" />
-      <TextField source="exonorer" />
-      <TextField source="catFournisseur" />
+      <DateField source="DateExpiration" />
+      <NumberField source="Restant" />
+      {/* <TextField source="exonorer" />
+      <TextField source="catFournisseur" /> */}
     </Datagrid>
   </List>
 );
