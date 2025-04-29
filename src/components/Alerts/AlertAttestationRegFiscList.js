@@ -7,8 +7,11 @@ export const AlertAttestationRegFiscList = () => (
       {/* <DateField source="dateDebut" /> */}
       <DateField source="DateExpiration" />
       <NumberField source="Restant" />
-      {/* <TextField source="exonorer" />
-      <TextField source="catFournisseur" /> */}
+      {/* 
+        
+      <TextField source="exonorer" />
+      <TextField source="catFournisseur" /> 
+      */}
     </Datagrid>
   </List>
 );

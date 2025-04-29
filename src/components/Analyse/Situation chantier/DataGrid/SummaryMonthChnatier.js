@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { formatNumber } from "../../globalFunction";
+import { formatNumber, truncateString } from "../../globalFunction";
 import apiUrl from "../../../../config";
 
 const SummaryMonthChnatier = ({ mois, chantier }) => {
@@ -83,7 +83,7 @@ const SummaryMonthChnatier = ({ mois, chantier }) => {
           <tbody>
             {sortedData1.map((item) => (
               <tr key={item.id}>
-                <td>{item.id}</td>
+                <td>{truncateString(item.id, 20)}</td>
                 <td style={{ textAlign: "right" }}>
                   {formatNumber(item.HTMois)}
                 </td>
