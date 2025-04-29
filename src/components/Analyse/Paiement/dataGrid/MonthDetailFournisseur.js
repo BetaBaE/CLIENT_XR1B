@@ -86,7 +86,7 @@ const MonthDetailFournisseur = ({ id }) => {
           <tbody>
             {sortedData1.map((item) => (
               <tr key={item.id}>
-                <td>{truncateString(item.id, 40)}</td>
+                <td>{truncateString(item.id, 30)}</td>
                 <td style={{ textAlign: "right" }}>{formatNumber(item.TTC)}</td>
               </tr>
             ))}

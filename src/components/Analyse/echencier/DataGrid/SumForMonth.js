@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./styles.css"; // Import the CSS for styling
 import apiUrl from "../../../../config";
-import { formatNumber } from "../../globalFunction";
+import { formatNumber, truncateString } from "../../globalFunction";
 
 // SortableTable component
 const SumForMonth = ({ id }) => {
@@ -88,7 +88,7 @@ const SumForMonth = ({ id }) => {
           <tbody>
             {sortedData1.map((item) => (
               <tr key={item.id}>
-                <td>{item.id}</td>
+                <td>{truncateString(item.id, 10)}</td>
                 <td style={{ textAlign: "right" }}>
                   {formatNumber(item.TotalFournisseur)}
                 </td>

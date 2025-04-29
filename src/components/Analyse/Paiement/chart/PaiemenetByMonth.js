@@ -60,7 +60,7 @@ const CustomTooltip = ({ active, payload }) => {
         </p>
         <p>
           {`R: `}
-          <span style={{ color: "#000039", fontWeight: 600 }}>
+          <span style={{ color: "#88c888", fontWeight: 600 }}>
             {formatNumber(montantReglee)}
           </span>
         </p>
