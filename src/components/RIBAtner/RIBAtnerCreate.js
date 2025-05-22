@@ -11,7 +11,7 @@ import { useTheme } from "@mui/material/styles";
 
 // Composant principal pour la création d'un RIB Atner
 export const RIBAtnerCreate = () => {
-  const { identity, isLoading: identityLoading } = useGetIdentity(); // Récupération de l'identité de l'utilisateur connecté
+  const { identity, isLoading, error } = useGetIdentity();
   const theme = useTheme(); // Utilisation du thème Material-UI
   // Effet pour désactiver l'autocomplétion des champs après le chargement du DOM
   useEffect(() => {
@@ -24,9 +24,6 @@ export const RIBAtnerCreate = () => {
       inputnom.autocomplete = "off";
     }
   }, []);
-
-  // Utilisation des styles définis plus haut
-  const { isLoading, error } = useGetIdentity(); // Récupération de l'état de chargement et des erreurs de l'identité de l'utilisateur
 
   // Affichage d'un message de chargement ou d'erreur si nécessaire
   if (isLoading) return <>Loading</>;

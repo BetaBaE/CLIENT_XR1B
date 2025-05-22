@@ -18,7 +18,7 @@ import { useTheme } from "@mui/material/styles";
 export const EspeceCreate = (props) => {
   const theme = useTheme();
   const redirect = useRedirect();
-  const { identity, isLoading: identityLoading } = useGetIdentity();
+  const { identity, isLoading, error } = useGetIdentity(); // Single call
   const [fournisseur, setFournisseur] = useState([]);
   const [facture, setFacture] = useState([{ id: "", BonCommande: "" }]);
   const dataProvider = useDataProvider();
@@ -180,7 +180,6 @@ export const EspeceCreate = (props) => {
     setSum(sum.toFixed(3));
   };
 
-  const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Chargement...</>;
   if (error) return <>Erreur</>;
 

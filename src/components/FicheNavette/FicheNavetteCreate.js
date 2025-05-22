@@ -29,7 +29,7 @@ export const FicheNavetteCreate = (props) => {
   const [chantierIdField, setChantierIdField] = useState(false);
   const [selectedCodeChantier, setSelectedCodeChantier] = useState("");
   const [selectedCategorieFacture, setSelectedCategorieFacture] = useState("");
-  const { identity, isLoading: identityLoading } = useGetIdentity();
+  const { identity, isLoading, error } = useGetIdentity(); // Single call
 
   useEffect(() => {
     const fetchFournisseurs = async () => {
@@ -107,6 +107,9 @@ export const FicheNavetteCreate = (props) => {
     id: id,
     name: `${LIBELLE} | ${id} `,
   }));
+
+  if (isLoading) return <>Loading</>;
+  if (error) return <>Error</>;
 
   return (
     <Create>

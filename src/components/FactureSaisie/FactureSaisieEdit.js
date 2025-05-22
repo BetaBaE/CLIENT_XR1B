@@ -41,7 +41,7 @@ export const FactureSaisieEdit = () => {
       <SaveButton id="save" />
     </Toolbar>
   );
-  const { isPending, permissions } = usePermissions();
+  const { permissions } = usePermissions();
   const annuleAlert = (params) => {
     if (params === "Annuler") {
       Swal.fire({

@@ -11,7 +11,7 @@ import {
 import { useTheme } from "@mui/material/styles";
 export const OrdervirementCreate = () => {
   const theme = useTheme();
-  const { identity, isLoading: identityLoading } = useGetIdentity();
+  const { identity, isLoading, error } = useGetIdentity(); // Single call
   const dataProvider = useDataProvider();
   const [ribAtner, setribAtner] = useState([]);
   useEffect(() => {
@@ -45,7 +45,6 @@ export const OrdervirementCreate = () => {
     name: `(${nom}) ${rib}`,
   }));
 
-  const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
   if (error) return <>Error</>;
   return (

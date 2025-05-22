@@ -1,22 +1,7 @@
 import React from "react";
 import { Datagrid, List, NumberField, TextField } from "react-admin";
-import { styled } from "@mui/material/styles";
+
 import AvanceFilter from "./AvanceForupdateFilter";
-
-// Style header cells
-const StyledDatagrid = styled(Datagrid)(({ theme }) => ({
-  "& .RaDatagrid-headerCell": {
-    backgroundColor: "#def2ff",
-    color: "white",
-    fontWeight: "bold",
-  },
-}));
-
-// Row striping function
-const rowStyle = (record, index) => ({
-  backgroundColor: index % 2 === 1 ? "#def2ff" : undefined,
-  borderBottom: "none",
-});
 
 export const AvanceForupdateList = (props) => (
   <List filters={<AvanceFilter />} title="Avance" {...props}>

@@ -1,23 +1,9 @@
 import React from "react";
 import { List, Datagrid, NumberField, TextField } from "react-admin";
-import { styled } from "@mui/material/styles";
 import AideRestit from "./AideRestit";
 import AvanceFilter from "./AvanceFilter";
 
 // Styled header cells
-const StyledDatagrid = styled(Datagrid)(({ theme }) => ({
-  "& .RaDatagrid-headerCell": {
-    backgroundColor: "#def2ff",
-    color: "white",
-    fontWeight: "bold",
-  },
-}));
-
-// Function to stripe rows
-const rowStyle = (record, index) => ({
-  backgroundColor: index % 2 === 0 ? undefined : "#def2ff",
-  borderBottom: index === record.length - 1 ? 0 : undefined, // react-admin handles borders well, this can be omitted
-});
 
 export const AvanceList = (props) => (
   <>

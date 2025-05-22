@@ -3,7 +3,6 @@
 import {
   DateInput,
   Edit,
-  FormDataConsumer,
   required,
   SaveButton,
   SelectInput,
@@ -16,11 +15,6 @@ import {
 import Swal from "sweetalert2";
 import { useTheme } from "@mui/material/styles";
 // Composant personnalisé pour la barre d'outils de l'édition d'utilisateur
-const UserEditToolbar = (props) => (
-  <Toolbar {...props}>
-    <SaveButton id="save" />
-  </Toolbar>
-);
 
 // Composant ChequeEdit pour éditer les chèques
 export const ChequeEdit = (props) => {
@@ -67,7 +61,7 @@ export const ChequeEdit = (props) => {
   return (
     <Edit {...props}>
       {/* Formulaire simple pour l'édition d'un chèque */}
-      <SimpleForm toolbar={<UserEditToolbar />}>
+      <SimpleForm toolbar={<EditToolbar />}>
         <DateInput
           source="dateOperation"
           label="Date d'opération"

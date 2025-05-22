@@ -13,7 +13,7 @@ import { useTheme } from "@mui/material/styles";
 
 // Composant principal pour la création d'un ordre de virement de fonds
 export const OrdervirementFondCreate = () => {
-  const { identity, isLoading: identityLoading } = useGetIdentity(); // Récupération de l'identité de l'utilisateur
+  const { identity, isLoading, error } = useGetIdentity(); // Single call
   const dataProvider = useDataProvider(); // Récupération du fournisseur de données
   const [ribAtner, setRibAtner] = useState([]); // État pour stocker les données RIB
   const theme = useTheme();
@@ -51,7 +51,6 @@ export const OrdervirementFondCreate = () => {
 
   // Utilisation des styles définis plus haut
 
-  const { isLoading, error } = useGetIdentity(); // Récupération des états de chargement et d'erreur pour l'identité
   if (isLoading) return <>Loading</>; // Affichage du texte de chargement si l'identité est en cours de chargement
   if (error) return <>Error</>; // Affichage du texte d'erreur en cas d'erreur
 
