@@ -7,21 +7,12 @@ import {
 } from "react-admin";
 import { required } from "react-admin";
 import "../Analyse/echencier/DataGrid/styles.css";
-import { makeStyles } from "@material-ui/core";
+
 import Card from "@mui/material/Card";
-import { CardContent, CardHeader } from "@material-ui/core";
+import { CardContent, CardHeader } from "@mui/material";
 import { useState } from "react";
 import apiUrl from "../../config";
-
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px", // Largeur des champs d'autocomplétion
-  },
-  chip: {
-    fontWeight: "bold", // Style de police en gras pour les étiquettes
-  },
-}));
-
+import { useTheme } from "@mui/material/styles";
 const Aside = ({ asideData }) => {
   // Safely destructure with default empty object and array
   const { json = [] } = asideData || {};
@@ -86,7 +77,7 @@ export const FournisseurTmpCreate = (props) => {
   const { identity, isLoading, error } = useGetIdentity(); // Single call for identity
   const [loading, setLoading] = useState(false); // Loading state
   const [asideData, setAsideData] = useState([]);
-  const classes = useStyles();
+  const theme = useTheme();
 
   if (isLoading) return <div>Chargement en cours...</div>;
   if (error) return <div>Une erreur est survenue.</div>;
@@ -141,7 +132,15 @@ export const FournisseurTmpCreate = (props) => {
           label="Vous êtes"
           disabled
           source="Redacteur"
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           inputProps={{ autoComplete: "off" }}
         />
 
@@ -151,7 +150,15 @@ export const FournisseurTmpCreate = (props) => {
           source="nom"
           validate={required("Le nom est obligatoire")}
           onChange={handleBlur}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           inputProps={{ autoComplete: "off" }}
         />
 
@@ -164,7 +171,7 @@ export const FournisseurTmpCreate = (props) => {
             { id: "personne morale", name: "Personne Morale" },
           ]}
           validate={required("La catégorie est obligatoire")}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
         />
       </SimpleForm>
     </Create>

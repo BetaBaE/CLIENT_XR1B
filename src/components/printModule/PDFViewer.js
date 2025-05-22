@@ -1,5 +1,5 @@
 import Card from "@mui/material/Card";
-import { CardContent, CardHeader, Grid } from "@material-ui/core";
+import { CardContent, CardHeader, Grid } from "@mui/material";
 
 const PdfViewer = ({ base64, title }) => {
   // Create a Data URL from the Base64 string

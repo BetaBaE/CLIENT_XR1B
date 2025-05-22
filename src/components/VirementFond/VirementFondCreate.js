@@ -8,26 +8,12 @@ import {
   TextInput,
   useGetIdentity,
 } from "react-admin";
-import { makeStyles } from "@material-ui/styles";
+import { useTheme } from "@mui/material/styles";
 import apiUrl from "../../config";
-
-// Styles personnalisés pour le formulaire
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px", // Largeur des champs de saisie
-  },
-  chip: {
-    fontWeight: "bold", // Style pour les chips (non utilisé ici)
-  },
-  // Styles pour SweetAlert
-  "swal2-popup.swal2-left": {
-    right: 0,
-    transform: "translateX(0)",
-  },
-}));
 
 // Composant pour la création d'un virement
 export const VirementFondCreate = () => {
+  const theme = useTheme();
   // eslint-disable-next-line no-unused-vars
   const { identity, isLoading: identityLoading } = useGetIdentity(); // Récupération de l'identité de l'utilisateur
   const [orderVirement, setOrderVirement] = useState([
@@ -76,7 +62,6 @@ export const VirementFondCreate = () => {
     name: `${nom}|||${rib}`,
   }));
 
-  const classes = useStyles();
   const { isLoading, error } = useGetIdentity(); // Vérification de l'état de chargement de l'identité
   if (isLoading) return <>Loading</>; // Affichage d'un message de chargement
   if (error) return <>Error</>; // Affichage d'un message d'erreur
@@ -88,13 +73,22 @@ export const VirementFondCreate = () => {
           defaultValue={identity?.fullName} // Affichage du nom de l'utilisateur
           label="vous êtes"
           hidden={false}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           disabled={true} // Champ désactivé
           source="Redacteur"
         />
         <SelectInput
           validate={required("Ce champ est obligatoire")} // Validation requise
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="orderVirementFondId"
           onChange={(e) => {
             if (e.target.value === "") {
@@ -109,14 +103,32 @@ export const VirementFondCreate = () => {
         <AutocompleteInput
           validate={required("Ce champ est obligatoire")} // Validation requise
           disabled={orderVirementField} // Champ désactivé si nécessaire
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="RibAtnerDestId"
           choices={ribAtner_choices}
         />
 
         <TextInput
           validate={[required("Le Montant est obligatoire")]} // Validation requise
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="montantVirement"
         />
       </SimpleForm>

@@ -13,17 +13,8 @@ import {
   SimpleFormIterator,
   DateInput,
 } from "react-admin";
-import { makeStyles } from "@material-ui/styles";
-import apiUrl from "../../config";
 
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
+import apiUrl from "../../config";
 
 const formatDate = (string) => {
   const options = { year: "numeric", month: "long", day: "numeric" };
@@ -40,10 +31,10 @@ export const FactureRechereCreate = (props) => {
   const [factureidField, setFactureidField] = useState(true);
   const [chantierIdField, setChantierIdField] = useState(false);
   const [selectedCodeChantier, setSelectedCodeChantier] = useState("");
-  const [selectedCategorieFournisseur, setselectedCategorieFournisseur] = useState("");
+  const [selectedCategorieFournisseur, setselectedCategorieFournisseur] =
+    useState("");
   const [selectedSupplierCategory, setSelectedSupplierCategory] = useState(""); // State for supplier category
   const { identity, isLoading: identityLoading } = useGetIdentity();
-  const classes = useStyles();
 
   useEffect(() => {
     const fetchFournisseurs = async () => {
@@ -95,16 +86,20 @@ export const FactureRechereCreate = (props) => {
       });
   };
 
-  const fournisseurs_choices = fournisseur.map(({ id, nom, CodeFournisseur, catFournisseur }) => ({
-    id: id,
-    name: `${nom} | ${CodeFournisseur} `,
-    categorie: catFournisseur, // Add category to the choices
-  }));
+  const fournisseurs_choices = fournisseur.map(
+    ({ id, nom, CodeFournisseur, catFournisseur }) => ({
+      id: id,
+      name: `${nom} | ${CodeFournisseur} `,
+      categorie: catFournisseur, // Add category to the choices
+    })
+  );
 
-  const facture_choices = facture.map(({ id, numeroFacture, TTC, DateFacture }) => ({
-    id: id,
-    name: `${numeroFacture} | ${TTC} DH | ${formatDate(DateFacture)}`,
-  }));
+  const facture_choices = facture.map(
+    ({ id, numeroFacture, TTC, DateFacture }) => ({
+      id: id,
+      name: `${numeroFacture} | ${TTC} DH | ${formatDate(DateFacture)}`,
+    })
+  );
 
   const catfn_choices = facture.map(({ CatFn }) => ({
     id: CatFn,
@@ -120,7 +115,10 @@ export const FactureRechereCreate = (props) => {
   if (isLoading) return <>Loading</>;
   if (error) return <>Error</>;
 
-  const validateBc = regex(/^CF[0-9]{3}[0-9]{3}$/, "Ce bon de commande n'est pas valide");
+  const validateBc = regex(
+    /^CF[0-9]{3}[0-9]{3}$/,
+    "Ce bon de commande n'est pas valide"
+  );
 
   return (
     <Create>
@@ -129,15 +127,15 @@ export const FactureRechereCreate = (props) => {
           defaultValue={identity.fullName}
           label="Vous êtes"
           hidden={false}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           disabled={true}
           source="fullName"
         />
 
-<AutocompleteInput
+        <AutocompleteInput
           label="Fournisseur"
           validate={required("Le fournisseur est obligatoire")}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="idfournisseur"
           choices={fournisseurs_choices}
           onChange={(e) => {
@@ -148,20 +146,24 @@ export const FactureRechereCreate = (props) => {
               setFactureSelected(null); // Clear selected facture
               setSelectedSupplierCategory(""); // Clear selected supplier category
             } else {
-              const selectedFournisseur = fournisseurs_choices.find((f) => f.id === e);
+              const selectedFournisseur = fournisseurs_choices.find(
+                (f) => f.id === e
+              );
               setFournisseurIdField(false);
               setChantierIdField(true);
               fetchFactureByFournisseur(e);
               fetchChantier();
               setSelectedSupplierCategory(selectedFournisseur.categorie); // Set selected supplier category
-           console.log("selectedFournisseur.catFournisseur",selectedFournisseur)
-           
+              console.log(
+                "selectedFournisseur.catFournisseur",
+                selectedFournisseur
+              );
             }
           }}
         />
         <SelectInput
           disabled={fournisseurIdField}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="idFacture"
           choices={facture_choices}
           label="Facture"
@@ -182,7 +184,7 @@ export const FactureRechereCreate = (props) => {
 
         <AutocompleteInput
           validate={required("Le chantier est obligatoire")}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="codechantier"
           choices={chantier_choices.map(({ id, name }) => ({
             id: id,
@@ -195,14 +197,14 @@ export const FactureRechereCreate = (props) => {
 
         {selectedCodeChantier === "A-9999" && (
           <SelectInput
-            className={classes.autocomplete}
+            sx={{ width: 650 }}
             source="service"
             choices={[
-              { id: 'comm', name: 'Communication' },
-              { id: 'SI', name: 'Service informatique' },
-              { id: 'RH', name: 'Ressource Humaine' },
-              { id: 'QUALITE', name: 'Qualité' }, // Fix typo
-              { id: 'MC', name: 'Moyen commun' },
+              { id: "comm", name: "Communication" },
+              { id: "SI", name: "Service informatique" },
+              { id: "RH", name: "Ressource Humaine" },
+              { id: "QUALITE", name: "Qualité" }, // Fix typo
+              { id: "MC", name: "Moyen commun" },
             ]}
           />
         )}
@@ -210,13 +212,13 @@ export const FactureRechereCreate = (props) => {
         <TextInput
           label="Fiche navette"
           validate={required("La fiche navette est obligatoire")}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="ficheNavette"
         />
 
         <TextInput
           label="Bon de commande d'avance"
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           validate={
             factureSelected === null
               ? required("Le bon de  commande est obligatoire")
@@ -227,7 +229,7 @@ export const FactureRechereCreate = (props) => {
         />
         <TextInput
           label="Montant d'avance"
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           validate={(value) => {
             const numericValue = parseFloat(value);
             console.log("numericValue", numericValue);
@@ -242,9 +244,7 @@ export const FactureRechereCreate = (props) => {
               return required("Le montant d'avance est obligatoire");
             }
 
-            if (
-              factureSelected === null
-            ) {
+            if (factureSelected === null) {
               return "Le montant d'avance doit être supérieur à 0";
             }
 
@@ -254,34 +254,31 @@ export const FactureRechereCreate = (props) => {
           defaultValue={factureSelected === null ? null : 0}
           disabled={factureSelected !== null}
         />
-      
-      {factureSelected === null ? (
-  selectedSupplierCategory !== "personne morale" && (
-    <SelectInput
-      disabled={fournisseurIdField}
-      className={classes.autocomplete}
-      validate={required("Mentionnez la catégorie")}
-      source="CatFn"
-      choices={[
-        { id: 'FET', name: 'Fourniture Equipement Travaux' },
-        { id: 'Service', name: 'Service' },
-      ]}
-      label="Catégorie de document"
-    />
-  )
-) : (
-  selectedSupplierCategory !== "personne morale" && (
-    <SelectInput
-      disabled={fournisseurIdField}
-      className={classes.autocomplete}
-      validate={required("Mentionnez la catégorie")}
-      source="CatFn"
-      choices={catfn_choices}
-      label="Catégorie de document"
-    />
-  )
-)}
 
+        {factureSelected === null
+          ? selectedSupplierCategory !== "personne morale" && (
+              <SelectInput
+                disabled={fournisseurIdField}
+                sx={{ width: 650 }}
+                validate={required("Mentionnez la catégorie")}
+                source="CatFn"
+                choices={[
+                  { id: "FET", name: "Fourniture Equipement Travaux" },
+                  { id: "Service", name: "Service" },
+                ]}
+                label="Catégorie de document"
+              />
+            )
+          : selectedSupplierCategory !== "personne morale" && (
+              <SelectInput
+                disabled={fournisseurIdField}
+                sx={{ width: 650 }}
+                validate={required("Mentionnez la catégorie")}
+                source="CatFn"
+                choices={catfn_choices}
+                label="Catégorie de document"
+              />
+            )}
 
         <TextInput
           label="TTC D'Avance"
@@ -291,7 +288,7 @@ export const FactureRechereCreate = (props) => {
               ? required("Le bon de  commande est obligatoire")
               : null
           }
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="TTC"
           defaultValue={factureSelected === null ? null : 0}
         />
@@ -303,18 +300,19 @@ export const FactureRechereCreate = (props) => {
               ? required("Le bon de  commande est obligatoire")
               : null
           }
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="HT"
           defaultValue={factureSelected === null ? null : 0}
         />
         <TextInput
           disabled={factureSelected !== null}
-          label="Mentionnez TVA" validate={
+          label="Mentionnez TVA"
+          validate={
             factureSelected === null
               ? required("Le bon de  commande est obligatoire")
               : null
           }
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="MontantTVA"
           defaultValue={factureSelected === null ? null : 0}
         />

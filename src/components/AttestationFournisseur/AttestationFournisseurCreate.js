@@ -1,5 +1,4 @@
 // Importation des modules et composants nécessaires depuis react et react-admin
-import { makeStyles } from "@material-ui/styles";
 import React, { useState, useEffect } from "react";
 import {
   AutocompleteInput,
@@ -11,23 +10,14 @@ import {
   useDataProvider,
   useGetIdentity,
 } from "react-admin";
-
-// Définition des styles personnalisés avec makeStyles
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
-
+import { useTheme } from "@mui/material/styles";
 // Définition et exportation du composant AttestationFournisseurCreate
 const AttestationFournisseurCreate = (props) => {
   // Récupération de l'identité de l'utilisateur courant
+  const theme = useTheme();
   const { identity } = useGetIdentity();
   // Application des styles personnalisés
-  const classes = useStyles();
+
   // Déclaration de l'état local pour les fournisseurs
   const [fournisseur, setFournisseur] = useState([]);
   // Récupération du dataProvider pour effectuer des requêtes
@@ -67,7 +57,16 @@ const AttestationFournisseurCreate = (props) => {
           defaultValue={identity?.fullName}
           label="vous êtes"
           hidden={false}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           disabled={true}
           source="redacteur"
         />
@@ -76,7 +75,16 @@ const AttestationFournisseurCreate = (props) => {
         <AutocompleteInput
           label="fournisseur"
           validate={required("choisir le fournisseur")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="idfournisseur"
           choices={fournisseur_choices}
         />
@@ -86,14 +94,23 @@ const AttestationFournisseurCreate = (props) => {
           source="dateDebut"
           label="date debut convention"
           validate={[required("Date obligatoire")]}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
         />
 
         {/* Champ texte pour le numéro d'attestation */}
         <TextInput
           source="numAttestation"
           label="numero d'attestation"
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
         />
       </SimpleForm>
     </Create>

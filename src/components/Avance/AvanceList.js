@@ -1,53 +1,41 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
-
-import { Datagrid, List, NumberField, TextField } from "react-admin";
-import AvanceFilter from "./AvanceFilter";
+import { List, Datagrid, NumberField, TextField } from "react-admin";
+import { styled } from "@mui/material/styles";
 import AideRestit from "./AideRestit";
+import AvanceFilter from "./AvanceFilter";
 
-const useStyles = makeStyles({
-  headerCell: {
+// Styled header cells
+const StyledDatagrid = styled(Datagrid)(({ theme }) => ({
+  "& .RaDatagrid-headerCell": {
     backgroundColor: "#def2ff",
     color: "white",
     fontWeight: "bold",
   },
-  row: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: "#def2ff",
-    },
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  },
+}));
+
+// Function to stripe rows
+const rowStyle = (record, index) => ({
+  backgroundColor: index % 2 === 0 ? undefined : "#def2ff",
+  borderBottom: index === record.length - 1 ? 0 : undefined, // react-admin handles borders well, this can be omitted
 });
 
-export const AvanceList = (props) => {
-  const classes = useStyles();
-
-  return (
-    <>
-      <AideRestit />
-      <List filters={<AvanceFilter />} title="Restitution Avance">
-        <Datagrid
-          rowClick="edit"
-          bulkActionButtons={false}
-          classes={{ headerCell: classes.headerCell, row: classes.row }}
-        >
-          {/* <TextField source="chantier" label="chantier" /> */}
-          <TextField source="catFournisseur" label="catFournisseur" />
-          <NumberField source="MontantAvanceTVA" label="TVA" />
-          <NumberField source="MontantAvanceHT" label="HT" />
-          <NumberField source="MontantAvanceTTC" label="TTC" />
-          <NumberField source="Montant" label="Restant" />
-          <TextField source="BonCommande" label="BC" />
-          <TextField source="nom" label="nom" />
-          <TextField source="CodeFournisseur" label="Code Tier" />
-          <TextField source="ficheNavette" label="FN" />
-          <TextField source="Etat" label="Etat" />
-          <TextField source="categorieDoc" label="Cat Doc" />
-          {/* <TextField source="EtatRestit" label="EtatRestit" /> */}
-        </Datagrid>
-      </List>
-    </>
-  );
-};
+export const AvanceList = (props) => (
+  <>
+    <AideRestit />
+    <List filters={<AvanceFilter />} title="Restitution Avance" {...props}>
+      <Datagrid rowClick="edit" bulkActionButtons={false}>
+        <TextField source="catFournisseur" label="catFournisseur" />
+        <NumberField source="MontantAvanceTVA" label="TVA" />
+        <NumberField source="MontantAvanceHT" label="HT" />
+        <NumberField source="MontantAvanceTTC" label="TTC" />
+        <NumberField source="Montant" label="Restant" />
+        <TextField source="BonCommande" label="BC" />
+        <TextField source="nom" label="nom" />
+        <TextField source="CodeFournisseur" label="Code Tier" />
+        <TextField source="ficheNavette" label="FN" />
+        <TextField source="Etat" label="Etat" />
+        <TextField source="categorieDoc" label="Cat Doc" />
+      </Datagrid>
+    </List>
+  </>
+);

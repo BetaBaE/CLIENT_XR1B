@@ -5,8 +5,6 @@ import VirmentFilter from "./VirmentFilter"; // Importation du filtre personnali
 export const VirementList = () => {
   return (
     <List filters={<VirmentFilter />}>
-      {" "}
-      {/* Application du filtre personnalisé */}
       <Datagrid rowClick="edit" bulkActionButtons={false}>
         {" "}
         {/* Configuration du tableau */}

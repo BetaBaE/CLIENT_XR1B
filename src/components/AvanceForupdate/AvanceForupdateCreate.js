@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTheme } from "@mui/material/styles";
 import {
   AutocompleteInput,
   Create,
@@ -11,24 +12,16 @@ import {
   useDataProvider,
   useGetIdentity,
 } from "react-admin";
-import { makeStyles } from "@material-ui/styles";
-import apiUrl from "../../config";
-import { Grid } from "@material-ui/core";
 
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "95%",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
+import apiUrl from "../../config";
+import { Grid } from "@mui/material";
 
 export const AvanceForupdateCreate = () => {
+  const theme = useTheme();
   const dataProvider = useDataProvider(); // Hook pour accéder au fournisseur de données
   const dataProvider1 = useDataProvider();
   const { identity } = useGetIdentity(); // Hook pour récupérer l'identité de l'utilisateur actuel
-  const classes = useStyles(); // Utilisation des styles définis
+  // Utilisation des styles définis
   const [ttc, setTTC] = useState(0);
 
   const [tvainput, setTVAinput] = useState("");
@@ -135,7 +128,16 @@ export const AvanceForupdateCreate = () => {
             <TextInput
               defaultValue={identity.fullName}
               label="Vous êtes"
-              className={classes.autocomplete}
+              sx={{
+                width: 650,
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
               disabled
               source="fullName"
             />
@@ -144,7 +146,16 @@ export const AvanceForupdateCreate = () => {
             <TextInput
               // defaultValue={identity.fullName}
               label="N° Proforma / Devis"
-              className={classes.autocomplete}
+              sx={{
+                width: 650,
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
               validate={required("N° Proforma / Devis est obligatoire")}
               source="NdocAchat"
             />
@@ -153,7 +164,7 @@ export const AvanceForupdateCreate = () => {
             <DateInput
               // defaultValue={identity.fullName}
               label="Date de document"
-              className={classes.autocomplete}
+              sx={{ width: 650 }}
               validate={required("Date de document est obligatoire")}
               source="DateDocAchat"
             />
@@ -163,7 +174,16 @@ export const AvanceForupdateCreate = () => {
             <AutocompleteInput
               label="Fournisseur"
               validate={required("Le fournisseur est obligatoire")}
-              className={classes.autocomplete}
+              sx={{
+                width: 650,
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
               source="idfournisseur"
               choices={fournisseurs_choices}
               onChange={(e) => {
@@ -193,7 +213,16 @@ export const AvanceForupdateCreate = () => {
           <Grid item md={6}>
             <AutocompleteInput
               validate={required("Le chantier est obligatoire")}
-              className={classes.autocomplete}
+              sx={{
+                width: 650,
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
               source="codechantier"
               choices={chantier_choices}
               onChange={(e) => setSelectedCodeChantier(e)}
@@ -204,7 +233,7 @@ export const AvanceForupdateCreate = () => {
           {selectedCodeChantier === "A-9999" && (
             <Grid item md={6}>
               <SelectInput
-                className={classes.autocomplete}
+                sx={{ width: 650 }}
                 source="service"
                 choices={[
                   { id: "comm", name: "Communication" },
@@ -222,7 +251,16 @@ export const AvanceForupdateCreate = () => {
             <TextInput
               label="Fiche navette"
               validate={required("La fiche navette est obligatoire")}
-              className={classes.autocomplete}
+              sx={{
+                width: 650,
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
               source="ficheNavette"
             />
           </Grid>
@@ -231,7 +269,16 @@ export const AvanceForupdateCreate = () => {
             <NumberInput
               label="TTC D'Avance"
               validate={required("Le montant d'avance est obligatoire")}
-              className={classes.autocomplete}
+              sx={{
+                width: 650,
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
               source="TTC"
               onChange={(e) => {
                 setTTC(e.target.value);
@@ -246,7 +293,16 @@ export const AvanceForupdateCreate = () => {
           <Grid item md={6}>
             <TextInput
               label="Bon de commande d'avance"
-              className={classes.autocomplete}
+              sx={{
+                width: 650,
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
               validate={required("Le bon de commande est obligatoire")}
               source="Bcommande"
             />
@@ -256,7 +312,16 @@ export const AvanceForupdateCreate = () => {
             <AutocompleteInput
               label="designation"
               validate={required("selectionnez la designation")}
-              className={classes.autocomplete}
+              sx={{
+                width: 650,
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
               source="iddesignation"
               choices={designation_choices}
               onChange={(e) => {
@@ -273,7 +338,7 @@ export const AvanceForupdateCreate = () => {
           <Grid item md={6}>
             <SelectInput
               disabled={fournisseurIdField}
-              className={classes.autocomplete}
+              sx={{ width: 650 }}
               validate={required("Mentionnez la catégorie")}
               source="CatFn"
               choices={[
@@ -286,7 +351,7 @@ export const AvanceForupdateCreate = () => {
           {FourRasIR.RasIr === "Oui" ? (
             <Grid item md={6}>
               <SelectInput
-                className={classes.autocomplete}
+                sx={{ width: 650 }}
                 source="EtatIR"
                 label="Etat Ras IR"
                 validate={

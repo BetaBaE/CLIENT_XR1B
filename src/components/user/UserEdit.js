@@ -1,4 +1,3 @@
-import { makeStyles } from "@material-ui/core";
 import {
   DateInput,
   Edit,
@@ -9,16 +8,8 @@ import {
   TextInput,
   Toolbar,
 } from "react-admin";
-
+import { useTheme } from "@mui/material/styles";
 // Styles personnalisés pour le composant
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
 
 // Barre d'outils personnalisée pour l'édition
 const EditToolbar = (props) => (
@@ -28,8 +19,7 @@ const EditToolbar = (props) => (
 );
 
 export const UserEdit = (props) => {
-  const classes = useStyles();
-
+  const theme = useTheme(); // Utilisation du thème Material-UI
   return (
     <Edit {...props}>
       <SimpleForm toolbar={<EditToolbar />}>
@@ -37,20 +27,47 @@ export const UserEdit = (props) => {
         <TextInput
           source="fullname"
           validate={required("Le nom est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
         />
 
         {/* Champ pour le nom d'utilisateur */}
         <TextInput
           source="username"
           validate={required("Username est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
         />
 
         {/* Sélecteur pour le rôle de l'utilisateur */}
         <SelectInput
           validate={required("Le Role est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="Role"
           choices={[
             { id: "admin", name: "Admin" },
@@ -84,7 +101,16 @@ export const UserEdit = (props) => {
         {/* Sélecteur pour l'état d'activation de l'utilisateur */}
         <SelectInput
           validate={required("Le status est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="isActivated"
           choices={[
             { id: "true", name: "Activer" },
@@ -93,7 +119,20 @@ export const UserEdit = (props) => {
         />
 
         {/* Champ pour la date de création (non modifiable) */}
-        <DateInput source="created" disabled />
+        <DateInput
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
+          source="created"
+          disabled
+        />
       </SimpleForm>
     </Edit>
   );

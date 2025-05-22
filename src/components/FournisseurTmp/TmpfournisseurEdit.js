@@ -6,25 +6,14 @@ import {
   TextInput,
   useGetIdentity,
 } from "react-admin";
-
+import { useTheme } from "@mui/material/styles";
 import { required } from "react-admin";
-import { makeStyles } from "@material-ui/styles";
 
 // Styles personnalisés pour les composants
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "580px", // Largeur personnalisée pour les champs d'autocomplétion
-  },
-  chip: {
-    fontWeight: "bold", // Style pour le texte en gras
-  },
-}));
 
 export const TmpfournisseurEdit = () => {
   const { identity, isLoading, error } = useGetIdentity(); // Single call for identity
-
-  const classes = useStyles();
-
+  const theme = useTheme();
   if (isLoading) return <div>Chargement en cours...</div>;
   if (error) return <div>Une erreur est survenue.</div>;
   return (
@@ -35,29 +24,77 @@ export const TmpfournisseurEdit = () => {
           label="Vous êtes"
           disabled
           source="Validateur"
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           inputProps={{ autoComplete: "off" }}
         />
-        <TextInput source="nom" disabled className={classes.autocomplete} />
+        <TextInput
+          source="nom"
+          disabled
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
+        />
         <TextInput
           label="Acheteur"
           source="Redacteur"
           disabled
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
         />
-        <DateTimeInput
-          source="dateCreation"
-          disabled
-          className={classes.autocomplete}
-        />
+        <DateTimeInput source="dateCreation" disabled sx={{ width: 650 }} />
         <TextInput
           source="catFournisseur"
           disabled
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
         />
-        <TextInput source="etat" disabled className={classes.autocomplete} />
+        <TextInput
+          source="etat"
+          disabled
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
+        />
         <SelectInput
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="etat"
           label="Etat de validation"
           validate={required()} // Validation requise
@@ -65,7 +102,7 @@ export const TmpfournisseurEdit = () => {
             { id: "Valide", name: "Valide" },
             { id: "Ignore", name: "Ignore" },
           ]}
-        ></SelectInput>
+        />
       </SimpleForm>
     </Edit>
   );

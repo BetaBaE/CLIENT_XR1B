@@ -10,7 +10,7 @@ import { CustomLayout } from "./components/custom/layout/CustomLayout";
 import PrintModule from "./components/printModule/PrintModule";
 import { Route } from "react-router-dom";
 import { RibaAtnerList } from "./components/RIBAtner/RibAtnerList";
-import { RibatnerEdit } from "./components/RIBAtner/RIBAtnerEdit";
+
 import { UserList } from "./components/User/UserList";
 import { UserEdit } from "./components/User/UserEdit";
 import { UserCreate } from "./components/User/UserCreate";
@@ -96,6 +96,13 @@ import { FournisseurTmpCreate } from "./components/FournisseurTmp/FournissuerTmp
 import { TmpfournisseurList } from "./components/FournisseurTmp/TmpfournisseurList";
 import { TmpfournisseurEdit } from "./components/FournisseurTmp/TmpfournisseurEdit";
 
+import { DossierList } from "./components/Dossier/DossierList";
+import { DossierEdit } from "./components/Dossier/DossierEdit";
+import { DossierCreate } from "./components/Dossier/DossierCreate";
+import { RIBatnerEdit } from "./components/RIBAtner/RIBAtnerEdit.js";
+import Login from "./components/Login/login";
+// import { Dashboard } from "./components/custom/dashboard/Dashboard.js";
+
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
     options.headers ||
@@ -145,6 +152,8 @@ function App(props) {
       {...props}
       dataProvider={dataProvider}
       authProvider={auth}
+      loginPage={Login}
+      // dashboard={Dashboard}
       layout={CustomLayout}
     >
       {(permissions) => [
@@ -252,7 +261,7 @@ function App(props) {
                 ? AttestationFournisseurCreate
                 : null
             }
-            con={FaTruck}
+            icon={FaTruck}
           />
         ) : null,
 
@@ -304,7 +313,7 @@ function App(props) {
             list={RibaAtnerList}
             edit={
               permissions === "superviseur comptabilite midelt"
-                ? RibatnerEdit
+                ? RIBatnerEdit
                 : null
             }
             create={
@@ -939,6 +948,22 @@ function App(props) {
           <CustomRoutes>
             <Route path="/atnerpaiements" element={<PaiementPage />} />
           </CustomRoutes>
+        ) : null,
+
+        // achat international
+        permissions === "admin" ||
+        permissions === "direction générale" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
+        permissions === "comptable" ? (
+          <Resource
+            name="dossier"
+            list={DossierList}
+            edit={DossierEdit}
+            create={DossierCreate}
+          />
         ) : null,
       ]}
     </Admin>

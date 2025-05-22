@@ -1,4 +1,4 @@
-import { CardContent, CardHeader, Grid } from "@material-ui/core";
+import { CardContent, CardHeader, Grid } from "@mui/material";
 import Card from "@mui/material/Card";
 import { Title } from "react-admin";
 import PaimentByMonth from "./chart/PaiemenetByMonth";

@@ -10,21 +10,13 @@ import {
   useDataProvider,
   useGetIdentity,
 } from "react-admin";
-import { makeStyles } from "@material-ui/styles";
-import { Chip } from "@material-ui/core";
+
+import { Chip } from "@mui/material";
 import apiUrl from "../../config";
 import Swal from "sweetalert2";
-
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
-
+import { useTheme } from "@mui/material/styles";
 export const EspeceCreate = (props) => {
+  const theme = useTheme();
   const redirect = useRedirect();
   const { identity, isLoading: identityLoading } = useGetIdentity();
   const [fournisseur, setFournisseur] = useState([]);
@@ -188,7 +180,6 @@ export const EspeceCreate = (props) => {
     setSum(sum.toFixed(3));
   };
 
-  const classes = useStyles();
   const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Chargement...</>;
   if (error) return <>Erreur</>;
@@ -199,14 +190,30 @@ export const EspeceCreate = (props) => {
         <TextInput
           defaultValue={identity?.fullName}
           label="Vous êtes"
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           disabled={true}
           source="redacteur"
         />
         <AutocompleteInput
           label="Fournisseur"
           validate={required("Le fournisseur est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="fournisseurId"
           choices={fournisseurs_choices}
           onChange={(e) => {
@@ -250,12 +257,20 @@ export const EspeceCreate = (props) => {
         <AutocompleteArrayInput
           validate={required("Ce champ est obligatoire")}
           disabled={fournisseurIdField}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="facturelist"
           choices={facture_choices}
           onChange={handleChange}
         />
-        <Chip className={classes.chip} label={`Total : ${sum}`} />
+        <Chip label={`Total : ${sum}`} sx={{ fontWeight: "bold" }} />
       </SimpleForm>
     </Create>
   );

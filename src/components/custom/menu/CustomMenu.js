@@ -10,6 +10,7 @@ import {
   FaEquals,
   FaPaperPlane,
   FaPrint,
+  FaFolderOpen,
 } from "react-icons/fa";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { TbReportMoney } from "react-icons/tb";
@@ -20,9 +21,6 @@ export const CustomMenu = (props) => {
   return (
     <Menu {...props}>
       {/* <Menu.DashboardItem /> */}
-      {/* {(permissions === "admin" || permissions === "normal user") && (
-        <Menu.DashboardItem />
-      )} */}
 
       {(permissions === "admin" ||
         permissions === "direction générale" ||
@@ -127,14 +125,14 @@ export const CustomMenu = (props) => {
             leftIcon={<FaCreditCard />}
           />
           <Menu.Item
+            to="/ordervirementFond"
+            primaryText="Order Virement Fond"
+            leftIcon={<FaCreditCard />}
+          />
+          <Menu.Item
             to="/virementsFond"
             primaryText="Virements de fond"
             leftIcon={<FaUserTie />}
-          />
-          <Menu.Item
-            to="/ordervirementFond"
-            primaryText="ordervirementFond"
-            leftIcon={<FaCreditCard />}
           />
         </SubMenu>
       )}
@@ -175,18 +173,25 @@ export const CustomMenu = (props) => {
           />
         </SubMenu>
       )}
-      {/* {(permissions === "admin" ||
+      {(permissions === "admin" ||
+        permissions === "direction générale" ||
         permissions === "normal user" ||
         permissions === "superviseur comptabilite" ||
         permissions === "comptable midelt" ||
         permissions === "superviseur comptabilite midelt" ||
+        permissions === "comptable PdT" ||
         permissions === "comptable") && (
-        <Menu.Item
-          to="/print"
-          primaryText="Imp. Order Virement"
-          leftIcon={<FaPrint />}
-        />
-      )} */}
+        <SubMenu
+          primaryText="Section International"
+          leftIcon={<ChevronRightIcon />}
+        >
+          <Menu.Item
+            to="dossier"
+            primaryText="Dossier"
+            leftIcon={<FaFolderOpen />}
+          />
+        </SubMenu>
+      )}
       {(permissions === "admin" ||
         permissions === "direction générale" ||
         permissions === "consultation directeur" ||

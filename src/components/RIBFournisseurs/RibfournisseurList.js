@@ -12,6 +12,7 @@ export const RibfournisseurList = () => (
       <Link>
         <TextField source="path_rib" label="Attestation de Rib" />
       </Link>
+      <TextField source="IBAN" label="IBAN" />
     </Datagrid>
   </List>
 );

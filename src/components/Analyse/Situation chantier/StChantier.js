@@ -4,7 +4,7 @@ import apiUrl from "../../../config";
 import "./autoCompletStyleCht.css";
 import ClotureChantier from "./DataGrid/ClotureChantier";
 import Card from "@mui/material/Card";
-import { CardContent, CardHeader, Grid } from "@material-ui/core";
+import { CardContent, CardHeader, Grid } from "@mui/material";
 import SummaryMonthChnatier from "./DataGrid/SummaryMonthChnatier";
 import ClotureChantierChart from "./charts/ClotureChantierChart";
 import DetailFournisseurChantier from "./DataGrid/DetailFournisseurChantier";

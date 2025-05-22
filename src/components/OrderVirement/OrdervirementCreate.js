@@ -1,4 +1,3 @@
-import { makeStyles } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import {
   Create,
@@ -9,17 +8,9 @@ import {
   useDataProvider,
   useGetIdentity,
 } from "react-admin";
-
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
-
+import { useTheme } from "@mui/material/styles";
 export const OrdervirementCreate = () => {
+  const theme = useTheme();
   const { identity, isLoading: identityLoading } = useGetIdentity();
   const dataProvider = useDataProvider();
   const [ribAtner, setribAtner] = useState([]);
@@ -38,16 +29,14 @@ export const OrdervirementCreate = () => {
       });
   }, [dataProvider]);
 
-
   useEffect(() => {
     // Désactiver l'autocomplétion après le chargement du DOM
     const inputribAtner = document.getElementById("ribAtner");
     const inputdirecteursigne = document.getElementById("directeursigne");
- 
-    if (inputribAtner ||inputdirecteursigne  ) {
+
+    if (inputribAtner || inputdirecteursigne) {
       inputribAtner.autocomplete = "off";
       inputdirecteursigne.autocomplete = "off";
-     
     }
   }, []);
 
@@ -55,24 +44,39 @@ export const OrdervirementCreate = () => {
     id: id,
     name: `(${nom}) ${rib}`,
   }));
-  const classes = useStyles();
+
   const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
-  if (error) return <>Error</>
+  if (error) return <>Error</>;
   return (
     <Create>
       <SimpleForm>
-      <TextInput
+        <TextInput
           defaultValue={identity?.fullName}
           label="vous êtes"
           hidden={false}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           disabled={true}
           source="Redacteur"
-        > 
-        </TextInput>
+        />
         <SelectInput
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           validate={required("Le RIB est obligatoire")}
           source="ribAtner"
           choices={rib_choices}
@@ -81,6 +85,16 @@ export const OrdervirementCreate = () => {
           validate={required("Le directeur est obligatoire")}
           emptyText="selectionnez le directeur"
           source="directeursigne"
+          label="Directeur"
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           choices={[
             { id: "Youness ZAMANI", name: "Youness ZAMANI" },
             { id: "Mohamed ZAMANI", name: "Mohamed ZAMANI" },

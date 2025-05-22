@@ -1,4 +1,3 @@
-import { makeStyles } from "@material-ui/styles";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import {
@@ -14,18 +13,9 @@ import {
   useGetIdentity,
 } from "react-admin";
 
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
-
 const EcheanceLoiCreate = (props) => {
   const { identity, isLoading: identityLoading } = useGetIdentity();
-  const classes = useStyles();
+
   const [fournisseur, setFournisseur] = useState([]);
   const dataProvider = useDataProvider();
   useEffect(() => {
@@ -57,14 +47,14 @@ const EcheanceLoiCreate = (props) => {
           defaultValue={identity?.fullName}
           label="vous êtes"
           hidden={false}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           disabled={true}
           source="Redacteur"
         ></TextInput>
         <AutocompleteInput
           label="fournisseur"
           validate={required("choisir le fournisseur")}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="idfournisseur"
           choices={fournisseur_choices}
         />
@@ -72,12 +62,12 @@ const EcheanceLoiCreate = (props) => {
           source="dateecheance"
           label="date debut convention"
           validate={[required("Date obligatoire")]}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
         />
 
         <SelectInput
           source="modalitePaiement"
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           label="Échéance loi"
           choices={[
             { id: "30", name: "30jour net" },

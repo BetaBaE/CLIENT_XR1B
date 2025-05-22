@@ -14,25 +14,18 @@ import {
   useGetIdentity,
   useNotify,
 } from "react-admin";
-import { makeStyles } from "@material-ui/styles";
+import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import apiUrl from "../../config";
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Box, Grid, Typography } from "@mui/material";
 import "../Analyse/echencier/DataGrid/styles.css";
 import { useFormContext } from "react-hook-form";
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "95%",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
 
 const Aside = ({ asideData }) => {
   // console.log("AsideBar", asideData);
-
+  const theme = useTheme();
+const isDark = theme.palette.mode === "dark";
   return (
     <Box sx={{ width: "40%", margin: "1em" }}>
       <Typography variant="h4">
@@ -48,16 +41,30 @@ const Aside = ({ asideData }) => {
       <Typography variant="h4">Donnée FA</Typography>
       <div className="my-custom-table">
         <div className="table-container">
-          <table>
+          <table
+          style={{
+      backgroundColor: isDark ? "#1e1e1e" : "#fff",
+      color: isDark ? "#fff" : "#000",
+      borderCollapse: "collapse",
+      width: "100%",
+    }}
+          >
             <thead>
+            <tr style={{
+                backgroundColor: isDark ? "#2c2c2c" : "#f2f2f2",
+                position: "sticky",
+                top: 0,
+              }}>
               <th>FA</th>
               <th>Date FA</th>
               <th>TTC</th>
               <th>FN</th>
+            </tr>
+             
             </thead>
             <tbody>
               {asideData.FA.map((invoice) => (
-                <tr key={invoice.NumeroFacture}>
+                <tr style={{ backgroundColor: isDark ? "#2a2a2a" : "#f9f9f9" }} key={invoice.NumeroFacture} >
                   <td>{invoice.NumeroFacture}</td>
                   <td>{invoice.DateFacture}</td>
                   <td>{invoice.TOTALTTC}</td>
@@ -100,7 +107,6 @@ const getFournisseurEcheance = async (idfournisseur) => {
 };
 
 const AutoDateInput = () => {
-  const classes = useStyles();
   const { watch, setValue } = useFormContext();
   const [echeance, setEcheance] = useState(60); // Default: 60 days
 
@@ -149,7 +155,7 @@ const AutoDateInput = () => {
   return (
     <DateInput
       source="dateecheance"
-      className={classes.autocomplete}
+      sx={{ width: '98%' }}
       disabled={!startDate}
       label="Date Échéance"
     />
@@ -157,9 +163,8 @@ const AutoDateInput = () => {
 };
 
 export const FactureSaisieCreate = (props) => {
-  const classes = useStyles();
   const notify = useNotify();
-
+  const theme = useTheme();
   const [dateecheance, setdateecheance] = useState(null);
   // const [inputDateEcheance, setInputDateEcheance] = useState(null);
   const dataProvider1 = useDataProvider();
@@ -546,10 +551,16 @@ export const FactureSaisieCreate = (props) => {
   };
 
   return (
-    <Create label="ajouter" aside={<Aside asideData={asideData} {...props} />}>
+    <Create
+      label="ajouter"
+      
+      aside={<Aside asideData={asideData} {...props} />}
+    >
       <SimpleForm
         toolbar={<SaveButtonFA data={data} />}
         validate={validationFacture}
+        sx={{
+          width: '98%',}}
       >
         <Grid container>
           <Grid item md={6}>
@@ -557,7 +568,16 @@ export const FactureSaisieCreate = (props) => {
               defaultValue={identity.fullName}
               label="vous êtes"
               hidden={false}
-              className={classes.autocomplete}
+              sx={{
+                width: '98%',
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
               disabled={true}
               source="fullName"
             />
@@ -570,7 +590,16 @@ export const FactureSaisieCreate = (props) => {
                 required("Le numeroFacture est obligatoire"),
                 numerofacturevalidation,
               ]}
-              className={classes.autocomplete}
+              sx={{
+                width: '98%',
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
               onChange={(e) => setNfa(e.target.value)}
             />
           </Grid>
@@ -582,14 +611,23 @@ export const FactureSaisieCreate = (props) => {
                 required("Le MontantApayer est obligatoire"),
                 validateprice,
               ]}
-              className={classes.autocomplete}
+              sx={{ width: '98%' }}
             />
           </Grid>
           <Grid item md={6}>
             <AutocompleteInput
               label="designation"
               validate={required("selectionnez la designation")}
-              className={classes.autocomplete}
+              sx={{
+                width: '98%',
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
               source="iddesignation"
               choices={designation_choices}
               onChange={(e) => {
@@ -614,7 +652,16 @@ export const FactureSaisieCreate = (props) => {
             <SelectInput
               validate={required("Ce champ est obligatoire")}
               disabled={fournisseurIdField}
-              className={classes.autocomplete}
+              sx={{
+                width: '98%',
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
               source="iddesignation"
               choices={tva_choices}
               label="Pourcentage TVA"
@@ -625,7 +672,16 @@ export const FactureSaisieCreate = (props) => {
               source="BonCommande"
               label="BonCommande"
               onBlur={handleBlur}
-              className={classes.autocomplete}
+              sx={{
+                width: '98%',
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
             />
             {/* {loading && <Typography>Loading...</Typography>}{" "} */}
           </Grid>
@@ -633,7 +689,16 @@ export const FactureSaisieCreate = (props) => {
             <AutocompleteInput
               label="fournisseur"
               validate={required("choisir le fournisseur")}
-              className={classes.autocomplete}
+              sx={{
+                width: '98%',
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
               source="idfournisseur"
               choices={fournisseur_choices}
               onChange={async (e) => {
@@ -653,7 +718,7 @@ export const FactureSaisieCreate = (props) => {
           </Grid>
           <Grid item md={6}>
             <SelectInput
-              className={classes.autocomplete}
+              sx={{ width: '98%' }}
               source="CatFn"
               label="Catégorie Facture"
               validate={required("")}
@@ -673,7 +738,7 @@ export const FactureSaisieCreate = (props) => {
                 required("Date obligatoire"),
                 // validationDateFacture(datefacture),
               ]}
-              className={classes.autocomplete}
+              sx={{ width: '98%' }}
               onChange={async (event) => {
                 handleDateChange(event);
                 console.log("event", event.target.value);
@@ -687,7 +752,16 @@ export const FactureSaisieCreate = (props) => {
           <Grid item md={6}>
             <AutocompleteInput
               label="chantier"
-              className={classes.autocomplete}
+              sx={{
+                width: '98%',
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
               source="codechantier"
               choices={chantier_choices}
             />
@@ -698,13 +772,13 @@ export const FactureSaisieCreate = (props) => {
               {/* <DateInput
                 source="dateecheance"
                 disabled={fdate ? false : true}
-                className={classes.autocomplete}
+                sx={{ width: '98%' }}
                 label="Date Echeance"
                 // defaultValue={dateecheance}
                 value={dateecheance}
                 // onChange={(event) => setdateecheance(event.target.value)} // Handle change
               /> */}
-              <AutoDateInput className={classes.autocomplete} />
+              <AutoDateInput sx={{ width: '98%' }} />
               {dateecheance ? (
                 <p>
                   {dateecheance}|Number of days until due date:
@@ -715,11 +789,11 @@ export const FactureSaisieCreate = (props) => {
               )}
             </>
           </Grid>
-          {/* <AutoDateInput className={classes.autocomplete} /> */}
+          {/* <AutoDateInput sx={{ width: '98%' }} /> */}
           {FourRasIR.RasIr === "Oui" ? (
             <Grid item md={6}>
               <SelectInput
-                className={classes.autocomplete}
+                sx={{ width: '98%' }}
                 source="EtatIR"
                 label="Etat Ras IR"
                 validate={FourRasIR.RasIr === "Oui" ? required("") : undefined}

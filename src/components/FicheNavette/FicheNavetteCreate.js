@@ -1,26 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AutocompleteInput,
   Create,
   required,
   SelectInput,
-  regex,
   SimpleForm,
   TextInput,
   useDataProvider,
   useGetIdentity,
 } from "react-admin";
-import { makeStyles } from "@material-ui/styles";
+import { useTheme } from "@mui/material/styles";
 import apiUrl from "../../config";
-
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
 
 const formatDate = (string) => {
   const options = { year: "numeric", month: "long", day: "numeric" };
@@ -28,6 +18,7 @@ const formatDate = (string) => {
 };
 
 export const FicheNavetteCreate = (props) => {
+  const theme = useTheme();
   const [factureSelected, setFactureSelected] = useState(null);
   const dataProvider = useDataProvider();
   const [fournisseur, setFournisseur] = useState([]);
@@ -39,7 +30,6 @@ export const FicheNavetteCreate = (props) => {
   const [selectedCodeChantier, setSelectedCodeChantier] = useState("");
   const [selectedCategorieFacture, setSelectedCategorieFacture] = useState("");
   const { identity, isLoading: identityLoading } = useGetIdentity();
-  const classes = useStyles();
 
   useEffect(() => {
     const fetchFournisseurs = async () => {
@@ -125,7 +115,16 @@ export const FicheNavetteCreate = (props) => {
           defaultValue={identity?.fullName}
           label="Vous êtes"
           hidden={false}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           disabled={true}
           source="fullName"
         />
@@ -133,7 +132,16 @@ export const FicheNavetteCreate = (props) => {
         <AutocompleteInput
           label="Fournisseur"
           validate={required("Le fournisseur est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="idfournisseur"
           choices={fournisseurs_choices}
           onChange={(e) => {
@@ -163,7 +171,7 @@ export const FicheNavetteCreate = (props) => {
         <SelectInput
           disabled={fournisseurIdField}
           validate={required("La facture est obligatoire")}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="idFacture"
           choices={facture_choices}
           label="Facture"
@@ -194,7 +202,16 @@ export const FicheNavetteCreate = (props) => {
 
         <AutocompleteInput
           validate={required("Le chantier est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="codechantier"
           choices={chantier_choices}
           onChange={(e) => {
@@ -204,7 +221,7 @@ export const FicheNavetteCreate = (props) => {
 
         {selectedCodeChantier === "A-9999" && (
           <SelectInput
-            className={classes.autocomplete}
+            sx={{ width: 650 }}
             source="service"
             choices={[
               { id: "comm", name: "Communication" },
@@ -219,13 +236,22 @@ export const FicheNavetteCreate = (props) => {
         <TextInput
           label="Fiche navette"
           validate={required("La fiche navette est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="ficheNavette"
         />
         {/* 
         <SelectInput
           disabled={factureidField}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           validate={required("Veuillez sélectionner une catégorie")}
           source="CatFn"
           choices={

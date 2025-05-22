@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   Edit,
   FormDataConsumer,
@@ -11,16 +11,9 @@ import {
   useDataProvider,
   useGetIdentity,
 } from "react-admin";
-import { makeStyles } from "@material-ui/styles";
+
 // import Swal from "sweetalert2";
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
+
 export const ModificationFichnavetteEdit = (props) => {
   const UserEditToolbar = (props) => (
     <Toolbar {...props}>
@@ -59,10 +52,10 @@ export const ModificationFichnavetteEdit = (props) => {
   //     });
   //   }
   // };
-  function formatDate(string) {
-    var options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(string).toLocaleDateString([], options);
-  }
+  // function formatDate(string) {
+  //   var options = { year: "numeric", month: "long", day: "numeric" };
+  //   return new Date(string).toLocaleDateString([], options);
+  // }
 
   useEffect(() => {
     // dataProvider
@@ -95,7 +88,6 @@ export const ModificationFichnavetteEdit = (props) => {
   //   name: `${numeroFacture} | ${TTC} DH | ${formatDate(DateFacture)}`,
   // }));
 
-  const classes = useStyles();
   const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
   if (error) return <>Error</>;
@@ -108,12 +100,12 @@ export const ModificationFichnavetteEdit = (props) => {
               <>
                 <TextInput
                   label="Fiche Navette"
-                  className={classes.autocomplete}
+                  sx={{ width: 650 }}
                   source="ficheNavette"
                 />
                 {/* <SelectInput
                   source="annulation"
-                  className={classes.autocomplete}
+                  sx={{ width: 650 }}
                   onChange={(e) => {
                     console.log(e.target.value);
                     annuleAlert(e.target.value);
@@ -128,12 +120,12 @@ export const ModificationFichnavetteEdit = (props) => {
         {/* 
         <TextInput
           label="Bon commande"
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="BonCommande"
         /> */}
 
         <SelectInput
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="CatFn"
           label="Catégorie Facture"
           validate={required()}

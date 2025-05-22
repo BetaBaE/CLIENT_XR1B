@@ -5,46 +5,29 @@ import {
   required,
   SimpleForm,
   TextInput,
+  NumberInput,
   Toolbar,
   SaveButton,
   useGetIdentity,
-  NumberInput,
   useNotify,
   useRedirect,
   useRefresh,
   useUpdate,
 } from "react-admin";
-import { makeStyles } from "@material-ui/styles";
+import { useTheme } from "@mui/material/styles";
 import { useParams } from "react-router-dom";
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import apiUrl from "../../config";
 import { useFormContext } from "react-hook-form";
-
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
-
-// const UserEditToolbar = (props) => (
-//   <Toolbar {...props}>
-//     <SaveButton id="save" disabled={props.disabled} />
-//   </Toolbar>
-// );
+import apiUrl from "../../config";
 
 const MyToolbar = (props) => {
   const [update, { isLoading }] = useUpdate();
   const notify = useNotify();
   const { getValues } = useFormContext();
-  const [showAlert, setShowAlert] = useState(false); // Starts hidden
+  const [showAlert, setShowAlert] = useState(false);
   const redirect = useRedirect();
 
   const handleClick = (e) => {
-    e.preventDefault(); // Prevent default SaveButton submit behavior
-
+    e.preventDefault();
     const { id, ...data } = getValues();
 
     update(
@@ -52,15 +35,15 @@ const MyToolbar = (props) => {
       { id, data },
       {
         onSuccess: () => {
-          setShowAlert(true); // Show alert before processing
+          setShowAlert(true);
           notify("Enregistrement des données...", { type: "info" });
 
           setTimeout(() => {
-            setShowAlert(false); // Hide the alert after 5 sec
+            setShowAlert(false);
             notify("Les données ont été traitées avec succès!", {
               type: "success",
             });
-            redirect("list", "Avance"); // Redirect after success
+            redirect("list", "Avance");
           }, 5000);
         },
         onError: (error) => {
@@ -72,14 +55,7 @@ const MyToolbar = (props) => {
 
   return (
     <Toolbar>
-      <SaveButton
-        type="button"
-        onClick={handleClick}
-        disabled={isLoading}
-        // disabled={props.disabled}
-      />
-
-      {/* Processing Alert */}
+      <SaveButton type="button" onClick={handleClick} disabled={isLoading} />
       {showAlert && (
         <div style={{ color: "blue", marginLeft: "10px" }}>
           Traitement... ⏳
@@ -90,87 +66,44 @@ const MyToolbar = (props) => {
 };
 
 export const AvanceEdit = (props) => {
-  const classes = useStyles();
+  const theme = useTheme();
   const { id } = useParams();
   const { identity, isLoading: identityLoading } = useGetIdentity();
-  const [ttcFacture, setTccFacture] = useState(0);
-  const [montantRestituer, setMontantRestituer] = useState(0);
-  const [isRefreshed, setIsRefreshed] = useState(false); // État pour vérifier si le bouton a été cliqué
-
-  const queryClient = useQueryClient();
   const notify = useNotify();
   const redirect = useRedirect();
-
   const refresh = useRefresh();
-  const handleClick = () => {
-    refresh();
-    setIsRefreshed(true); // Marquer comme rafraîchi
-  };
 
-  const { data: avanceData, isLoading: isAvanceLoading } = useQuery(
-    ["avance", id],
-    async () => {
-      const response = await fetch(`${apiUrl}/Avance/${id}`);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    },
-    {
-      enabled: !!id,
-    }
-  );
+  // Hooks called at top-level only
+  const [update, { isLoading: isUpdating }] = useUpdate();
 
-  const mutation = useMutation(
-    async (updatedData) => {
-      const response = await fetch(`${apiUrl}/Avance/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedData),
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["avance", id]);
-        notify("Modification réussie", { type: "success" });
-        if (montantRestituer === 0) {
-          notify("L'avance est totalement restituée", { type: "info" });
-        }
-        redirect("/Avance");
-      },
-      onError: (error) => {
-        notify(`Erreur: ${error.message}`, { type: "error" });
-      },
-    }
-  );
+  const [avanceData, setAvanceData] = useState(null);
+  const [isAvanceLoading, setIsAvanceLoading] = useState(true);
+
+  const [ttcFacture, setTccFacture] = useState(0);
+  const [montantRestituer, setMontantRestituer] = useState(0);
+  const [isRefreshed, setIsRefreshed] = useState(false);
 
   useEffect(() => {
-    if (!isAvanceLoading && (!avanceData || !avanceData.data)) {
-      alert(
-        "Cette avance est déjà restituée totalement ou il n'a pas encore payé."
-      );
-      redirect("/Avance");
-    }
-  }, [isAvanceLoading, avanceData, redirect]);
+    if (!id) return;
 
-  if (isAvanceLoading || identityLoading) return <div>Loading...</div>;
+    setIsAvanceLoading(true);
+    fetch(`${apiUrl}/Avance/${id}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Network response was not ok");
+        return res.json();
+      })
+      .then((data) => setAvanceData(data))
+      .catch(() => {
+        notify("Erreur lors du chargement des données", { type: "error" });
+        redirect("/Avance");
+      })
+      .finally(() => setIsAvanceLoading(false));
+  }, [id, notify, redirect]);
 
-  if (!avanceData || !avanceData.data) {
-    return (
-      <div>
-        {" "}
-        L'avance est totalement payée ou elle est restituée totalement.
-      </div>
-    );
-  }
-
-  const { avanceRestitution, factures } = avanceData.data;
+  const handleRefresh = () => {
+    refresh();
+    setIsRefreshed(true);
+  };
 
   const formatDate = (string) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
@@ -200,32 +133,81 @@ export const AvanceEdit = (props) => {
 
   const handleSave = (values) => {
     setMontantRestituer(parseFloat(values.MontantRestantARestituer));
-    mutation.mutate(values);
+    update(
+      "Avance",
+      { id: values.id, data: values },
+      {
+        onSuccess: () => {
+          notify("Modification réussie", { type: "success" });
+          if (montantRestituer === 0) {
+            notify("L'avance est totalement restituée", { type: "info" });
+          }
+          redirect("/Avance");
+        },
+        onError: (error) => {
+          notify(`Erreur: ${error.message}`, { type: "error" });
+        },
+      }
+    );
   };
+
+  if (isAvanceLoading || identityLoading) return <div>Loading...</div>;
+
+  if (!avanceData || !avanceData.data) {
+    return (
+      <div>L'avance est totalement payée ou elle est restituée totalement.</div>
+    );
+  }
+  const { avanceRestitution, factures } = avanceData.data;
 
   return (
     <Edit {...props}>
       {!isRefreshed ? (
         <div>
-          <button onClick={handleClick}>Rafraîchir les données</button>
+          <button onClick={handleRefresh}>Rafraîchir les données</button>
         </div>
       ) : (
         <SimpleForm
           toolbar={<MyToolbar disabled={!isRefreshed} />}
           validate={validateMontantRestantARestituer}
           save={handleSave}
+          defaultValues={{
+            id: avanceRestitution.id,
+            Redacteur: identity.fullName,
+            Montant: avanceRestitution.Montant || "",
+            CodeAffaire: avanceRestitution.CodeAffaire || "",
+            etat: avanceRestitution.etat || "",
+            nom: avanceRestitution.nom || "",
+            ModePaiement: avanceRestitution.ModePaiement || "",
+          }}
         >
           <TextInput
-            defaultValue={identity.fullName}
             label="Vous êtes"
-            className={classes.autocomplete}
+            sx={{
+              width: 650,
+              input: {
+                backgroundColor:
+                  theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                borderRadius: "4px",
+              },
+            }}
+            inputProps={{ autoComplete: "off" }}
             disabled
             source="Redacteur"
           />
           <AutocompleteInput
             label="Factures"
             source="idfacture"
-            className={classes.autocomplete}
+            sx={{
+              width: 650,
+              input: {
+                backgroundColor:
+                  theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                borderRadius: "4px",
+              },
+            }}
             choices={factures.map((facture) => ({
               id: facture.idfacture,
               name: `${facture.numeroFacture} | ${
@@ -245,38 +227,85 @@ export const AvanceEdit = (props) => {
           />
           <TextInput
             label="Montant restant NON Restituer"
-            className={classes.autocomplete}
+            sx={{
+              width: 650,
+              input: {
+                backgroundColor:
+                  theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                borderRadius: "4px",
+              },
+            }}
             source="Montant"
-            defaultValue={avanceRestitution.Montant || ""}
             disabled
           />
           <TextInput
             label="Code Affaire"
-            className={classes.autocomplete}
+            sx={{
+              width: 650,
+              input: {
+                backgroundColor:
+                  theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                borderRadius: "4px",
+              },
+            }}
             source="CodeAffaire"
-            defaultValue={avanceRestitution.CodeAffaire || ""}
             disabled
           />
           <NumberInput
+            sx={{
+              width: 650,
+              input: {
+                backgroundColor:
+                  theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                borderRadius: "4px",
+              },
+            }}
             label="Montant Restant A Restituer"
             source="MontantRestantARestituer"
           />
           <TextInput
+            sx={{
+              width: 650,
+              input: {
+                backgroundColor:
+                  theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                borderRadius: "4px",
+              },
+            }}
             label="etatRestit"
             source="etat"
-            defaultValue={avanceRestitution.etat || ""}
             disabled
           />
           <TextInput
+            sx={{
+              width: 650,
+              input: {
+                backgroundColor:
+                  theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                borderRadius: "4px",
+              },
+            }}
             label="Fourisseur"
             source="nom"
-            defaultValue={avanceRestitution.nom || ""}
             disabled
           />
           <TextInput
+            sx={{
+              width: 650,
+              input: {
+                backgroundColor:
+                  theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                borderRadius: "4px",
+              },
+            }}
             label="ModePaiement"
             source="ModePaiement"
-            defaultValue={avanceRestitution.ModePaiement || ""}
             disabled
           />
         </SimpleForm>

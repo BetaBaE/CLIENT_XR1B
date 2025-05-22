@@ -1,5 +1,5 @@
 // Importation des modules et composants nécessaires depuis react-admin et autres bibliothèques
-import { makeStyles } from "@material-ui/core";
+
 import {
   DateInput,
   Edit,
@@ -14,17 +14,7 @@ import {
   useRedirect,
 } from "react-admin";
 import Swal from "sweetalert2";
-
-// Définition des styles avec makeStyles de Material-UI
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
-
+import { useTheme } from "@mui/material/styles";
 // Composant personnalisé pour la barre d'outils de l'édition d'utilisateur
 const UserEditToolbar = (props) => (
   <Toolbar {...props}>
@@ -34,8 +24,9 @@ const UserEditToolbar = (props) => (
 
 // Composant ChequeEdit pour éditer les chèques
 export const ChequeEdit = (props) => {
+  const theme = useTheme(); // Utilisation du thème Material-UI
   const redirect = useRedirect(); // Hook pour rediriger les utilisateurs
-  const classes = useStyles(); // Utilisation des styles définis
+  // Utilisation des styles définis
   const { record } = useEditController();
   console.log(record);
   // Fonction pour afficher une alerte de confirmation d'annulation
@@ -80,7 +71,7 @@ export const ChequeEdit = (props) => {
         <DateInput
           source="dateOperation"
           label="Date d'opération"
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           disabled={
             record.Etat === "Reglee" || record.Etat === "Annuler" ? true : false
           }
@@ -88,7 +79,7 @@ export const ChequeEdit = (props) => {
         />
         <SelectInput
           source="Etat"
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           onChange={(e) => {
             console.log(e.target.value);
             annuleAlert(e.target.value);
@@ -108,7 +99,15 @@ export const ChequeEdit = (props) => {
           source="numerocheque"
           label="Numéro de chèque"
           disabled
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
         />
       </SimpleForm>
     </Edit>

@@ -18,7 +18,7 @@ import {
   useRecordContext,
 } from "react-admin";
 import FilterFactureDetailList from "./FilterFactureDetailList";
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Box, Grid, Typography } from "@mui/material";
 import { createExporter } from "../GlobalFunction/CustomExportCsv";
 const FacturePagination = () => (
   <Pagination rowsPerPageOptions={[10, 25, 50, 100]} />

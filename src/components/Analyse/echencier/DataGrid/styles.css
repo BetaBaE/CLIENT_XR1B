@@ -1,51 +1,76 @@
-.my-custom-table {
-  display: flex; /* Enable flexbox */
-  height: 300px; /* Set the maximum height for the container */
-  border: 1px solid #ddd; /* Optional: Add a border around the container */
-}
-.table-container {
-  flex: 1; /* Allow each table to take equal space */
-  height: 300px; /* Set the maximum height for each table */
-  overflow-y: auto; /* Enable vertical scrolling for each table */
-  margin-right: 10px; /* Optional: Add some space between the tables */
+/* ===== Root theme variables ===== */
+:root {
+  --table-bg: #ffffff;
+  --table-header-bg: #f2f2f2;
+  --table-text: #000000;
+  --table-border: #dddddd;
+  --table-row-alt: #f9f9f9;
+  --table-header-hover: #dddddd;
 }
 
-.my-custom-table th, 
+/* ===== Dark Mode Override ===== */
+[data-theme="dark"] {
+  --table-bg: #1e1e1e;
+  --table-header-bg: #2c2c2c;
+  --table-text: #ffffff;
+  --table-border: #444444;
+  --table-row-alt: #2a2a2a;
+  --table-header-hover: #3a3a3a;
+}
+
+/* ===== Table Styles ===== */
+.my-custom-table {
+  display: flex;
+  height: 300px;
+  border: 1px solid var(--table-border);
+  color: var(--table-text);
+  background-color: var(--table-bg);
+}
+
+.table-container {
+  flex: 1;
+  height: 300px;
+  overflow-y: auto;
+  margin-right: 10px;
+}
+
+.table-container:last-child {
+  margin-right: 0;
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.my-custom-table th,
 .my-custom-table td {
-  border: 1px solid #ddd;
+  border: 1px solid var(--table-border);
   padding: 8px;
   text-align: left;
-}
-.table-container:last-child {
-  margin-right: 0; /* Remove margin from the last table */
 }
 
 .my-custom-table th {
   cursor: pointer;
-  background-color: #f2f2f2;
-  position: sticky; /* Make the header sticky */
-  top: 0; /* Stick to the top of the container */
-  z-index: 1; /* Ensure the header is above the table body */
+  background-color: var(--table-header-bg);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  color: var(--table-text);
 }
 
 .my-custom-table th:hover {
-  background-color: #ddd;
+  background-color: var(--table-header-hover);
 }
 
 .my-custom-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9; /* Optional: Zebra striping for better readability */
-}
-
-
-.table-container table {
-  width: 100%; /* Each table will take full width of its container */
-  border-collapse: collapse;
+  background-color: var(--table-row-alt);
 }
 
 .my-custom-right-align {
   text-align: right;
 }
 
-.text-center{
+.text-center {
   text-align: center;
 }

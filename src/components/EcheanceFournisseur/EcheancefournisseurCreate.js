@@ -7,8 +7,9 @@ import {
   SimpleForm,
   useDataProvider,
 } from "react-admin";
-
+import { useTheme } from "@mui/material/styles";
 export const EcheancefournisseurCreate = () => {
+  const theme = useTheme();
   const dataProvider = useDataProvider();
   const [fournisseur, setFournisseur] = useState([]);
   useEffect(() => {
@@ -36,13 +37,48 @@ export const EcheancefournisseurCreate = () => {
         <AutocompleteInput
           label="fournisseur"
           validate={required("choisir le fournisseur")}
-          // className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="idFournisseur"
           choices={fournisseur_choices}
         />
         {/* <NumberInput source="idFournisseur" label="Fournisseur" /> */}
-        <NumberInput source="EcheanceJR" label="Echeance en Jour" />
-        <NumberInput source="ConvJR" label="Convention en Jour" />
+        <NumberInput
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
+          source="EcheanceJR"
+          label="Echeance en Jour"
+        />
+        <NumberInput
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
+          source="ConvJR"
+          label="Convention en Jour"
+        />
       </SimpleForm>
     </Create>
   );

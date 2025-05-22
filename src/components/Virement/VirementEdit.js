@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core"; // Importation des styles personnalisés
+// Importation des styles personnalisés
 import {
   DateInput,
   Edit,
@@ -13,17 +13,7 @@ import {
   useRedirect,
 } from "react-admin"; // Importation des composants de React Admin
 import Swal from "sweetalert2"; // Importation de SweetAlert pour les alertes personnalisées
-
-// Création de styles personnalisés avec makeStyles
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px", // Largeur des champs de saisie
-  },
-  chip: {
-    fontWeight: "bold", // Poids de la police pour les éléments Chip
-  },
-}));
-
+import { useTheme } from "@mui/material/styles"; // Importation du hook useTheme pour les styles Material-UI
 // Toolbar personnalisée avec un bouton de sauvegarde
 const UserEditToolbar = (props) => (
   <Toolbar {...props}>
@@ -35,7 +25,7 @@ const UserEditToolbar = (props) => (
 export const VirementEdit = (props) => {
   const redirect = useRedirect(); // Hook pour rediriger après une action
   const { record } = useEditController();
-
+  const theme = useTheme(); // Utilisation du thème Material-UI
   // Fonction pour gérer l'alerte d'annulation
   function annuleAlert(params) {
     if (params === "Annuler") {
@@ -64,32 +54,80 @@ export const VirementEdit = (props) => {
     }
   }
 
-  const classes = useStyles(); // Application des styles personnalisés
+  // Application des styles personnalisés
 
   return (
     <Edit {...props}>
       <SimpleForm toolbar={<UserEditToolbar />}>
         <TextInput
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="orderVirementId"
           disabled // Champ désactivé
         />
-        <TextInput className={classes.autocomplete} source="nom" disabled />
-        <TextInput className={classes.autocomplete} source="rib" disabled />
+        <TextInput
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          source="nom"
+          disabled
+        />
+        <TextInput
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          source="rib"
+          disabled
+        />
         <NumberInput
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="montantVirement"
           disabled // Champ désactivé
         />
         <DateInput
           source="DateOperation"
           label="dateOperation"
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           disabled={
             record.Etat === "Reglee" || record.Etat === "Annuler" ? true : false
           }
           validate={[required("Ce champ est obligatoire")]}
-        ></DateInput>
+        />
         {/* <FormDataConsumer>
           {({ formData, ...rest }) =>
             formData.Etat !== "Reglee" &&
@@ -97,7 +135,15 @@ export const VirementEdit = (props) => {
         <SelectInput
           // {...rest}
           source="Etat"
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           onChange={(e) => {
             console.log(e.target.value); // Affiche la valeur sélectionnée
             annuleAlert(e.target.value); // Appelle la fonction d'alerte

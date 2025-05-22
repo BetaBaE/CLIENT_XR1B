@@ -1,5 +1,5 @@
-import { makeStyles } from "@material-ui/core"; // Importation de makeStyles pour créer des styles personnalisés
-import { useEffect, useState } from "react"; // Importation des hooks useEffect et useState de React
+import { useEffect, useState } from "react";
+import { useTheme } from "@mui/material/styles";// Importation des hooks useEffect et useState de React
 import {
   AutocompleteInput,
   Create,
@@ -13,19 +13,13 @@ import {
 } from "react-admin"; // Importation des composants nécessaires de React Admin
 
 // Définition des styles personnalisés
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px", // Largeur des champs d'autocomplétion
-  },
-  chip: {
-    fontWeight: "bold", // Poids de la police pour les chips
-  },
-}));
 
 // Composant principal pour la création des RIB temporaire
 export const RibtempoCreate = (props) => {
   const dataProvider = useDataProvider(); // Utilisation du dataProvider de React Admin
-  const [fournisseurs, setFournisseurs] = useState([]); // État pour stocker les fournisseurs
+  const [fournisseurs, setFournisseurs] = useState([]);
+  const theme = useTheme();
+  const [bank, setBank] = useState(""); // État pour stocker les fournisseurs
 
   // Utilisation de useEffect pour charger la liste des fournisseurs au montage du composant
   useEffect(() => {
@@ -54,7 +48,7 @@ export const RibtempoCreate = (props) => {
     "Le RIB doit être de la forme 111 222 333 444 555 666 777 888"
   );
 
-  const { identity, isLoading: identityLoading } = useGetIdentity(); // Récupération de l'identité de l'utilisateur connecté
+  const { identity } = useGetIdentity(); // Récupération de l'identité de l'utilisateur connecté
 
   // Utilisation de useEffect pour désactiver l'autocomplétion sur certains champs après le chargement du DOM
   useEffect(() => {
@@ -67,7 +61,7 @@ export const RibtempoCreate = (props) => {
     }
   }, []);
 
-  const classes = useStyles(); // Utilisation des styles définis plus haut
+  // Utilisation des styles définis plus haut
   const { isLoading, error } = useGetIdentity(); // Récupération de l'état de chargement et des erreurs de l'identité de l'utilisateur
 
   // Affichage d'un message de chargement ou d'erreur si nécessaire
@@ -83,26 +77,62 @@ export const RibtempoCreate = (props) => {
           defaultValue={identity?.fullName}
           label="vous êtes"
           hidden={false}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           disabled={true}
           source="Redacteur"
         />
         <AutocompleteInput
           label="Fournisseur"
           validate={required("Le fournisseur est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="FournisseurId"
           choices={fournisseur_choices}
         />
         <TextInput
           validate={[validateRib, required("Le RIB est obligatoire")]}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="rib"
         />
-        <TextInput className={classes.autocomplete} source="swift" />
         <SelectInput
+          onChange={(event) => {
+            setBank(event.target.value); // Log de la valeur sélectionnée.
+          }}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="banque"
-          label="banque"
+          validate={required("La banque est obligatoire")}
+          label="Bank"
           choices={[
             { id: "ABB", name: "Al Barid Bank" },
             { id: "AWB", name: "Attijari wafa banque" },
@@ -124,7 +154,48 @@ export const RibtempoCreate = (props) => {
             { id: "La Caixa", name: "Caixabank" },
             { id: "Umnia bank", name: "Umnia bank" },
             { id: " TGR", name: " Trésorerie Générale du Royaume" },
+            { id: "Bank International", name: "🌐 Bank International" },
           ]}
+        />
+        <TextInput
+          validate={
+            bank === "Bank International"
+              ? required(
+                  "Code SWIFT est obligatoire pour les Bank International"
+                )
+              : null
+          }
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          label="SWIFT"
+          source="swift"
+        />
+        <TextInput
+          validate={
+            bank === "Bank International"
+              ? required(
+                  "Code IBAN est obligatoire pour les Bank International"
+                )
+              : null
+          }
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          label="IBAN"
+          source="iban"
         />
       </SimpleForm>
     </Create>

@@ -1,4 +1,3 @@
-import { makeStyles } from "@material-ui/core";
 import {
   DateInput,
   Edit,
@@ -14,15 +13,7 @@ import {
 } from "react-admin";
 import Swal from "sweetalert2";
 
-// Styles personnalisés pour les composants
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px", // Largeur des champs
-  },
-  chip: {
-    fontWeight: "bold", // Style pour les chips (non utilisé ici)
-  },
-}));
+import { useTheme } from "@mui/material/styles";
 
 // Toolbar personnalisée pour le formulaire d'édition
 const UserEditToolbar = (props) => (
@@ -34,7 +25,7 @@ const UserEditToolbar = (props) => (
 // Composant principal pour l'édition d'un virement
 export const VirementFondEdit = (props) => {
   const redirect = useRedirect(); // Fonction pour rediriger après l'édition
-
+  const theme = useTheme(); // Utilisation du thème Material-UI
   // Fonction pour afficher une alerte avant d'annuler un virement
   function annuleAlert(params) {
     if (params === "Annuler") {
@@ -63,20 +54,64 @@ export const VirementFondEdit = (props) => {
     }
   }
 
-  const classes = useStyles(); // Application des styles personnalisés
+  // Application des styles personnalisés
 
   return (
     <Edit {...props}>
       <SimpleForm toolbar={<UserEditToolbar />}>
         <TextInput
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="orderVirementId"
           disabled // Champ désactivé
         />
-        <TextInput className={classes.autocomplete} source="nom" disabled />
-        <TextInput className={classes.autocomplete} source="rib" disabled />
+        <TextInput
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
+          source="nom"
+          disabled
+        />
+        <TextInput
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
+          source="rib"
+          disabled
+        />
         <NumberInput
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="montantVirement"
           disabled // Champ désactivé
         />
@@ -87,7 +122,7 @@ export const VirementFondEdit = (props) => {
               <SelectInput
                 {...rest}
                 source="Etat"
-                className={classes.autocomplete}
+                sx={{ width: 650 }}
                 onChange={(e) => {
                   console.log(e.target.value);
                   annuleAlert(e.target.value); // Appel de la fonction d'alerte
@@ -105,7 +140,7 @@ export const VirementFondEdit = (props) => {
         <DateInput
           source="dateOperation"
           label="Date de l'opération"
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
         />
       </SimpleForm>
     </Edit>

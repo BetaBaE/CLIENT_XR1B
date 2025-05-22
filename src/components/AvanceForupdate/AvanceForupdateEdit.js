@@ -16,19 +16,13 @@ import {
   AutocompleteInput,
   DateInput,
 } from "react-admin";
-import { makeStyles } from "@material-ui/styles";
+import { useTheme } from "@mui/material/styles";
 import apiUrl from "../../config";
 import Swal from "sweetalert2";
-import { Grid } from "@material-ui/core";
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "95%",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
+import { Grid } from "@mui/material";
+
 export const AvanceForupdateEdit = (props) => {
+  const theme = useTheme();
   const { identity, isLoading: identityLoading } = useGetIdentity();
   const [designation, setDesignation] = useState([]);
   const [ttc, setTTC] = useState(0);
@@ -142,7 +136,6 @@ export const AvanceForupdateEdit = (props) => {
     name: `${LIBELLE} | ${id} `,
   }));
 
-  const classes = useStyles();
   const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
   if (error) return <>Error</>;
@@ -156,12 +149,12 @@ export const AvanceForupdateEdit = (props) => {
                 <Grid item md={6}>
                   {/* <TextInput
                   label="Fiche Navette"
-                  className={classes.autocomplete}
+                  sx={{ width: 650 }}
                   source="ficheNavette"
                 /> */}
                   <SelectInput
                     source="annulation"
-                    className={classes.autocomplete}
+                    sx={{ width: 650 }}
                     onChange={(e) => {
                       console.log(e.target.value);
                       annuleAlert(e.target.value);
@@ -177,7 +170,16 @@ export const AvanceForupdateEdit = (props) => {
             <TextInput
               // defaultValue={identity.fullName}
               label="N° Proforma / Devis"
-              className={classes.autocomplete}
+              sx={{
+                width: 650,
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
               validate={required("N° Proforma / Devis est obligatoire")}
               source="NdocAchat"
             />
@@ -186,7 +188,7 @@ export const AvanceForupdateEdit = (props) => {
             <DateInput
               // defaultValue={identity.fullName}
               label="Date de document"
-              className={classes.autocomplete}
+              sx={{ width: 650 }}
               validate={required("Date de document est obligatoire")}
               source="DateDocAchat"
             />
@@ -194,14 +196,23 @@ export const AvanceForupdateEdit = (props) => {
           <Grid item md={6}>
             <TextInput
               label="Bon commande"
-              className={classes.autocomplete}
+              sx={{
+                width: 650,
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
               source="BonCommande"
             />
           </Grid>
           <Grid item md={6}>
             <NumberInput
               label="TTC"
-              className={classes.autocomplete}
+              sx={{ width: 650 }}
               min="10"
               source="MontantAvanceTTC"
               onChange={(e) => {
@@ -218,7 +229,16 @@ export const AvanceForupdateEdit = (props) => {
             <AutocompleteInput
               label="designation"
               validate={required("selectionnez la designation")}
-              className={classes.autocomplete}
+              sx={{
+                width: 650,
+                input: {
+                  backgroundColor:
+                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                  borderRadius: "4px",
+                },
+              }}
+              inputProps={{ autoComplete: "off" }}
               source="idDesignation"
               choices={designation_choices}
               onChange={(e) => {
@@ -232,27 +252,10 @@ export const AvanceForupdateEdit = (props) => {
               }}
             />
           </Grid>
-          {/* <Grid item md={6}>
-            <NumberInput
-              label="MontantAvanceHT"
-              className={classes.autocomplete}
-              min="10"
-              source="MontantAvanceHT"
-              validate={required()}
-            />
-          </Grid>
-          <Grid item md={6}>
-            <NumberInput
-              label="MontantAvanceTVA"
-              className={classes.autocomplete}
-              min="0"
-              defaultValue={0}
-              source="MontantAvanceTVA"
-            />
-          </Grid> */}
+
           <Grid item md={6}>
             <SelectInput
-              className={classes.autocomplete}
+              sx={{ width: 650 }}
               source="CatFn"
               label="Catégorie Facture"
               validate={required()}
@@ -265,7 +268,7 @@ export const AvanceForupdateEdit = (props) => {
           {record.EtatIR === "Oui" ? (
             <Grid item md={6}>
               <SelectInput
-                className={classes.autocomplete}
+                sx={{ width: 650 }}
                 source="EtatIR"
                 label="Etat Ras IR"
                 validate={record.EtatIR ? required("") : undefined}

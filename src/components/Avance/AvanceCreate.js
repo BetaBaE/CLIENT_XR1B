@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTheme } from "@mui/material/styles";
 import {
   AutocompleteInput,
   Create,
@@ -10,19 +11,13 @@ import {
   useDataProvider,
   useGetIdentity,
 } from "react-admin";
-import { makeStyles } from "@material-ui/styles";
+
 import apiUrl from "../../config";
 
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px",
-  },
-}));
-
 export const AvanceCreate = () => {
+  const theme = useTheme();
   const dataProvider = useDataProvider(); // Hook pour accéder au fournisseur de données
   const { identity } = useGetIdentity(); // Hook pour récupérer l'identité de l'utilisateur actuel
-  const classes = useStyles(); // Utilisation des styles définis
 
   // États pour les données des fournisseurs et chantiers
   const [fournisseur, setFournisseur] = useState([]);
@@ -100,7 +95,16 @@ export const AvanceCreate = () => {
         <TextInput
           defaultValue={identity.fullName}
           label="Vous êtes"
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           disabled
           source="fullName"
         />
@@ -109,7 +113,16 @@ export const AvanceCreate = () => {
         <AutocompleteInput
           label="Fournisseur"
           validate={required("Le fournisseur est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="idfournisseur"
           choices={fournisseurs_choices}
           onChange={(e) => {
@@ -135,7 +148,16 @@ export const AvanceCreate = () => {
         {/* Sélecteur d'autocomplétion pour choisir un chantier */}
         <AutocompleteInput
           validate={required("Le chantier est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="codechantier"
           choices={chantier_choices}
           onChange={(e) => setSelectedCodeChantier(e)}
@@ -144,7 +166,7 @@ export const AvanceCreate = () => {
         {/* Condition pour afficher le sélecteur de service si le chantier sélectionné est "A-9999" */}
         {selectedCodeChantier === "A-9999" && (
           <SelectInput
-            className={classes.autocomplete}
+            sx={{ width: 650 }}
             source="service"
             choices={[
               { id: "comm", name: "Communication" },
@@ -160,14 +182,32 @@ export const AvanceCreate = () => {
         <TextInput
           label="Fiche navette"
           validate={required("La fiche navette est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="ficheNavette"
         />
 
         {/* Champ de texte pour entrer le bon de commande d'avance */}
         <TextInput
           label="Bon de commande d'avance"
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           validate={required("Le bon de commande est obligatoire")}
           source="Bcommande"
         />
@@ -175,7 +215,16 @@ export const AvanceCreate = () => {
         {/* Champ de texte pour entrer le montant d'avance */}
         <NumberInput
           label="Montant d'avance"
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           validate={(value) => {
             const numericValue = parseFloat(value);
             return numericValue >= 1
@@ -189,7 +238,7 @@ export const AvanceCreate = () => {
         {selectedSupplierCategory !== "personne morale" && (
           <SelectInput
             disabled={fournisseurIdField}
-            className={classes.autocomplete}
+            sx={{ width: 650 }}
             validate={required("Mentionnez la catégorie")}
             source="CatFn"
             choices={[
@@ -204,7 +253,16 @@ export const AvanceCreate = () => {
         <NumberInput
           label="TTC D'Avance"
           validate={required("Le montant d'avance est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="TTC"
         />
 
@@ -212,7 +270,16 @@ export const AvanceCreate = () => {
         <NumberInput
           label="Mentionnez HT"
           validate={required("HT est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="HT"
         />
 
@@ -220,12 +287,21 @@ export const AvanceCreate = () => {
         <NumberInput
           label="Mentionnez TVA"
           validate={required("TVA est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="MontantTVA"
         />
         <SelectInput
           disabled={fournisseurIdField}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           validate={required("Mentionnez la catégorie")}
           source="CatFn"
           choices={[
