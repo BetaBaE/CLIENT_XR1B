@@ -46,8 +46,12 @@ export const RIBAtnerCreate = () => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
-          disabled={true}
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="Redacteur"
         />
 

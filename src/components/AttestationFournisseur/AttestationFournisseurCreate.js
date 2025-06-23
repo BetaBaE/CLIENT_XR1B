@@ -67,7 +67,7 @@ const AttestationFournisseurCreate = (props) => {
             },
           }}
           inputProps={{ autoComplete: "off" }}
-          disabled={true}
+          InputProps={{ readOnly: true }}
           source="redacteur"
         />
 

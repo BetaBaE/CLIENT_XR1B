@@ -6,49 +6,49 @@ import {
   AutocompleteInput,
   required,
 } from "react-admin";
-
-import useFetchFournisserInter from "../global/InternastionalFournisseur";
 import apiUrl from "../../config";
-//49 vulnerabilities (4 low, 21 moderate, 21 high, 3 critical)
-
+import useFetchFournisseurInternational from "../global/InternastionalFournisseur";
+import { useTheme } from "@mui/material/styles";
 export const DossierCreate = () => {
   const { identity } = useGetIdentity();
+  const { fournisseurs, loading } = useFetchFournisseurInternational(apiUrl);
+  const theme = useTheme();
 
-  const { fournisseur, loading, error } = useFetchFournisserInter(apiUrl);
+  const inputSyle = {
+    width: 650,
+    input: {
+      backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+      color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+      borderRadius: "4px",
+    },
+  };
 
-  let fournisseur_choices = fournisseur.map(({ id, nom }) => ({
-    id: id,
-    name: `${nom}`,
-  }));
-
-  if (loading) return <div>Loading fournisseurs...</div>;
-  if (error) return <div>Error loading fournisseurs: {error.message}</div>;
-
-  const fournisseurChoices = fournisseur.map((f) => ({
-    id: f.id,
-    name: f.nom, // use "nom" as label
-  }));
+  if (loading) return <div>Chargement des fournisseurs...</div>;
 
   return (
     <Create>
       <SimpleForm>
         <TextInput
-          disabled
+          slotProps={{
+            input: {
+              readOnly: true,
+            },
+          }}
           source="Redacteur"
-          sx={{ width: 650 }}
+          sx={inputSyle}
           label="Vous êtes"
           defaultValue={identity?.fullName}
         />
         <TextInput
           source="Libele"
-          sx={{ width: 650 }}
+          sx={inputSyle}
           validate={required("Ce champ est obligatoire")}
         />
         <AutocompleteInput
           label="Fournisseur"
-          sx={{ width: 650 }}
+          sx={inputSyle}
           source="idFournisseur"
-          choices={fournisseurChoices}
+          choices={fournisseurs}
           validate={required("Ce champ est obligatoire")}
         />
       </SimpleForm>

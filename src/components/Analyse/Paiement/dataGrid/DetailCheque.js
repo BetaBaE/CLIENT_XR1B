@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./styles.css"; // Import the CSS for styling
+// import "./styles.css"; // Import the CSS for styling
 import apiUrl from "../../../../config";
 import { formatNumber } from "../../globalFunction";
 

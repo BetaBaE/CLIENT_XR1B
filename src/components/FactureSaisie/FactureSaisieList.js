@@ -28,8 +28,8 @@ const FactureFilters = [
 
 const FactureListActions = () => (
   <TopToolbar>
-    <FilterButton filters={FactureFilters} />
     <SelectColumnsButton />
+    <FilterButton filters={FactureFilters} />
     <CreateButton />
     <ExportButton />
   </TopToolbar>

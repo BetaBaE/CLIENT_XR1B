@@ -25,7 +25,7 @@ import { useFormContext } from "react-hook-form";
 const Aside = ({ asideData }) => {
   // console.log("AsideBar", asideData);
   const theme = useTheme();
-const isDark = theme.palette.mode === "dark";
+  const isDark = theme.palette.mode === "dark";
   return (
     <Box sx={{ width: "40%", margin: "1em" }}>
       <Typography variant="h4">
@@ -42,29 +42,33 @@ const isDark = theme.palette.mode === "dark";
       <div className="my-custom-table">
         <div className="table-container">
           <table
-          style={{
-      backgroundColor: isDark ? "#1e1e1e" : "#fff",
-      color: isDark ? "#fff" : "#000",
-      borderCollapse: "collapse",
-      width: "100%",
-    }}
+            style={{
+              backgroundColor: isDark ? "#1e1e1e" : "#fff",
+              color: isDark ? "#fff" : "#000",
+              borderCollapse: "collapse",
+              width: "100%",
+            }}
           >
             <thead>
-            <tr style={{
-                backgroundColor: isDark ? "#2c2c2c" : "#f2f2f2",
-                position: "sticky",
-                top: 0,
-              }}>
-              <th>FA</th>
-              <th>Date FA</th>
-              <th>TTC</th>
-              <th>FN</th>
-            </tr>
-             
+              <tr
+                style={{
+                  backgroundColor: isDark ? "#2c2c2c" : "#f2f2f2",
+                  position: "sticky",
+                  top: 0,
+                }}
+              >
+                <th>FA</th>
+                <th>Date FA</th>
+                <th>TTC</th>
+                <th>FN</th>
+              </tr>
             </thead>
             <tbody>
               {asideData.FA.map((invoice) => (
-                <tr style={{ backgroundColor: isDark ? "#2a2a2a" : "#f9f9f9" }} key={invoice.NumeroFacture} >
+                <tr
+                  style={{ backgroundColor: isDark ? "#2a2a2a" : "#f9f9f9" }}
+                  key={invoice.NumeroFacture}
+                >
                   <td>{invoice.NumeroFacture}</td>
                   <td>{invoice.DateFacture}</td>
                   <td>{invoice.TOTALTTC}</td>
@@ -155,7 +159,7 @@ const AutoDateInput = () => {
   return (
     <DateInput
       source="dateecheance"
-      sx={{ width: '98%' }}
+      sx={{ width: "98%" }}
       disabled={!startDate}
       label="Date Échéance"
     />
@@ -551,16 +555,13 @@ export const FactureSaisieCreate = (props) => {
   };
 
   return (
-    <Create
-      label="ajouter"
-      
-      aside={<Aside asideData={asideData} {...props} />}
-    >
+    <Create label="ajouter" aside={<Aside asideData={asideData} {...props} />}>
       <SimpleForm
         toolbar={<SaveButtonFA data={data} />}
         validate={validationFacture}
         sx={{
-          width: '98%',}}
+          width: "98%",
+        }}
       >
         <Grid container>
           <Grid item md={6}>
@@ -569,7 +570,7 @@ export const FactureSaisieCreate = (props) => {
               label="vous êtes"
               hidden={false}
               sx={{
-                width: '98%',
+                width: "98%",
                 input: {
                   backgroundColor:
                     theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
@@ -578,7 +579,11 @@ export const FactureSaisieCreate = (props) => {
                 },
               }}
               inputProps={{ autoComplete: "off" }}
-              disabled={true}
+              slotProps={{
+                input: {
+                  readOnly: true,
+                },
+              }}
               source="fullName"
             />
           </Grid>
@@ -591,7 +596,7 @@ export const FactureSaisieCreate = (props) => {
                 numerofacturevalidation,
               ]}
               sx={{
-                width: '98%',
+                width: "98%",
                 input: {
                   backgroundColor:
                     theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
@@ -611,7 +616,7 @@ export const FactureSaisieCreate = (props) => {
                 required("Le MontantApayer est obligatoire"),
                 validateprice,
               ]}
-              sx={{ width: '98%' }}
+              sx={{ width: "98%" }}
             />
           </Grid>
           <Grid item md={6}>
@@ -619,7 +624,7 @@ export const FactureSaisieCreate = (props) => {
               label="designation"
               validate={required("selectionnez la designation")}
               sx={{
-                width: '98%',
+                width: "98%",
                 input: {
                   backgroundColor:
                     theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
@@ -653,7 +658,7 @@ export const FactureSaisieCreate = (props) => {
               validate={required("Ce champ est obligatoire")}
               disabled={fournisseurIdField}
               sx={{
-                width: '98%',
+                width: "98%",
                 input: {
                   backgroundColor:
                     theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
@@ -673,7 +678,7 @@ export const FactureSaisieCreate = (props) => {
               label="BonCommande"
               onBlur={handleBlur}
               sx={{
-                width: '98%',
+                width: "98%",
                 input: {
                   backgroundColor:
                     theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
@@ -683,14 +688,14 @@ export const FactureSaisieCreate = (props) => {
               }}
               inputProps={{ autoComplete: "off" }}
             />
-            {/* {loading && <Typography>Loading...</Typography>}{" "} */}
+            {/* {loading && <Typography>Loading...</Typography>} */}
           </Grid>
           <Grid item md={6}>
             <AutocompleteInput
               label="fournisseur"
               validate={required("choisir le fournisseur")}
               sx={{
-                width: '98%',
+                width: "98%",
                 input: {
                   backgroundColor:
                     theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
@@ -718,7 +723,7 @@ export const FactureSaisieCreate = (props) => {
           </Grid>
           <Grid item md={6}>
             <SelectInput
-              sx={{ width: '98%' }}
+              sx={{ width: "98%" }}
               source="CatFn"
               label="Catégorie Facture"
               validate={required("")}
@@ -738,7 +743,7 @@ export const FactureSaisieCreate = (props) => {
                 required("Date obligatoire"),
                 // validationDateFacture(datefacture),
               ]}
-              sx={{ width: '98%' }}
+              sx={{ width: "98%" }}
               onChange={async (event) => {
                 handleDateChange(event);
                 console.log("event", event.target.value);
@@ -753,7 +758,7 @@ export const FactureSaisieCreate = (props) => {
             <AutocompleteInput
               label="chantier"
               sx={{
-                width: '98%',
+                width: "98%",
                 input: {
                   backgroundColor:
                     theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
@@ -778,7 +783,7 @@ export const FactureSaisieCreate = (props) => {
                 value={dateecheance}
                 // onChange={(event) => setdateecheance(event.target.value)} // Handle change
               /> */}
-              <AutoDateInput sx={{ width: '98%' }} />
+              <AutoDateInput sx={{ width: "98%" }} />
               {dateecheance ? (
                 <p>
                   {dateecheance}|Number of days until due date:
@@ -793,7 +798,7 @@ export const FactureSaisieCreate = (props) => {
           {FourRasIR.RasIr === "Oui" ? (
             <Grid item md={6}>
               <SelectInput
-                sx={{ width: '98%' }}
+                sx={{ width: "98%" }}
                 source="EtatIR"
                 label="Etat Ras IR"
                 validate={FourRasIR.RasIr === "Oui" ? required("") : undefined}

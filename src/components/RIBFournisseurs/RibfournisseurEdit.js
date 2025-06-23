@@ -43,8 +43,8 @@ export const RibfournisseurEdit = (props) => {
   return (
     <Edit {...props}>
       <SimpleForm toolbar={<EditToolbar />}>
-        {/* Formulaire simple avec barre d'outils personnalisée */}
         <TextInput
+          source="validateur"
           defaultValue={identity?.fullName}
           label="Vous êtes"
           hidden={false}
@@ -58,8 +58,7 @@ export const RibfournisseurEdit = (props) => {
             },
           }}
           inputProps={{ autoComplete: "off" }}
-          disabled={true}
-          source="validateur"
+          InputProps={{ readOnly: true }}
         />
         <TextInput
           sx={{
@@ -71,9 +70,9 @@ export const RibfournisseurEdit = (props) => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          // inputProps={{ autoComplete: "off" }}
           source="fournisseur"
-          disabled
+          InputProps={{ readOnly: true }}
         />
         <TextInput
           sx={{
@@ -85,9 +84,9 @@ export const RibfournisseurEdit = (props) => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          // inputProps={{ autoComplete: "off" }}
           source="swift"
-          disabled
+          InputProps={{ readOnly: true }}
         />
         <TextInput
           sx={{
@@ -99,10 +98,10 @@ export const RibfournisseurEdit = (props) => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          // inputProps={{ autoComplete: "off" }}
           source="banque"
           label="Banque"
-          disabled
+          InputProps={{ readOnly: true }}
         />
         <TextInput
           sx={{
@@ -114,9 +113,10 @@ export const RibfournisseurEdit = (props) => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          // inputProps={{ autoComplete: "off" }}
           source="rib"
-          disabled
+          label="RIB"
+          InputProps={{ readOnly: true }}
         />
         <FormDataConsumer>
           {({ formData, ...rest }) => (

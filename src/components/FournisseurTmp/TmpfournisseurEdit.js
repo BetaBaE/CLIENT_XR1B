@@ -22,7 +22,12 @@ export const TmpfournisseurEdit = () => {
         <TextInput
           defaultValue={identity?.fullName}
           label="Vous êtes"
-          disabled
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="Validateur"
           sx={{
             width: 650,
@@ -37,7 +42,12 @@ export const TmpfournisseurEdit = () => {
         />
         <TextInput
           source="nom"
-          disabled
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           sx={{
             width: 650,
             input: {
@@ -52,7 +62,12 @@ export const TmpfournisseurEdit = () => {
         <TextInput
           label="Acheteur"
           source="Redacteur"
-          disabled
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           sx={{
             width: 650,
             input: {
@@ -64,10 +79,24 @@ export const TmpfournisseurEdit = () => {
           }}
           inputProps={{ autoComplete: "off" }}
         />
-        <DateTimeInput source="dateCreation" disabled sx={{ width: 650 }} />
+        <DateTimeInput
+          source="dateCreation"
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
+          sx={{ width: 650 }}
+        />
         <TextInput
           source="catFournisseur"
-          disabled
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           sx={{
             width: 650,
             input: {
@@ -81,7 +110,12 @@ export const TmpfournisseurEdit = () => {
         />
         <TextInput
           source="etat"
-          disabled
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           sx={{
             width: 650,
             input: {

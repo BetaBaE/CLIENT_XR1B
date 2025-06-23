@@ -44,7 +44,11 @@ export const DesignationCreate = () => {
             },
           }}
           inputProps={{ autoComplete: "off" }}
-          disabled={true}
+          slotProps={{
+            input: {
+              readOnly: true,
+            },
+          }}
           source="ModifierPar"
         />
         <TextInput

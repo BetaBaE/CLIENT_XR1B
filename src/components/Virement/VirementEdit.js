@@ -70,7 +70,12 @@ export const VirementEdit = (props) => {
             },
           }}
           source="orderVirementId"
-          disabled // Champ désactivé
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }} // Champ désactivé
         />
         <TextInput
           sx={{
@@ -83,7 +88,12 @@ export const VirementEdit = (props) => {
             },
           }}
           source="nom"
-          disabled
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
         />
         <TextInput
           sx={{
@@ -96,7 +106,12 @@ export const VirementEdit = (props) => {
             },
           }}
           source="rib"
-          disabled
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
         />
         <NumberInput
           sx={{
@@ -109,7 +124,12 @@ export const VirementEdit = (props) => {
             },
           }}
           source="montantVirement"
-          disabled // Champ désactivé
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
         />
         <DateInput
           source="DateOperation"

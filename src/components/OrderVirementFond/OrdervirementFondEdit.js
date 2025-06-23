@@ -117,7 +117,12 @@ export const OrdervirementFondEdit = (props) => {
           }}
           inputProps={{ autoComplete: "off" }}
           source="id"
-          disabled
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
         />
         {/* Champ d'affichage de l'ID, désactivé */}
         <FormDataConsumer>

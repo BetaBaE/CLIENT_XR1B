@@ -17,9 +17,9 @@ const EditToolbar = (props) => (
 
 // Composant principal pour l'édition d'un RIB Atner
 export const RIBatnerEdit = (props) => {
-  const { identity, isLoading: identityLoading } = useGetIdentity(); // Récupération de l'identité de l'utilisateur connecté
+  const { identity, isLoading, error } = useGetIdentity(); // Récupération de l'identité de l'utilisateur connecté
   // Utilisation des styles définis plus haut
-  const { isLoading, error } = useGetIdentity(); // Récupération de l'état de chargement et des erreurs de l'identité de l'utilisateur
+  // const { isLoading, error } = useGetIdentity(); // Récupération de l'état de chargement et des erreurs de l'identité de l'utilisateur
 
   // Affichage d'un message de chargement ou d'erreur si nécessaire
   if (isLoading) return <>Loading</>;
@@ -28,7 +28,6 @@ export const RIBatnerEdit = (props) => {
   return (
     <Edit {...props}>
       <SimpleForm toolbar={<EditToolbar />}>
-        {" "}
         {/* Formulaire simple avec barre d'outils personnalisée */}
         {/* Champ texte pour afficher le nom de l'utilisateur connecté, désactivé */}
         <TextInput
@@ -36,7 +35,12 @@ export const RIBatnerEdit = (props) => {
           label="vous êtes"
           hidden={false}
           sx={{ width: 650 }}
-          disabled={true}
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="ModifierPar"
         />
         {/* Champ texte pour le nom avec validation requise */}

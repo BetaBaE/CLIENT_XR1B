@@ -128,7 +128,11 @@ export const FactureRechereCreate = (props) => {
           label="Vous êtes"
           hidden={false}
           sx={{ width: 650 }}
-          disabled={true}
+          slotProps={{
+            input: {
+              readOnly: true,
+            },
+          }}
           source="fullName"
         />
 

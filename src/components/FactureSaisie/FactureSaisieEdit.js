@@ -114,7 +114,11 @@ export const FactureSaisieEdit = () => {
                 },
               }}
               inputProps={{ autoComplete: "off" }}
-              disabled={true}
+              slotProps={{
+                input: {
+                  readOnly: true,
+                },
+              }}
               source="fullNameupdating"
             />
           </Grid>
@@ -123,7 +127,11 @@ export const FactureSaisieEdit = () => {
             <TextInput
               source="fullName"
               label="crée par"
-              disabled={true}
+              slotProps={{
+                input: {
+                  readOnly: true,
+                },
+              }}
               sx={{
                 width: "98%",
                 input: {
@@ -139,7 +147,11 @@ export const FactureSaisieEdit = () => {
           <Grid item xs={4}>
             <DateInput
               source="createdDate"
-              disabled={true}
+              slotProps={{
+                input: {
+                  readOnly: true,
+                },
+              }}
               sx={{
                 width: "98%",
                 input: {
@@ -165,7 +177,11 @@ export const FactureSaisieEdit = () => {
                 },
               }}
               inputProps={{ autoComplete: "off" }}
-              disabled={true}
+              slotProps={{
+                input: {
+                  readOnly: true,
+                },
+              }}
             />
           </Grid>
           {permissions === "admin" ||
@@ -330,7 +346,7 @@ export const FactureSaisieEdit = () => {
                   }}
                   inputProps={{ autoComplete: "off" }}
                 />
-              </Grid>{" "}
+              </Grid>
             </>
           ) : null}
           <Grid item xs={4}>
@@ -346,7 +362,12 @@ export const FactureSaisieEdit = () => {
                 },
               }}
               inputProps={{ autoComplete: "off" }}
-              disabled={true}
+              slotProps={{
+                input: {
+                  readOnly: true,
+                  autoComplete: "off",
+                },
+              }}
             />
           </Grid>
           <Grid item xs={4}>
@@ -361,8 +382,12 @@ export const FactureSaisieEdit = () => {
                   borderRadius: "4px",
                 },
               }}
-              inputProps={{ autoComplete: "off" }}
-              disabled={true}
+              slotProps={{
+                input: {
+                  readOnly: true,
+                  autoComplete: "off",
+                },
+              }}
             />
           </Grid>
           <Grid item xs={4}>

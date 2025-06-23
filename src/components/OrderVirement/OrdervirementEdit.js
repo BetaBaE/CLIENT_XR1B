@@ -108,7 +108,12 @@ export const OrdervirementEdit = (props) => {
           }}
           inputProps={{ autoComplete: "off" }}
           source="id"
-          disabled
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
         />
         <FormDataConsumer>
           {({ formData, ...rest }) =>

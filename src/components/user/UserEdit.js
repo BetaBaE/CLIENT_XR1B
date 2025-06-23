@@ -129,9 +129,13 @@ export const UserEdit = (props) => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
           source="created"
-          disabled
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
         />
       </SimpleForm>
     </Edit>

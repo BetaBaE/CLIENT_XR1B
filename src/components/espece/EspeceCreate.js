@@ -198,7 +198,11 @@ export const EspeceCreate = (props) => {
               borderRadius: "4px",
             },
           }}
-          disabled={true}
+          slotProps={{
+            input: {
+              readOnly: true,
+            },
+          }}
           source="redacteur"
         />
         <AutocompleteInput
@@ -237,13 +241,13 @@ export const EspeceCreate = (props) => {
         />
         {sumfactureValuefn && (
           <div>
-            La somme des montants des factures avec FN est de :{" "}
+            La somme des montants des factures avec FN est de :
             {sumfactureValuefn} DH
           </div>
         )}
         {sumfacturenotfnValue && (
           <div>
-            La somme des montants des factures sans FN est de :{" "}
+            La somme des montants des factures sans FN est de :
             {sumfacturenotfnValue} DH
           </div>
         )}

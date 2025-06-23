@@ -18,18 +18,57 @@
   --table-header-hover: #3a3a3a;
 }
 
-/* ===== Table Styles ===== */
-.my-custom-table {
+/* ===== Base Table Styles (shared) ===== */
+.my-custom-table,
+.my-custom-table-small {
   display: flex;
-  height: 300px;
   border: 1px solid var(--table-border);
   color: var(--table-text);
   background-color: var(--table-bg);
 }
 
+.my-custom-table { height: 300px; }
+.my-custom-table-small { height: 80px; }
+
+/* Shared table internal elements */
+.my-custom-table table,
+.my-custom-table-small table {
+  width: 100%;
+  border-collapse: collapse;
+  color: inherit; /* Ensures text color respects dark mode */
+}
+
+.my-custom-table th, .my-custom-table td,
+.my-custom-table-small th, .my-custom-table-small td {
+  border: 1px solid var(--table-border);
+  padding: 8px;
+  text-align: left;
+  color: inherit; /* Inherits text color from parent */
+}
+
+.my-custom-table th,
+.my-custom-table-small th {
+  cursor: pointer;
+  background-color: var(--table-header-bg);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.my-custom-table th:hover,
+.my-custom-table-small th:hover {
+  background-color: var(--table-header-hover);
+}
+
+.my-custom-table tr:nth-child(even),
+.my-custom-table-small tr:nth-child(even) {
+  background-color: var(--table-row-alt);
+}
+
+/* Container styles (unchanged) */
 .table-container {
   flex: 1;
-  height: 300px;
+  height: 100%; /* Now respects parent height */
   overflow-y: auto;
   margin-right: 10px;
 }
@@ -38,39 +77,6 @@
   margin-right: 0;
 }
 
-.table-container table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.my-custom-table th,
-.my-custom-table td {
-  border: 1px solid var(--table-border);
-  padding: 8px;
-  text-align: left;
-}
-
-.my-custom-table th {
-  cursor: pointer;
-  background-color: var(--table-header-bg);
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  color: var(--table-text);
-}
-
-.my-custom-table th:hover {
-  background-color: var(--table-header-hover);
-}
-
-.my-custom-table tbody tr:nth-child(even) {
-  background-color: var(--table-row-alt);
-}
-
-.my-custom-right-align {
-  text-align: right;
-}
-
-.text-center {
-  text-align: center;
-}
+/* Utility classes (unchanged) */
+.my-custom-right-align { text-align: right; }
+.text-center { text-align: center; }

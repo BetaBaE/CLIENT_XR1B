@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useTheme } from "@mui/material/styles";// Importation des hooks useEffect et useState de React
+import { useTheme } from "@mui/material/styles"; // Importation des hooks useEffect et useState de React
 import {
   AutocompleteInput,
   Create,
@@ -71,7 +71,6 @@ export const RibtempoCreate = (props) => {
   return (
     <Create>
       <SimpleForm {...props}>
-        {" "}
         {/* Formulaire simple pour la création */}
         <TextInput
           defaultValue={identity?.fullName}
@@ -86,7 +85,12 @@ export const RibtempoCreate = (props) => {
               borderRadius: "4px",
             },
           }}
-          disabled={true}
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="Redacteur"
         />
         <AutocompleteInput

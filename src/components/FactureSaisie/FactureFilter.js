@@ -1,110 +1,39 @@
 import { DateInput, Filter, TextInput } from "react-admin";
-import { useTheme } from "@mui/material/styles";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 const FactureFilter = (props) => {
-  const theme = useTheme();
   return (
     <Filter {...props}>
-      <TextInput
-        source="LIBELLE"
-        sx={{
-          input: {
-            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-            borderRadius: "4px",
-          },
-        }}
-        label="chantier"
-      />
+      <TextInput source="LIBELLE" sx={useInputStyleFilters} label="chantier" />
 
       <TextInput
-        sx={{
-          input: {
-            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-            borderRadius: "4px",
-          },
-        }}
+        sx={useInputStyleFilters}
         source="BonCommande"
         label="BonCommande"
       />
 
       <TextInput
-        sx={{
-          input: {
-            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-            borderRadius: "4px",
-          },
-        }}
+        sx={useInputStyleFilters}
         source="fournisseur"
         label="fournisseur"
       />
       <TextInput
-        sx={{
-          input: {
-            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-            borderRadius: "4px",
-          },
-        }}
+        sx={useInputStyleFilters}
         source="designation"
         label="designation"
       />
       <TextInput
-        sx={{
-          input: {
-            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-            borderRadius: "4px",
-          },
-        }}
+        sx={useInputStyleFilters}
         source="numeroFacture"
         label="numeroFacture"
       />
       <TextInput
-        sx={{
-          input: {
-            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-            borderRadius: "4px",
-          },
-        }}
+        sx={useInputStyleFilters}
         source="CodeFournisseur"
         label="CodeFournisseur"
       />
-      <TextInput
-        sx={{
-          input: {
-            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-            borderRadius: "4px",
-          },
-        }}
-        source="fullname"
-        label="createur"
-      />
-      <DateInput
-        sx={{
-          input: {
-            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-            borderRadius: "4px",
-          },
-        }}
-        source="Datedebut"
-        label="mindate"
-      />
-      <DateInput
-        sx={{
-          input: {
-            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-            borderRadius: "4px",
-          },
-        }}
-        source="Datefin"
-        label="maxdate"
-      />
+      <TextInput sx={useInputStyleFilters} source="fullname" label="createur" />
+      <DateInput sx={useInputStyleFilters} source="Datedebut" label="mindate" />
+      <DateInput sx={useInputStyleFilters} source="Datefin" label="maxdate" />
     </Filter>
   );
 };

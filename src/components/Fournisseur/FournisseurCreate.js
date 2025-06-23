@@ -87,9 +87,13 @@ export const FournisseurCreate = (props) => {
               borderRadius: "4px",
             },
           }}
-          disabled={true}
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="Redacteur"
-          inputProps={{ autoComplete: "off" }}
         />
 
         <TextInput

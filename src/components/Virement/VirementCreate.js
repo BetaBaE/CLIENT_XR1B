@@ -391,7 +391,12 @@ export const VirementCreate = () => {
               borderRadius: "4px",
             },
           }}
-          disabled={true}
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="Redacteur"
         />
 
@@ -480,7 +485,7 @@ export const VirementCreate = () => {
         <br></br>
         {sumAvanceValue ? (
           <div>
-            la somme des montants des avances par fournisseur value :{" "}
+            la somme des montants des avances par fournisseur value :
             {sumAvanceValue} DH
           </div>
         ) : (

@@ -262,7 +262,11 @@ export const ChequeCreate = (props) => {
               borderRadius: "4px",
             },
           }}
-          disabled={true}
+          slotProps={{
+            input: {
+              readOnly: true,
+            },
+          }}
           source="Redacteur"
         />
         <SelectInput
@@ -373,7 +377,7 @@ export const ChequeCreate = (props) => {
         )}
         {sumavance.length > 0 && (
           <div>
-            la somme des montants des avances par fournisseur value :{" "}
+            la somme des montants des avances par fournisseur value :
             {sumavance[0].sum} DH
           </div>
         )}

@@ -78,8 +78,8 @@ const AvanceNoRestit = ({ nom }) => {
   }
 
   return dataTable1.length > 0 ? (
-    <div className="my-custom-table-sf">
-      <div className="table-container-sf">
+    <div className="my-custom-table-small">
+      <div className="table-container">
         <table>
           <thead>
             <tr>

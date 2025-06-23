@@ -48,7 +48,11 @@ const EcheanceLoiCreate = (props) => {
           label="vous êtes"
           hidden={false}
           sx={{ width: 650 }}
-          disabled={true}
+          slotProps={{
+            input: {
+              readOnly: true,
+            },
+          }}
           source="Redacteur"
         ></TextInput>
         <AutocompleteInput

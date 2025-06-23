@@ -128,7 +128,12 @@ export const FicheNavetteCreate = (props) => {
             },
           }}
           inputProps={{ autoComplete: "off" }}
-          disabled={true}
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="fullName"
         />
 

@@ -63,7 +63,12 @@ export const OrdervirementCreate = () => {
               borderRadius: "4px",
             },
           }}
-          disabled={true}
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="Redacteur"
         />
         <SelectInput

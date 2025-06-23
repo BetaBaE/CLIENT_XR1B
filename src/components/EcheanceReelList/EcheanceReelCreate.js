@@ -50,7 +50,11 @@ const EcheanceReelCreate = (props) => {
         <TextInput
           defaultValue={identity?.fullName}
           label="Vous êtes"
-          disabled
+          slotProps={{
+            input: {
+              readOnly: true,
+            },
+          }}
           sx={{ width: 650 }}
           source="Redacteur"
         />

@@ -14,17 +14,6 @@ const PaiementPage = () => {
   const handleRowClick = (id) => {
     setSelectedId(id); // Set the selected ID when a row is clicked
   };
-
-  // function formatDateToFrench(dateString) {
-  //   // Create a Date object from the input string
-  //   const date = new Date(dateString);
-
-  //   // Options for formatting in French
-  //   const options = { year: "numeric", month: "long" };
-
-  //   // Format the date to "décembre 2024"
-  //   return date.toLocaleString("fr-FR", options);
-  // }
   return (
     <Grid container spacing={2} justifyContent="space-around">
       <Title title="ATNER Paiements" />

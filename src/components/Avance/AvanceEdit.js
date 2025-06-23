@@ -193,7 +193,7 @@ export const AvanceEdit = (props) => {
               },
             }}
             inputProps={{ autoComplete: "off" }}
-            disabled
+            InputProps={{ readOnly: true }}
             source="Redacteur"
           />
           <AutocompleteInput
@@ -237,7 +237,7 @@ export const AvanceEdit = (props) => {
               },
             }}
             source="Montant"
-            disabled
+            InputProps={{ readOnly: true }}
           />
           <TextInput
             label="Code Affaire"
@@ -251,7 +251,7 @@ export const AvanceEdit = (props) => {
               },
             }}
             source="CodeAffaire"
-            disabled
+            InputProps={{ readOnly: true }}
           />
           <NumberInput
             sx={{
@@ -278,7 +278,11 @@ export const AvanceEdit = (props) => {
             }}
             label="etatRestit"
             source="etat"
-            disabled
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
+            }}
           />
           <TextInput
             sx={{
@@ -292,7 +296,11 @@ export const AvanceEdit = (props) => {
             }}
             label="Fourisseur"
             source="nom"
-            disabled
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
+            }}
           />
           <TextInput
             sx={{
@@ -306,7 +314,11 @@ export const AvanceEdit = (props) => {
             }}
             label="ModePaiement"
             source="ModePaiement"
-            disabled
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
+            }}
           />
         </SimpleForm>
       )}

@@ -50,7 +50,12 @@ export const FactureValiderEdit = () => {
         <TextInput
           defaultValue={identity?.fullName}
           label="Vous êtes"
-          disabled={true}
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="updatedBy"
         />
         <SelectInput

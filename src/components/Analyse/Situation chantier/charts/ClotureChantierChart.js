@@ -34,8 +34,13 @@ const CustomTooltip = ({ active, payload }) => {
       <div
         style={{
           backgroundColor: "#fff",
-          padding: "5px",
-          border: "0.1px solid #000",
+          color: "#000", // Ensure text stays black in dark mode
+          padding: "6px 10px",
+          border: "1px solid #000",
+          fontSize: "14px",
+          borderRadius: "4px",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+          fontWeight: 700,
         }}
       >
         <p style={{ color: "#0088FE", fontWeight: 700 }}>{`${mois}`}</p>

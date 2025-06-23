@@ -169,6 +169,8 @@ export const GetfacturedetailList = () => {
       filterChantier = "";
       break;
   }
+  const currentYear = new Date().getFullYear();
+  const defaultDateExercices = `${currentYear}-01-01`;
   return (
     <List
       exporter={exporter}
@@ -176,7 +178,7 @@ export const GetfacturedetailList = () => {
       filters={<FilterFactureDetailList />}
       actions={<FactureDetailsActions />}
       filterDefaultValues={{
-        dateExercices: "2024-01-01",
+        dateExercices: defaultDateExercices,
         codechantier: filterChantier,
       }}
       title="nouv. Facture Log"

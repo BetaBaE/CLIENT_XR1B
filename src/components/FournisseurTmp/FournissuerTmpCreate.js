@@ -75,7 +75,7 @@ const Aside = ({ asideData }) => {
 };
 export const FournisseurTmpCreate = (props) => {
   const { identity, isLoading, error } = useGetIdentity(); // Single call for identity
-  const [loading, setLoading] = useState(false); // Loading state
+  // Removed unused loading state
   const [asideData, setAsideData] = useState([]);
   const theme = useTheme();
 
@@ -91,7 +91,7 @@ export const FournisseurTmpCreate = (props) => {
 
     let url = `${apiUrl}/fournisseursmatch/${encodeURIComponent(fournisseur)}`;
 
-    setLoading(true);
+    // setLoading(true); // Removed unused loading state
     try {
       const response = await fetch(url);
 
@@ -112,7 +112,7 @@ export const FournisseurTmpCreate = (props) => {
       console.error("Error fetching data:", error);
       setAsideData({ json: [] }); // Ensure state is cleared on error
     } finally {
-      setLoading(false);
+      // setLoading(false); // Removed unused loading state
     }
   };
 
@@ -130,7 +130,12 @@ export const FournisseurTmpCreate = (props) => {
         <TextInput
           defaultValue={identity?.fullName}
           label="Vous êtes"
-          disabled
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="Redacteur"
           sx={{
             width: 650,

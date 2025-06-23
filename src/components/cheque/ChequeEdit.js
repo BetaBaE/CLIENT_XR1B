@@ -92,7 +92,11 @@ export const ChequeEdit = (props) => {
         <TextInput
           source="numerocheque"
           label="Numéro de chèque"
-          disabled
+          slotProps={{
+            input: {
+              readOnly: true,
+            },
+          }}
           sx={{
             width: 650,
             input: {

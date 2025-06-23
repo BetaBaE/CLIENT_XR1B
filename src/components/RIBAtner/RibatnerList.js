@@ -8,7 +8,6 @@ export const RibaAtnerList = (props) => (
   <List filters={<RIBAtnerFilter />} title="RIB Atner">
     {/* Liste des RIB Atner avec un filtre et un titre */}
     <Datagrid rowClick="edit" bulkActionButtons={false}>
-      {" "}
       {/* Tableau de données avec possibilité de cliquer sur une ligne pour éditer */}
       {/* <TextField source="id" /> */} {/* Champ texte pour l'ID, commenté */}
       <TextField source="nom" /> {/* Champ texte pour le nom */}

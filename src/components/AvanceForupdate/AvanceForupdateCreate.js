@@ -138,7 +138,11 @@ export const AvanceForupdateCreate = () => {
                 },
               }}
               inputProps={{ autoComplete: "off" }}
-              disabled
+              slotProps={{
+                input: {
+                  readOnly: true,
+                },
+              }}
               source="fullName"
             />
           </Grid>

@@ -97,10 +97,7 @@ export const AvanceForupdateEdit = (props) => {
 
   if (!avanceData || !avanceData.data) {
     return (
-      <div>
-        {" "}
-        L'avance est totalement payée ou elle est restituée totalement.
-      </div>
+      <div>L'avance est totalement payée ou elle est restituée totalement.</div>
     );
   }
 
@@ -153,7 +150,11 @@ export const AvanceForupdateEdit = (props) => {
             defaultValue={identity.fullName}
             label="Vous êtes"
             sx={{ width: 650 }}
-            disabled
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
+            }}
             source="Redacteur"
           />
           <AutocompleteInput
@@ -182,14 +183,22 @@ export const AvanceForupdateEdit = (props) => {
             sx={{ width: 650 }}
             source="Montant"
             defaultValue={avanceRestitution.Montant || ""}
-            disabled
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
+            }}
           />
           <TextInput
             label="Code Affaire"
             sx={{ width: 650 }}
             source="CodeAffaire"
             defaultValue={avanceRestitution.CodeAffaire || ""}
-            disabled
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
+            }}
           />
           <NumberInput
             label="Montant Restant A Restituer"
@@ -199,19 +208,31 @@ export const AvanceForupdateEdit = (props) => {
             label="etatRestit"
             source="etat"
             defaultValue={avanceRestitution.etat || ""}
-            disabled
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
+            }}
           />
           <TextInput
             label="Fourisseur"
             source="nom"
             defaultValue={avanceRestitution.nom || ""}
-            disabled
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
+            }}
           />
           <TextInput
             label="ModePaiement"
             source="ModePaiement"
             defaultValue={avanceRestitution.ModePaiement || ""}
-            disabled
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
+            }}
           />
         </SimpleForm>
       )}

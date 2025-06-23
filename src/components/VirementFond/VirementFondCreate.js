@@ -83,7 +83,12 @@ export const VirementFondCreate = () => {
             },
           }}
           inputProps={{ autoComplete: "off" }}
-          disabled={true} // Champ désactivé
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="Redacteur"
         />
         <SelectInput

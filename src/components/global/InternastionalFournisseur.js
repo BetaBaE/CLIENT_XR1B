@@ -1,32 +1,41 @@
 import { useState, useEffect } from "react";
 
-const useFetchFournisserInter = (apiUrl) => {
-  const [fournisseur, setFournisseur] = useState([]);
+const useFetchFournisseurInternational = (apiUrl) => {
+  const [fournisseurs, setFournisseurs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchFournisseur = async () => {
-      setLoading(true); // Set loading to true before fetching
+    const fetchFournisseurs = async () => {
+      setLoading(true);
       try {
-        const response = await fetch(`${apiUrl}/fournisseurinternational`);
+        const response = await fetch(
+          `${apiUrl}/fournisseurinternational?range=[0,2000]`
+        );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const json = await response.json();
-        setFournisseur(json);
+        const transformed = json.map((f) => ({
+          id: f.id,
+          name: f.nom, // map `nom` to `name`
+        }));
+        setFournisseurs(transformed);
       } catch (error) {
         setError(error);
-        console.error("Erreur lors de la récupération des chantiers :", error);
+        console.error(
+          "Erreur lors de la récupération des fournisseurs internationaux :",
+          error
+        );
       } finally {
-        setLoading(false); // Set loading to false after fetching
+        setLoading(false);
       }
     };
 
-    fetchFournisseur();
-  }, [apiUrl]); // Dependency array includes apiUrl
+    fetchFournisseurs();
+  }, [apiUrl]);
 
-  return { fournisseur, loading, error };
+  return { fournisseurs, loading, error };
 };
 
-export default useFetchFournisserInter;
+export default useFetchFournisseurInternational;

@@ -173,14 +173,7 @@ export const CustomMenu = (props) => {
           />
         </SubMenu>
       )}
-      {(permissions === "admin" ||
-        permissions === "direction générale" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable PdT" ||
-        permissions === "comptable") && (
+      {(permissions === "admin" || permissions === "direction générale") && (
         <SubMenu
           primaryText="Section International"
           leftIcon={<ChevronRightIcon />}
@@ -188,6 +181,11 @@ export const CustomMenu = (props) => {
           <Menu.Item
             to="dossier"
             primaryText="Dossier"
+            leftIcon={<FaFolderOpen />}
+          />
+          <Menu.Item
+            to="ovcredoc"
+            primaryText="OV & Credoc"
             leftIcon={<FaFolderOpen />}
           />
         </SubMenu>
@@ -256,6 +254,11 @@ export const CustomMenu = (props) => {
           <Menu.Item
             to="/faayantfn"
             primaryText="FN Sage No Compta"
+            leftIcon={<FaFileInvoiceDollar />}
+          />
+          <Menu.Item
+            to="/preparationpaiement"
+            primaryText="Préparation Paiement"
             leftIcon={<FaFileInvoiceDollar />}
           />
         </SubMenu>

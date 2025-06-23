@@ -31,7 +31,11 @@ export const EcheancefournisseurEdit = () => {
           inputProps={{ autoComplete: "off" }}
           source="nom"
           label="Fournisseur"
-          disabled={true}
+          slotProps={{
+            input: {
+              readOnly: true,
+            },
+          }}
         />
         <NumberInput
           sx={{

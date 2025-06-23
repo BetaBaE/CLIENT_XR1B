@@ -70,8 +70,12 @@ export const OrdervirementFondCreate = () => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }} // Application des styles personnalisés
-          disabled={true} // Champ désactivé
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="Redacteur" // Source de données pour React Admin
         />
         <SelectInput

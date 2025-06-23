@@ -84,6 +84,7 @@ const Login = () => {
                   id="username"
                   className="login-input-field"
                   placeholder="Enter your username"
+                  autocomplete="off"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
