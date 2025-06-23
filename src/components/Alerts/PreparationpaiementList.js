@@ -5,7 +5,6 @@ import {
   NumberField,
   DateField,
   TextInput,
-  DateInput,
   NumberInput,
   SelectInput,
   Filter,
