@@ -1,10 +1,4 @@
-import {
-  Admin,
-  CustomRoutes,
-  EditGuesser,
-  ListGuesser,
-  Resource,
-} from "react-admin";
+import { Admin, CustomRoutes, Resource } from "react-admin";
 import restProvider from "ra-data-simple-rest";
 
 import { FaTruck, FaCreditCard } from "react-icons/fa";
@@ -956,7 +950,13 @@ function App(props) {
             create={OvcredocCreate}
           />
         ) : null,
-        permissions === "admin" || permissions === "direction générale" ? (
+        permissions === "admin" ||
+        permissions === "direction générale" ||
+        permissions === "comptable midelt" ||
+        permissions === "superviseur comptabilite midelt" ||
+        permissions === "superviseur comptabilite" ||
+        permissions === "comptable PdT" ||
+        permissions === "comptable" ? (
           <Resource name="preparationpaiement" list={PreparationpaiementList} />
         ) : null,
       ]}

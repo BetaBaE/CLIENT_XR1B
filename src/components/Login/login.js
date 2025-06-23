@@ -1,7 +1,5 @@
-// Web3Login.jsx
-import * as React from "react";
 import { useState } from "react";
-import { useLogin, useNotify, Notification } from "react-admin";
+import { useLogin, useNotify } from "react-admin";
 import "./style.css";
 import Swal from "sweetalert2";
 
