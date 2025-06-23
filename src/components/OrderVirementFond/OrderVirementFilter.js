@@ -1,19 +1,50 @@
 import { Filter, TextInput } from "react-admin";
-
-const OrderVirementFondFilter = (props) => (
-  <Filter {...props}>
-    <TextInput source="nom" />
-    <TextInput source="directeursigne" />
-    <TextInput source="rib" />
-    <TextInput source="id" />
-    {/* <SelectInput
-      source="isActivated"
-      choices={[
-        { id: "true", name: "activer" },
-        { id: "false", name: "desactiver" },
-        //   { id: "photography", name: "Photography" },
-      ]}
-    /> */}
-  </Filter>
-);
+import { useTheme } from "@mui/material/styles";
+const OrderVirementFondFilter = (props) => {
+  const theme = useTheme();
+  return (
+    <Filter {...props}>
+      <TextInput
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        source="nom"
+      />
+      <TextInput
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        source="directeursigne"
+      />
+      <TextInput
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        source="rib"
+      />
+      <TextInput
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        source="id"
+      />
+    </Filter>
+  );
+};
 export default OrderVirementFondFilter;

@@ -45,13 +45,13 @@ const CustomTooltip = ({ active, payload }) => {
         }}
       >
         <p style={{ color: "#0088FE", fontWeight: 700 }}>{`${name}`}</p>
-        <p>
+        <p style={{ color: "#000", fontWeight: 500 }}>
           {`Montant Saisie: `}
           <span style={{ color: "#88c8ff", fontWeight: 600 }}>
             {formatNumber(payload[0].value)}
           </span>
         </p>
-        <p>
+        <p style={{ color: "#000", fontWeight: 500 }}>
           {`Montant En cours: `}
           <span style={{ color: "#003461", fontWeight: 600 }}>
             {formatNumber(payload[1].value)}

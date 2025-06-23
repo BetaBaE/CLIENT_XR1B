@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import "./autoCompletStyle.css";
 import apiUrl from "../../../config";
 import Card from "@mui/material/Card";
-import { CardContent, CardHeader, Grid } from "@material-ui/core";
+import { CardContent, CardHeader, Grid } from "@mui/material";
 import { Title } from "react-admin";
-import * as React from "react";
 import ChartChefferDaffaire from "./ChartChefferDaffaire/Chart";
 import BarsSumFA from "./ChartChefferDaffaire/BarsSumFA";
 import AvanceNoRestit from "./DataGrid/restitiBtFournisseur";
@@ -33,6 +32,15 @@ const StFournisseur = () => {
     };
 
     fetchFourniseur();
+  }, []);
+
+  useEffect(() => {
+    const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (isDark) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
   }, []);
 
   const handleChange = (e) => {
@@ -81,7 +89,7 @@ const StFournisseur = () => {
   return (
     <Grid container spacing={2} justifyContent="space-around">
       <Title title="Situation Fournisseur" />
-      <Grid item xs={12} sm={12}>
+      <Grid item xs={12} sm={12} marginTop="10px">
         <div className="autocomplete" style={{ width: "300px" }}>
           <input
             id="myInput"

@@ -13,18 +13,9 @@ import {
   useRedirect,
   useGetIdentity,
 } from "react-admin";
-import { makeStyles } from "@material-ui/styles";
+
 import apiUrl from "../../config";
 import Swal from "sweetalert2";
-
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
 
 export const FactureRechereEdit = (props) => {
   const UserEditToolbar = (props) => (
@@ -40,7 +31,7 @@ export const FactureRechereEdit = (props) => {
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
   const [chantier, setChantier] = useState([]);
   const { identity, isLoading: identityLoading } = useGetIdentity();
- 
+
   const redirect = useRedirect();
 
   const annuleAlert = (params) => {
@@ -97,10 +88,12 @@ export const FactureRechereEdit = (props) => {
   };
 
   let facture_choices = { id: "", BonCommande: "" };
-  let fournisseurs_choices = fournisseur.map(({ id, nom, CodeFournisseur }) => ({
-    id: id,
-    name: `${nom} | ${CodeFournisseur} `,
-  }));
+  let fournisseurs_choices = fournisseur.map(
+    ({ id, nom, CodeFournisseur }) => ({
+      id: id,
+      name: `${nom} | ${CodeFournisseur} `,
+    })
+  );
   facture_choices = facture.map(({ id, numeroFacture, TTC, DateFacture }) => ({
     id: id,
     name: `${numeroFacture} | ${TTC} DH | ${formatDate(DateFacture)}`,
@@ -125,10 +118,6 @@ export const FactureRechereEdit = (props) => {
     name: `${LIBELLE} | ${id} `,
   }));
 
-
-
-  const classes = useStyles();
-
   const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
   if (error) return <>Error</>;
@@ -136,27 +125,30 @@ export const FactureRechereEdit = (props) => {
   return (
     <Edit {...props}>
       <SimpleForm toolbar={<UserEditToolbar />}>
-      <TextInput
+        <TextInput
           defaultValue={identity.fullName}
           label="vous êtes"
           hidden={false}
-          className={classes.autocomplete}
-          disabled={true}
+          sx={{ width: 650 }}
+          slotProps={{
+            input: {
+              readOnly: true,
+            },
+          }}
           source="Validateur"
         ></TextInput>
-      
-      
+
         <AutocompleteInput
           label="chantier"
           validate={required("Le fournisseur est obligatoire")}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="codechantier"
           choices={chantier_choices}
         />
         <AutocompleteInput
           label="Fournisseur"
           validate={required("Le fournisseur est obligatoire")}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="idfournisseur"
           choices={fournisseurs_choices}
           onChange={(e) => {
@@ -170,7 +162,7 @@ export const FactureRechereEdit = (props) => {
         />
         <SelectInput
           disabled={fournisseurIdField}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="idFacture"
           choices={facture_choices}
           label="facture"
@@ -178,19 +170,17 @@ export const FactureRechereEdit = (props) => {
         />
         <TextInput
           label="Montant d'avance"
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="montantAvance"
         />
-        
+
         <TextInput
           label="Fiche navette"
           validate={required("La fiche navette est obligatoire")}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="ficheNavette"
         />
-
-       
       </SimpleForm>
-      </Edit>
+    </Edit>
   );
 };

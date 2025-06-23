@@ -3,7 +3,7 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 
 import { Title } from "react-admin";
-import { CardContent, CardHeader, Grid } from "@material-ui/core";
+import { CardContent, CardHeader, Grid } from "@mui/material";
 // import ChartOverDueInvoices from "./charts/ChartFaNotPayed";
 
 import { useState } from "react";

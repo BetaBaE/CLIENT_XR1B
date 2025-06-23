@@ -1,4 +1,3 @@
-import { makeStyles } from "@material-ui/core"; // Importation de la méthode makeStyles de Material-UI pour le style
 import { useEffect } from "react"; // Importation du hook useEffect de React
 import {
   Create,
@@ -7,21 +6,13 @@ import {
   TextInput,
   useGetIdentity,
 } from "react-admin"; // Importation des composants nécessaires de React Admin
-
+import { useTheme } from "@mui/material/styles";
 // Définition des styles personnalisés
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px", // Largeur des champs d'autocomplétion
-  },
-  chip: {
-    fontWeight: "bold", // Style de police en gras pour les étiquettes
-  },
-}));
 
 // Composant principal pour la création d'un RIB Atner
 export const RIBAtnerCreate = () => {
-  const { identity, isLoading: identityLoading } = useGetIdentity(); // Récupération de l'identité de l'utilisateur connecté
-
+  const { identity, isLoading, error } = useGetIdentity();
+  const theme = useTheme(); // Utilisation du thème Material-UI
   // Effet pour désactiver l'autocomplétion des champs après le chargement du DOM
   useEffect(() => {
     const inputnom = document.getElementById("nom"); // Récupération de l'élément DOM pour le champ "nom"
@@ -33,9 +24,6 @@ export const RIBAtnerCreate = () => {
       inputnom.autocomplete = "off";
     }
   }, []);
-
-  const classes = useStyles(); // Utilisation des styles définis plus haut
-  const { isLoading, error } = useGetIdentity(); // Récupération de l'état de chargement et des erreurs de l'identité de l'utilisateur
 
   // Affichage d'un message de chargement ou d'erreur si nécessaire
   if (isLoading) return <>Loading</>;
@@ -49,22 +37,53 @@ export const RIBAtnerCreate = () => {
           defaultValue={identity?.fullName}
           label="vous êtes"
           hidden={false}
-          className={classes.autocomplete}
-          disabled={true}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="Redacteur"
         />
 
         {/* Champ texte pour le nom avec validation requise */}
         <TextInput
           validate={required("Le nom est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="nom"
         />
 
         {/* Champ texte pour le RIB avec validation requise */}
         <TextInput
           validate={required("Le RIB est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
           source="rib"
         />
       </SimpleForm>

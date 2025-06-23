@@ -10,27 +10,13 @@ import {
   useGetIdentity,
   useRedirect,
 } from "react-admin";
-
-import { makeStyles } from "@material-ui/styles";
-import { Chip } from "@material-ui/core";
+import { useTheme } from "@mui/material/styles";
+import { Chip } from "@mui/material";
 import apiUrl from "../../config";
 import Swal from "sweetalert2";
 
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-  // Separate styles for SweetAlert
-  "swal2-popup.swal2-left": {
-    right: 0,
-    transform: "translateX(0)",
-  },
-}));
-
 export const VirementCreate = () => {
+  const theme = useTheme();
   const redirect = useRedirect();
   const { identity, isLoading: identityLoading } = useGetIdentity();
   const [orderVirement, setOrderVirement] = useState([
@@ -386,7 +372,6 @@ export const VirementCreate = () => {
     })
   );
 
-  const classes = useStyles();
   const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
   if (error) return <>Error</>;
@@ -397,14 +382,35 @@ export const VirementCreate = () => {
           defaultValue={identity?.fullName}
           label="vous êtes"
           hidden={false}
-          className={classes.autocomplete}
-          disabled={true}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="Redacteur"
-        ></TextInput>
+        />
 
         <SelectInput
           validate={required("Ce champ est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="orderVirementId"
           onChange={(e) => {
             // console.log(e.target.value);
@@ -420,7 +426,15 @@ export const VirementCreate = () => {
         <AutocompleteInput
           validate={required("Ce champ est obligatoire")}
           disabled={orderVirementField}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="fournisseurId"
           choices={fournisseurs_choices}
           onChange={(e) => {
@@ -471,7 +485,7 @@ export const VirementCreate = () => {
         <br></br>
         {sumAvanceValue ? (
           <div>
-            la somme des montants des avances par fournisseur value :{" "}
+            la somme des montants des avances par fournisseur value :
             {sumAvanceValue} DH
           </div>
         ) : (
@@ -481,7 +495,15 @@ export const VirementCreate = () => {
         <SelectInput
           validate={required("Ce champ est obligatoire")}
           disabled={fournisseurIdField}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           onChange={(e) => {
             if (e.target.value === "") {
               setFournisseurRibField(true);
@@ -499,12 +521,20 @@ export const VirementCreate = () => {
         <AutocompleteArrayInput
           validate={[required("Ce champ est obligatoire")]}
           disabled={fournisseurRibField}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="facturelist"
           choices={facture_choices}
           onChange={handleChange}
         />
-        <Chip className={classes.chip} label={`Total : ${sum}`} />
+        <Chip label={`Total : ${sum}`} sx={{ fontWeight: "bold" }} />
       </SimpleForm>
     </Create>
   );

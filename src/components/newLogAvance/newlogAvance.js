@@ -44,7 +44,8 @@ const AvanceDetailsActions = () => (
 export const GetavancedetailList = () => {
   const fileName = "Log_Avance";
   const headers = [];
-
+  const currentYear = new Date().getFullYear();
+  const defaultDateExercices = `${currentYear}-01-01`;
   const exporter = createExporter(fileName, headers);
   return (
     <List
@@ -52,7 +53,7 @@ export const GetavancedetailList = () => {
       pagination={<FacturePagination />}
       filters={<FilterAvanceDetailList />}
       actions={<AvanceDetailsActions />}
-      filterDefaultValues={{ dateExercices: "2024-01-01" }}
+      filterDefaultValues={{ dateExercices: defaultDateExercices }}
       title="nouv. Avance Log"
     >
       <DatagridConfigurable bulkActionButtons={false}>

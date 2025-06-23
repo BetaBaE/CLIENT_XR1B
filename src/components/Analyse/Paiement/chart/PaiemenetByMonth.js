@@ -40,38 +40,41 @@ const CustomTooltip = ({ active, payload }) => {
       <div
         style={{
           backgroundColor: "#fff",
-          padding: "2px",
-          border: "0.1px solid #000",
+          color: "#000", // Ensure text stays black in dark mode
+          padding: "6px 10px",
+          border: "1px solid #000",
           fontSize: "14px",
+          borderRadius: "4px",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
         }}
       >
         <p style={{ color: "#0088FE", fontWeight: 600 }}>{`Mois : ${name}`}</p>
         <p>
-          {`PAI : `}
+          PAI :{" "}
           <span style={{ color: "#87ceeb", fontWeight: 600 }}>
             {formatNumber(TTCPay)}
           </span>
         </p>
         <p>
-          {`FA : `}
+          FA :{" "}
           <span style={{ color: "#007f66", fontWeight: 600 }}>
             {formatNumber(TTCfa)}
           </span>
         </p>
         <p>
-          {`R: `}
+          R :{" "}
           <span style={{ color: "#88c888", fontWeight: 600 }}>
             {formatNumber(montantReglee)}
           </span>
         </p>
         <p>
-          {`EC: `}
+          EC :{" "}
           <span style={{ color: "#ffa500", fontWeight: 600 }}>
             {formatNumber(montantEnCours)}
           </span>
         </p>
         <p>
-          {`S: `}
+          S :{" "}
           <span style={{ color: "#FF748B", fontWeight: 600 }}>
             {formatNumber(montantSaisie)}
           </span>

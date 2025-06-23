@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Title } from "react-admin";
 import apiUrl from "../../../config";
 import "./autoCompletStyleCht.css";
 import ClotureChantier from "./DataGrid/ClotureChantier";
 import Card from "@mui/material/Card";
-import { CardContent, CardHeader, Grid } from "@material-ui/core";
+import { CardContent, CardHeader, Grid } from "@mui/material";
 import SummaryMonthChnatier from "./DataGrid/SummaryMonthChnatier";
 import ClotureChantierChart from "./charts/ClotureChantierChart";
 import DetailFournisseurChantier from "./DataGrid/DetailFournisseurChantier";
@@ -93,14 +93,17 @@ const StChantier = () => {
   return (
     <Grid container spacing={2} justifyContent="space-around">
       <Title title="Situation Chantier" />
-      <Grid item xs={12} sm={12}>
-        <div className="autocomplete" style={{ width: "300px" }}>
+      <Grid item xs={12} sm={12} marginTop="10px">
+        <div
+          className="autocomplete light-autocomplete"
+          style={{ width: "300px" }}
+        >
           <input
             id="myInput"
             type="text"
             name="myCountry"
             placeholder="Chantier"
-            autocomplete="off"
+            autoComplete="off"
             value={inputValue}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
@@ -112,9 +115,7 @@ const StChantier = () => {
                   .toLowerCase()
                   .indexOf(inputValue.toLowerCase());
 
-                if (matchIndex === -1) {
-                  return null; // If no match, return null
-                }
+                if (matchIndex === -1) return null;
 
                 const beforeMatch = country.slice(0, matchIndex);
                 const match = country.slice(
@@ -144,6 +145,7 @@ const StChantier = () => {
         </div>
         <input onClick={handleSubmit} type="submit" value="Recherche" />
       </Grid>
+
       <Grid item xs={12} sm={6}>
         <Card>
           <CardHeader

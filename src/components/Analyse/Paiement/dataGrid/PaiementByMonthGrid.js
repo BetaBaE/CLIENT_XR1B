@@ -63,7 +63,15 @@ const PaiementByMonthGrid = ({ onRowClick }) => {
     }
     setSortConfig1({ key, direction });
   };
-
+  const excludedMonths = sortedData1
+    .filter((item) => item.TTC === 0)
+    .sort((a, b) => b.name.localeCompare(a.name))
+    .slice(0, 3)
+    .map((item) => item.name); // Get month strings to exclude
+  // Step 2: Filter out items with TTC === 0 in those months
+  const filteredData = sortedData1.filter(
+    (item) => !(item.TTC === 0 && excludedMonths.includes(item.name))
+  );
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -79,7 +87,7 @@ const PaiementByMonthGrid = ({ onRowClick }) => {
             </tr>
           </thead>
           <tbody>
-            {sortedData1.map((item) => (
+            {filteredData.map((item) => (
               <tr key={item.id} onClick={() => onRowClick(item.id)}>
                 <td>{item.name}</td>
                 <td style={{ textAlign: "right" }}>{formatNumber(item.TTC)}</td>

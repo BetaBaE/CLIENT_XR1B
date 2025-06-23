@@ -12,7 +12,7 @@ import ColorfulText from "../custom/layout/ColorfulText";
 
 import FactureNonPayeFilter from "./FactureNonPayeFilter";
 import { CustomLayout } from "../custom/layout/CustomLayout";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 // const MyMenu = () => (
 //   <Menu>
 //     <MenuItemLink to="/" primaryText="Dashboard" />

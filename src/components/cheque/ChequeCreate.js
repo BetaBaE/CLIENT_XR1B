@@ -12,27 +12,19 @@ import {
   useGetIdentity,
   useRedirect,
 } from "react-admin";
-import { makeStyles } from "@material-ui/styles";
-import { Chip } from "@material-ui/core";
+import { useTheme } from "@mui/material/styles";
+import { Chip } from "@mui/material";
 import Swal from "sweetalert2";
 import apiUrl from "../../config";
 
 // Définir les styles personnalisés
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
 
 // Composant ChequeCreate pour créer un nouveau chèque
 export const ChequeCreate = (props) => {
   const redirect = useRedirect();
   const { identity, isLoading: identityLoading, error } = useGetIdentity();
   const dataProvider = useDataProvider();
-
+  const theme = useTheme();
   // États pour gérer les données du formulaire
   const [orderVirement, setOrderVirement] = useState([]);
   const [fournisseur, setFournisseur] = useState([]);
@@ -251,8 +243,6 @@ export const ChequeCreate = (props) => {
     }
   };
 
-  const classes = useStyles();
-
   if (identityLoading) return <>Loading</>;
   if (error) return <>Error</>;
 
@@ -263,13 +253,33 @@ export const ChequeCreate = (props) => {
           defaultValue={identity.fullName}
           label="vous êtes"
           hidden={false}
-          className={classes.autocomplete}
-          disabled={true}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          slotProps={{
+            input: {
+              readOnly: true,
+            },
+          }}
           source="Redacteur"
         />
         <SelectInput
           validate={required("Ce champ est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="RibAtner"
           label="banque"
           choices={orderVirement_choices}
@@ -278,23 +288,55 @@ export const ChequeCreate = (props) => {
           source="datecheque"
           validate={required("Ce champ est obligatoire")}
           label="datecheque"
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
         />
         <DateInput
           source="dateecheance"
           label="dateecheance"
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
         />
         <TextInput
           source="numerocheque"
           label="numerocheque"
           validate={[required("Ce champ est obligatoire")]}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
         />
         <AutocompleteInput
           label="Fournisseur"
           validate={required("Le fournisseur est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="fournisseurId"
           choices={fournisseurs_choices}
           onChange={(e) => {
@@ -335,19 +377,27 @@ export const ChequeCreate = (props) => {
         )}
         {sumavance.length > 0 && (
           <div>
-            la somme des montants des avances par fournisseur value :{" "}
+            la somme des montants des avances par fournisseur value :
             {sumavance[0].sum} DH
           </div>
         )}
         <AutocompleteArrayInput
           validate={[required("Ce champ est obligatoire")]}
           disabled={fournisseurIdField}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="facturelist"
           choices={facture_choices}
           onChange={handleChange}
         />
-        <Chip className={classes.chip} label={`Total : ${sum}`} />
+        <Chip label={`Total : ${sum}`} sx={{ fontWeight: "bold" }} />
       </SimpleForm>
     </Create>
   );

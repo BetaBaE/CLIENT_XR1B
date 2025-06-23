@@ -20,6 +20,7 @@ const renderActiveShape = (props) => {
     percent,
     value,
   } = props;
+
   const sin = Math.sin(-RADIAN * midAngle);
   const cos = Math.cos(-RADIAN * midAngle);
   const sx = cx + (outerRadius + 10) * cos;
@@ -30,9 +31,11 @@ const renderActiveShape = (props) => {
   const ey = my;
   const textAnchor = cos >= 0 ? "start" : "end";
 
+  const color = payload.color || fill;
+
   return (
     <g>
-      <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
+      <text x={cx} y={cy} dy={8} textAnchor="middle" fill={color}>
         {payload.name}
       </text>
       <Sector
@@ -63,14 +66,16 @@ const renderActiveShape = (props) => {
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
         textAnchor={textAnchor}
-        fill="#333"
-      >{`${formatNumber(value)}`}</text>
+        fill={color}
+      >
+        {`${formatNumber(value)}`}
+      </text>
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
         dy={18}
         textAnchor={textAnchor}
-        fill="#999"
+        fill={color}
       >
         {`(${(percent * 100).toFixed(2)}%)`}
       </text>
@@ -88,33 +93,38 @@ const ChartFaNotPayed = () => {
   return (
     <ListBase resource="chartsumfa" disableSyncWithLocation>
       <WithListContext
-        render={({ data }) => (
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart width={400} height={400}>
-              <Pie
-                activeIndex={activeIndex}
-                activeShape={renderActiveShape}
-                data={data}
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={80}
-                dataKey="value"
-                fill={COLORS[0]}
-                onMouseEnter={onPieEnter}
-              >
-                {data
-                  ? data.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))
-                  : ""}
-              </Pie>
-            </PieChart>
-          </ResponsiveContainer>
-        )}
+        render={({ data }) => {
+          const enrichedData = data?.map((entry, index) => ({
+            ...entry,
+            color: COLORS[index % COLORS.length],
+          }));
+
+          return (
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart width={400} height={400}>
+                <Pie
+                  activeIndex={activeIndex}
+                  activeShape={renderActiveShape}
+                  data={enrichedData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={80}
+                  dataKey="value"
+                  onMouseEnter={onPieEnter}
+                >
+                  {enrichedData?.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={entry.color}
+                      stroke="#fff"
+                    />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          );
+        }}
       />
     </ListBase>
   );

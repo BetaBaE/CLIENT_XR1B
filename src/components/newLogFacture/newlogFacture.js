@@ -18,7 +18,7 @@ import {
   useRecordContext,
 } from "react-admin";
 import FilterFactureDetailList from "./FilterFactureDetailList";
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Box, Grid, Typography } from "@mui/material";
 import { createExporter } from "../GlobalFunction/CustomExportCsv";
 const FacturePagination = () => (
   <Pagination rowsPerPageOptions={[10, 25, 50, 100]} />
@@ -169,6 +169,8 @@ export const GetfacturedetailList = () => {
       filterChantier = "";
       break;
   }
+  const currentYear = new Date().getFullYear();
+  const defaultDateExercices = `${currentYear}-01-01`;
   return (
     <List
       exporter={exporter}
@@ -176,7 +178,7 @@ export const GetfacturedetailList = () => {
       filters={<FilterFactureDetailList />}
       actions={<FactureDetailsActions />}
       filterDefaultValues={{
-        dateExercices: "2024-01-01",
+        dateExercices: defaultDateExercices,
         codechantier: filterChantier,
       }}
       title="nouv. Facture Log"

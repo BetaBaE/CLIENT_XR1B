@@ -8,24 +8,16 @@ import {
   Toolbar,
   useGetIdentity,
 } from "react-admin";
-import { makeStyles } from "@material-ui/styles";
+import { useTheme } from "@mui/material/styles";
 
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
 export const FicheNavetteEdit = (props) => {
+  const theme = useTheme();
   const UserEditToolbar = (props) => (
     <Toolbar {...props}>
       <SaveButton id="save" />
     </Toolbar>
   );
 
-  const classes = useStyles();
   const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
   if (error) return <>Error</>;
@@ -38,13 +30,21 @@ export const FicheNavetteEdit = (props) => {
               <>
                 <TextInput
                   label="Fiche Navette"
-                  className={classes.autocomplete}
+                  sx={{
+                    width: 650,
+                    input: {
+                      backgroundColor:
+                        theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                      color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                      borderRadius: "4px",
+                    },
+                  }}
                   source="ficheNavette"
                   validate={required("Numero FN est obligatoire")}
                 />
                 {/* <SelectInput
                   source="annulation"
-                  className={classes.autocomplete}
+                  sx={{ width: 650 }}
                   onChange={(e) => {
                     console.log(e.target.value);
                     annuleAlert(e.target.value);
@@ -58,7 +58,7 @@ export const FicheNavetteEdit = (props) => {
         </FormDataConsumer>
 
         {/* <SelectInput
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="CatFn"
           label="Catégorie Facture"
           validate={required()}

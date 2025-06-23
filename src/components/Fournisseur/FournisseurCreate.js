@@ -1,6 +1,4 @@
-import { makeStyles } from "@material-ui/styles";
-import React, { useEffect, useState } from "react";
-
+import React, { useState } from "react";
 import {
   Create,
   email,
@@ -13,53 +11,21 @@ import {
 } from "react-admin";
 import apiUrl from "../../config";
 import _debounce from "lodash/debounce";
+import { useTheme } from "@mui/material/styles";
 
 // Styles pour le composant
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px", // Largeur personnalisée pour les champs d'autocomplétion
-  },
-  chip: {
-    fontWeight: "bold", // Style pour le texte en gras
-  },
-}));
 
 export const FournisseurCreate = (props) => {
   // eslint-disable-next-line
   const [loadingSuggestions, setLoadingSuggestions] = useState(false); // État pour gérer le chargement des suggestions
   // eslint-disable-next-line
   const [errorSuggestions, setErrorSuggestions] = useState(null); // État pour gérer les erreurs de suggestions
-
+  const theme = useTheme();
   const [NomFournisseur, setNomFournisseur] = useState([]); // État pour stocker les noms des fournisseurs
   const validateMail = [email()];
   const { identity } = useGetIdentity(); // Récupération de l'identité de l'utilisateur
 
-  useEffect(() => {
-    // Désactivation de l'autocomplétion pour certains champs après le chargement du DOM
-    const inputNom = document.getElementById("nom");
-    const inputCodeFournisseur = document.getElementById("CodeFournisseur");
-    const inputICE = document.getElementById("ICE");
-    const inputIF = document.getElementById("IF");
-    const inputaddresse = document.getElementById("addresse");
-    const inputmail = document.getElementById("mail");
-    if (
-      inputNom ||
-      inputCodeFournisseur ||
-      inputICE ||
-      inputIF ||
-      inputaddresse ||
-      inputmail
-    ) {
-      inputNom.autocomplete = "off";
-      inputCodeFournisseur.autocomplete = "off";
-      inputICE.autocomplete = "off";
-      inputIF.autocomplete = "off";
-      inputaddresse.autocomplete = "off";
-      inputmail.autocomplete = "off";
-    }
-  }, []); // Dépendances vides pour exécuter uniquement au montage
-
-  const classes = useStyles(); // Application des styles
+  // Application des styles
   const { isLoading, error } = useGetIdentity(); // Gestion de l'état de chargement et des erreurs
   if (isLoading) return <>Loading</>; // Affichage d'un indicateur de chargement
   if (error) return <>Error</>; // Affichage d'une erreur si elle se produit
@@ -107,27 +73,57 @@ export const FournisseurCreate = (props) => {
 
   return (
     <Create>
-      <SimpleForm {...props} autocomplete="off">
+      <SimpleForm {...props}>
         <TextInput
           defaultValue={identity.fullName}
           label="Vous êtes"
           hidden={false}
-          className={classes.autocomplete}
-          disabled={true}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="Redacteur"
-        ></TextInput>
+        />
 
         <TextInput
           validate={[
             required("Le Code fournisseur est obligatoire"), // Validation requise
             validationcodefournisseur,
           ]}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="CodeFournisseur"
+          inputProps={{ autoComplete: "off" }}
         />
         <TextInput
           validate={required("Le fournisseur est obligatoire")}
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="nom"
           id="nom"
           onChange={handleInputChange} // Gestionnaire d'événements pour les changements de saisie
@@ -142,30 +138,72 @@ export const FournisseurCreate = (props) => {
         ) : null}
 
         <TextInput
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="IF"
           label="Identifiant Fiscal"
         />
         <TextInput
-          autocomplete="off"
-          className={classes.autocomplete}
+          inputProps={{ autoComplete: "off" }}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="ICE"
           label="ICE"
         />
         <TextInput
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="addresse"
           label="Adresse"
+          inputProps={{ autoComplete: "off" }}
         />
         <TextInput
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="mail"
           label="Mail"
           validate={validateMail}
+          inputProps={{ autoComplete: "off" }}
         />
 
         <SelectInput
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="catFournisseur"
           label="Catégorie Fournisseur"
           validate={required()} // Validation requise
@@ -176,7 +214,15 @@ export const FournisseurCreate = (props) => {
         />
 
         <SelectInput
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="exonorer"
           label="Exonération fournisseur"
           validate={required()} // Validation requise
@@ -187,7 +233,15 @@ export const FournisseurCreate = (props) => {
         />
 
         <SelectInput
-          className={classes.autocomplete}
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="RasIr"
           label="RAS IR"
           validate={required()} // Validation requise

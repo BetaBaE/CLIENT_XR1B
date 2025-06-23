@@ -13,19 +13,10 @@ import {
   useRedirect,
   useRefresh,
 } from "react-admin";
-import { makeStyles } from "@material-ui/styles";
+
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import apiUrl from "../../config";
-
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
 
 const UserEditToolbar = (props) => (
   <Toolbar {...props}>
@@ -34,7 +25,6 @@ const UserEditToolbar = (props) => (
 );
 
 export const AvanceRestitEdit = (props) => {
-  const classes = useStyles();
   const { id } = useParams();
   const { identity, isLoading: identityLoading } = useGetIdentity();
   const [ttcFacture, setTccFacture] = useState(0);
@@ -107,10 +97,7 @@ export const AvanceRestitEdit = (props) => {
 
   if (!avanceData || !avanceData.data) {
     return (
-      <div>
-        {" "}
-        L'avance est totalement payée ou elle est restituée totalement.
-      </div>
+      <div>L'avance est totalement payée ou elle est restituée totalement.</div>
     );
   }
 
@@ -162,14 +149,18 @@ export const AvanceRestitEdit = (props) => {
           <TextInput
             defaultValue={identity.fullName}
             label="Vous êtes"
-            className={classes.autocomplete}
-            disabled
+            sx={{ width: 650 }}
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
+            }}
             source="Redacteur"
           />
           <AutocompleteInput
             label="Factures"
             source="idfacture"
-            className={classes.autocomplete}
+            sx={{ width: 650 }}
             choices={factures.map((facture) => ({
               id: facture.idfacture,
               name: `${facture.numeroFacture} | ${
@@ -189,17 +180,25 @@ export const AvanceRestitEdit = (props) => {
           />
           <TextInput
             label="Montant restant NON Restituer"
-            className={classes.autocomplete}
+            sx={{ width: 650 }}
             source="Montant"
             defaultValue={avanceRestitution.Montant || ""}
-            disabled
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
+            }}
           />
           <TextInput
             label="Code Affaire"
-            className={classes.autocomplete}
+            sx={{ width: 650 }}
             source="CodeAffaire"
             defaultValue={avanceRestitution.CodeAffaire || ""}
-            disabled
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
+            }}
           />
           <NumberInput
             label="Montant Restant A Restituer"
@@ -209,19 +208,31 @@ export const AvanceRestitEdit = (props) => {
             label="etatRestit"
             source="etat"
             defaultValue={avanceRestitution.etat || ""}
-            disabled
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
+            }}
           />
           <TextInput
             label="Fourisseur"
             source="nom"
             defaultValue={avanceRestitution.nom || ""}
-            disabled
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
+            }}
           />
           <TextInput
             label="ModePaiement"
             source="ModePaiement"
             defaultValue={avanceRestitution.ModePaiement || ""}
-            disabled
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
+            }}
           />
         </SimpleForm>
       )}

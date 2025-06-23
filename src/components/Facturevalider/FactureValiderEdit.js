@@ -8,18 +8,12 @@ import {
   useDataProvider,
   useGetIdentity,
 } from "react-admin";
-import { makeStyles } from "@material-ui/styles";
-import { useEffect, useState } from "react";
 
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "580px",
-  },
-}));
+import { useEffect, useState } from "react";
 
 export const FactureValiderEdit = () => {
   const [chantier, setChantier] = useState([]);
-  const classes = useStyles();
+
   const { identity, isLoading: identityLoading } = useGetIdentity();
   const dataProvider = useDataProvider();
 
@@ -56,7 +50,12 @@ export const FactureValiderEdit = () => {
         <TextInput
           defaultValue={identity?.fullName}
           label="Vous êtes"
-          disabled={true}
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="updatedBy"
         />
         <SelectInput
@@ -72,10 +71,10 @@ export const FactureValiderEdit = () => {
           label="Chantier"
           source="codechantier"
           choices={chantierChoices}
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
         />
         <SelectInput
-          className={classes.autocomplete}
+          sx={{ width: 650 }}
           source="CatFn"
           choices={[
             { id: "FET", name: "Fourniture Equipement Travaux" },

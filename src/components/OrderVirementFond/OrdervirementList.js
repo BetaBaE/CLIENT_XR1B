@@ -5,13 +5,11 @@ import OrderVirementFondFilter from "./OrderVirementFilter"; // Importation du f
 export const OrdervirementFondList = () => {
   return (
     <List filters={<OrderVirementFondFilter />} title="Order Virement">
-      {" "}
       {/* Liste des ordres de virement avec un filtre et un titre */}
       <Datagrid rowClick="edit" bulkActionButtons={false}>
-        {" "}
         {/* Tableau de données avec possibilité de cliquer sur une ligne pour éditer */}
         <TextField source="id" /> {/* Champ texte pour l'ID */}
-        <TextField source="directeursigne" label="signature" />{" "}
+        <TextField source="directeursigne" label="signature" />
         {/* Champ texte pour la signature du directeur */}
         <TextField source="nom" /> {/* Champ texte pour le nom */}
         <TextField source="rib" /> {/* Champ texte pour le RIB */}
@@ -21,7 +19,7 @@ export const OrdervirementFondList = () => {
           showTime
           source="datecreation"
           options={{ timeZone: "UTC" }}
-        />{" "}
+        />
         {/* Champ de date pour la date de création avec affichage de l'heure */}
         <DateField
           showTime

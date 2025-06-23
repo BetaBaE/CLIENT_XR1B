@@ -1,32 +1,122 @@
 import { DateInput, Filter, SelectInput, TextInput } from "react-admin";
-
-const FilterAvanceDetailList = (props) => (
-  <Filter {...props}>
-    <DateInput source="dateExercices" alwaysOn />
-    <TextInput source="codechantier" />
-    <TextInput source="nom" />
-    <TextInput source="Fn" />
-    <TextInput source="BonCommande" />
-    <SelectInput
-      source="Etat"
-      label="Etat Avance"
-      choices={[
-        { id: "Saisie", name: "Saisie" },
-        { id: "En cours", name: "En cours" },
-        { id: "Reglee", name: "Reglee" },
-      ]}
-    />
-    <SelectInput
-      source="modepaiement"
-      choices={[
-        { id: "paiement cheque", name: "paiement cheque" },
-        { id: "paiement virement", name: "paiement virement" },
-        { id: "paiement espece", name: "paiement espece" },
-      ]}
-    />
-    <TextInput source="RefPay" />
-    <DateInput source="DateOperation" />
-    <TextInput source="Bank" />
-  </Filter>
-);
+import { useTheme } from "@mui/material/styles";
+const FilterAvanceDetailList = (props) => {
+  const theme = useTheme();
+  return (
+    <Filter {...props}>
+      <DateInput
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        source="dateExercices"
+        alwaysOn
+      />
+      <TextInput
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        source="codechantier"
+      />
+      <TextInput
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        source="nom"
+      />
+      <TextInput
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        source="Fn"
+      />
+      <TextInput
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        source="BonCommande"
+      />
+      <SelectInput
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        source="Etat"
+        label="Etat Avance"
+        choices={[
+          { id: "Saisie", name: "Saisie" },
+          { id: "En cours", name: "En cours" },
+          { id: "Reglee", name: "Reglee" },
+        ]}
+      />
+      <SelectInput
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        source="modepaiement"
+        choices={[
+          { id: "paiement cheque", name: "paiement cheque" },
+          { id: "paiement virement", name: "paiement virement" },
+          { id: "paiement espece", name: "paiement espece" },
+        ]}
+      />
+      <TextInput
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        source="RefPay"
+      />
+      <DateInput
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        source="DateOperation"
+      />
+      <TextInput
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        source="Bank"
+      />
+    </Filter>
+  );
+};
 export default FilterAvanceDetailList;

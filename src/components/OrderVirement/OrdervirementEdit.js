@@ -1,4 +1,3 @@
-import { makeStyles } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import {
   DateInput,
@@ -14,16 +13,7 @@ import {
   useRedirect,
 } from "react-admin";
 import Swal from "sweetalert2";
-
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px",
-  },
-  chip: {
-    fontWeight: "bold",
-  },
-}));
-
+import { useTheme } from "@mui/material/styles";
 const EditToolbar = (props) => (
   <Toolbar {...props}>
     <SaveButton id="save" />
@@ -33,6 +23,7 @@ export const OrdervirementEdit = (props) => {
   const dataProvider = useDataProvider();
   const [ribAtner, setribAtner] = useState([]);
   const redirect = useRedirect();
+  const theme = useTheme();
 
   useEffect(() => {
     dataProvider
@@ -101,25 +92,43 @@ export const OrdervirementEdit = (props) => {
       });
     }
   }
-  const classes = useStyles();
+
   return (
     <Edit {...props}>
       <SimpleForm toolbar={<EditToolbar />}>
-        <TextInput className={classes.autocomplete} source="id" disabled />
+        <TextInput
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
+          source="id"
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
+        />
         <FormDataConsumer>
           {({ formData, ...rest }) =>
             formData.etat !== "Reglee" &&
             formData.etat !== "Annuler" && (
               <>
                 <SelectInput
-                  className={classes.autocomplete}
+                  sx={{ width: 650 }}
                   source="ribAtner"
                   validate={required()}
                   choices={rib_choices}
                   {...rest}
                 />
                 <SelectInput
-                  className={classes.autocomplete}
+                  sx={{ width: 650 }}
                   validate={required()}
                   source="etat"
                   onChange={(e) => {
@@ -135,6 +144,8 @@ export const OrdervirementEdit = (props) => {
                   validate={required("Le directeur est obligatoire")}
                   emptyText="selectionnez le directeur"
                   source="directeursigne"
+                  sx={{ width: 650 }}
+                  label="Directeur"
                   choices={[
                     { id: "Youness ZAMANI", name: "Youness ZAMANI" },
                     { id: "Mohamed ZAMANI", name: "Mohamed ZAMANI" },
@@ -142,19 +153,16 @@ export const OrdervirementEdit = (props) => {
                   initialValue="" // This line can be omitted
                 />
                 <DateInput
+                  sx={{ width: 650 }}
                   source="dateExecution"
-                  label="dateExecution"
+                  label="date Execution"
                   validate={[required("Date obligatoire")]}
-
-
                 />
               </>
             )
           }
-
         </FormDataConsumer>
       </SimpleForm>
     </Edit>
   );
 };
-

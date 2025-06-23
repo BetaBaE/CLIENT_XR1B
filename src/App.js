@@ -1,4 +1,10 @@
-import { Admin, CustomRoutes, Resource } from "react-admin";
+import {
+  Admin,
+  CustomRoutes,
+  EditGuesser,
+  ListGuesser,
+  Resource,
+} from "react-admin";
 import restProvider from "ra-data-simple-rest";
 
 import { FaTruck, FaCreditCard } from "react-icons/fa";
@@ -10,7 +16,7 @@ import { CustomLayout } from "./components/custom/layout/CustomLayout";
 import PrintModule from "./components/printModule/PrintModule";
 import { Route } from "react-router-dom";
 import { RibaAtnerList } from "./components/RIBAtner/RibAtnerList";
-import { RibatnerEdit } from "./components/RIBAtner/RIBAtnerEdit";
+
 import { UserList } from "./components/User/UserList";
 import { UserEdit } from "./components/User/UserEdit";
 import { UserCreate } from "./components/User/UserCreate";
@@ -96,6 +102,17 @@ import { FournisseurTmpCreate } from "./components/FournisseurTmp/FournissuerTmp
 import { TmpfournisseurList } from "./components/FournisseurTmp/TmpfournisseurList";
 import { TmpfournisseurEdit } from "./components/FournisseurTmp/TmpfournisseurEdit";
 
+import { DossierList } from "./components/Dossier/DossierList";
+import { DossierEdit } from "./components/Dossier/DossierEdit";
+import { DossierCreate } from "./components/Dossier/DossierCreate";
+import { RIBatnerEdit } from "./components/RIBAtner/RIBAtnerEdit.js";
+import Login from "./components/Login/login";
+import { OvcredocList } from "./components/Credoc/OvcredocList.js";
+import { OvcredocEdit } from "./components/Credoc/OvcredocEdit.js";
+import { OvcredocCreate } from "./components/Credoc/OvcredocCreate.js";
+import { PreparationpaiementList } from "./components/Alerts/PreparationpaiementList.js";
+// import { Dashboard } from "./components/custom/dashboard/Dashboard.js";
+
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
     options.headers ||
@@ -145,6 +162,8 @@ function App(props) {
       {...props}
       dataProvider={dataProvider}
       authProvider={auth}
+      loginPage={Login}
+      // dashboard={Dashboard}
       layout={CustomLayout}
     >
       {(permissions) => [
@@ -252,7 +271,7 @@ function App(props) {
                 ? AttestationFournisseurCreate
                 : null
             }
-            con={FaTruck}
+            icon={FaTruck}
           />
         ) : null,
 
@@ -304,7 +323,7 @@ function App(props) {
             list={RibaAtnerList}
             edit={
               permissions === "superviseur comptabilite midelt"
-                ? RibatnerEdit
+                ? RIBatnerEdit
                 : null
             }
             create={
@@ -367,27 +386,6 @@ function App(props) {
             icon={FaTruck}
           ></Resource>
         ) : null,
-        /* permissions === "admin" ||
-        permissions === "normal user" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable" ||
-        permissions === "superviseur comptabilite midelt" ? (
-          <Resource
-            name="facturevalider"
-            list={FactureValiderList}
-            edit={
-              permissions === "comptable midelt" ||
-              permissions === "superviseur comptabilite midelt" ||
-              permissions === "superviseur comptabilite"
-                ? FactureValiderEdit
-                : null
-            }
-            icon={FaTruck}
-          ></Resource>
-        ) : 
-        null, */
-
         permissions === "admin" ||
         permissions === "direction générale" ||
         permissions === "comptable midelt" ||
@@ -939,6 +937,27 @@ function App(props) {
           <CustomRoutes>
             <Route path="/atnerpaiements" element={<PaiementPage />} />
           </CustomRoutes>
+        ) : null,
+
+        // achat international
+        permissions === "admin" || permissions === "direction générale" ? (
+          <Resource
+            name="dossier"
+            list={DossierList}
+            edit={DossierEdit}
+            create={DossierCreate}
+          />
+        ) : null,
+        permissions === "admin" || permissions === "direction générale" ? (
+          <Resource
+            name="ovcredoc"
+            list={OvcredocList}
+            edit={OvcredocEdit}
+            create={OvcredocCreate}
+          />
+        ) : null,
+        permissions === "admin" || permissions === "direction générale" ? (
+          <Resource name="preparationpaiement" list={PreparationpaiementList} />
         ) : null,
       ]}
     </Admin>

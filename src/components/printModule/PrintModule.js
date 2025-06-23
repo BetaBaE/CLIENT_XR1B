@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import "./styles.css";
 import apiUrl from "../../config";
 import Card from "@mui/material/Card";
-import { CardContent, CardHeader, Grid } from "@material-ui/core";
+import { CardContent, CardHeader, Grid } from "@mui/material";
 import { Title } from "react-admin";
 import PDFViewer from "./PDFViewer";
 

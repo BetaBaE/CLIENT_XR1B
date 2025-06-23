@@ -1,18 +1,59 @@
 import { Filter, SelectInput, TextInput } from "react-admin";
-
-const UserFilter = (props) => (
-  <Filter {...props}>
-    <TextInput source="fullname" />
-    <TextInput source="username" />
-    <TextInput source="Role" />
-    <SelectInput
-      source="isActivated"
-      choices={[
-        { id: "true", name: "activer" },
-        { id: "false", name: "desactiver" },
-        //   { id: "photography", name: "Photography" },
-      ]}
-    />
-  </Filter>
-);
+import { useTheme } from "@mui/material/styles";
+const UserFilter = (props) => {
+  const theme = useTheme();
+  return (
+    <Filter {...props}>
+      <TextInput
+        source="fullname"
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        inputProps={{ autoComplete: "off" }}
+      />
+      <TextInput
+        source="username"
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        inputProps={{ autoComplete: "off" }}
+      />
+      <TextInput
+        source="Role"
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        inputProps={{ autoComplete: "off" }}
+      />
+      <SelectInput
+        source="isActivated"
+        choices={[
+          { id: "true", name: "activer" },
+          { id: "false", name: "desactiver" },
+          //   { id: "photography", name: "Photography" },
+        ]}
+        sx={{
+          input: {
+            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        inputProps={{ autoComplete: "off" }}
+      />
+    </Filter>
+  );
+};
 export default UserFilter;

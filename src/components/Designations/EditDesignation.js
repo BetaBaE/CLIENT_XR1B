@@ -1,53 +1,75 @@
-import { makeStyles } from "@material-ui/core";
 import {
   Edit,
   required,
+  SaveButton,
   SelectInput,
   SimpleForm,
   TextInput,
+  Toolbar,
   useGetIdentity,
 } from "react-admin";
+import { Grid } from "@mui/material";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
+const CustomToolbar = () => (
+  <Toolbar>
+    <SaveButton />
+  </Toolbar>
+);
 
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px", // Largeur des champs d'autocomplétion
-  },
-  chip: {
-    fontWeight: "bold", // Style de police en gras pour les étiquettes
-  },
-}));
 export const DesignationEdit = () => {
   const { identity, isLoading: identityLoading } = useGetIdentity();
-  const classes = useStyles();
+
   return (
-    <Edit>
-      <SimpleForm>
-        <TextInput
-          defaultValue={identity?.fullName}
-          label="vous êtes"
-          hidden={false}
-          className={classes.autocomplete}
-          disabled={true}
-          source="ModifierPar"
-        />
-        <TextInput
-          disabled
-          source="designation"
-          className={classes.autocomplete}
-        />
-        <TextInput source="codeDesignation" className={classes.autocomplete} />
-        <TextInput source="PourcentageTVA" className={classes.autocomplete} />
-        <TextInput source="PosteTVA" className={classes.autocomplete} />
-        <SelectInput
-          className={classes.autocomplete}
-          validate={required("Etat Designation est obligatoire")}
-          source="Etat"
-          label="Etat Designation"
-          choices={[
-            { id: "actif", name: "Actif" },
-            { id: "inactif", name: "Inactif" },
-          ]}
-        />
+    <Edit title="Modifier Designation">
+      <SimpleForm toolbar={<CustomToolbar />} redirect="list">
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <TextInput
+              defaultValue={identity?.fullName}
+              label="vous êtes"
+              hidden={false}
+              sx={useInputStyleFilters}
+              slotProps={{
+                input: {
+                  readOnly: true,
+                },
+              }}
+              source="ModifierPar"
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextInput
+              slotProps={{
+                input: {
+                  readOnly: true,
+                },
+              }}
+              source="designation"
+              sx={useInputStyleFilters}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextInput source="codeDesignation" sx={useInputStyleFilters} />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextInput source="PourcentageTVA" sx={useInputStyleFilters} />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextInput source="PosteTVA" sx={useInputStyleFilters} />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <SelectInput
+              validate={required("Etat Designation est obligatoire")}
+              source="Etat"
+              label="Etat Designation"
+              choices={[
+                { id: "actif", name: "Actif" },
+                { id: "inactif", name: "Inactif" },
+              ]}
+              sx={useInputStyleFilters}
+            />
+          </Grid>
+        </Grid>
       </SimpleForm>
     </Edit>
   );

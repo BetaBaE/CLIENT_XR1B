@@ -77,7 +77,7 @@ const AttsFiscal = ({ nom }) => {
   }
 
   return dataTable1.length > 0 ? (
-    <div className="my-custom-table-sf">
+    <div className="my-custom-table-small">
       <div className="table-container-sf">
         <table>
           <thead>

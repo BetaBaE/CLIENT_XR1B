@@ -1,4 +1,3 @@
-import { makeStyles } from "@material-ui/core"; // Importation de la méthode makeStyles de Material-UI pour le style
 import { useEffect, useState } from "react"; // Importation des hooks useEffect et useState de React
 import {
   Edit,
@@ -13,16 +12,8 @@ import {
   useRedirect,
 } from "react-admin"; // Importation des composants nécessaires de React Admin
 import Swal from "sweetalert2"; // Importation de SweetAlert2 pour les alertes
-
+import { useTheme } from "@mui/material/styles";
 // Définition des styles personnalisés
-const useStyles = makeStyles(() => ({
-  autocomplete: {
-    width: "650px", // Largeur des champs d'autocomplétion
-  },
-  chip: {
-    fontWeight: "bold", // Style de police en gras pour les étiquettes
-  },
-}));
 
 // Composant personnalisé pour la barre d'outils d'édition avec un bouton de sauvegarde
 const EditToolbar = (props) => (
@@ -33,6 +24,7 @@ const EditToolbar = (props) => (
 
 // Composant principal pour l'édition d'un ordre de virement de fonds
 export const OrdervirementFondEdit = (props) => {
+  const theme = useTheme();
   const dataProvider = useDataProvider(); // Récupération du fournisseur de données
   const [ribAtner, setRibAtner] = useState([]); // État pour stocker les données RIB
   const redirect = useRedirect(); // Hook pour la redirection
@@ -108,12 +100,30 @@ export const OrdervirementFondEdit = (props) => {
     }
   }
 
-  const classes = useStyles(); // Utilisation des styles définis plus haut
+  // Utilisation des styles définis plus haut
 
   return (
     <Edit {...props}>
       <SimpleForm toolbar={<EditToolbar />}>
-        <TextInput className={classes.autocomplete} source="id" disabled />{" "}
+        <TextInput
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          inputProps={{ autoComplete: "off" }}
+          source="id"
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
+        />
         {/* Champ d'affichage de l'ID, désactivé */}
         <FormDataConsumer>
           {({ formData, ...rest }) =>
@@ -121,14 +131,14 @@ export const OrdervirementFondEdit = (props) => {
             formData.etat !== "Annuler" && ( // Affiche les champs suivants seulement si l'état n'est ni "Réglé" ni "Annulé"
               <>
                 <SelectInput
-                  className={classes.autocomplete}
+                  sx={{ width: 650 }}
                   source="ribAtner"
                   validate={required()} // Validation requise
                   choices={rib_choices} // Options pour le champ de sélection
                   {...rest}
                 />
                 <SelectInput
-                  className={classes.autocomplete}
+                  sx={{ width: 650 }}
                   validate={required()} // Validation requise
                   source="etat"
                   onChange={(e) => {
@@ -141,6 +151,7 @@ export const OrdervirementFondEdit = (props) => {
                   ]} // Options pour le champ de sélection de l'état
                 />
                 <SelectInput
+                  sx={{ width: 650 }}
                   validate={required("Le directeur est obligatoire")}
                   emptyText="Sélectionnez le directeur"
                   source="directeursigne"
