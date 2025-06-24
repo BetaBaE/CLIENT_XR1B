@@ -1,5 +1,4 @@
 import {
-  CreateButton,
   DatagridConfigurable,
   DateField,
   DateInput,
@@ -36,17 +35,16 @@ const AvanceDetailsActions = () => (
   <TopToolbar>
     <FilterButton filters={newLogAvanceFilter} />
     <SelectColumnsButton />
-    <CreateButton />
     <ExportButton />
   </TopToolbar>
 );
 
 export const GetavancedetailList = () => {
-  const fileName = "Log_Avance";
-  const headers = [];
   const currentYear = new Date().getFullYear();
   const defaultDateExercices = `${currentYear}-01-01`;
-  const exporter = createExporter(fileName, headers);
+  const resource = "getavancedetails";
+  const fileName = "Avance Log";
+  const exporter = createExporter(resource, fileName);
   return (
     <List
       exporter={exporter}

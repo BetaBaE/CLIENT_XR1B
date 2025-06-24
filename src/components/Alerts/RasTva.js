@@ -9,24 +9,10 @@ import RasTvaFilter from "./RasTvaFilter";
 import { createExporter } from "../GlobalFunction/CustomExportCsv";
 
 export const RastvaList = () => {
-  const fileName = "RAS_tva";
-  const headers = [
-    "catFournisseur",
-    "Identifiant fiscal",
-    "ICE",
-    "nom",
-    "RefernceDOC",
-    "CategorieFn",
-    "dateFactue",
-    "DateOperation",
-    "HT",
-    "Pourcentage TVA",
-    "TauxTva",
-    "Pourcentage Ras",
-    "RaS",
-  ];
+  const resource = "rastva";
+  const fileName = "Ras TVA";
+  const exporter = createExporter(resource, fileName);
 
-  const exporter = createExporter(fileName, headers); // Create the exporter with the filename and headers
   return (
     <InfiniteList exporter={exporter} filters={<RasTvaFilter />}>
       <Datagrid bulkActionButtons={false}>

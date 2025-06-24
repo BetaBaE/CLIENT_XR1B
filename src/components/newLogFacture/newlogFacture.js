@@ -1,5 +1,4 @@
 import {
-  CreateButton,
   DatagridConfigurable,
   DateField,
   DateInput,
@@ -43,7 +42,6 @@ const FactureDetailsActions = () => {
     <TopToolbar>
       <FilterButton userRolee="admin" filters={newLoGFilter} />
       <SelectColumnsButton />
-      <CreateButton />
       <ExportButton />
     </TopToolbar>
   );
@@ -150,11 +148,9 @@ const FactureDetail = () => {
 
 export const GetfacturedetailList = () => {
   const { permissions } = usePermissions();
-
-  const fileName = "Log_Facture";
-  const headers = [];
-
-  const exporter = createExporter(fileName, headers);
+  const resource = "getfacturedetails";
+  const fileName = "Facture Log";
+  const exporter = createExporter(resource, fileName);
 
   let filterChantier;
 

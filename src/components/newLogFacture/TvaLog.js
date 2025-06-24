@@ -3,24 +3,10 @@ import LogTvaFilter from "./TvaLogFilter";
 import { createExporter } from "../GlobalFunction/CustomExportCsv";
 
 export const TvalogList = () => {
-  const fileName = "log_tva"; // Define your filename here
-  const headers = [
-    "CODECHT",
-    "nom",
-    "CODEDOCUTIL",
-    "DateDouc",
-    "TOTHTNET",
-    "TOTTVANET",
-    "TOTALTTC",
-    "modepaiement",
-    "RefPay",
-    "DateOperation",
-    "Ras",
-    "NETAPAYER",
-    "typeDoc",
-  ]; // Define your headers here
-
-  const exporter = createExporter(fileName, headers); // Create the exporter with the filename and headers
+  // Define your filename here
+  const resource = "gettvalog";
+  const fileName = "Log Tva";
+  const exporter = createExporter(resource, fileName); // Create the exporter with the filename and headers
 
   return (
     <List exporter={exporter} filters={<LogTvaFilter />} title="Log Tva">

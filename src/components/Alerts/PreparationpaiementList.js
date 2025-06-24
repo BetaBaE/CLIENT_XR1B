@@ -14,6 +14,7 @@ import {
   FilterButton,
 } from "react-admin";
 import { useInputStyleFilters } from "../global/DarkInputStyle";
+import { createExporter } from "../GlobalFunction/CustomExportCsv";
 
 // Filter component
 const PreparationpaiementFilter = (props) => {
@@ -99,29 +100,36 @@ const ListActions = () => (
 );
 
 // Main list component
-export const PreparationpaiementList = () => (
-  <List
-    filters={<PreparationpaiementFilter />}
-    actions={<ListActions />}
-    // perPage={25}
-  >
-    <DatagridConfigurable bulkActionButtons={false}>
-      <TextField source="nom" />
-      <NumberField source="modaliteJrs" label="Modalité (Jours)" />
-      <TextField source="numeroFacture" label="N° Facture" />
-      <DateField source="DateFacture" />
-      <NumberField source="ttc" label="TTC" />
-      <NumberField source="Acompte" label="Acompte" />
-      <NumberField source="netApayer" label="Net à Payer" />
-      <TextField source="fn" label="FN" />
-      <DateField source="dateEcheance" label="Date Échéance" />
-      <DateField source="moisEcheance" label="Mois Échéance" />
-      <NumberField source="CumulFournisseur" label="Cumul Fournisseur" />
-      <NumberField source="CumulTotal" label="Cumul Total" />
-      <NumberField source="echuDepuisJrs" label="Ancienneté (Jours)" />
-      <NumberField source="echuDepuisMnt" label="Ancienneté (Mois)" />
-      {/* <NumberField source="ANC" label="Ancienneté (Mois)" /> */}
-      <TextField source="codechantier" label="Chantier" />
-    </DatagridConfigurable>
-  </List>
-);
+export const PreparationpaiementList = () => {
+  const resource = "preparationpaiement";
+  const fileName = "Preparation Paiemenet";
+  const exporter = createExporter(resource, fileName);
+
+  return (
+    <List
+      exporter={exporter}
+      filters={<PreparationpaiementFilter />}
+      actions={<ListActions />}
+      title="Préparation Paiement"
+    >
+      <DatagridConfigurable bulkActionButtons={false}>
+        <TextField source="nom" />
+        <NumberField source="modaliteJrs" label="Modalité (Jours)" />
+        <TextField source="numeroFacture" label="N° Facture" />
+        <DateField source="DateFacture" />
+        <NumberField source="ttc" label="TTC" />
+        <NumberField source="Acompte" label="Acompte" />
+        <NumberField source="netApayer" label="Net à Payer" />
+        <TextField source="fn" label="FN" />
+        <DateField source="dateEcheance" label="Date Échéance" />
+        <DateField source="moisEcheance" label="Mois Échéance" />
+        <NumberField source="CumulFournisseur" label="Cumul Fournisseur" />
+        <NumberField source="CumulTotal" label="Cumul Total" />
+        <NumberField source="echuDepuisJrs" label="Ancienneté (Jours)" />
+        <NumberField source="echuDepuisMnt" label="Ancienneté (Mois)" />
+        {/* <NumberField source="ANC" label="Ancienneté (Mois)" /> */}
+        <TextField source="codechantier" label="Chantier" />
+      </DatagridConfigurable>
+    </List>
+  );
+};
