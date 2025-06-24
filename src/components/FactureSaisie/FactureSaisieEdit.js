@@ -78,7 +78,12 @@ export const FactureSaisieEdit = () => {
 
   // Gestion des cas de chargement et d'erreur de récupération d'identité
   if (isLoading) return <>Chargement...</>;
+  if (loading) return <>Chargement...</>;
+  if (loadingDesignation) return <>Chargement...</>;
+  if (identityLoading) return <>Chargement...</>;
   if (error) return <>Erreur</>;
+  if (ErrorDesignation) return <>Erreur</>;
+  if (Error) return <>Erreur</>;
 
   let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
     id: id,
@@ -436,7 +441,6 @@ export const FactureSaisieEdit = () => {
             ""
           )}
         </Grid>
-        {/* <TextInput source="id" /> */}
       </SimpleForm>
     </Edit>
   );

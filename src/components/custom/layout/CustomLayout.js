@@ -4,7 +4,6 @@ import { CustomAppBar } from "../menu/CustomAppBar";
 
 export const CustomLayout = (props) => (
   <Layout
-    title="Imp. order virement"
     {...props}
     appBar={CustomAppBar}
     menu={CustomMenu}

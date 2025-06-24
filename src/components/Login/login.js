@@ -2,13 +2,14 @@ import { useState } from "react";
 import { useLogin, useNotify } from "react-admin";
 import "./style.css";
 import Swal from "sweetalert2";
+import PatchNotesDialog from "../patchs/usePatchNotes";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // React.useEffect(() => {
+  // useEffect(() => {
   //   if (!localStorage.getItem("seenNewFeatures")) {
   //     Swal.fire({
   //       title: "Nouveautés ! 🎉",
@@ -62,6 +63,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      <PatchNotesDialog />
       <div className="login-left">
         <div className="login-section">
           <header>
@@ -139,9 +141,7 @@ const Login = () => {
             </div>
 
             <div className="login-forgot-password login-animation login-a5">
-              <a href="#" onClick={handleForgotPassword}>
-                Mot de passe oublié ?
-              </a>
+              <div onClick={handleForgotPassword}>Mot de passe oublié ?</div>
             </div>
 
             <button

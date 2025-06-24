@@ -7,23 +7,162 @@ import {
   SimpleForm,
   TextInput,
   Toolbar,
+  useNotify,
+  useRecordContext,
+  Button,
 } from "react-admin";
 import { useTheme } from "@mui/material/styles";
-// Styles personnalisés pour le composant
+import { fetchUtils } from "react-admin";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Grid,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
+import { ContentCopy, Refresh } from "@mui/icons-material";
+import apiUrl from "../../config";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 
-// Barre d'outils personnalisée pour l'édition
-const EditToolbar = (props) => (
-  <Toolbar {...props}>
-    <SaveButton id="save" />
-  </Toolbar>
-);
+// Function to generate a random password
+const generateRandomPassword = () => {
+  const length = 12;
+  const charset =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@*";
+  let password = "";
+  for (let i = 0; i < length; i++) {
+    password += charset.charAt(Math.floor(Math.random() * charset.length));
+  }
+  return password;
+};
+
+// Custom Reset Password Dialog
+const ResetPasswordDialog = ({ open, onClose, onConfirm, record }) => {
+  const [password, setPassword] = useState(generateRandomPassword());
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleGenerateNew = () => {
+    setPassword(generateRandomPassword());
+    setConfirmPassword("");
+    setError("");
+  };
+
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(password);
+  };
+
+  const handleSubmit = () => {
+    if (password !== confirmPassword) {
+      setError("Passwords don't match");
+      return;
+    }
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters");
+      return;
+    }
+    onConfirm(password);
+    onClose();
+  };
+
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>Reset Password for {record.username}</DialogTitle>
+      <DialogContent>
+        <Grid container spacing={2} sx={{ mt: 1 }}>
+          <Grid item xs={12}>
+            <TextField
+              label="Suggested Password"
+              sx={useInputStyleFilters}
+              value={password}
+              fullWidth
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleCopyToClipboard}>
+                      <ContentCopy fontSize="small" />
+                    </IconButton>
+                    <IconButton onClick={handleGenerateNew}>
+                      <Refresh fontSize="small" />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Confirm Password"
+              sx={useInputStyleFilters}
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              fullWidth
+              error={!!error}
+              helperText={error}
+            />
+          </Grid>
+        </Grid>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={handleSubmit} color="primary">
+          Reset Password
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+// Custom toolbar with reset password functionality
+const EditToolbar = (props) => {
+  const notify = useNotify();
+
+  const record = useRecordContext();
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleResetPassword = (newPassword) => {
+    fetchUtils
+      .fetchJson(`${apiUrl}/users/${record.id}/reset-password`, {
+        method: "PUT",
+        body: JSON.stringify({ newPassword }),
+      })
+      .then(() => {
+        notify("Password reset successfully", { type: "success" });
+      })
+      .catch((error) => {
+        notify("Error resetting password: " + error.message, { type: "error" });
+      });
+  };
+
+  return (
+    <Toolbar {...props}>
+      <SaveButton />
+      <Button
+        label="Reset Password"
+        onClick={() => setOpenDialog(true)}
+        sx={{ marginLeft: "16px" }}
+      />
+      <ResetPasswordDialog
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+        onConfirm={handleResetPassword}
+        record={record}
+      />
+    </Toolbar>
+  );
+};
 
 export const UserEdit = (props) => {
-  const theme = useTheme(); // Utilisation du thème Material-UI
+  const theme = useTheme();
+
   return (
     <Edit {...props}>
       <SimpleForm toolbar={<EditToolbar />}>
-        {/* Champ pour le nom complet de l'utilisateur */}
         <TextInput
           source="fullname"
           validate={required("Le nom est obligatoire")}
@@ -39,7 +178,6 @@ export const UserEdit = (props) => {
           inputProps={{ autoComplete: "off" }}
         />
 
-        {/* Champ pour le nom d'utilisateur */}
         <TextInput
           source="username"
           validate={required("Username est obligatoire")}
@@ -55,7 +193,6 @@ export const UserEdit = (props) => {
           inputProps={{ autoComplete: "off" }}
         />
 
-        {/* Sélecteur pour le rôle de l'utilisateur */}
         <SelectInput
           validate={required("Le Role est obligatoire")}
           sx={{
@@ -83,22 +220,12 @@ export const UserEdit = (props) => {
               id: "superviseur comptabilite midelt",
               name: "Superviseur Comptabilité Midelt",
             },
-            {
-              id: "direction générale",
-              name: "Direction générale",
-            },
-            {
-              id: "consultation directeur",
-              name: "Consultation directeur",
-            },
-            {
-              id: "achateur",
-              name: "Achateur",
-            },
+            { id: "direction générale", name: "Direction générale" },
+            { id: "consultation directeur", name: "Consultation directeur" },
+            { id: "achateur", name: "Achateur" },
           ]}
         />
 
-        {/* Sélecteur pour l'état d'activation de l'utilisateur */}
         <SelectInput
           validate={required("Le status est obligatoire")}
           sx={{
@@ -118,7 +245,6 @@ export const UserEdit = (props) => {
           ]}
         />
 
-        {/* Champ pour la date de création (non modifiable) */}
         <DateInput
           sx={{
             width: 650,

@@ -34,6 +34,7 @@ export const AvanceForupdateCreate = () => {
   // États pour la gestion de l'affichage des champs ID
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
   const [chantierIdField, setChantierIdField] = useState(false);
+
   const [designation, setDesignation] = useState([]);
   // const [newIdentity, setNewIdentity] = useState('');
   // const [tva, setTVA] = useState([]);
@@ -42,6 +43,7 @@ export const AvanceForupdateCreate = () => {
   const [selectedCodeChantier, setSelectedCodeChantier] = useState("");
   // État pour la catégorie de fournisseur sélectionnée
   const [selectedSupplierCategory, setSelectedSupplierCategory] = useState("");
+  console.log(chantierIdField, selectedSupplierCategory);
 
   // Effet pour charger la liste des fournisseurs au montage du composant
   useEffect(() => {

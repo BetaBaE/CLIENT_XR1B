@@ -19,31 +19,22 @@ import { OrdervirementEdit } from "./components/OrderVirement/OrdervirementEdit"
 import { OrdervirementList } from "./components/OrderVirement/OrdervirementList";
 import { OrdervirementCreate } from "./components/OrderVirement/OrdervirementCreate";
 import { RIBAtnerCreate } from "./components/RIBAtner/RIBAtnerCreate";
-
 import { VirementCreate } from "./components/Virement/VirementCreate";
 import { VirementList } from "./components/Virement/VirementList";
 import { VirementEdit } from "./components/Virement/VirementEdit";
-
 import { FournisseurCreate } from "./components/Fournisseur/FournisseurCreate";
-
 import { FactureSaisieCreate } from "./components/FactureSaisie/FactureSaisieCreate";
-
 import { FactureSaisieEdit } from "./components/FactureSaisie/FactureSaisieEdit";
-
 import { SuivieFacture } from "./components/SuivieFacture/SuivieFacture";
-
 import { ChequeCreate } from "./components/Cheque/ChequeCreate";
 import { ChequeList } from "./components/Cheque/ChequeList";
 import { EspeceList } from "./components/Espece/EspeceList";
 import { EspeceCreate } from "./components/Espece/EspeceCreate";
 import { ChequeEdit } from "./components/Cheque/ChequeEdit";
-
 import apiUrl from "./config";
 import { ModificationFichnavette } from "./components/Modification fichnavette/ModificationFichnavette";
 import { ModificationFichnavetteEdit } from "./components/Modification fichnavette/ModificationFichnavetteEdit";
-
 import { SuivieFactureEchuList } from "./components/SuivieFactureEchu/SuivieFactureEchuList";
-
 import { FactureNonPaye } from "./components/FactureNonPayé/FactureNonPayé";
 import SuivieFactureExerciceList from "./components/SuivieFactureExercice/SuivieFactureExerciceList";
 import { OrdervirementFondList } from "./components/OrderVirementFond/OrdervirementList";
@@ -56,20 +47,13 @@ import { AttestationFournisseurList } from "./components/AttestationFournisseur/
 import { AvanceList } from "./components/Avance/AvanceList";
 import { AvanceEdit } from "./components/Avance/AvanceEdit";
 import { FicheNavetteList } from "./components/FicheNavette/FicheNavetteList";
-
 import { FicheNavetteCreate } from "./components/FicheNavette/FicheNavetteCreate";
 import { FournisseursList } from "./components/Fournisseur/FournisseursList";
 import { FactureList } from "./components/FacturesSage/FactureList";
 import { AvancePayerList } from "./components/AvancePayer/AvancePayerList";
 import { FactureSaisieList } from "./components/FactureSaisie/FactureSaisieList";
 import { HistoriqueFactureList } from "./components/HistoriqueFacture/HistoriqueFactureList";
-// import { FactureValiderList } from "./components/FactureValider/FactureValiderList";
-// import { FactureValiderEdit } from "./components/FactureValider/FactureValiderEdit";
 import { FournisseurEdit } from "./components/Fournisseur/FournisseurEdit";
-// import { EcheanceReeList } from "./components/EcheanceReelList/EcheanceReeList";
-// import EcheanceReelCreate from "./components/EcheanceReelList/EcheanceReelCreate";
-// import { EcheanceLoiList } from "./components/EcheanceLoi/EcheanceLoiList";
-// import EcheanceLoiCreate from "./components/EcheanceLoi/EcheanceLoiCreate";
 import { AvanceRestituerDetatailList } from "./components/AvanceRestituerDetatail/AvanceRestituerDetatailList";
 import { AvanceForupdateList } from "./components/AvanceForupdate/AvanceForupdateList";
 import { AvanceForupdateEdit } from "./components/AvanceForupdate/AvanceForupdateEdit";
@@ -95,7 +79,6 @@ import { EcheancefournisseurCreate } from "./components/EcheanceFournisseur/Eche
 import { FournisseurTmpCreate } from "./components/FournisseurTmp/FournissuerTmpCreate";
 import { TmpfournisseurList } from "./components/FournisseurTmp/TmpfournisseurList";
 import { TmpfournisseurEdit } from "./components/FournisseurTmp/TmpfournisseurEdit";
-
 import { DossierList } from "./components/Dossier/DossierList";
 import { DossierEdit } from "./components/Dossier/DossierEdit";
 import { DossierCreate } from "./components/Dossier/DossierCreate";
@@ -105,7 +88,6 @@ import { OvcredocList } from "./components/Credoc/OvcredocList.js";
 import { OvcredocEdit } from "./components/Credoc/OvcredocEdit.js";
 import { OvcredocCreate } from "./components/Credoc/OvcredocCreate.js";
 import { PreparationpaiementList } from "./components/Alerts/PreparationpaiementList.js";
-// import { Dashboard } from "./components/custom/dashboard/Dashboard.js";
 
 const fetchJson = async (url, options = {}) => {
   const requestHeaders =
@@ -150,7 +132,6 @@ const fetchJson = async (url, options = {}) => {
 };
 function App(props) {
   const dataProvider = restProvider(apiUrl, fetchJson);
-
   return (
     <Admin
       {...props}

@@ -1,68 +1,139 @@
 import apiUrl from "./config";
 
 export const auth = {
-  // authentication
-  login: ({ username, password }) => {
-    const request = new Request(`${apiUrl}/auth`, {
-      method: "POST",
-      body: JSON.stringify({ username, password }),
-      headers: new Headers({ "Content-Type": "application/json" }),
-    });
-    return fetch(request)
-      .then((response) => {
-        if (response.status < 200 || response.status >= 300) {
-          throw new Error(response.statusText);
-        }
-        return response.json();
-      })
-      .then(({ auth, token, role }) => {
-        localStorage.setItem(
-          "auth",
-          JSON.stringify({ ...auth, fullName: username })
-        );
-        localStorage.setItem("token", token);
-        localStorage.setItem("role", role);
-
-        setTimeout(() => {
-          localStorage.removeItem("token");
-          localStorage.removeItem("role");
-          localStorage.removeItem(
-            "auth",
-            JSON.stringify({ ...auth, fullName: username })
-          );
-          document.location.reload();
-        }, "30200000");
+  login: async ({ username, password }) => {
+    try {
+      const response = await fetch(`${apiUrl}/auth`, {
+        method: "POST",
+        credentials: "include", // Important for cookies
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Login failed");
+      }
+
+      const { user } = await response.json();
+
+      // Store only non-sensitive user data in localStorage
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          id: user.id,
+          fullName: user.fullname,
+          username: user.username,
+          role: user.role,
+        })
+      );
+
+      return { data: user };
+    } catch (error) {
+      throw new Error(error.message || "Login failed");
+    }
   },
 
   checkError: (error) => {
-    const status = error.status;
-    if (status === 401 || status === 403) {
-      localStorage.removeItem("auth");
-      return Promise.reject();
+    if (error.status === 401 || error.status === 403) {
+      localStorage.removeItem("user");
+      return Promise.reject({ redirectTo: "/login" });
     }
-    // other error code (404, 500, etc): no need to log out
     return Promise.resolve();
   },
-  checkAuth: () =>
-    localStorage.getItem("auth")
-      ? Promise.resolve()
-      : Promise.reject({ message: "login required" }),
-  logout: () => {
-    localStorage.removeItem("auth");
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    return Promise.resolve();
-  },
-  getIdentity: () => {
-    const { fullName } = JSON.parse(localStorage.getItem("auth"));
-    return Promise.resolve({ fullName });
-  },
-  getPermissions: () => {
-    const role = localStorage.getItem("role");
 
-    return role
-      ? Promise.resolve(role)
+  checkAuth: async () => {
+    try {
+      // Verify the cookie by making a request to a protected endpoint
+      const response = await fetch(`${apiUrl}/auth/check`, {
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Not authenticated");
+      }
+
+      return Promise.resolve();
+    } catch (error) {
+      localStorage.removeItem("user");
+      return Promise.reject({ redirectTo: "/login" });
+    }
+  },
+
+  logout: async () => {
+    try {
+      await fetch(`${apiUrl}/auth/signout`, {
+        method: "POST",
+        credentials: "include",
+      });
+    } finally {
+      localStorage.removeItem("user");
+      return Promise.resolve();
+    }
+  },
+
+  getIdentity: () => {
+    const user = JSON.parse(localStorage.getItem("user") || {});
+    return Promise.resolve({
+      id: user.id,
+      fullName: user.fullName || user.fullname || "Non défini",
+      username: user.username || "Non défini", // Use username instead of email
+      role: user.role || "Non défini",
+    });
+  },
+
+  getPermissions: () => {
+    const user = JSON.parse(localStorage.getItem("user") || {});
+    return user.role
+      ? Promise.resolve(user.role)
       : Promise.reject({ redirectTo: "/login" });
+  },
+  changePassword: async ({ currentPassword, newPassword }) => {
+    try {
+      const request = new Request(`${apiUrl}/auth/change-password`, {
+        method: "PUT",
+        body: JSON.stringify({ currentPassword, newPassword }),
+        headers: new Headers({ "Content-Type": "application/json" }),
+        credentials: "include",
+      });
+
+      const response = await fetch(request);
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Password change failed");
+      }
+
+      return await response.json();
+    } catch (error) {
+      throw new Error(error.message || "Network error during password change");
+    }
+  },
+  updateProfile: async ({ fullName }) => {
+    try {
+      const request = new Request(`${apiUrl}/auth/update-profile`, {
+        method: "PUT",
+        body: JSON.stringify({ fullname: fullName }),
+        headers: new Headers({ "Content-Type": "application/json" }),
+        credentials: "include",
+      });
+
+      const response = await fetch(request);
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Profile update failed");
+      }
+
+      // Update local storage
+      const user = JSON.parse(localStorage.getItem("user"));
+      user.fullName = fullName;
+      localStorage.setItem("user", JSON.stringify(user));
+
+      return await response.json();
+    } catch (error) {
+      throw new Error(error.message || "Network error during profile update");
+    }
   },
 };
