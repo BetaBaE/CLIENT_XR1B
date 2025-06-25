@@ -147,7 +147,7 @@ export const AvanceRestitEdit = (props) => {
           save={handleSave}
         >
           <TextInput
-            defaultValue={identity.fullName}
+            defaultValue={identity.username}
             label="Vous êtes"
             sx={{ width: 650 }}
             slotProps={{

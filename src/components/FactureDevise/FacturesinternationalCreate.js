@@ -88,7 +88,7 @@ export const FacturesinternationalCreate = () => {
         <Grid container spacing={2}>
           <Grid item md={4}>
             <TextInput
-              defaultValue={identity.fullName}
+              defaultValue={identity.username}
               label="vous êtes"
               hidden={false}
               sx={useInputStyleFilters}

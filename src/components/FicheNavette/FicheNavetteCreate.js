@@ -30,7 +30,12 @@ export const FicheNavetteCreate = (props) => {
   const [selectedCodeChantier, setSelectedCodeChantier] = useState("");
   const [selectedCategorieFacture, setSelectedCategorieFacture] = useState("");
   const { identity, isLoading, error } = useGetIdentity(); // Single call
-
+  console.log(
+    factureSelected,
+    factureidField,
+    chantierIdField,
+    selectedCategorieFacture
+  );
   useEffect(() => {
     const fetchFournisseurs = async () => {
       try {
@@ -115,7 +120,7 @@ export const FicheNavetteCreate = (props) => {
     <Create>
       <SimpleForm>
         <TextInput
-          defaultValue={identity?.fullName}
+          defaultValue={identity?.username}
           label="Vous êtes"
           hidden={false}
           sx={{

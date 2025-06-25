@@ -126,7 +126,7 @@ export const FactureRechereEdit = (props) => {
     <Edit {...props}>
       <SimpleForm toolbar={<UserEditToolbar />}>
         <TextInput
-          defaultValue={identity.fullName}
+          defaultValue={identity.username}
           label="vous êtes"
           hidden={false}
           sx={{ width: 650 }}

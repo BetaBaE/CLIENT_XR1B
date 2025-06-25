@@ -30,6 +30,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EditIcon from "@mui/icons-material/Edit";
 import { useForm, Controller } from "react-hook-form";
 import Swal from "sweetalert2";
+import { useInputStyleFilters } from "../../global/DarkInputStyle";
 
 const SESSION_START_KEY = "sessionStartTime";
 
@@ -311,17 +312,18 @@ const CustomUserMenu = (props) => {
                         onChange={(e) => setTempName(e.target.value)}
                         label="Nom complet"
                         fullWidth
-                        sx={{ mb: 2 }}
+                        sx={useInputStyleFilters}
                       />
                       <Button
                         onClick={handleSaveName}
                         variant="contained"
-                        sx={{ mr: 2 }}
+                        sx={{ mr: 2, mt: 1 }}
                       >
                         Enregistrer
                       </Button>
                       <Button
                         onClick={() => setIsEditingName(false)}
+                        sx={{ mt: 1 }}
                         variant="outlined"
                       >
                         Annuler

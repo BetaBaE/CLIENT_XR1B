@@ -106,7 +106,7 @@ export const FactureSaisieEdit = () => {
         <Grid container>
           <Grid item xs={4}>
             <TextInput
-              defaultValue={identity.fullName}
+              defaultValue={identity.username}
               label="vous êtes"
               hidden={false}
               sx={{

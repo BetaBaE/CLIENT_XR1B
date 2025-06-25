@@ -17,13 +17,13 @@ import {
   DateInput,
 } from "react-admin";
 import { useTheme } from "@mui/material/styles";
-import apiUrl from "../../config";
+// import apiUrl from "../../config";
 import Swal from "sweetalert2";
 import { Grid } from "@mui/material";
 
 export const AvanceForupdateEdit = (props) => {
   const theme = useTheme();
-  const { identity, isLoading: identityLoading } = useGetIdentity();
+  // const { identity, isLoading: identityLoading } = useGetIdentity();
   const [designation, setDesignation] = useState([]);
   const [ttc, setTTC] = useState(0);
 
@@ -40,11 +40,12 @@ export const AvanceForupdateEdit = (props) => {
   );
   const dataProvider1 = useDataProvider();
   const [fournisseur, setFournisseur] = useState([]);
-  const [facture, setFacture] = useState([{ id: "", BonCommande: "" }]);
+  // const [facture, setFacture] = useState([{ id: "", BonCommande: "" }]);
   const dataProvider = useDataProvider();
   const redirect = useRedirect();
+  console.log(fournisseur);
 
-  const [fournisseurIdField, setFournisseurIdField] = useState(true);
+  // const [fournisseurIdField, setFournisseurIdField] = useState(true);
   const [chantier, setChantier] = useState([]);
   const annuleAlert = (params) => {
     if (params === "Annuler") {
@@ -72,10 +73,10 @@ export const AvanceForupdateEdit = (props) => {
       });
     }
   };
-  function formatDate(string) {
-    var options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(string).toLocaleDateString([], options);
-  }
+  // function formatDate(string) {
+  //   var options = { year: "numeric", month: "long", day: "numeric" };
+  //   return new Date(string).toLocaleDateString([], options);
+  // }
   useEffect(() => {
     dataProvider1
       .getList("designation", {
@@ -103,12 +104,12 @@ export const AvanceForupdateEdit = (props) => {
         console.log(error);
       });
   }, [dataProvider]);
-  const getFactureByFourniseur = (id) => {
-    let url = `${apiUrl}/facturebyfournisseur/` + id;
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => setFacture(json));
-  };
+  // const getFactureByFourniseur = (id) => {
+  //   let url = `${apiUrl}/facturebyfournisseur/` + id;
+  //   fetch(url)
+  //     .then((response) => response.json())
+  //     .then((json) => setFacture(json));
+  // };
 
   let designation_choices = designation.map(
     ({ id, designation, codeDesignation, PourcentageTVA }) => ({
@@ -135,6 +136,8 @@ export const AvanceForupdateEdit = (props) => {
     id: id,
     name: `${LIBELLE} | ${id} `,
   }));
+
+  console.log(chantier_choices);
 
   const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
@@ -168,7 +171,6 @@ export const AvanceForupdateEdit = (props) => {
           </FormDataConsumer>
           <Grid item md={6}>
             <TextInput
-              // defaultValue={identity.fullName}
               label="N° Proforma / Devis"
               sx={{
                 width: 650,
@@ -186,7 +188,6 @@ export const AvanceForupdateEdit = (props) => {
           </Grid>
           <Grid item md={6}>
             <DateInput
-              // defaultValue={identity.fullName}
               label="Date de document"
               sx={{ width: 650 }}
               validate={required("Date de document est obligatoire")}

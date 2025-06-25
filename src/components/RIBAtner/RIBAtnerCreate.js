@@ -34,7 +34,7 @@ export const RIBAtnerCreate = () => {
       <SimpleForm>
         {/* Champ texte pour afficher le nom de l'utilisateur connecté, désactivé */}
         <TextInput
-          defaultValue={identity?.fullName}
+          defaultValue={identity?.username}
           label="vous êtes"
           hidden={false}
           sx={{

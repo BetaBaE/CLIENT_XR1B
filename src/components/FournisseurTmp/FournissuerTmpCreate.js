@@ -128,7 +128,7 @@ export const FournisseurTmpCreate = (props) => {
       >
         {/* Nom de l'utilisateur connecté */}
         <TextInput
-          defaultValue={identity?.fullName}
+          defaultValue={identity?.username}
           label="Vous êtes"
           slotProps={{
             input: {

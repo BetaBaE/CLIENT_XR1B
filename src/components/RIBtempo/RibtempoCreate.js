@@ -73,7 +73,7 @@ export const RibtempoCreate = (props) => {
       <SimpleForm {...props}>
         {/* Formulaire simple pour la création */}
         <TextInput
-          defaultValue={identity?.fullName}
+          defaultValue={identity?.username}
           label="vous êtes"
           hidden={false}
           sx={{

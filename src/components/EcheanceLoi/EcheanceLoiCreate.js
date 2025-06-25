@@ -44,7 +44,7 @@ const EcheanceLoiCreate = (props) => {
     <Create>
       <SimpleForm {...props}>
         <TextInput
-          defaultValue={identity?.fullName}
+          defaultValue={identity?.username}
           label="vous êtes"
           hidden={false}
           sx={{ width: 650 }}

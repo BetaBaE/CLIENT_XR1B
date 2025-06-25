@@ -93,7 +93,7 @@ export const AvanceCreate = () => {
       <SimpleForm>
         {/* Champ de texte pour afficher le nom complet de l'utilisateur */}
         <TextInput
-          defaultValue={identity.fullName}
+          defaultValue={identity.username}
           label="Vous êtes"
           sx={{
             width: 650,

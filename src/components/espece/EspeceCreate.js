@@ -27,12 +27,14 @@ export const EspeceCreate = (props) => {
   const [sumfacturewithfn, setSumfacturewithfn] = useState([]);
   const [sumfacturewithoutfn, setSumfacturewithoutfn] = useState([]);
   const [sumavance, setSumavance] = useState([]);
+  setSumavance([]);
   const [
     selectedSupplierFournisseurCategory,
     setSelectedSupplierFournisseurCategory,
   ] = useState("");
   const [selectedSupplierFactureCategory, setSelectedSupplierFactureCategory] =
     useState("");
+  console.log(selectedSupplierFactureCategory);
 
   // Extraire les sommes pour un accès facile
   const sumAvanceValue = sumavance.length > 0 ? sumavance[0].sum : "";
@@ -120,17 +122,17 @@ export const EspeceCreate = (props) => {
       });
   };
 
-  const getsumavanceByFourniseurId = (id) => {
-    fetch(`${apiUrl}/getsumavancebyfournisseur/${id}`)
-      .then((response) => response.json())
-      .then((json) => setSumavance(json))
-      .catch((error) =>
-        console.error(
-          "Erreur lors de la récupération de la somme des avances :",
-          error
-        )
-      );
-  };
+  // const getsumavanceByFourniseurId = (id) => {
+  //   fetch(`${apiUrl}/getsumavancebyfournisseur/${id}`)
+  //     .then((response) => response.json())
+  //     .then((json) => setSumavance(json))
+  //     .catch((error) =>
+  //       console.error(
+  //         "Erreur lors de la récupération de la somme des avances :",
+  //         error
+  //       )
+  //     );
+  // };
 
   // Gérer la sélection des factures et le calcul des sommes
   const handleChange = (e) => {
@@ -187,7 +189,7 @@ export const EspeceCreate = (props) => {
     <Create>
       <SimpleForm>
         <TextInput
-          defaultValue={identity?.fullName}
+          defaultValue={identity?.username}
           label="Vous êtes"
           sx={{
             width: 650,
@@ -224,9 +226,9 @@ export const EspeceCreate = (props) => {
               setFournisseurIdField(true);
               setSelectedSupplierFournisseurCategory("");
             } else {
-              const selectedFournisseur = fournisseurs_choices.find(
-                (f) => f.id === e
-              );
+              // const selectedFournisseur = fournisseurs_choices.find(
+              //   (f) => f.id === e
+              // );
               setFournisseurIdField(false);
               getFactureByFourniseur(e);
               getsumfacturewithoutByFourniseurId(e);

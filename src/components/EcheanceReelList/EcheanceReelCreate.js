@@ -48,7 +48,7 @@ const EcheanceReelCreate = (props) => {
     <Create>
       <SimpleForm {...props}>
         <TextInput
-          defaultValue={identity?.fullName}
+          defaultValue={identity?.username}
           label="Vous êtes"
           slotProps={{
             input: {
