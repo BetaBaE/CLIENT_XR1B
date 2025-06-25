@@ -1,18 +1,8 @@
-import React, { useState } from "react";
-import {
-  AppBar,
-  Datagrid,
-  DateField,
-  List,
-  MenuItemLink,
-  TextField,
-} from "react-admin";
-
-import ColorfulText from "../custom/layout/ColorfulText";
+import { Datagrid, DateField, List, TextField } from "react-admin";
 
 import FactureNonPayeFilter from "./FactureNonPayeFilter";
 import { CustomLayout } from "../custom/layout/CustomLayout";
-import { Box } from "@mui/material";
+
 // const MyMenu = () => (
 //   <Menu>
 //     <MenuItemLink to="/" primaryText="Dashboard" />
@@ -21,17 +11,7 @@ import { Box } from "@mui/material";
 //   </Menu>
 // );
 
-const CustomAppBar = (props) => (
-  <AppBar {...props}>
-    <MenuItemLink to="/" primaryText="Dashboard" />
-    <MenuItemLink to="/posts" primaryText="Posts" />
-    <MenuItemLink to="/comments" primaryText="Comments" />
-  </AppBar>
-);
-
 export const FactureNonPaye = (props) => {
-  const [recordCount, setRecordCount] = useState(0);
-
   /*
   useEffect(() => {
     fetch("http://localhost:8080/allcountexport") 

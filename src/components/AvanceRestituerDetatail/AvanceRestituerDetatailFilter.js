@@ -1,4 +1,4 @@
-import { DateInput, Filter, SelectInput, TextInput } from "react-admin";
+import { Filter, TextInput } from "react-admin";
 
 const AvanceRestituerDetatailFilter = (props) => (
   <Filter {...props}>
