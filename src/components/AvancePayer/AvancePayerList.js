@@ -1,4 +1,4 @@
-import { Datagrid, DateField, List, NumberField, TextField } from "react-admin";
+import { Datagrid, List, NumberField, TextField } from "react-admin";
 import FilterRLogFacture from "./AvancePayerFilter";
 
 export const AvancePayerList = (props) => {
