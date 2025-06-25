@@ -54,7 +54,7 @@ const AttestationFournisseurCreate = (props) => {
       <SimpleForm {...props}>
         {/* Champ texte pour afficher le nom de l'utilisateur courant */}
         <TextInput
-          defaultValue={identity?.fullName}
+          defaultValue={identity?.username}
           label="vous êtes"
           hidden={false}
           sx={{

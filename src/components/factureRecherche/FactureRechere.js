@@ -1,13 +1,4 @@
-import {
-  ChipField,
-  Datagrid,
-  DateField,
-  List,
-  NumberField,
-  ReferenceArrayField,
-  SingleFieldList,
-  TextField,
-} from "react-admin";
+import { Datagrid, DateField, List, NumberField, TextField } from "react-admin";
 import FactureRechereFilter from "./FactureRechereFilter";
 
 export const FactureRecherche = (props) => {

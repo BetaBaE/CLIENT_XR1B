@@ -75,6 +75,7 @@ export const AvanceEdit = (props) => {
 
   // Hooks called at top-level only
   const [update, { isLoading: isUpdating }] = useUpdate();
+  console.log(`isUpdating: ${isUpdating}`);
 
   const [avanceData, setAvanceData] = useState(null);
   const [isAvanceLoading, setIsAvanceLoading] = useState(true);
@@ -159,6 +160,9 @@ export const AvanceEdit = (props) => {
     );
   }
   const { avanceRestitution, factures } = avanceData.data;
+  if (!avanceRestitution || !factures) {
+    return <div>Aucune donnée disponible pour cette avance.</div>;
+  }
 
   return (
     <Edit {...props}>
@@ -173,7 +177,7 @@ export const AvanceEdit = (props) => {
           save={handleSave}
           defaultValues={{
             id: avanceRestitution.id,
-            Redacteur: identity.fullName,
+            Redacteur: identity.username,
             Montant: avanceRestitution.Montant || "",
             CodeAffaire: avanceRestitution.CodeAffaire || "",
             etat: avanceRestitution.etat || "",

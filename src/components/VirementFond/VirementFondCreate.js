@@ -70,7 +70,7 @@ export const VirementFondCreate = () => {
     <Create>
       <SimpleForm>
         <TextInput
-          defaultValue={identity?.fullName} // Affichage du nom de l'utilisateur
+          defaultValue={identity?.username} // Affichage du nom de l'utilisateur
           label="vous êtes"
           hidden={false}
           sx={{

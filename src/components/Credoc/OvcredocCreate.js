@@ -26,7 +26,7 @@ export const OvcredocCreate = () => {
           source="Redacteur"
           sx={useInputStyleFilters}
           label="Vous êtes"
-          defaultValue={identity?.fullName}
+          defaultValue={identity?.username}
         />
         <SelectInput
           validate={requiredField}

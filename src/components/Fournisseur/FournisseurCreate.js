@@ -75,7 +75,7 @@ export const FournisseurCreate = (props) => {
     <Create>
       <SimpleForm {...props}>
         <TextInput
-          defaultValue={identity.fullName}
+          defaultValue={identity.username}
           label="Vous êtes"
           hidden={false}
           sx={{

@@ -45,7 +45,7 @@ export const RibfournisseurEdit = (props) => {
       <SimpleForm toolbar={<EditToolbar />}>
         <TextInput
           source="validateur"
-          defaultValue={identity?.fullName}
+          defaultValue={identity?.username}
           label="Vous êtes"
           hidden={false}
           sx={{

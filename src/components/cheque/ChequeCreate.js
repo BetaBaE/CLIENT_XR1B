@@ -250,7 +250,7 @@ export const ChequeCreate = (props) => {
     <Create {...props}>
       <SimpleForm>
         <TextInput
-          defaultValue={identity.fullName}
+          defaultValue={identity.username}
           label="vous êtes"
           hidden={false}
           sx={{

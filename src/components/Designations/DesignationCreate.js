@@ -31,7 +31,7 @@ export const DesignationCreate = () => {
     <Create>
       <SimpleForm>
         <TextInput
-          defaultValue={identity?.fullName}
+          defaultValue={identity?.username}
           label="vous êtes"
           hidden={false}
           sx={{

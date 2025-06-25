@@ -20,7 +20,7 @@ export const TmpfournisseurEdit = () => {
     <Edit>
       <SimpleForm>
         <TextInput
-          defaultValue={identity?.fullName}
+          defaultValue={identity?.username}
           label="Vous êtes"
           slotProps={{
             input: {

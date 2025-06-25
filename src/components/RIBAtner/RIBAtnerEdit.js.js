@@ -31,7 +31,7 @@ export const RIBatnerEdit = (props) => {
         {/* Formulaire simple avec barre d'outils personnalisée */}
         {/* Champ texte pour afficher le nom de l'utilisateur connecté, désactivé */}
         <TextInput
-          defaultValue={identity?.fullName}
+          defaultValue={identity?.username}
           label="vous êtes"
           hidden={false}
           sx={{ width: 650 }}

@@ -128,7 +128,7 @@ export const AvanceForupdateCreate = () => {
         <Grid container>
           <Grid item md={6}>
             <TextInput
-              defaultValue={identity.fullName}
+              defaultValue={identity.username}
               label="Vous êtes"
               sx={{
                 width: 650,
@@ -150,7 +150,6 @@ export const AvanceForupdateCreate = () => {
           </Grid>
           <Grid item md={6}>
             <TextInput
-              // defaultValue={identity.fullName}
               label="N° Proforma / Devis"
               sx={{
                 width: 650,
@@ -168,7 +167,6 @@ export const AvanceForupdateCreate = () => {
           </Grid>
           <Grid item md={6}>
             <DateInput
-              // defaultValue={identity.fullName}
               label="Date de document"
               sx={{ width: 650 }}
               validate={required("Date de document est obligatoire")}

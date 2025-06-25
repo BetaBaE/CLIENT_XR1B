@@ -18,14 +18,14 @@ const CustomToolbar = () => (
 
 export const DesignationEdit = () => {
   const { identity, isLoading: identityLoading } = useGetIdentity();
-
+  if (identityLoading) return <>Loading</>;
   return (
     <Edit title="Modifier Designation">
       <SimpleForm toolbar={<CustomToolbar />} redirect="list">
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <TextInput
-              defaultValue={identity?.fullName}
+              defaultValue={identity?.username}
               label="vous êtes"
               hidden={false}
               sx={useInputStyleFilters}

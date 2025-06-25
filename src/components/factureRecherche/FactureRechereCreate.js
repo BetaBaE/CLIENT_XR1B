@@ -124,7 +124,7 @@ export const FactureRechereCreate = (props) => {
     <Create>
       <SimpleForm>
         <TextInput
-          defaultValue={identity.fullName}
+          defaultValue={identity.username}
           label="Vous êtes"
           hidden={false}
           sx={{ width: 650 }}

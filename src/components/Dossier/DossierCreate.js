@@ -37,7 +37,7 @@ export const DossierCreate = () => {
           source="Redacteur"
           sx={inputSyle}
           label="Vous êtes"
-          defaultValue={identity?.fullName}
+          defaultValue={identity?.username}
         />
         <TextInput
           source="Libele"
