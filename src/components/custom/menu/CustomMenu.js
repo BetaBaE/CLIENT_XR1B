@@ -14,6 +14,7 @@ import {
 } from "react-icons/fa";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { TbReportMoney } from "react-icons/tb";
+import { Roles, RoleGroups, can } from "../../../utils/rbac";
 
 export const CustomMenu = (props) => {
   const { permissions } = usePermissions();
@@ -22,14 +23,7 @@ export const CustomMenu = (props) => {
     <Menu {...props}>
       {/* <Menu.DashboardItem /> */}
 
-      {(permissions === "admin" ||
-        permissions === "direction générale" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "comptable PdT" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable") && (
+      {can(permissions, RoleGroups.READ) && (
         <SubMenu primaryText="Section Facture" leftIcon={<ChevronRightIcon />}>
           <Menu.Item
             to="AvanceForupdate"
@@ -58,15 +52,7 @@ export const CustomMenu = (props) => {
           />
         </SubMenu>
       )}
-      {(permissions === "admin" ||
-        permissions === "direction générale" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable PdT" ||
-        permissions === "achateur" ||
-        permissions === "comptable") && (
+      {can(permissions, RoleGroups.READ_WITH_ACHA) && (
         <SubMenu
           primaryText="Section Fournisseur"
           leftIcon={<ChevronRightIcon />}
@@ -81,7 +67,7 @@ export const CustomMenu = (props) => {
             primaryText="Fournisseurs"
             leftIcon={<FaUserTie />}
           />
-          {permissions !== "achateur" ? (
+          {!can(permissions, [Roles.ACHATEUR]) ? (
             <>
               <Menu.Item
                 to="ribtempo"
@@ -110,14 +96,7 @@ export const CustomMenu = (props) => {
         </SubMenu>
       )}
 
-      {(permissions === "admin" ||
-        permissions === "direction générale" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable PdT" ||
-        permissions === "comptable") && (
+      {can(permissions, RoleGroups.READ) && (
         <SubMenu primaryText="Section  Atner" leftIcon={<ChevronRightIcon />}>
           <Menu.Item
             to="ribatner"
@@ -137,14 +116,7 @@ export const CustomMenu = (props) => {
         </SubMenu>
       )}
 
-      {(permissions === "admin" ||
-        permissions === "direction générale" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable PdT" ||
-        permissions === "comptable") && (
+      {can(permissions, RoleGroups.READ) && (
         <SubMenu primaryText="Section Paiement" leftIcon={<ChevronRightIcon />}>
           <Menu.Item
             to="ordervirement"
@@ -173,7 +145,7 @@ export const CustomMenu = (props) => {
           />
         </SubMenu>
       )}
-      {(permissions === "admin" || permissions === "direction générale") && (
+      {can(permissions, RoleGroups.ADMIN_DG) && (
         <SubMenu
           primaryText="Section International"
           leftIcon={<ChevronRightIcon />}
@@ -190,23 +162,8 @@ export const CustomMenu = (props) => {
           />
         </SubMenu>
       )}
-      {(permissions === "admin" ||
-        permissions === "direction générale" ||
-        permissions === "consultation directeur" ||
-        permissions === "montage" ||
-        permissions === "electricite" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable PdT" ||
-        permissions === "comptable") && (
+      {can(permissions, [...RoleGroups.READ_WITH_CONSULT, "montage", "electricite"]) && (
         <SubMenu primaryText="Suive Facture" leftIcon={<ChevronRightIcon />}>
-          {/* <Menu.Item
-            to="/SuivieFacture"
-            primaryText="Log Facture Saisie"
-            leftIcon={<FaFileInvoiceDollar />}
-          /> */}
           <Menu.Item
             to="/getfacturedetails"
             primaryText="Log Facture"
@@ -217,34 +174,9 @@ export const CustomMenu = (props) => {
             primaryText="Log Avance"
             leftIcon={<FaFileInvoiceDollar />}
           />
-          {/* <Menu.Item
-            to="/SuivieFactureEchu"
-            primaryText="Facture enregistrée prête pour l'échéance"
-            leftIcon={<FaFileInvoice />}
-          />
-          <Menu.Item
-            to="/FactureNonPaye"
-            primaryText="Facture Non Paye"
-            leftIcon={<TbReportMoney />}
-          />
-          <Menu.Item
-            to="/DetailFacturebyfournisseur"
-            primaryText="Somme par Fournisseur"
-            leftIcon={<TbReportMoney />}
-          /> */}
         </SubMenu>
       )}
-      {(permissions === "admin" ||
-        permissions === "direction générale" ||
-        permissions === "consultation directeur" ||
-        permissions === "montage" ||
-        permissions === "electricite" ||
-        permissions === "normal user" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable PdT" ||
-        permissions === "comptable") && (
+      {can(permissions, [...RoleGroups.READ_WITH_CONSULT, "montage", "electricite"]) && (
         <SubMenu primaryText="Alerte" leftIcon={<ChevronRightIcon />}>
           <Menu.Item
             to="/alertattestationregfisc"
@@ -263,10 +195,7 @@ export const CustomMenu = (props) => {
           />
         </SubMenu>
       )}
-      {(permissions === "admin" ||
-        permissions === "direction générale" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt") && (
+      {can(permissions, [Roles.ADMIN, Roles.DG, Roles.COMPTABLE_MIDELT, Roles.SUP_COMP_MIDELT]) && (
         <SubMenu primaryText="Travaux Mensuel" leftIcon={<ChevronRightIcon />}>
           <Menu.Item
             to="/rastva"
@@ -280,16 +209,9 @@ export const CustomMenu = (props) => {
           />
         </SubMenu>
       )}
-      {(permissions === "admin" ||
-        permissions === "direction générale" ||
-        permissions === "consultation directeur" ||
-        permissions === "superviseur comptabilite" ||
-        permissions === "comptable midelt" ||
-        permissions === "superviseur comptabilite midelt" ||
-        permissions === "comptable PdT" ||
-        permissions === "comptable") && (
+      {can(permissions, [Roles.ADMIN, Roles.DG, Roles.DIR_CONSULT, Roles.SUP_COMP, Roles.COMPTABLE_MIDELT, Roles.SUP_COMP_MIDELT, Roles.COMPTABLE_PDT, Roles.COMPTABLE]) && (
         <SubMenu primaryText="Analyse" leftIcon={<ChevronRightIcon />}>
-          {permissions !== "consultation directeur" ? (
+          {!can(permissions, [Roles.DIR_CONSULT]) ? (
             <Menu.Item
               to="/atnerpaiements"
               primaryText="ATNER Paiements"
@@ -320,7 +242,7 @@ export const CustomMenu = (props) => {
           />
         </SubMenu>
       )}
-      {(permissions === "admin" || permissions === "direction générale") && (
+      {can(permissions, RoleGroups.ADMIN_DG) && (
         <SubMenu
           primaryText="Gestion Utilisateurs"
           leftIcon={<ChevronRightIcon />}

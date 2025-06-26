@@ -4,36 +4,40 @@ import {
   List,
   NumberField,
   TextField,
-  useDataProvider,
-} from "react-admin"; // Importation des composants nécessaires de React Admin
-import VirmentFilter from "./VirmentFilter"; // Importation du filtre personnalisé pour la liste des virements
-import { exporter } from "../global/exportsToCsv";
+  useListContext,
+} from "react-admin";
+import VirmentFilter from "./VirmentFilter";
+import { createExporter } from "../GlobalFunction/CustomExportCsv";
 
-// Composant pour afficher la liste des virements
 export const VirementList = () => {
-  const dataProvider = useDataProvider();
+  const resource = "virements";
+  const fileName = "Virement";
+
+  let activeExporter;
+
+  const ExporterBridge = () => {
+    const { filterValues } = useListContext();
+    activeExporter = async () => {
+      const exportFunction = createExporter(resource, fileName);
+      return exportFunction(filterValues);
+    };
+    return null; // invisible
+  };
+
   return (
     <List
       filters={<VirmentFilter />}
       title="Virement"
-      exporter={(records, fetchRelatedRecords) =>
-        exporter(records, fetchRelatedRecords, dataProvider, {
-          resource: "virements",
-        })
-      } // Fonction d'exportation personnalisée
+      exporter={(data, fetchRelated, ctx) => activeExporter?.()}
     >
+      <ExporterBridge />
       <Datagrid rowClick="edit" bulkActionButtons={false}>
-        {/* Configuration du tableau */}
-        {/* <TextField source="id" /> */} {/* Champ ID (commenté) */}
         <TextField source="orderVirementId" />
-        {/* Affichage de l'ID de la commande de virement */}
-        <TextField source="nom" /> {/* Affichage du nom */}
-        <TextField source="rib" /> {/* Affichage du RIB */}
+        <TextField source="nom" />
+        <TextField source="rib" />
         <NumberField source="montantVirement" />
-        {/* Affichage du montant du virement */}
-        <TextField source="Etat" /> {/* Affichage de l'état du virement */}
+        <TextField source="Etat" />
         <DateField source="dateoperation" />
-        {/* Affichage de la date de l'opération */}
       </Datagrid>
     </List>
   );

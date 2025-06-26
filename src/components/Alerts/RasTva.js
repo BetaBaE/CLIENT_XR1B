@@ -4,6 +4,7 @@ import {
   InfiniteList,
   NumberField,
   TextField,
+  useListContext,
 } from "react-admin";
 import RasTvaFilter from "./RasTvaFilter";
 import { createExporter } from "../GlobalFunction/CustomExportCsv";
@@ -11,10 +12,24 @@ import { createExporter } from "../GlobalFunction/CustomExportCsv";
 export const RastvaList = () => {
   const resource = "rastva";
   const fileName = "Ras TVA";
-  const exporter = createExporter(resource, fileName);
+
+  let activeExporter;
+
+  const ExporterBridge = () => {
+    const { filterValues } = useListContext();
+    activeExporter = async () => {
+      const exportFunction = createExporter(resource, fileName);
+      return exportFunction(filterValues);
+    };
+    return null; // invisible
+  };
 
   return (
-    <InfiniteList exporter={exporter} filters={<RasTvaFilter />}>
+    <InfiniteList
+      exporter={(data, fetchRelated, ctx) => activeExporter?.()}
+      filters={<RasTvaFilter />}
+    >
+      <ExporterBridge />
       <Datagrid bulkActionButtons={false}>
         <TextField source="catFournisseur" />
         <TextField source="Identifiant fiscal" />

@@ -1,3 +1,93 @@
+# CLIENT XR1B – Finance & Payments Dashboard
+
+A role-based internal dashboard for managing suppliers, invoices, advances, virement orders and other treasury operations. Built on top of **React-Admin** and **Material-UI**, it provides CRUD resources, analytics (Recharts), and Excel/PDF export utilities.
+
+---
+
+## Tech Stack
+
+| Layer             | Library / Tool                |
+|-------------------|-------------------------------|
+| UI Components     | React 18, Material-UI v5, react-icons |
+| Admin Framework   | react-admin v5 + ra-data-simple-rest |
+| Charts / Exports  | Recharts, xlsx / exceljs, json2xls |
+| Alerts & Modals   | sweetalert2                   |
+| Auth & Security   | Custom `authProvider.js` (token-based) |
+
+---
+
+## Local Development
+
+1. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Configure API endpoint – create a **.env** file at project root:
+
+   ```env
+   REACT_APP_API_URL=http://localhost:3000
+   ```
+
+   (Keep `src/config.js` out of git; it just reads this env var.)
+
+3. Start the dev server:
+
+   ```bash
+   npm start
+   ```
+
+   The app runs at `http://localhost:3000`.
+
+---
+
+## Roles & Permissions (excerpt)
+
+| Role label (FR)           | Code in DB / JWT | Access scope |
+|---------------------------|------------------|--------------|
+| Admin                     | admin            | Full CRUD on every resource |
+| Direction Générale        | direction générale | Global read-only + selected write |
+| Superviseur Comptabilité  | superviseur comptabilite | Validate / edit accounting docs |
+| Comptable                 | comptable        | Day-to-day data entry |
+| Consultation Directeur    | consultation directeur | Read-only dashboards |
+
+Permission checks live in `App.js` (to be refactored into a helper).
+
+---
+
+## Project Structure (simplified)
+
+```
+src/
+  components/        Domain-driven resource folders (List, Edit, Create)
+  authProvider.js    React-Admin authentication & role resolution
+  config.js          Reads REACT_APP_API_URL (git-ignored)
+  App.js             Admin wrapper + resource registry (≈950 LOC)
+```
+
+---
+
+## Testing
+
+Run Jest tests (none yet, contributions welcome):
+
+```bash
+npm test
+```
+
+---
+
+## Production Build & Deployment
+
+```bash
+npm run build
+```
+
+The optimized bundle is generated in `build/`. Deploy it to any static host (Nginx, Netlify, S3, etc.). Ensure you set `REACT_APP_API_URL` in the server environment (e.g., Netlify UI).
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
