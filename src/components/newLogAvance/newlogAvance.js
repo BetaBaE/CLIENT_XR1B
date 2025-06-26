@@ -11,6 +11,7 @@ import {
   TextField,
   TextInput,
   TopToolbar,
+  useListContext,
 } from "react-admin";
 import FilterAvanceDetailList from "./FilterAvanceDetailList";
 import { createExporter } from "../GlobalFunction/CustomExportCsv";
@@ -44,16 +45,26 @@ export const GetavancedetailList = () => {
   const defaultDateExercices = `${currentYear}-01-01`;
   const resource = "getavancedetails";
   const fileName = "Avance Log";
-  const exporter = createExporter(resource, fileName);
+  let activeExporter;
+
+  const ExporterBridge = () => {
+    const { filterValues } = useListContext();
+    activeExporter = async () => {
+      const exportFunction = createExporter(resource, fileName);
+      return exportFunction(filterValues);
+    };
+    return null; // invisible
+  };
   return (
     <List
-      exporter={exporter}
+      exporter={(data, fetchRelated, ctx) => activeExporter?.()}
       pagination={<FacturePagination />}
       filters={<FilterAvanceDetailList />}
       actions={<AvanceDetailsActions />}
       filterDefaultValues={{ dateExercices: defaultDateExercices }}
       title="nouv. Avance Log"
     >
+      <ExporterBridge />
       <DatagridConfigurable bulkActionButtons={false}>
         <TextField source="codechantier" />
         <TextField source="nom" />

@@ -31,19 +31,21 @@ function processData(input) {
 }
 
 export const createExporter = (resourceName, filename, headers = []) => {
-  return async () => {
-    // Note: We're not using the filter params here
-    const rangeStart = 0;
-    const rangeEnd = 50000;
+  return async (filterValues = {}) => {
+    // Double-check we have an object
+    const effectiveFilters =
+      typeof filterValues === "function" ? {} : filterValues;
 
-    // Explicitly set empty filter and default sort
-    const query = stringify({
-      filter: JSON.stringify({}), // Empty filter object
-      range: JSON.stringify([rangeStart, rangeEnd]),
-      sort: JSON.stringify(["id", "ASC"]), // Default sort
-    });
+    console.log("Final filters being sent:", effectiveFilters);
 
-    const url = `${apiUrl}/${resourceName}?${query}`;
+    const query = {
+      filter: JSON.stringify(effectiveFilters),
+      range: JSON.stringify([0, 50000]),
+      sort: JSON.stringify(["id", "ASC"]),
+    };
+
+    const url = `${apiUrl}/${resourceName}?${stringify(query)}`;
+    console.log("Request URL:", url);
 
     try {
       const { json: data } = await fetchUtils.fetchJson(url, {

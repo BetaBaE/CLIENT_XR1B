@@ -13,6 +13,7 @@ import {
   TextInput,
   TopToolbar,
   useGetOne,
+  useListContext,
   usePermissions,
   useRecordContext,
 } from "react-admin";
@@ -150,7 +151,17 @@ export const GetfacturedetailList = () => {
   const { permissions } = usePermissions();
   const resource = "getfacturedetails";
   const fileName = "Facture Log";
-  const exporter = createExporter(resource, fileName);
+
+  let activeExporter;
+
+  const ExporterBridge = () => {
+    const { filterValues } = useListContext();
+    activeExporter = async () => {
+      const exportFunction = createExporter(resource, fileName);
+      return exportFunction(filterValues);
+    };
+    return null; // invisible
+  };
 
   let filterChantier;
 
@@ -169,7 +180,7 @@ export const GetfacturedetailList = () => {
   const defaultDateExercices = `${currentYear}-01-01`;
   return (
     <List
-      exporter={exporter}
+      exporter={(data, fetchRelated, ctx) => activeExporter?.()}
       pagination={<FacturePagination />}
       filters={<FilterFactureDetailList />}
       actions={<FactureDetailsActions />}
@@ -184,6 +195,7 @@ export const GetfacturedetailList = () => {
         expandSingle
         bulkActionButtons={false}
       >
+        <ExporterBridge />
         <TextField source="codechantier" />
         <TextField source="nom" />
         <TextField source="Fn" />

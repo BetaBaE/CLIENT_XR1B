@@ -12,6 +12,7 @@ import {
   ExportButton,
   SelectColumnsButton,
   FilterButton,
+  useListContext,
 } from "react-admin";
 import { useInputStyleFilters } from "../global/DarkInputStyle";
 import { createExporter } from "../GlobalFunction/CustomExportCsv";
@@ -103,15 +104,26 @@ const ListActions = () => (
 export const PreparationpaiementList = () => {
   const resource = "preparationpaiement";
   const fileName = "Preparation Paiemenet";
-  const exporter = createExporter(resource, fileName);
+
+  let activeExporter;
+
+  const ExporterBridge = () => {
+    const { filterValues } = useListContext();
+    activeExporter = async () => {
+      const exportFunction = createExporter(resource, fileName);
+      return exportFunction(filterValues);
+    };
+    return null; // invisible
+  };
 
   return (
     <List
-      exporter={exporter}
+      exporter={(data, fetchRelated, ctx) => activeExporter?.()}
       filters={<PreparationpaiementFilter />}
       actions={<ListActions />}
       title="Préparation Paiement"
     >
+      <ExporterBridge />
       <DatagridConfigurable bulkActionButtons={false}>
         <TextField source="nom" />
         <NumberField source="modaliteJrs" label="Modalité (Jours)" />

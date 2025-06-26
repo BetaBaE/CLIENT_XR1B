@@ -1,4 +1,11 @@
-import { Datagrid, DateField, List, NumberField, TextField } from "react-admin";
+import {
+  Datagrid,
+  DateField,
+  List,
+  NumberField,
+  TextField,
+  useListContext,
+} from "react-admin";
 import LogTvaFilter from "./TvaLogFilter";
 import { createExporter } from "../GlobalFunction/CustomExportCsv";
 
@@ -6,10 +13,23 @@ export const TvalogList = () => {
   // Define your filename here
   const resource = "gettvalog";
   const fileName = "Log Tva";
-  const exporter = createExporter(resource, fileName); // Create the exporter with the filename and headers
+  let activeExporter;
 
+  const ExporterBridge = () => {
+    const { filterValues } = useListContext();
+    activeExporter = async () => {
+      const exportFunction = createExporter(resource, fileName);
+      return exportFunction(filterValues);
+    };
+    return null; // invisible
+  };
   return (
-    <List exporter={exporter} filters={<LogTvaFilter />} title="Log Tva">
+    <List
+      exporter={(data, fetchRelated, ctx) => activeExporter?.()}
+      filters={<LogTvaFilter />}
+      title="Log Tva"
+    >
+      <ExporterBridge />{" "}
       <Datagrid bulkActionButtons={false}>
         <TextField source="CODECHT" label="chantier" />
         <TextField source="nom" label="fournisseur" />
