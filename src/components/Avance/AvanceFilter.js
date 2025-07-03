@@ -1,4 +1,3 @@
-import React from "react";
 import { Filter, regex, SelectInput, TextInput } from "react-admin";
 import { useTheme } from "@mui/material/styles";
 const validateNoSpecialChars = regex(

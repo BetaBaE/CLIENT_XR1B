@@ -8,7 +8,6 @@ import {
   SaveButton,
   Toolbar,
 } from "react-admin";
-import React from "react";
 import { useInputStyle } from "../global/DarkInputStyle";
 
 // Custom toolbar without the Delete button

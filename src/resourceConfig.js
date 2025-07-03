@@ -101,6 +101,15 @@ import { SituationFn } from "./components/Analyse/echencier/echencier2.js";
 import StFournisseur from "./components/Analyse/Situation Fournisseur/StFournisseur.js";
 import StChantier from "./components/Analyse/Situation chantier/StChantier.js";
 import PaiementPage from "./components/Analyse/Paiement/PaiementPage.js";
+import { BeneficiaryList } from "./components/VirementMass/BeneficiaryList.js";
+import { BeneficiaryCreate } from "./components/VirementMass/BeneficiaryCreate.js";
+import { BeneficiaryEdit } from "./components/VirementMass/BeneficiaryEdit.js";
+import { TransferList } from "./components/Transfer/TransferList.js";
+import { TransferCreate } from "./components/Transfer/TransferCreate.js";
+import { TransferEdit } from "./components/Transfer/TransferEdit.js";
+import { TransferItemList } from "./components/TransferItem/TransferItemList.js";
+import { TransferItemCreate } from "./components/TransferItem/TransferItemCreate.js";
+import PrintTransefer from "./components/TransferItem/PrintTransefer.js";
 
 // Utility: helper to quickly declare read-only resources
 const readOnly = {
@@ -130,6 +139,11 @@ export const customRoutesConfig = [
     RoleGroups.READ
   ),
   customRoute("/echencier", Echencier, RoleGroups.READ_WITH_CONSULT),
+  customRoute("/printtransefer", PrintTransefer, [
+    ...RoleGroups.ADMIN_DG,
+    Roles.SUP_COMP,
+    Roles.SUP_COMP_MIDELT,
+  ]),
   customRoute("/situationfn", SituationFn, RoleGroups.READ_WITH_CONSULT),
   customRoute(
     "/situationfournisseur",
@@ -556,6 +570,33 @@ export const resourceConfig = [
     list: OvcredocList,
     create: OvcredocCreate,
     edit: OvcredocEdit,
+  },
+  {
+    name: "beneficiaries",
+    viewRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
+    list: BeneficiaryList,
+    createRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
+    create: BeneficiaryCreate,
+    editRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
+    edit: BeneficiaryEdit,
+  },
+  {
+    name: "transfers",
+    viewRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
+    list: TransferList,
+    createRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
+    create: TransferCreate,
+    editRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
+    edit: TransferEdit,
+  },
+  {
+    name: "transfersitems",
+    viewRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
+    list: TransferItemList,
+    createRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
+    create: TransferItemCreate,
+    // editRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
+    // edit: TransferItemEdit,
   },
   {
     name: "preparationpaiement",

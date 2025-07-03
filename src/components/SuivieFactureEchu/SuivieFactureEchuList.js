@@ -1,4 +1,3 @@
-import React from "react";
 import { Datagrid, DateField, List, TextField } from "react-admin";
 import AllechuFilter from "./SuivieFactureFilter";
 
