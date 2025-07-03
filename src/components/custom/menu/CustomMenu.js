@@ -10,7 +10,6 @@ import {
   FaPaperPlane,
   FaPrint,
   FaFolderOpen,
-  FaPiggyBank,
 } from "react-icons/fa";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { TbReportMoney } from "react-icons/tb";
@@ -269,29 +268,26 @@ export const CustomMenu = (props) => {
         Roles.SUP_COMP,
         Roles.SUP_COMP_MIDELT,
       ]) && (
-        <SubMenu
-          primaryText="Gestion Virement Mass"
-          leftIcon={<ChevronRightIcon />}
-        >
-          <Menu.Item
-            to="/transfers"
-            primaryText="Transfers"
-            leftIcon={<FaPiggyBank />}
-          />
+        <SubMenu primaryText="MAD MASSE" leftIcon={<ChevronRightIcon />}>
           <Menu.Item
             to="/beneficiaries"
-            primaryText="Beneficiaries"
-            leftIcon={<FaPiggyBank />}
+            primaryText="Bénéficiaires"
+            leftIcon={<FaFileInvoice />}
+          />
+          <Menu.Item
+            to="/transfers"
+            primaryText="Entete"
+            leftIcon={<FaCreditCard />}
           />
           <Menu.Item
             to="/transfersitems"
-            primaryText="Transfer Items"
-            leftIcon={<FaPiggyBank />}
+            primaryText="Lignes"
+            leftIcon={<TbReportMoney />}
           />
           <Menu.Item
             to="/printtransefer"
-            primaryText="Print Transfer"
-            leftIcon={<FaPiggyBank />}
+            primaryText="Print MAD MASSE"
+            leftIcon={<FaPrint />}
           />
         </SubMenu>
       )}

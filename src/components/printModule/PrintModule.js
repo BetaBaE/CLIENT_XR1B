@@ -6,7 +6,7 @@ import apiUrl from "../../config";
 import Card from "@mui/material/Card";
 import { CardContent, CardHeader, Grid } from "@mui/material";
 import { Title } from "react-admin";
-import PDFViewer from "./PDFViewer";
+import PdfViewer from "./PDFViewer";
 
 const PrintModule = () => {
   const [orderVirement, setOrderVirement] = useState([
@@ -409,7 +409,7 @@ const PrintModule = () => {
           </CardContent>
         </Card>
       </Grid>
-      <PDFViewer base64={buffredPdf} title={pdfTitle} />
+      <PdfViewer base64={buffredPdf} title={pdfTitle} fileName={pdfTitle} />
     </Grid>
   );
 };

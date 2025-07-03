@@ -88,7 +88,7 @@ import { OvcredocCreate } from "./components/Credoc/OvcredocCreate.js";
 
 import { PreparationpaiementList } from "./components/Alerts/PreparationpaiementList.js";
 import { EcheancefournisseurList } from "./components/EcheanceFournisseur/EcheancefournisseurList.js";
-import { EcheancefournisseurCreate } from "./components/EcheanceFournisseur/EcheancefournisseurCreate.js";
+// import { EcheancefournisseurCreate } from "./components/EcheanceFournisseur/EcheancefournisseurCreate.js";
 import { EcheancefournisseurEdit } from "./components/EcheanceFournisseur/EcheancefournisseurEdit.js";
 import { RibfournisseurList } from "./components/RIBFournisseurs/RibfournisseurList.js";
 import { RibfournisseurEdit } from "./components/RIBFournisseurs/RibfournisseurEdit.js";
@@ -554,7 +554,7 @@ export const resourceConfig = [
     name: "echeancefournisseur",
     viewRoles: RoleGroups.READ,
     list: EcheancefournisseurList,
-    create: EcheancefournisseurCreate,
+    // create: EcheancefournisseurCreate,
     edit: EcheancefournisseurEdit,
   },
   {
@@ -568,12 +568,14 @@ export const resourceConfig = [
     name: "ovcredoc",
     viewRoles: RoleGroups.ADMIN_DG,
     list: OvcredocList,
+    createRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
     create: OvcredocCreate,
+    editRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
     edit: OvcredocEdit,
   },
   {
     name: "beneficiaries",
-    viewRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
+    viewRoles: [...RoleGroups.ADMIN_DG, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
     list: BeneficiaryList,
     createRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
     create: BeneficiaryCreate,
@@ -582,7 +584,12 @@ export const resourceConfig = [
   },
   {
     name: "transfers",
-    viewRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
+    viewRoles: [
+      ...RoleGroups.ADMIN_DG,
+      Roles.ADMIN,
+      Roles.SUP_COMP_MIDELT,
+      Roles.SUP_COMP,
+    ],
     list: TransferList,
     createRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
     create: TransferCreate,
@@ -595,8 +602,6 @@ export const resourceConfig = [
     list: TransferItemList,
     createRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
     create: TransferItemCreate,
-    // editRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
-    // edit: TransferItemEdit,
   },
   {
     name: "preparationpaiement",

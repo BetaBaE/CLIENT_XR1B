@@ -7,12 +7,20 @@ import {
   required,
   email,
   SelectInput,
+  Toolbar,
+  SaveButton,
 } from "react-admin";
 import { useInputStyleFilters } from "../global/DarkInputStyle";
 
+const CustomToolbar = () => (
+  <Toolbar>
+    <SaveButton /> {/* Only keeps the Save button */}
+  </Toolbar>
+);
+
 export const BeneficiaryEdit = () => (
   <Edit>
-    <SimpleForm>
+    <SimpleForm toolbar={<CustomToolbar />}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextInput

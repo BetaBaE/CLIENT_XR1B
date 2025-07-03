@@ -20,7 +20,7 @@ const PrintTransfer = () => {
   const [pdfTitle, setPdfTitle] = useState("");
 
   useEffect(() => {
-    fetch(`${apiUrl}/transfers`)
+    fetch(`${apiUrl}/transfersprint`)
       .then((response) => response.json())
       .then((json) => setTransfers(json));
   }, []);
@@ -43,12 +43,12 @@ const PrintTransfer = () => {
       justifyContent="center"
       documentstifyContent="space-around"
     >
-      <Title title="Impression des Transferts (MAD MASS)" />
-      <Grid item xs={12} sm={4}></Grid>
+      <Title title="Impression des Transferts (MAD MASSE)" />
+      <Grid item xs={12} sm={3}></Grid>
 
-      <Grid item xs={12} sm={4} sx={{ marginTop: 2 }}>
+      <Grid item xs={12} sm={6} sx={{ marginTop: 2 }}>
         <Card>
-          <CardHeader title="Imprimer : Transfert (MAD MASS)" />
+          <CardHeader title="Imprimer : Transfert (MAD MASSE)" />
           <CardContent>
             <form>
               <Box
@@ -67,11 +67,11 @@ const PrintTransfer = () => {
                   }}
                 >
                   <option disabled selected value="">
-                    choisir un Mass
+                    choisir un Masse
                   </option>
                   {transfers.map((order, index) => (
                     <option key={index} value={order.id}>
-                      {`${order.Reference} - ${order.BeneficiaryCount} - ${order.TotalAmount} MAD `}
+                      {`${order.Reference} - ${order.BeneficiaryCount} - ${order.TotalAmount} MAD (${order.Status}) `}
                     </option>
                   ))}
                 </select>
@@ -116,7 +116,9 @@ const PrintTransfer = () => {
                           .then((json) => {
                             showLoadingPdf(json);
                             setBuffredPdf(json.base64);
-                            setPdfTitle(json.title);
+                            // Store the title in a local variable to use later
+                            const currentPdfTitle = json.title;
+                            setPdfTitle(currentPdfTitle);
 
                             // Reset select
                             const selectElement =
@@ -125,19 +127,23 @@ const PrintTransfer = () => {
                             setSelctov(null);
 
                             // Now fetch the text file
-                            return fetch(
-                              `${apiUrl}/transfers/${selctov}/generate`
-                            );
+                            return Promise.all([
+                              currentPdfTitle, // Pass the title along
+                              fetch(`${apiUrl}/transfers/${selctov}/generate`),
+                            ]);
                           })
-                          .then((response) => {
-                            if (!response.ok) {
+                          .then(([currentPdfTitle, textResponse]) => {
+                            if (!textResponse.ok) {
                               throw new Error(
                                 "Erreur lors de la récupération du fichier texte"
                               );
                             }
-                            return response.text();
+                            return Promise.all([
+                              currentPdfTitle,
+                              textResponse.text(),
+                            ]);
                           })
-                          .then((textData) => {
+                          .then(([currentPdfTitle, textData]) => {
                             // Create a download link for the text file
                             const blob = new Blob([textData], {
                               type: "text/plain",
@@ -145,7 +151,10 @@ const PrintTransfer = () => {
                             const url = URL.createObjectURL(blob);
                             const link = document.createElement("a");
                             link.href = url;
-                            link.download = "textfile.txt";
+                            // alert(
+                            //   `Le fichier ${currentPdfTitle} est prêt à être téléchargé`
+                            // );
+                            link.download = `${currentPdfTitle}.txt`;
                             document.body.appendChild(link);
                             link.click();
                             document.body.removeChild(link);
@@ -168,7 +177,7 @@ const PrintTransfer = () => {
                         Swal.fire({
                           icon: "error",
                           title: "Error",
-                          text: "Veuillez choisir un Mass à imprimer",
+                          text: "Veuillez choisir un Masse à imprimer",
                           allowOutsideClick: false,
                           allowEscapeKey: false,
                         });
@@ -183,8 +192,8 @@ const PrintTransfer = () => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={4}></Grid>
-      <PdfViewer base64={buffredPdf} title={pdfTitle} />
+      <Grid item xs={12} sm={3}></Grid>
+      <PdfViewer base64={buffredPdf} title={pdfTitle} fileName={pdfTitle} />
     </Grid>
   );
 };

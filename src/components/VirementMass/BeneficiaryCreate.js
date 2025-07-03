@@ -8,6 +8,7 @@ import {
   useGetIdentity,
   SelectInput,
   NumberInput,
+  regex,
 } from "react-admin";
 import { useInputStyleFilters } from "../global/DarkInputStyle";
 import { Grid } from "@mui/material";
@@ -56,6 +57,7 @@ export const BeneficiaryCreate = () => {
               validate={required()}
               source="IdentityType"
               label="Type d'identité"
+              defaultValue="1"
               choices={[
                 { id: "1", name: "Carte d'identité nationale" },
                 { id: "2", name: "Carte de séjour" },
@@ -76,6 +78,7 @@ export const BeneficiaryCreate = () => {
               sx={useInputStyleFilters}
               source="address"
               label="Adresse"
+              defaultValue="Villa 9, Impasse Al Melia Hay Ryad"
               validate={required()}
             />
           </Grid>
@@ -84,6 +87,7 @@ export const BeneficiaryCreate = () => {
               sx={useInputStyleFilters}
               source="city"
               label="Ville"
+              defaultValue="Rabat"
               validate={required()}
             />
           </Grid>
@@ -92,6 +96,7 @@ export const BeneficiaryCreate = () => {
               sx={useInputStyleFilters}
               source="postalCode"
               label="Code postal"
+              defaultValue={10100}
               validate={required()}
               max={99999}
             />
@@ -106,10 +111,17 @@ export const BeneficiaryCreate = () => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextInput
-              sx={useInputStyleFilters}
               source="phone"
-              label="Téléphone"
-              validate={required()}
+              sx={useInputStyleFilters}
+              defaultValue="0535580642"
+              label="Numéro de téléphone"
+              validate={[
+                required("Ce champ est obligatoire"),
+                regex(
+                  /^(06|07|05)\d{8}$/,
+                  "Le numéro doit être au format marocain (ex: 0612345678)"
+                ),
+              ]}
             />
           </Grid>
         </Grid>

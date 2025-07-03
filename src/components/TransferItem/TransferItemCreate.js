@@ -47,11 +47,15 @@ export const TransferItemCreate = () => {
           source="MassTransferId"
           reference="transfers"
           label="Transfert de masse Référence"
+          filter={{ StatusA: "'Saisie', 'Genere'" }} // Only show records with these statuses
         >
           <AutocompleteInput
             sx={useInputStyleFilters}
             validate={required()}
             optionText="Reference"
+            filterToQuery={(searchText) => ({
+              StatusA: "'Saisie', 'Genere'", // Ensure only Saisie/Genere appear in results
+            })}
             onChange={(event, choice) =>
               choice?.id && fetchBeneficiaries(choice.id)
             }
