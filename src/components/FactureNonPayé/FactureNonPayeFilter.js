@@ -1,11 +1,11 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { Filter, SelectInput, TextInput } from "react-admin";
 
 const FactureNonPayeFilter = (props) => {
-  const [factures, setFactures] = React.useState([]);
+  const [factures, setFactures] = useState([]);
   const currentYear = new Date().getFullYear();
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetch("http://10.111.1.95:8080/getAnneeSuivieFacture")
       .then((response) => response.json())
       .then((data) => {

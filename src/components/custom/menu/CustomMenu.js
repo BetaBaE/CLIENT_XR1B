@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Menu, usePermissions } from "react-admin";
 import SubMenu from "./SubMenu";
 import {
@@ -11,6 +10,7 @@ import {
   FaPaperPlane,
   FaPrint,
   FaFolderOpen,
+  FaPiggyBank,
 } from "react-icons/fa";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { TbReportMoney } from "react-icons/tb";
@@ -162,7 +162,11 @@ export const CustomMenu = (props) => {
           />
         </SubMenu>
       )}
-      {can(permissions, [...RoleGroups.READ_WITH_CONSULT, "montage", "electricite"]) && (
+      {can(permissions, [
+        ...RoleGroups.READ_WITH_CONSULT,
+        "montage",
+        "electricite",
+      ]) && (
         <SubMenu primaryText="Suive Facture" leftIcon={<ChevronRightIcon />}>
           <Menu.Item
             to="/getfacturedetails"
@@ -176,7 +180,11 @@ export const CustomMenu = (props) => {
           />
         </SubMenu>
       )}
-      {can(permissions, [...RoleGroups.READ_WITH_CONSULT, "montage", "electricite"]) && (
+      {can(permissions, [
+        ...RoleGroups.READ_WITH_CONSULT,
+        "montage",
+        "electricite",
+      ]) && (
         <SubMenu primaryText="Alerte" leftIcon={<ChevronRightIcon />}>
           <Menu.Item
             to="/alertattestationregfisc"
@@ -195,7 +203,12 @@ export const CustomMenu = (props) => {
           />
         </SubMenu>
       )}
-      {can(permissions, [Roles.ADMIN, Roles.DG, Roles.COMPTABLE_MIDELT, Roles.SUP_COMP_MIDELT]) && (
+      {can(permissions, [
+        Roles.ADMIN,
+        Roles.DG,
+        Roles.COMPTABLE_MIDELT,
+        Roles.SUP_COMP_MIDELT,
+      ]) && (
         <SubMenu primaryText="Travaux Mensuel" leftIcon={<ChevronRightIcon />}>
           <Menu.Item
             to="/rastva"
@@ -209,7 +222,16 @@ export const CustomMenu = (props) => {
           />
         </SubMenu>
       )}
-      {can(permissions, [Roles.ADMIN, Roles.DG, Roles.DIR_CONSULT, Roles.SUP_COMP, Roles.COMPTABLE_MIDELT, Roles.SUP_COMP_MIDELT, Roles.COMPTABLE_PDT, Roles.COMPTABLE]) && (
+      {can(permissions, [
+        Roles.ADMIN,
+        Roles.DG,
+        Roles.DIR_CONSULT,
+        Roles.SUP_COMP,
+        Roles.COMPTABLE_MIDELT,
+        Roles.SUP_COMP_MIDELT,
+        Roles.COMPTABLE_PDT,
+        Roles.COMPTABLE,
+      ]) && (
         <SubMenu primaryText="Analyse" leftIcon={<ChevronRightIcon />}>
           {!can(permissions, [Roles.DIR_CONSULT]) ? (
             <Menu.Item
@@ -239,6 +261,37 @@ export const CustomMenu = (props) => {
             to="/situationchantier"
             primaryText="Situation Chantier"
             leftIcon={<FaFileInvoiceDollar />}
+          />
+        </SubMenu>
+      )}
+      {can(permissions, [
+        ...RoleGroups.ADMIN_DG,
+        Roles.SUP_COMP,
+        Roles.SUP_COMP_MIDELT,
+      ]) && (
+        <SubMenu
+          primaryText="Gestion Virement Mass"
+          leftIcon={<ChevronRightIcon />}
+        >
+          <Menu.Item
+            to="/transfers"
+            primaryText="Transfers"
+            leftIcon={<FaPiggyBank />}
+          />
+          <Menu.Item
+            to="/beneficiaries"
+            primaryText="Beneficiaries"
+            leftIcon={<FaPiggyBank />}
+          />
+          <Menu.Item
+            to="/transfersitems"
+            primaryText="Transfer Items"
+            leftIcon={<FaPiggyBank />}
+          />
+          <Menu.Item
+            to="/printtransefer"
+            primaryText="Print Transfer"
+            leftIcon={<FaPiggyBank />}
           />
         </SubMenu>
       )}

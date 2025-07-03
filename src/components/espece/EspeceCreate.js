@@ -27,7 +27,7 @@ export const EspeceCreate = (props) => {
   const [sumfacturewithfn, setSumfacturewithfn] = useState([]);
   const [sumfacturewithoutfn, setSumfacturewithoutfn] = useState([]);
   const [sumavance, setSumavance] = useState([]);
-  setSumavance([]);
+  // setSumavance([]);
   const [
     selectedSupplierFournisseurCategory,
     setSelectedSupplierFournisseurCategory,

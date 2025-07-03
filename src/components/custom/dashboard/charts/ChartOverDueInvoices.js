@@ -1,5 +1,4 @@
 import { ListBase, WithListContext } from "ra-core";
-import React from "react";
 import {
   XAxis,
   YAxis,

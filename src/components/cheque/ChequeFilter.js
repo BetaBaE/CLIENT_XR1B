@@ -1,4 +1,3 @@
-import React from "react";
 import { DateInput, Filter, TextInput } from "react-admin";
 import { useTheme } from "@mui/material/styles";
 const ChequeFilter = (props) => {

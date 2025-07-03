@@ -13,12 +13,6 @@ export const Roles = {
   DIR_CONSULT: "consultation directeur",
 };
 
-/**
- * Simple RBAC helper.
- * @param {string} role - current user role returned by authProvider
- * @param {string[]} allowed - list of allowed roles
- * @returns {boolean}
- */
 // Common role groups to avoid repetition
 export const RoleGroups = {
   READ: [
@@ -56,4 +50,10 @@ export const RoleGroups = {
   ADMIN_DG: ["admin", "direction générale"],
 };
 
+/**
+ * Simple RBAC helper.
+ * @param {string} role - current user role returned by authProvider
+ * @param {string[]} allowed - list of allowed roles
+ * @returns {boolean}
+ */
 export const can = (role, allowed) => allowed.includes(role);

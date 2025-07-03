@@ -1,4 +1,3 @@
-import React from "react";
 import { Datagrid, DateField, List, NumberField, TextField } from "react-admin";
 
 import ColorfulText from "../custom/layout/ColorfulText";

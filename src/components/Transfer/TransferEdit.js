@@ -1,0 +1,126 @@
+// src/pages/transfers/TransferEdit.jsx
+import {
+  Edit,
+  SimpleForm,
+  TextInput,
+  DateInput,
+  required,
+  ArrayField,
+  Datagrid,
+  TextField,
+  NumberField,
+  useRecordContext,
+  Labeled,
+} from "react-admin";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
+import { Typography, Box, Grid } from "@mui/material";
+
+const BeneficiariesList = () => {
+  const record = useRecordContext();
+  if (!record || !record.beneficiaries || record.beneficiaries.length === 0) {
+    return <Typography variant="body2">No beneficiaries</Typography>;
+  }
+
+  const totalAmount = record.beneficiaries.reduce(
+    (sum, beneficiary) => sum + beneficiary.Amount,
+    0
+  );
+
+  return (
+    <Box sx={{ marginTop: 2 }}>
+      <Typography variant="h6" sx={{ marginTop: 2, marginBottom: 1 }}>
+        Beneficiaries
+      </Typography>
+      <ArrayField source="beneficiaries">
+        <Datagrid
+          bulkActionButtons={false}
+          sx={{
+            "& .RaDatagrid-headerCell": {
+              fontWeight: "bold",
+            },
+          }}
+        >
+          <TextField source="TransferReference" label="Référence" />
+          <TextField source="LastName" label="Nom" />
+          <TextField source="FirstName" label="Prénom" />
+          <NumberField
+            source="Amount"
+            label="Montant"
+            options={{ style: "currency", currency: "MAD" }}
+            sx={{ fontWeight: "bold" }}
+          />
+        </Datagrid>
+      </ArrayField>
+      <Labeled label="Total">
+        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+          {totalAmount.toFixed(2)}
+        </Typography>
+      </Labeled>
+    </Box>
+  );
+};
+
+export const TransferEdit = () => (
+  <Edit>
+    <SimpleForm>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <TextInput
+            sx={useInputStyleFilters}
+            source="Reference"
+            disabled
+            label="Référence"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextInput
+            sx={useInputStyleFilters}
+            source="Description"
+            label="Description"
+            // validate={required()}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <DateInput
+            sx={useInputStyleFilters}
+            source="DueDate"
+            label="Date d'échéance"
+            validate={required()}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextInput sx={useInputStyleFilters} source="Status" label="Statut" />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextInput
+            sx={useInputStyleFilters}
+            source="BankCode"
+            label="Code Banque"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextInput
+            sx={useInputStyleFilters}
+            source="AccountNumber"
+            label="N° de Compte"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextInput
+            sx={useInputStyleFilters}
+            source="CompanyCode"
+            label="Code Société"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextInput
+            sx={useInputStyleFilters}
+            source="BranchCode"
+            label="Code Agence"
+          />
+        </Grid>
+      </Grid>
+      <BeneficiariesList />
+    </SimpleForm>
+  </Edit>
+);
