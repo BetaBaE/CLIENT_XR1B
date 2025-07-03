@@ -39,6 +39,7 @@ const BeneficiariesList = () => {
       <ArrayField source="beneficiaries">
         <Datagrid
           bulkActionButtons={false}
+          rowClick={false}
           sx={{
             "& .RaDatagrid-headerCell": {
               fontWeight: "bold",

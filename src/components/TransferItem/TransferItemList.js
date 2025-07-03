@@ -53,8 +53,6 @@ export const TransferItemList = () => (
       >
         <TextField source="Status" />
       </ReferenceField>
-      {/* <TextField source="MassTransferId" label="ID Transfert de masse" /> */}
-      {/* <TextField source="BeneficiaryId" label="ID Bénéficiaire" /> */}
     </Datagrid>
   </List>
 );
