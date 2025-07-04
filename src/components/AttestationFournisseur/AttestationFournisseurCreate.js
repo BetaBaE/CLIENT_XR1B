@@ -66,8 +66,12 @@ const AttestationFournisseurCreate = (props) => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
-          InputProps={{ readOnly: true }}
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="redacteur"
         />
 
@@ -84,7 +88,11 @@ const AttestationFournisseurCreate = (props) => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: {
+              autoComplete: "off",
+            },
+          }}
           source="idfournisseur"
           choices={fournisseur_choices}
         />
@@ -110,7 +118,11 @@ const AttestationFournisseurCreate = (props) => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: {
+              autoComplete: "off",
+            },
+          }}
         />
       </SimpleForm>
     </Create>

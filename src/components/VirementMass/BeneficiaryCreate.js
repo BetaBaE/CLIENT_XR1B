@@ -55,7 +55,7 @@ export const BeneficiaryCreate = () => {
           <Grid item xs={12} sm={6}>
             <SelectInput
               validate={required()}
-              source="IdentityType"
+              source="identityType"
               label="Type d'identité"
               defaultValue="1"
               choices={[

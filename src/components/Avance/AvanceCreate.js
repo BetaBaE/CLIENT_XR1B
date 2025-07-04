@@ -104,8 +104,12 @@ export const AvanceCreate = () => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
-          InputProps={{ readOnly: true }}
+          slotProps={{
+            input: {
+              readOnly: true,
+              autoComplete: "off",
+            },
+          }}
           source="fullName"
         />
 
@@ -122,7 +126,11 @@ export const AvanceCreate = () => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: {
+              autoComplete: "off",
+            },
+          }}
           source="idfournisseur"
           choices={fournisseurs_choices}
           onChange={(e) => {
@@ -157,7 +165,11 @@ export const AvanceCreate = () => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: {
+              autoComplete: "off",
+            },
+          }}
           source="codechantier"
           choices={chantier_choices}
           onChange={(e) => setSelectedCodeChantier(e)}
@@ -191,7 +203,11 @@ export const AvanceCreate = () => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: {
+              autoComplete: "off",
+            },
+          }}
           source="ficheNavette"
         />
 
@@ -207,7 +223,11 @@ export const AvanceCreate = () => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: {
+              autoComplete: "off",
+            },
+          }}
           validate={required("Le bon de commande est obligatoire")}
           source="Bcommande"
         />
@@ -224,7 +244,11 @@ export const AvanceCreate = () => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: {
+              autoComplete: "off",
+            },
+          }}
           validate={(value) => {
             const numericValue = parseFloat(value);
             return numericValue >= 1
@@ -262,7 +286,11 @@ export const AvanceCreate = () => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: {
+              autoComplete: "off",
+            },
+          }}
           source="TTC"
         />
 
@@ -279,7 +307,11 @@ export const AvanceCreate = () => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: {
+              autoComplete: "off",
+            },
+          }}
           source="HT"
         />
 
@@ -296,7 +328,11 @@ export const AvanceCreate = () => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: {
+              autoComplete: "off",
+            },
+          }}
           source="MontantTVA"
         />
         <SelectInput

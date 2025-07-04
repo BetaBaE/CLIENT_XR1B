@@ -196,8 +196,12 @@ export const AvanceEdit = (props) => {
                 borderRadius: "4px",
               },
             }}
-            inputProps={{ autoComplete: "off" }}
-            InputProps={{ readOnly: true }}
+            slotProps={{
+              input: {
+                autoComplete: "off",
+                readOnly: true,
+              },
+            }}
             source="Redacteur"
           />
           <AutocompleteInput
@@ -241,7 +245,11 @@ export const AvanceEdit = (props) => {
               },
             }}
             source="Montant"
-            InputProps={{ readOnly: true }}
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
+            }}
           />
           <TextInput
             label="Code Affaire"
@@ -255,7 +263,11 @@ export const AvanceEdit = (props) => {
               },
             }}
             source="CodeAffaire"
-            InputProps={{ readOnly: true }}
+            slotProps={{
+              input: {
+                readOnly: true,
+              },
+            }}
           />
           <NumberInput
             sx={{

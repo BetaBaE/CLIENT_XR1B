@@ -6,17 +6,35 @@ import {
   DateInput,
   required,
   useGetIdentity,
+  SaveButton,
+  Toolbar,
 } from "react-admin";
 import { useInputStyleFilters } from "../global/DarkInputStyle";
 import { Grid } from "@mui/material";
 
-export const TransferCreate = () => {
+const getDatePlus60Days = () => {
+  const date = new Date();
+  date.setDate(date.getDate() + 60);
+  return date.toISOString().split("T")[0]; // Format as yyyy-MM-dd
+};
+
+const AlwaysEnabledSaveButton = (props) => (
+  <SaveButton {...props} alwaysEnable />
+);
+
+const CustomToolbar = (props) => (
+  <Toolbar {...props}>
+    <AlwaysEnabledSaveButton />
+  </Toolbar>
+);
+
+export const TransferCreate = (props) => {
   const { identity, isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
   if (error) return <>Error</>;
   return (
-    <Create>
-      <SimpleForm>
+    <Create {...props}>
+      <SimpleForm toolbar={<CustomToolbar />}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextInput
@@ -45,6 +63,12 @@ export const TransferCreate = () => {
             <DateInput
               sx={useInputStyleFilters}
               source="dueDate"
+              defaultValue={getDatePlus60Days()}
+              slotProps={{
+                input: {
+                  readOnly: true,
+                },
+              }}
               label="Date d’échéance"
               validate={required()}
             />

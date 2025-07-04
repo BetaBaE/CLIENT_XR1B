@@ -598,7 +598,7 @@ export const resourceConfig = [
   },
   {
     name: "transfersitems",
-    viewRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
+    viewRoles: [...RoleGroups.ADMIN_DG, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
     list: TransferItemList,
     createRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
     create: TransferItemCreate,
