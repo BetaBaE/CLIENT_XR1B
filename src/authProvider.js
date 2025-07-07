@@ -70,6 +70,7 @@ export const auth = {
       });
     } finally {
       localStorage.removeItem("user");
+      localStorage.removeItem("sessionStartTime");
       return Promise.resolve();
     }
   },
@@ -78,7 +79,7 @@ export const auth = {
     const user = JSON.parse(localStorage.getItem("user") || {});
     return Promise.resolve({
       id: user.id,
-      fullName: user.fullName || user.fullname || "Non défini",
+      fullName: user.fullName || "Non défini",
       username: user.username || "Non défini", // Use username instead of email
       role: user.role || "Non défini",
     });

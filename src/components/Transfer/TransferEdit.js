@@ -122,6 +122,18 @@ export const TransferEdit = () => {
               />
             </Grid>
           )}
+          {countBeneficiaries === 0 && (
+            <Grid item xs={12} sm={6}>
+              <SelectInput
+                disabled={isDisabled}
+                sx={useInputStyleFilters}
+                source="Status"
+                validate={required()}
+                label="Statut"
+                choices={[{ id: "Annuler", name: "Annuler" }]}
+              />
+            </Grid>
+          )}
           <Grid item xs={12} sm={6}>
             <TextInput
               sx={useInputStyleFilters}
@@ -138,7 +150,7 @@ export const TransferEdit = () => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextInput
-              sx={useInputStyleFilters}
+              sx={{ ...useInputStyleFilters, width: "20%" }}
               source="CompanyCode"
               label="Code Société"
             />

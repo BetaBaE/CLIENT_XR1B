@@ -110,6 +110,7 @@ import { TransferEdit } from "./components/Transfer/TransferEdit.js";
 import { TransferItemList } from "./components/TransferItem/TransferItemList.js";
 import { TransferItemCreate } from "./components/TransferItem/TransferItemCreate.js";
 import PrintTransefer from "./components/TransferItem/PrintTransefer.js";
+import { TransfersitemEdit } from "./components/TransferItem/TransfersitemEdit.js";
 
 // Utility: helper to quickly declare read-only resources
 const readOnly = {
@@ -602,6 +603,8 @@ export const resourceConfig = [
     list: TransferItemList,
     createRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
     create: TransferItemCreate,
+    editRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
+    edit: TransfersitemEdit,
   },
   {
     name: "preparationpaiement",

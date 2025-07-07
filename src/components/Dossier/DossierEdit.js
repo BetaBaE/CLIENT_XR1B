@@ -8,7 +8,7 @@ import {
   SaveButton,
   Toolbar,
 } from "react-admin";
-import { useInputStyle } from "../global/DarkInputStyle";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 
 // Custom toolbar without the Delete button
 const NoDeleteToolbar = (props) => (
@@ -38,7 +38,7 @@ const EtatInput = ({ sx }) => {
 };
 
 export const DossierEdit = () => {
-  const inputSyle = useInputStyle();
+  const inputSyle = useInputStyleFilters();
 
   return (
     <Edit>

@@ -4,9 +4,9 @@ export const useInputStyle = () => {
   const theme = useTheme();
 
   return {
-    width: 650,
+    width: 400,
     input: {
-      backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+      backgroundColor: theme.palette.mode === "dark" ? "#3B3B3B" : "#E8E8E8",
       color: theme.palette.mode === "dark" ? "#fff" : "inherit",
       borderRadius: "4px",
     },
@@ -18,7 +18,7 @@ export const useInputStyleFilters = () => {
 
   return {
     input: {
-      backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+      backgroundColor: theme.palette.mode === "dark" ? "#3B3B3B" : "#E8E8E8",
       color: theme.palette.mode === "dark" ? "#fff" : "inherit",
       borderRadius: "4px",
     },

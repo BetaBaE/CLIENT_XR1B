@@ -4,6 +4,43 @@ import apiUrl from "../../config";
 import Swal from "sweetalert2";
 import { Title } from "react-admin";
 import { Box, Card, CardContent, CardHeader, Grid } from "@mui/material";
+const formatNumber = (num) => {
+  // Handle undefined/null/empty cases
+  if (num === undefined || num === null || num === "") return "0.00";
+
+  // Convert to number
+  const number = Number(num);
+  if (isNaN(number)) return "0.00";
+
+  // Format with spaces as thousand separators and 2 decimal places
+  return number.toLocaleString("fr-FR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+    useGrouping: true, // This enables thousand separators
+  });
+};
+
+/**
+ * Pad a string with spaces to the left or right.
+ *
+ * @param {str} str - The original string.
+ * @param {numSpaces} numSpaces - The number of spaces to add.
+ * @param {'l'|'r'} side - 'l' for left, 'r' for right.
+ * @returns {string} - The padded string.
+ */
+function padString(str, numSpaces, side) {
+  const stringValue = String(str).trim();
+  const spacesToAdd = Math.max(0, numSpaces - stringValue.length);
+  const spaces = "\u00A0".repeat(spacesToAdd); // non-breaking space
+
+  if (side === "l") {
+    return spaces + stringValue;
+  } else if (side === "r") {
+    return stringValue + spaces;
+  } else {
+    throw new Error("Invalid side value. Use 'l' for left or 'r' for right.");
+  }
+}
 
 const PrintTransfer = () => {
   const [transfers, setTransfers] = useState([
@@ -71,7 +108,15 @@ const PrintTransfer = () => {
                   </option>
                   {transfers.map((order, index) => (
                     <option key={index} value={order.id}>
-                      {`${order.Reference} - ${order.BeneficiaryCount} - ${order.TotalAmount} MAD (${order.Status}) `}
+                      {`${padString(order.Reference, 20, "r")} | ${padString(
+                        String(order.BeneficiaryCount).trim(),
+                        5,
+                        "l"
+                      )} | ${padString(
+                        formatNumber(order.TotalAmount) + " MAD",
+                        24,
+                        "l"
+                      )}| ${padString("(" + order.Status, 12, "l")}) `}
                     </option>
                   ))}
                 </select>
