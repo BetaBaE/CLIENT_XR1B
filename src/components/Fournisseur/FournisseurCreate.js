@@ -111,7 +111,7 @@ export const FournisseurCreate = (props) => {
             },
           }}
           source="CodeFournisseur"
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{ input: { autoComplete: "off" } }}
         />
         <TextInput
           validate={required("Le fournisseur est obligatoire")}
@@ -151,7 +151,7 @@ export const FournisseurCreate = (props) => {
           label="Identifiant Fiscal"
         />
         <TextInput
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{ input: { autoComplete: "off" } }}
           sx={{
             width: 650,
             input: {
@@ -176,7 +176,7 @@ export const FournisseurCreate = (props) => {
           }}
           source="addresse"
           label="Adresse"
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{ input: { autoComplete: "off" } }}
         />
         <TextInput
           sx={{
@@ -191,7 +191,7 @@ export const FournisseurCreate = (props) => {
           source="mail"
           label="Mail"
           validate={validateMail}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{ input: { autoComplete: "off" } }}
         />
 
         <SelectInput

@@ -13,7 +13,9 @@ const UserFilter = (props) => {
             borderRadius: "4px",
           },
         }}
-        inputProps={{ autoComplete: "off" }}
+        slotProps={{
+          input: { autoComplete: "off" },
+        }}
       />
       <TextInput
         source="username"
@@ -24,7 +26,9 @@ const UserFilter = (props) => {
             borderRadius: "4px",
           },
         }}
-        inputProps={{ autoComplete: "off" }}
+        slotProps={{
+          input: { autoComplete: "off" },
+        }}
       />
       <TextInput
         source="Role"
@@ -35,7 +39,9 @@ const UserFilter = (props) => {
             borderRadius: "4px",
           },
         }}
-        inputProps={{ autoComplete: "off" }}
+        slotProps={{
+          input: { autoComplete: "off" },
+        }}
       />
       <SelectInput
         source="isActivated"
@@ -51,7 +57,9 @@ const UserFilter = (props) => {
             borderRadius: "4px",
           },
         }}
-        inputProps={{ autoComplete: "off" }}
+        slotProps={{
+          input: { autoComplete: "off" },
+        }}
       />
     </Filter>
   );

@@ -14,9 +14,8 @@ import {
 import { Chip } from "@mui/material";
 import apiUrl from "../../config";
 import Swal from "sweetalert2";
-import { useTheme } from "@mui/material/styles";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 export const EspeceCreate = (props) => {
-  const theme = useTheme();
   const redirect = useRedirect();
   const { identity, isLoading, error } = useGetIdentity(); // Single call
   const [fournisseur, setFournisseur] = useState([]);
@@ -191,15 +190,7 @@ export const EspeceCreate = (props) => {
         <TextInput
           defaultValue={identity?.username}
           label="Vous êtes"
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
+          sx={useInputStyleFilters}
           slotProps={{
             input: {
               readOnly: true,
@@ -210,15 +201,7 @@ export const EspeceCreate = (props) => {
         <AutocompleteInput
           label="Fournisseur"
           validate={required("Le fournisseur est obligatoire")}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
+          sx={useInputStyleFilters}
           source="fournisseurId"
           choices={fournisseurs_choices}
           onChange={(e) => {
@@ -262,15 +245,7 @@ export const EspeceCreate = (props) => {
         <AutocompleteArrayInput
           validate={required("Ce champ est obligatoire")}
           disabled={fournisseurIdField}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
+          sx={useInputStyleFilters}
           source="facturelist"
           choices={facture_choices}
           onChange={handleChange}

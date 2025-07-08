@@ -24,7 +24,9 @@ export const UserCreate = () => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: { autoComplete: "off" },
+          }}
         />
 
         {/* Champ pour le nom d'utilisateur */}
@@ -39,7 +41,9 @@ export const UserCreate = () => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: { autoComplete: "off" },
+          }}
         />
 
         {/* Champ pour le mot de passe */}
@@ -54,7 +58,9 @@ export const UserCreate = () => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: { autoComplete: "off" },
+          }}
         />
 
         {/* Champ pour le rôle de l'utilisateur */}
@@ -68,7 +74,9 @@ export const UserCreate = () => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: { autoComplete: "off" },
+          }}
           source="role"
           allowEmpty
           choices={[

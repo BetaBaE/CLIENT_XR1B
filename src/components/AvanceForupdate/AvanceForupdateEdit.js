@@ -181,7 +181,9 @@ export const AvanceForupdateEdit = (props) => {
                   borderRadius: "4px",
                 },
               }}
-              inputProps={{ autoComplete: "off" }}
+              slotProps={{
+                input: { autoComplete: "off" },
+              }}
               validate={required("N° Proforma / Devis est obligatoire")}
               source="NdocAchat"
             />
@@ -206,7 +208,9 @@ export const AvanceForupdateEdit = (props) => {
                   borderRadius: "4px",
                 },
               }}
-              inputProps={{ autoComplete: "off" }}
+              slotProps={{
+                input: { autoComplete: "off" },
+              }}
               source="BonCommande"
             />
           </Grid>
@@ -239,7 +243,9 @@ export const AvanceForupdateEdit = (props) => {
                   borderRadius: "4px",
                 },
               }}
-              inputProps={{ autoComplete: "off" }}
+              slotProps={{
+  input: { autoComplete: "off" }
+}}
               source="idDesignation"
               choices={designation_choices}
               onChange={(e) => {

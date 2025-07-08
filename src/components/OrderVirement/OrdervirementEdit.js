@@ -13,7 +13,7 @@ import {
   useRedirect,
 } from "react-admin";
 import Swal from "sweetalert2";
-import { useTheme } from "@mui/material/styles";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 const EditToolbar = (props) => (
   <Toolbar {...props}>
     <SaveButton id="save" />
@@ -23,7 +23,6 @@ export const OrdervirementEdit = (props) => {
   const dataProvider = useDataProvider();
   const [ribAtner, setribAtner] = useState([]);
   const redirect = useRedirect();
-  const theme = useTheme();
 
   useEffect(() => {
     dataProvider
@@ -97,16 +96,7 @@ export const OrdervirementEdit = (props) => {
     <Edit {...props}>
       <SimpleForm toolbar={<EditToolbar />}>
         <TextInput
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
           source="id"
           slotProps={{
             input: {

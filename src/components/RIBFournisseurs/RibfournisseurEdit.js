@@ -11,7 +11,7 @@ import {
   useGetIdentity,
   usePermissions,
 } from "react-admin"; // Importation des composants nécessaires de React Admin
-import { useTheme } from "@mui/material/styles";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 
 // Composant personnalisé pour la barre d'outils d'édition avec bouton de sauvegarde
 const EditToolbar = (props) => (
@@ -24,7 +24,6 @@ const EditToolbar = (props) => (
 
 // Composant principal pour l'édition des RIB fournisseur
 export const RibfournisseurEdit = (props) => {
-  const theme = useTheme(); // Utilisation du thème Material-UI
   const { permissions } = usePermissions(); // Récupération des permissions de l'utilisateur
   const { identity, isLoading: identityLoading } = useGetIdentity(); // Récupération de l'identité de l'utilisateur connecté
   // Utilisation des styles définis plus haut
@@ -48,75 +47,34 @@ export const RibfournisseurEdit = (props) => {
           defaultValue={identity?.username}
           label="Vous êtes"
           hidden={false}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
-          InputProps={{ readOnly: true }}
+          sx={useInputStyleFilters}
+          slotProps={{ input: { autoComplete: "off", readOnly: true } }}
         />
         <TextInput
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          // inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
+          // slotProps={{ input: { autoComplete: "off" }}}
           source="fournisseur"
-          InputProps={{ readOnly: true }}
+          slotProps={{ input: { autoComplete: "off", readOnly: true } }}
         />
         <TextInput
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          // inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
+          // slotProps={{ input: { autoComplete: "off" }}}
           source="swift"
-          InputProps={{ readOnly: true }}
+          slotProps={{ input: { autoComplete: "off", readOnly: true } }}
         />
         <TextInput
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          // inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
+          // slotProps={{ input: { autoComplete: "off" }}}
           source="banque"
           label="Banque"
-          InputProps={{ readOnly: true }}
+          slotProps={{ input: { autoComplete: "off", readOnly: true } }}
         />
         <TextInput
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          // inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
+          // slotProps={{ input: { autoComplete: "off" }}}
           source="rib"
           label="RIB"
-          InputProps={{ readOnly: true }}
+          slotProps={{ input: { autoComplete: "off", readOnly: true } }}
         />
         <FormDataConsumer>
           {({ formData, ...rest }) => (

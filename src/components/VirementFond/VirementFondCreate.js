@@ -8,12 +8,11 @@ import {
   TextInput,
   useGetIdentity,
 } from "react-admin";
-import { useTheme } from "@mui/material/styles";
 import apiUrl from "../../config";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 
 // Composant pour la création d'un virement
 export const VirementFondCreate = () => {
-  const theme = useTheme();
   // eslint-disable-next-line no-unused-vars
   const { identity, isLoading: identityLoading } = useGetIdentity(); // Récupération de l'identité de l'utilisateur
   const [orderVirement, setOrderVirement] = useState([
@@ -73,16 +72,7 @@ export const VirementFondCreate = () => {
           defaultValue={identity?.username} // Affichage du nom de l'utilisateur
           label="vous êtes"
           hidden={false}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
           slotProps={{
             input: {
               readOnly: true,
@@ -108,32 +98,20 @@ export const VirementFondCreate = () => {
         <AutocompleteInput
           validate={required("Ce champ est obligatoire")} // Validation requise
           disabled={orderVirementField} // Champ désactivé si nécessaire
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
+          sx={useInputStyleFilters}
+          slotProps={{
+            input: { autoComplete: "off" },
           }}
-          inputProps={{ autoComplete: "off" }}
           source="RibAtnerDestId"
           choices={ribAtner_choices}
         />
 
         <TextInput
           validate={[required("Le Montant est obligatoire")]} // Validation requise
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
+          sx={useInputStyleFilters}
+          slotProps={{
+            input: { autoComplete: "off" },
           }}
-          inputProps={{ autoComplete: "off" }}
           source="montantVirement"
         />
       </SimpleForm>

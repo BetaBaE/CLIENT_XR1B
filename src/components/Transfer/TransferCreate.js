@@ -75,6 +75,12 @@ export const TransferCreate = (props) => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextInput
+              slotProps={{
+                input: {
+                  readOnly: true,
+                  autoComplete: "off",
+                },
+              }}
               sx={useInputStyleFilters}
               source="bankCode"
               label="Code Banque"
@@ -83,6 +89,12 @@ export const TransferCreate = (props) => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextInput
+              slotProps={{
+                input: {
+                  readOnly: true,
+                  autoComplete: "off",
+                },
+              }}
               sx={useInputStyleFilters}
               source="accountNumber"
               label="N° de Compte"
@@ -91,6 +103,12 @@ export const TransferCreate = (props) => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextInput
+              slotProps={{
+                input: {
+                  readOnly: true,
+                  autoComplete: "off",
+                },
+              }}
               sx={useInputStyleFilters}
               source="companyCode"
               label="Code Société"
@@ -99,6 +117,12 @@ export const TransferCreate = (props) => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextInput
+              slotProps={{
+                input: {
+                  readOnly: true,
+                  autoComplete: "off",
+                },
+              }}
               sx={useInputStyleFilters}
               source="branchCode"
               label="Code Agence"

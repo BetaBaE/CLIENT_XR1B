@@ -6,7 +6,7 @@ import {
   TextInput,
   Toolbar,
 } from "react-admin";
-import { useTheme } from "@mui/material/styles";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 export const EcheancefournisseurEdit = () => {
   const EditToolbar = (props) => (
     <Toolbar {...props}>
@@ -14,54 +14,33 @@ export const EcheancefournisseurEdit = () => {
     </Toolbar>
   );
 
-  const theme = useTheme();
   return (
     <Edit>
       <SimpleForm toolbar={<EditToolbar />}>
         <TextInput
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
           source="nom"
           label="Fournisseur"
           slotProps={{
             input: {
               readOnly: true,
+              autoComplete: "off",
             },
           }}
         />
         <NumberInput
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
+          sx={useInputStyleFilters}
+          slotProps={{
+            input: { autoComplete: "off" },
           }}
-          inputProps={{ autoComplete: "off" }}
           source="EcheanceJR"
           label="Echeance en Jour"
         />
         <NumberInput
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
+          sx={useInputStyleFilters}
+          slotProps={{
+            input: { autoComplete: "off" },
           }}
-          inputProps={{ autoComplete: "off" }}
           source="ConvJR"
           label="Convention en Jour"
         />

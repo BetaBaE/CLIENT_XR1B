@@ -6,11 +6,10 @@ import {
   TextInput,
   useGetIdentity,
 } from "react-admin"; // Importation des composants nécessaires de React Admin
-import { useTheme } from "@mui/material/styles";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 // Composant principal pour la création d'un RIB Atner
 export const DesignationCreate = () => {
   const { identity, isLoading, error } = useGetIdentity(); // Single call
-  const theme = useTheme();
   // Effet pour désactiver l'autocomplétion des champs après le chargement du DOM
   useEffect(() => {
     const inputnom = document.getElementById("nom"); // Récupération de l'élément DOM pour le champ "nom"
@@ -34,16 +33,7 @@ export const DesignationCreate = () => {
           defaultValue={identity?.username}
           label="vous êtes"
           hidden={false}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
           slotProps={{
             input: {
               readOnly: true,
@@ -53,60 +43,36 @@ export const DesignationCreate = () => {
         />
         <TextInput
           source="designation"
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
+          sx={useInputStyleFilters}
+          slotProps={{
+            input: { autoComplete: "off" },
           }}
-          inputProps={{ autoComplete: "off" }}
           validate={required("designation est obligatoire")}
         />
         <TextInput
           source="codeDesignation"
           validate={required("code designation est obligatoire")}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
+          sx={useInputStyleFilters}
+          slotProps={{
+            input: { autoComplete: "off" },
           }}
-          inputProps={{ autoComplete: "off" }}
         />
         <TextInput
           source="PourcentageTVA"
           label="Pourcentage TVA"
           validate={required("Pourcentage TVA est obligatoire")}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
+          sx={useInputStyleFilters}
+          slotProps={{
+            input: { autoComplete: "off" },
           }}
-          inputProps={{ autoComplete: "off" }}
         />
         <TextInput
           source="PosteTVA"
           label="Poste TVA"
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
+          sx={useInputStyleFilters}
+          slotProps={{
+            input: { autoComplete: "off" },
           }}
-          inputProps={{ autoComplete: "off" }}
         />
       </SimpleForm>
     </Create>

@@ -7,9 +7,8 @@ import {
   SimpleForm,
   useDataProvider,
 } from "react-admin";
-import { useTheme } from "@mui/material/styles";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 export const EcheancefournisseurCreate = () => {
-  const theme = useTheme();
   const dataProvider = useDataProvider();
   const [fournisseur, setFournisseur] = useState([]);
   useEffect(() => {
@@ -37,45 +36,27 @@ export const EcheancefournisseurCreate = () => {
         <AutocompleteInput
           label="fournisseur"
           validate={required("choisir le fournisseur")}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
+          sx={useInputStyleFilters}
+          slotProps={{
+            input: { autoComplete: "off" },
           }}
-          inputProps={{ autoComplete: "off" }}
           source="idFournisseur"
           choices={fournisseur_choices}
         />
         {/* <NumberInput source="idFournisseur" label="Fournisseur" /> */}
         <NumberInput
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
+          sx={useInputStyleFilters}
+          slotProps={{
+            input: { autoComplete: "off" },
           }}
-          inputProps={{ autoComplete: "off" }}
           source="EcheanceJR"
           label="Echeance en Jour"
         />
         <NumberInput
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
+          sx={useInputStyleFilters}
+          slotProps={{
+            input: { autoComplete: "off" },
           }}
-          inputProps={{ autoComplete: "off" }}
           source="ConvJR"
           label="Convention en Jour"
         />

@@ -37,15 +37,7 @@ export const RIBAtnerCreate = () => {
           defaultValue={identity?.username}
           label="vous êtes"
           hidden={false}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
+          sx={useInputStyleFilters}
           slotProps={{
             input: {
               readOnly: true,
@@ -58,32 +50,16 @@ export const RIBAtnerCreate = () => {
         {/* Champ texte pour le nom avec validation requise */}
         <TextInput
           validate={required("Le nom est obligatoire")}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
+          slotProps={{ input: { autoComplete: "off" } }}
           source="nom"
         />
 
         {/* Champ texte pour le RIB avec validation requise */}
         <TextInput
           validate={required("Le RIB est obligatoire")}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
+          slotProps={{ input: { autoComplete: "off" } }}
           source="rib"
         />
       </SimpleForm>

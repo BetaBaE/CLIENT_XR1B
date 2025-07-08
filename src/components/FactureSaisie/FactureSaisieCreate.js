@@ -21,6 +21,7 @@ import apiUrl from "../../config";
 import { Box, Grid, Typography } from "@mui/material";
 import "../Analyse/echencier/DataGrid/styles.css";
 import { useFormContext } from "react-hook-form";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 
 const Aside = ({ asideData }) => {
   // console.log("AsideBar", asideData);
@@ -168,7 +169,6 @@ const AutoDateInput = () => {
 
 export const FactureSaisieCreate = (props) => {
   const notify = useNotify();
-  const theme = useTheme();
   const [dateecheance, setdateecheance] = useState(null);
   // const [inputDateEcheance, setInputDateEcheance] = useState(null);
   const dataProvider1 = useDataProvider();
@@ -569,16 +569,7 @@ export const FactureSaisieCreate = (props) => {
               defaultValue={identity.username}
               label="vous êtes"
               hidden={false}
-              sx={{
-                width: "98%",
-                input: {
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                  borderRadius: "4px",
-                },
-              }}
-              inputProps={{ autoComplete: "off" }}
+              sx={useInputStyleFilters}
               slotProps={{
                 input: {
                   readOnly: true,
@@ -595,16 +586,8 @@ export const FactureSaisieCreate = (props) => {
                 required("Le numeroFacture est obligatoire"),
                 numerofacturevalidation,
               ]}
-              sx={{
-                width: "98%",
-                input: {
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                  borderRadius: "4px",
-                },
-              }}
-              inputProps={{ autoComplete: "off" }}
+              sx={useInputStyleFilters}
+              slotProps={{ input: { autoComplete: "off" } }}
               onChange={(e) => setNfa(e.target.value)}
             />
           </Grid>
@@ -623,16 +606,8 @@ export const FactureSaisieCreate = (props) => {
             <AutocompleteInput
               label="designation"
               validate={required("selectionnez la designation")}
-              sx={{
-                width: "98%",
-                input: {
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                  borderRadius: "4px",
-                },
-              }}
-              inputProps={{ autoComplete: "off" }}
+              sx={useInputStyleFilters}
+              slotProps={{ input: { autoComplete: "off" } }}
               source="iddesignation"
               choices={designation_choices}
               onChange={(e) => {
@@ -657,16 +632,8 @@ export const FactureSaisieCreate = (props) => {
             <SelectInput
               validate={required("Ce champ est obligatoire")}
               disabled={fournisseurIdField}
-              sx={{
-                width: "98%",
-                input: {
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                  borderRadius: "4px",
-                },
-              }}
-              inputProps={{ autoComplete: "off" }}
+              sx={useInputStyleFilters}
+              slotProps={{ input: { autoComplete: "off" } }}
               source="iddesignation"
               choices={tva_choices}
               label="Pourcentage TVA"
@@ -677,16 +644,8 @@ export const FactureSaisieCreate = (props) => {
               source="BonCommande"
               label="BonCommande"
               onBlur={handleBlur}
-              sx={{
-                width: "98%",
-                input: {
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                  borderRadius: "4px",
-                },
-              }}
-              inputProps={{ autoComplete: "off" }}
+              sx={useInputStyleFilters}
+              slotProps={{ input: { autoComplete: "off" } }}
             />
             {/* {loading && <Typography>Loading...</Typography>} */}
           </Grid>
@@ -694,16 +653,8 @@ export const FactureSaisieCreate = (props) => {
             <AutocompleteInput
               label="fournisseur"
               validate={required("choisir le fournisseur")}
-              sx={{
-                width: "98%",
-                input: {
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                  borderRadius: "4px",
-                },
-              }}
-              inputProps={{ autoComplete: "off" }}
+              sx={useInputStyleFilters}
+              slotProps={{ input: { autoComplete: "off" } }}
               source="idfournisseur"
               choices={fournisseur_choices}
               onChange={async (e) => {
@@ -757,16 +708,8 @@ export const FactureSaisieCreate = (props) => {
           <Grid item md={6}>
             <AutocompleteInput
               label="chantier"
-              sx={{
-                width: "98%",
-                input: {
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                  borderRadius: "4px",
-                },
-              }}
-              inputProps={{ autoComplete: "off" }}
+              sx={useInputStyleFilters}
+              slotProps={{ input: { autoComplete: "off" } }}
               source="codechantier"
               choices={chantier_choices}
             />

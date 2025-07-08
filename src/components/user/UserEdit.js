@@ -175,7 +175,9 @@ export const UserEdit = (props) => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: { autoComplete: "off" },
+          }}
         />
 
         <TextInput
@@ -190,7 +192,9 @@ export const UserEdit = (props) => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: { autoComplete: "off" },
+          }}
         />
 
         <SelectInput
@@ -204,7 +208,9 @@ export const UserEdit = (props) => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: { autoComplete: "off" },
+          }}
           source="Role"
           choices={[
             { id: "admin", name: "Admin" },
@@ -237,7 +243,9 @@ export const UserEdit = (props) => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{
+            input: { autoComplete: "off" },
+          }}
           source="isActivated"
           choices={[
             { id: "true", name: "Activer" },

@@ -10,11 +10,10 @@ import {
   useDataProvider,
   useGetIdentity,
 } from "react-admin";
-import { useTheme } from "@mui/material/styles";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 // Définition et exportation du composant AttestationFournisseurCreate
 const AttestationFournisseurCreate = (props) => {
   // Récupération de l'identité de l'utilisateur courant
-  const theme = useTheme();
   const { identity } = useGetIdentity();
   // Application des styles personnalisés
 
@@ -57,15 +56,7 @@ const AttestationFournisseurCreate = (props) => {
           defaultValue={identity?.username}
           label="vous êtes"
           hidden={false}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
+          sx={useInputStyleFilters}
           slotProps={{
             input: {
               readOnly: true,
@@ -79,15 +70,7 @@ const AttestationFournisseurCreate = (props) => {
         <AutocompleteInput
           label="fournisseur"
           validate={required("choisir le fournisseur")}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
+          sx={useInputStyleFilters}
           slotProps={{
             input: {
               autoComplete: "off",
@@ -109,15 +92,7 @@ const AttestationFournisseurCreate = (props) => {
         <TextInput
           source="numAttestation"
           label="numero d'attestation"
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
+          sx={useInputStyleFilters}
           slotProps={{
             input: {
               autoComplete: "off",

@@ -12,20 +12,18 @@ import {
   useGetIdentity,
   useRedirect,
 } from "react-admin";
-import { useTheme } from "@mui/material/styles";
 import { Grid } from "@mui/material";
 import useFetchChantier from "../global/chantier";
 import apiUrl from "../../config";
 import useFetchDesignation from "../global/designation";
 import Swal from "sweetalert2";
 import { usePermissions } from "react-admin";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 // import Skeleton from '@material-ui/lab/Skeleton';
 
 // Styles spécifiques pour ce composant
 
 export const FactureSaisieEdit = () => {
-  // Utilisation des styles définis
-  const theme = useTheme();
   const redirect = useRedirect();
   const { record } = useEditController();
 
@@ -108,16 +106,7 @@ export const FactureSaisieEdit = () => {
               defaultValue={identity.username}
               label="vous êtes"
               hidden={false}
-              sx={{
-                width: "98%",
-                input: {
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                  borderRadius: "4px",
-                },
-              }}
-              inputProps={{ autoComplete: "off" }}
+              sx={useInputStyleFilters}
               slotProps={{
                 input: {
                   readOnly: true,
@@ -136,16 +125,7 @@ export const FactureSaisieEdit = () => {
                   readOnly: true,
                 },
               }}
-              sx={{
-                width: "98%",
-                input: {
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                  borderRadius: "4px",
-                },
-              }}
-              inputProps={{ autoComplete: "off" }}
+              sx={useInputStyleFilters}
             />
           </Grid>
           <Grid item xs={4}>
@@ -156,31 +136,13 @@ export const FactureSaisieEdit = () => {
                   readOnly: true,
                 },
               }}
-              sx={{
-                width: "98%",
-                input: {
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                  borderRadius: "4px",
-                },
-              }}
-              inputProps={{ autoComplete: "off" }}
+              sx={useInputStyleFilters}
             />
           </Grid>
           <Grid item xs={4}>
             <TextInput
               source="nom"
-              sx={{
-                width: "98%",
-                input: {
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                  borderRadius: "4px",
-                },
-              }}
-              inputProps={{ autoComplete: "off" }}
+              sx={useInputStyleFilters}
               slotProps={{
                 input: {
                   readOnly: true,
@@ -195,16 +157,8 @@ export const FactureSaisieEdit = () => {
               <Grid item xs={4}>
                 <TextInput
                   source="BonCommande"
-                  sx={{
-                    width: "98%",
-                    input: {
-                      backgroundColor:
-                        theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                      color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                      borderRadius: "4px",
-                    },
-                  }}
-                  inputProps={{ autoComplete: "off" }}
+                  sx={useInputStyleFilters}
+                  slotProps={{ input: { autoComplete: "off" } }}
                 />
               </Grid>
               <Grid item xs={4}>
@@ -212,16 +166,8 @@ export const FactureSaisieEdit = () => {
                   source="numeroFacture"
                   label="Numéro de Facture"
                   validate={required("Le numéro de facture est obligatoire")}
-                  sx={{
-                    width: "98%",
-                    input: {
-                      backgroundColor:
-                        theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                      color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                      borderRadius: "4px",
-                    },
-                  }}
-                  inputProps={{ autoComplete: "off" }}
+                  sx={useInputStyleFilters}
+                  slotProps={{ input: { autoComplete: "off" } }}
                 />
               </Grid>
               <Grid item xs={4}>
@@ -229,32 +175,16 @@ export const FactureSaisieEdit = () => {
                   source="DateFacture"
                   label="Date de Facture"
                   validate={required("La date de facture est obligatoire")}
-                  sx={{
-                    width: "98%",
-                    input: {
-                      backgroundColor:
-                        theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                      color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                      borderRadius: "4px",
-                    },
-                  }}
-                  inputProps={{ autoComplete: "off" }}
+                  sx={useInputStyleFilters}
+                  slotProps={{ input: { autoComplete: "off" } }}
                 />
               </Grid>
               <Grid item xs={4}>
                 <TextInput
                   source="TTC"
                   label="TTC"
-                  sx={{
-                    width: "98%",
-                    input: {
-                      backgroundColor:
-                        theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                      color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                      borderRadius: "4px",
-                    },
-                  }}
-                  inputProps={{ autoComplete: "off" }}
+                  sx={useInputStyleFilters}
+                  slotProps={{ input: { autoComplete: "off" } }}
                   validate={required("Ce champ est obligatoire")}
                   disabled={ControlEdit(record)}
                 />
@@ -263,16 +193,8 @@ export const FactureSaisieEdit = () => {
                 <AutocompleteInput
                   validate={required("Ce champ est obligatoire")}
                   // disabled={fournisseurIdField}
-                  sx={{
-                    width: "98%",
-                    input: {
-                      backgroundColor:
-                        theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                      color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                      borderRadius: "4px",
-                    },
-                  }}
-                  inputProps={{ autoComplete: "off" }}
+                  sx={useInputStyleFilters}
+                  slotProps={{ input: { autoComplete: "off" } }}
                   source="designation"
                   choices={designation_choices}
                   disabled={ControlEdit(record)}
@@ -282,32 +204,16 @@ export const FactureSaisieEdit = () => {
               <Grid item xs={4}>
                 <SelectInput
                   source="verifiyMidelt"
-                  sx={{
-                    width: "98%",
-                    input: {
-                      backgroundColor:
-                        theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                      color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                      borderRadius: "4px",
-                    },
-                  }}
-                  inputProps={{ autoComplete: "off" }}
+                  sx={useInputStyleFilters}
+                  slotProps={{ input: { autoComplete: "off" } }}
                   choices={[{ id: "verifié", name: "Verifié" }]}
                 />
               </Grid>
               <Grid item xs={4}>
                 <SelectInput
                   source="etat"
-                  sx={{
-                    width: "98%",
-                    input: {
-                      backgroundColor:
-                        theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                      color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                      borderRadius: "4px",
-                    },
-                  }}
-                  inputProps={{ autoComplete: "off" }}
+                  sx={useInputStyleFilters}
+                  slotProps={{ input: { autoComplete: "off" } }}
                   disabled={ControlEdit(record)}
                   validate={required("Ce champ est obligatoire")}
                   choices={[
@@ -322,16 +228,8 @@ export const FactureSaisieEdit = () => {
               <Grid item xs={4}>
                 <AutocompleteInput
                   label="chantier"
-                  sx={{
-                    width: "98%",
-                    input: {
-                      backgroundColor:
-                        theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                      color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                      borderRadius: "4px",
-                    },
-                  }}
-                  inputProps={{ autoComplete: "off" }}
+                  sx={useInputStyleFilters}
+                  slotProps={{ input: { autoComplete: "off" } }}
                   source="codeChantier"
                   choices={chantier_choices}
                 />
@@ -339,16 +237,8 @@ export const FactureSaisieEdit = () => {
               <Grid item xs={4}>
                 <DateInput
                   source="dateecheance"
-                  sx={{
-                    width: "98%",
-                    input: {
-                      backgroundColor:
-                        theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                      color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                      borderRadius: "4px",
-                    },
-                  }}
-                  inputProps={{ autoComplete: "off" }}
+                  sx={useInputStyleFilters}
+                  slotProps={{ input: { autoComplete: "off" } }}
                 />
               </Grid>
             </>
@@ -356,16 +246,7 @@ export const FactureSaisieEdit = () => {
           <Grid item xs={4}>
             <TextInput
               source="AcompteReg"
-              sx={{
-                width: "98%",
-                input: {
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                  borderRadius: "4px",
-                },
-              }}
-              inputProps={{ autoComplete: "off" }}
+              sx={useInputStyleFilters}
               slotProps={{
                 input: {
                   readOnly: true,
@@ -377,15 +258,7 @@ export const FactureSaisieEdit = () => {
           <Grid item xs={4}>
             <TextInput
               source="AcompteVal"
-              sx={{
-                width: "98%",
-                input: {
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                  borderRadius: "4px",
-                },
-              }}
+              sx={useInputStyleFilters}
               slotProps={{
                 input: {
                   readOnly: true,
@@ -397,16 +270,8 @@ export const FactureSaisieEdit = () => {
           <Grid item xs={4}>
             <SelectInput
               source="CatFn"
-              sx={{
-                width: "98%",
-                input: {
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                  borderRadius: "4px",
-                },
-              }}
-              inputProps={{ autoComplete: "off" }}
+              sx={useInputStyleFilters}
+              slotProps={{ input: { autoComplete: "off" } }}
               validate={required("Ce champ est obligatoire")}
               choices={[
                 { id: "FET", name: "Fourniture Equipement Travaux" },
@@ -417,16 +282,8 @@ export const FactureSaisieEdit = () => {
           {record.EtatIR ? (
             <Grid item md={4}>
               <SelectInput
-                sx={{
-                  width: "98%",
-                  input: {
-                    backgroundColor:
-                      theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                    color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                    borderRadius: "4px",
-                  },
-                }}
-                inputProps={{ autoComplete: "off" }}
+                sx={useInputStyleFilters}
+                slotProps={{ input: { autoComplete: "off" } }}
                 source="EtatIR"
                 label="Etat Ras IR"
                 validate={record.EtatIR ? required("") : undefined}

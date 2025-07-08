@@ -12,7 +12,7 @@ import Card from "@mui/material/Card";
 import { CardContent, CardHeader } from "@mui/material";
 import { useState } from "react";
 import apiUrl from "../../config";
-import { useTheme } from "@mui/material/styles";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 const Aside = ({ asideData }) => {
   // Safely destructure with default empty object and array
   const { json = [] } = asideData || {};
@@ -77,7 +77,6 @@ export const FournisseurTmpCreate = (props) => {
   const { identity, isLoading, error } = useGetIdentity(); // Single call for identity
   // Removed unused loading state
   const [asideData, setAsideData] = useState([]);
-  const theme = useTheme();
 
   if (isLoading) return <div>Chargement en cours...</div>;
   if (error) return <div>Une erreur est survenue.</div>;
@@ -137,16 +136,7 @@ export const FournisseurTmpCreate = (props) => {
             },
           }}
           source="Redacteur"
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
         />
 
         {/* Champ 'nom' requis */}
@@ -155,16 +145,8 @@ export const FournisseurTmpCreate = (props) => {
           source="nom"
           validate={required("Le nom est obligatoire")}
           onChange={handleBlur}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
+          slotProps={{ input: { autoComplete: "off" } }}
         />
 
         {/* Champ 'catFournisseur' requis */}

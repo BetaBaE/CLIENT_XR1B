@@ -5,15 +5,14 @@ import {
   SimpleForm,
   TextInput,
   useGetIdentity,
+  required,
 } from "react-admin";
-import { useTheme } from "@mui/material/styles";
-import { required } from "react-admin";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 
 // Styles personnalisés pour les composants
 
 export const TmpfournisseurEdit = () => {
   const { identity, isLoading, error } = useGetIdentity(); // Single call for identity
-  const theme = useTheme();
   if (isLoading) return <div>Chargement en cours...</div>;
   if (error) return <div>Une erreur est survenue.</div>;
   return (
@@ -29,16 +28,7 @@ export const TmpfournisseurEdit = () => {
             },
           }}
           source="Validateur"
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
         />
         <TextInput
           source="nom"
@@ -48,16 +38,7 @@ export const TmpfournisseurEdit = () => {
               autoComplete: "off",
             },
           }}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
         />
         <TextInput
           label="Acheteur"
@@ -68,16 +49,7 @@ export const TmpfournisseurEdit = () => {
               autoComplete: "off",
             },
           }}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
         />
         <DateTimeInput
           source="dateCreation"
@@ -97,16 +69,7 @@ export const TmpfournisseurEdit = () => {
               autoComplete: "off",
             },
           }}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
         />
         <TextInput
           source="etat"
@@ -116,16 +79,7 @@ export const TmpfournisseurEdit = () => {
               autoComplete: "off",
             },
           }}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
         />
         <SelectInput
           sx={{ width: 650 }}

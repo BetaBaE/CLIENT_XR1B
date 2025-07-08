@@ -139,7 +139,6 @@ export const AvanceForupdateCreate = () => {
                   borderRadius: "4px",
                 },
               }}
-              inputProps={{ autoComplete: "off" }}
               slotProps={{
                 input: {
                   readOnly: true,
@@ -160,7 +159,9 @@ export const AvanceForupdateCreate = () => {
                   borderRadius: "4px",
                 },
               }}
-              inputProps={{ autoComplete: "off" }}
+              slotProps={{
+                input: { autoComplete: "off" },
+              }}
               validate={required("N° Proforma / Devis est obligatoire")}
               source="NdocAchat"
             />
@@ -187,7 +188,9 @@ export const AvanceForupdateCreate = () => {
                   borderRadius: "4px",
                 },
               }}
-              inputProps={{ autoComplete: "off" }}
+              slotProps={{
+                input: { autoComplete: "off" },
+              }}
               source="idfournisseur"
               choices={fournisseurs_choices}
               onChange={(e) => {
@@ -226,7 +229,9 @@ export const AvanceForupdateCreate = () => {
                   borderRadius: "4px",
                 },
               }}
-              inputProps={{ autoComplete: "off" }}
+              slotProps={{
+                input: { autoComplete: "off" },
+              }}
               source="codechantier"
               choices={chantier_choices}
               onChange={(e) => setSelectedCodeChantier(e)}
@@ -264,7 +269,9 @@ export const AvanceForupdateCreate = () => {
                   borderRadius: "4px",
                 },
               }}
-              inputProps={{ autoComplete: "off" }}
+              slotProps={{
+                input: { autoComplete: "off" },
+              }}
               source="ficheNavette"
             />
           </Grid>
@@ -282,7 +289,9 @@ export const AvanceForupdateCreate = () => {
                   borderRadius: "4px",
                 },
               }}
-              inputProps={{ autoComplete: "off" }}
+              slotProps={{
+                input: { autoComplete: "off" },
+              }}
               source="TTC"
               onChange={(e) => {
                 setTTC(e.target.value);
@@ -306,7 +315,9 @@ export const AvanceForupdateCreate = () => {
                   borderRadius: "4px",
                 },
               }}
-              inputProps={{ autoComplete: "off" }}
+              slotProps={{
+                input: { autoComplete: "off" },
+              }}
               validate={required("Le bon de commande est obligatoire")}
               source="Bcommande"
             />
@@ -325,7 +336,9 @@ export const AvanceForupdateCreate = () => {
                   borderRadius: "4px",
                 },
               }}
-              inputProps={{ autoComplete: "off" }}
+              slotProps={{
+                input: { autoComplete: "off" },
+              }}
               source="iddesignation"
               choices={designation_choices}
               onChange={(e) => {

@@ -123,16 +123,7 @@ export const FicheNavetteCreate = (props) => {
           defaultValue={identity?.username}
           label="Vous êtes"
           hidden={false}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
           slotProps={{
             input: {
               readOnly: true,
@@ -145,16 +136,8 @@ export const FicheNavetteCreate = (props) => {
         <AutocompleteInput
           label="Fournisseur"
           validate={required("Le fournisseur est obligatoire")}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
+          slotProps={{ input: { autoComplete: "off" } }}
           source="idfournisseur"
           choices={fournisseurs_choices}
           onChange={(e) => {
@@ -215,16 +198,8 @@ export const FicheNavetteCreate = (props) => {
 
         <AutocompleteInput
           validate={required("Le chantier est obligatoire")}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
+          slotProps={{ input: { autoComplete: "off" } }}
           source="codechantier"
           choices={chantier_choices}
           onChange={(e) => {
@@ -249,16 +224,8 @@ export const FicheNavetteCreate = (props) => {
         <TextInput
           label="Fiche navette"
           validate={required("La fiche navette est obligatoire")}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
+          slotProps={{ input: { autoComplete: "off" } }}
           source="ficheNavette"
         />
         {/* 

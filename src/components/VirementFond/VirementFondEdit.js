@@ -13,7 +13,7 @@ import {
 } from "react-admin";
 import Swal from "sweetalert2";
 
-import { useTheme } from "@mui/material/styles";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 
 // Toolbar personnalisée pour le formulaire d'édition
 const UserEditToolbar = (props) => (
@@ -25,7 +25,6 @@ const UserEditToolbar = (props) => (
 // Composant principal pour l'édition d'un virement
 export const VirementFondEdit = (props) => {
   const redirect = useRedirect(); // Fonction pour rediriger après l'édition
-  const theme = useTheme(); // Utilisation du thème Material-UI
   // Fonction pour afficher une alerte avant d'annuler un virement
   function annuleAlert(params) {
     if (params === "Annuler") {
@@ -60,15 +59,7 @@ export const VirementFondEdit = (props) => {
     <Edit {...props}>
       <SimpleForm toolbar={<UserEditToolbar />}>
         <TextInput
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
+          sx={useInputStyleFilters}
           source="orderVirementId"
           slotProps={{
             input: {
@@ -78,16 +69,7 @@ export const VirementFondEdit = (props) => {
           }}
         />
         <TextInput
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
           source="nom"
           slotProps={{
             input: {
@@ -97,16 +79,7 @@ export const VirementFondEdit = (props) => {
           }}
         />
         <TextInput
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
           source="rib"
           slotProps={{
             input: {
@@ -116,16 +89,7 @@ export const VirementFondEdit = (props) => {
           }}
         />
         <NumberInput
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
           source="montantVirement"
           slotProps={{
             input: {

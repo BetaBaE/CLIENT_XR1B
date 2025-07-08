@@ -37,11 +37,12 @@ export const FournisseurEdit = () => {
               borderRadius: "4px",
             },
           }}
-          inputProps={{ autoComplete: "off" }}
+          slotProps={{ input: { autoComplete: "off" } }}
           source="Identifiantfiscal"
           label="Identifiant fiscal"
         />
-        <TextInput sx={{
+        <TextInput
+          sx={{
             width: 650,
             input: {
               backgroundColor:
@@ -49,10 +50,12 @@ export const FournisseurEdit = () => {
               color: theme.palette.mode === "dark" ? "#fff" : "inherit",
               borderRadius: "4px",
             },
-          }} 
-        
-          source="ICE" label="ICE" />
-        <TextInput sx={{
+          }}
+          source="ICE"
+          label="ICE"
+        />
+        <TextInput
+          sx={{
             width: 650,
             input: {
               backgroundColor:
@@ -60,8 +63,12 @@ export const FournisseurEdit = () => {
               color: theme.palette.mode === "dark" ? "#fff" : "inherit",
               borderRadius: "4px",
             },
-          }} source="addresse" label="Adresse" />
-        <TextInput sx={{
+          }}
+          source="addresse"
+          label="Adresse"
+        />
+        <TextInput
+          sx={{
             width: 650,
             input: {
               backgroundColor:
@@ -69,7 +76,10 @@ export const FournisseurEdit = () => {
               color: theme.palette.mode === "dark" ? "#fff" : "inherit",
               borderRadius: "4px",
             },
-          }} source="mail" label="Mail" />
+          }}
+          source="mail"
+          label="Mail"
+        />
         <SelectInput
           sx={{
             width: 650,

@@ -12,7 +12,7 @@ import {
   useRedirect,
 } from "react-admin"; // Importation des composants nécessaires de React Admin
 import Swal from "sweetalert2"; // Importation de SweetAlert2 pour les alertes
-import { useTheme } from "@mui/material/styles";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 // Définition des styles personnalisés
 
 // Composant personnalisé pour la barre d'outils d'édition avec un bouton de sauvegarde
@@ -24,7 +24,6 @@ const EditToolbar = (props) => (
 
 // Composant principal pour l'édition d'un ordre de virement de fonds
 export const OrdervirementFondEdit = (props) => {
-  const theme = useTheme();
   const dataProvider = useDataProvider(); // Récupération du fournisseur de données
   const [ribAtner, setRibAtner] = useState([]); // État pour stocker les données RIB
   const redirect = useRedirect(); // Hook pour la redirection
@@ -106,16 +105,7 @@ export const OrdervirementFondEdit = (props) => {
     <Edit {...props}>
       <SimpleForm toolbar={<EditToolbar />}>
         <TextInput
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
-          inputProps={{ autoComplete: "off" }}
+          sx={useInputStyleFilters}
           source="id"
           slotProps={{
             input: {
