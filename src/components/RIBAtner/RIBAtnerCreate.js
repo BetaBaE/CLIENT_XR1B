@@ -6,13 +6,12 @@ import {
   TextInput,
   useGetIdentity,
 } from "react-admin"; // Importation des composants nécessaires de React Admin
-import { useTheme } from "@mui/material/styles";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 // Définition des styles personnalisés
 
 // Composant principal pour la création d'un RIB Atner
 export const RIBAtnerCreate = () => {
   const { identity, isLoading, error } = useGetIdentity();
-  const theme = useTheme(); // Utilisation du thème Material-UI
   // Effet pour désactiver l'autocomplétion des champs après le chargement du DOM
   useEffect(() => {
     const inputnom = document.getElementById("nom"); // Récupération de l'élément DOM pour le champ "nom"

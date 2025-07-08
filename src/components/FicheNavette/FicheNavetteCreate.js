@@ -9,8 +9,8 @@ import {
   useDataProvider,
   useGetIdentity,
 } from "react-admin";
-import { useTheme } from "@mui/material/styles";
 import apiUrl from "../../config";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 
 const formatDate = (string) => {
   const options = { year: "numeric", month: "long", day: "numeric" };
@@ -18,7 +18,6 @@ const formatDate = (string) => {
 };
 
 export const FicheNavetteCreate = (props) => {
-  const theme = useTheme();
   const [factureSelected, setFactureSelected] = useState(null);
   const dataProvider = useDataProvider();
   const [fournisseur, setFournisseur] = useState([]);
