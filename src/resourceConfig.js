@@ -111,6 +111,11 @@ import { TransferItemList } from "./components/TransferItem/TransferItemList.js"
 import { TransferItemCreate } from "./components/TransferItem/TransferItemCreate.js";
 import PrintTransefer from "./components/TransferItem/PrintTransefer.js";
 import { TransfersitemEdit } from "./components/TransferItem/TransfersitemEdit.js";
+import { FacturesinternationalList } from "./components/FactureDevise/FacturesinternationalList.js";
+import { FacturesinternationalEdit } from "./components/Facturesinternational/FacturesinternationalEdit.js";
+import { FacturesinternationalCreate } from "./components/Facturesinternational/FacturesinternationalCreate.js";
+import { FabcsamebcList } from "./components/Alerts/FaBCEcart.js";
+// import { FacturesinternationalList } from "./components/Facturesinternational/FacturesinternationalList.js";
 
 // Utility: helper to quickly declare read-only resources
 const readOnly = {
@@ -219,7 +224,7 @@ export const resourceConfig = [
     ],
     list: RibfournisseurList,
     edit: RibfournisseurEdit,
-    editRoles: [Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
+    editRoles: [Roles.SUP_COMP_MIDELT, Roles.SUP_COMP, Roles.ADMIN],
     icon: FaCreditCard,
   },
   {
@@ -242,6 +247,7 @@ export const resourceConfig = [
       Roles.SUP_COMP,
       Roles.COMPTABLE_MIDELT,
       Roles.COMPTABLE,
+      Roles.ADMIN,
     ],
     icon: FaCreditCard,
   },
@@ -504,6 +510,12 @@ export const resourceConfig = [
     ...readOnly,
   },
   {
+    name: "fabcsamebc",
+    viewRoles: RoleGroups.READ_WITH_CONSULT,
+    list: FabcsamebcList,
+    ...readOnly,
+  },
+  {
     name: "faayantfn",
     viewRoles: RoleGroups.READ_WITH_CONSULT,
     list: FaAyantFnList,
@@ -560,10 +572,21 @@ export const resourceConfig = [
   },
   {
     name: "dossier",
-    viewRoles: RoleGroups.ADMIN_DG,
+    viewRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
     list: DossierList,
+    createRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
     create: DossierCreate,
+    editRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
     edit: DossierEdit,
+  },
+  {
+    name: "facturesinternational",
+    viewRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
+    list: FacturesinternationalList,
+    createRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
+    create: FacturesinternationalCreate,
+    editRoles: [Roles.ADMIN, Roles.SUP_COMP_MIDELT, Roles.SUP_COMP],
+    edit: FacturesinternationalEdit,
   },
   {
     name: "ovcredoc",

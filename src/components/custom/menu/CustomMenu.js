@@ -159,6 +159,16 @@ export const CustomMenu = (props) => {
             primaryText="OV & Credoc"
             leftIcon={<FaFolderOpen />}
           />
+          <Menu.Item
+            to="facturesinternational"
+            primaryText="Facture"
+            leftIcon={<FaFolderOpen />}
+          />
+          <Menu.Item
+            to="virementinter"
+            primaryText="Virement"
+            leftIcon={<FaFolderOpen />}
+          />
         </SubMenu>
       )}
       {can(permissions, [
@@ -198,6 +208,11 @@ export const CustomMenu = (props) => {
           <Menu.Item
             to="/preparationpaiement"
             primaryText="Préparation Paiement"
+            leftIcon={<FaFileInvoiceDollar />}
+          />
+          <Menu.Item
+            to="/fabcsamebc"
+            primaryText="FA BC Ecart"
             leftIcon={<FaFileInvoiceDollar />}
           />
         </SubMenu>

@@ -6,6 +6,7 @@ import {
   FilterButton,
   List,
   NumberField,
+  ReferenceField,
   SelectColumnsButton,
   SelectInput,
   TextField,
@@ -60,7 +61,14 @@ export const FacturesinternationalList = () => (
     title="Factures Internationales"
   >
     <DatagridConfigurable bulkActionButtons={false} rowClick="edit">
-      <TextField source="NumDossier" label="N° Dossier" />
+      <ReferenceField
+        source="idDossier"
+        reference="dossier"
+        label="Num Dossier"
+        link={false}
+      >
+        <TextField source="NumDossier" />
+      </ReferenceField>
       <TextField source="Devise" />
       <NumberField source="MontantHtDevise" label="HT Devise" />
       <NumberField source="MontantTvaDevise" label="TVA Devise" />
@@ -71,12 +79,26 @@ export const FacturesinternationalList = () => (
       <NumberField source="MontantHtDh" label="HT DH" />
       <NumberField source="MontantTvaDh" label="TVA DH" />
       <NumberField source="MontantTTCDh" label="TTC DH" />
-      <TextField source="designation" />
-      <TextField source="nom" label="Fournisseur" />
+      <ReferenceField
+        source="iddesignation"
+        reference="designations"
+        label="designation"
+        link={false}
+      >
+        <NumberField source="designation" />
+      </ReferenceField>
+      <ReferenceField
+        source="idFournisseur"
+        reference="allfournisseurs"
+        label="Fournisseurs"
+        link={false}
+      >
+        <NumberField source="nom" />
+      </ReferenceField>
+
       <DateField source="dateDoc" label="Date Facture" />
       <TextField source="numDoc" label="N° Facture" />
       <TextField source="codeChantier" label="Chantier" />
-      {/* <DateField source="dateCreation" /> */}
       <TextField source="Redacteur" label="Createur" />
       <DateField source="dateDouane" />
     </DatagridConfigurable>
