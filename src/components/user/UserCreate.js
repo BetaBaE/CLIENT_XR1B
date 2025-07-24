@@ -105,6 +105,10 @@ export const UserCreate = () => {
               id: "achateur",
               name: "Achateur",
             },
+            {
+              id: "super admin",
+              name: "Super Admin",
+            },
           ]}
         />
       </SimpleForm>

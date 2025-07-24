@@ -11,6 +11,7 @@ export const Roles = {
   ACHATEUR: "achateur",
   COMPTABLE: "comptable",
   DIR_CONSULT: "consultation directeur",
+  SUP_ADMIN: "super admin",
 };
 
 // Common role groups to avoid repetition
@@ -24,6 +25,7 @@ export const RoleGroups = {
     "superviseur comptabilite",
     "comptable PdT",
     "comptable",
+    "super admin",
   ],
   READ_WITH_ACHA: [
     "admin",
@@ -35,6 +37,7 @@ export const RoleGroups = {
     "comptable PdT",
     "achateur",
     "comptable",
+    "super admin",
   ],
   READ_WITH_CONSULT: [
     "admin",
@@ -46,8 +49,9 @@ export const RoleGroups = {
     "superviseur comptabilite",
     "comptable PdT",
     "comptable",
+    "super admin",
   ],
-  ADMIN_DG: ["admin", "direction générale"],
+  ADMIN_DG: ["admin", "direction générale", "super admin"],
 };
 
 /**

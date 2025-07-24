@@ -85,14 +85,16 @@ export const RibfournisseurEdit = (props) => {
                 validate={required()}
                 choices={[
                   { id: formData.validation, name: formData.validation },
-                  ...(permissions === "superviseur comptabilite midelt" &&
+                  ...((permissions === "superviseur comptabilite midelt" ||
+                    permissions === "super admin") &&
                   formData.validation === "Validé"
                     ? [
                         { id: "Confirmer", name: "Confirmer" },
                         { id: "Désactiver", name: "Désactiver" },
                       ]
                     : []),
-                  ...(permissions === "superviseur comptabilite midelt" &&
+                  ...((permissions === "superviseur comptabilite midelt" ||
+                    permissions === "super admin") &&
                   formData.validation === "Confirmer"
                     ? [{ id: "Désactiver", name: "Désactiver" }]
                     : []),
