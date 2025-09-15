@@ -1,5 +1,5 @@
 // Importation des modules et composants nécessaires depuis react et react-admin
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   AutocompleteInput,
   Create,
@@ -13,6 +13,28 @@ import {
 import { useInputStyleFilters } from "../global/DarkInputStyle";
 // Définition et exportation du composant AttestationFournisseurCreate
 const AttestationFournisseurCreate = (props) => {
+  const validateDateRange = (value) => {
+    if (!value) return undefined;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalize to start of day
+
+    const inputDate = new Date(value);
+    inputDate.setHours(0, 0, 0, 0); // Normalize to start of day
+
+    const minDate = new Date(today);
+    minDate.setDate(today.getDate() - 180); // 180 days ago
+
+    if (inputDate > today) {
+      return "La date ne peut pas être dans le futur";
+    }
+
+    if (inputDate < minDate) {
+      return `La date ne peut pas être antérieure au ${minDate.toLocaleDateString()}`;
+    }
+
+    return undefined;
+  };
   // Récupération de l'identité de l'utilisateur courant
   const { identity } = useGetIdentity();
   // Application des styles personnalisés
@@ -84,7 +106,7 @@ const AttestationFournisseurCreate = (props) => {
         <DateInput
           source="dateDebut"
           label="date debut convention"
-          validate={[required("Date obligatoire")]}
+          validate={[required("Date obligatoire"), validateDateRange]}
           sx={{ width: 650 }}
         />
 

@@ -205,8 +205,8 @@ export const GetfacturedetailList = () => {
         <NumberField source="MontantTVA" label="TVA" />
         <NumberField source="TTC" label="TTC" />
         <NumberField source="montantPaiement" />
-        <NumberField source="AcompteReg" />
-        <NumberField source="AcompteVal" />
+        <NumberField source="Acompte" />
+        <NumberField source="Restant" />
         <TextField source="Etat" />
         <TextField source="modepaiement" />
         <TextField source="RefPay" />
