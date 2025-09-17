@@ -261,6 +261,11 @@ export const CustomMenu = (props) => {
             primaryText="Échéancier"
             leftIcon={<FaFileInvoiceDollar />}
           />
+          {/* <Menu.Item
+            to="/locationsituation"
+            primaryText="Location Situation"
+            leftIcon={<FaFileInvoiceDollar />}
+          /> */}
           <Menu.Item
             to="/situationfn"
             primaryText="Situation FN"

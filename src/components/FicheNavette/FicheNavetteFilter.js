@@ -1,4 +1,4 @@
-import { Filter, TextInput } from "react-admin";
+import { Filter, SelectInput, TextInput } from "react-admin";
 import { useTheme } from "@mui/material/styles";
 const FicheNavetteFilter = (props) => {
   const theme = useTheme();
@@ -13,8 +13,8 @@ const FicheNavetteFilter = (props) => {
             borderRadius: "4px",
           },
         }}
-        source="BonCommande"
-        label="BonCommande"
+        source="nom"
+        label="Fournisseur"
       />
       <TextInput
         sx={{
@@ -24,8 +24,8 @@ const FicheNavetteFilter = (props) => {
             borderRadius: "4px",
           },
         }}
-        source="chantier"
-        label="chantier"
+        source="FN"
+        label="Fiche navette"
       />
       <TextInput
         sx={{
@@ -35,8 +35,8 @@ const FicheNavetteFilter = (props) => {
             borderRadius: "4px",
           },
         }}
-        source="fournisseur"
-        label="fournisseur"
+        source="codechantier"
+        label="Code chantier"
       />
       <TextInput
         sx={{
@@ -46,41 +46,17 @@ const FicheNavetteFilter = (props) => {
             borderRadius: "4px",
           },
         }}
-        source="designation"
-        label="designation"
+        source="NumeroDoc"
+        label="N° Document"
       />
-      <TextInput
-        sx={{
-          input: {
-            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-            borderRadius: "4px",
-          },
-        }}
-        source="numeroFacture"
-        label="numeroFacture"
-      />
-      <TextInput
-        sx={{
-          input: {
-            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-            borderRadius: "4px",
-          },
-        }}
-        source="CodeFournisseur"
-        label="CodeFournisseur"
-      />
-      <TextInput
-        sx={{
-          input: {
-            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-            borderRadius: "4px",
-          },
-        }}
-        source="ficheNavette"
-        label="ficheNavette"
+
+      <SelectInput
+        source="CatDoc"
+        label="Catégorie Document"
+        choices={[
+          { id: "Facture", name: "Facture" },
+          { id: "Avance", name: "Avance" },
+        ]}
       />
     </Filter>
   );

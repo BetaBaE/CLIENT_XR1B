@@ -115,6 +115,7 @@ import { FacturesinternationalList } from "./components/FactureDevise/Facturesin
 import { FacturesinternationalEdit } from "./components/Facturesinternational/FacturesinternationalEdit.js";
 import { FacturesinternationalCreate } from "./components/Facturesinternational/FacturesinternationalCreate.js";
 import { FabcsamebcList } from "./components/Alerts/FaBCEcart.js";
+// import { ListGuesser } from "react-admin";
 // import { FacturesinternationalList } from "./components/Facturesinternational/FacturesinternationalList.js";
 
 // Utility: helper to quickly declare read-only resources
@@ -167,6 +168,16 @@ export const customRoutesConfig = [
     Roles.COMPTABLE,
     Roles.SUP_ADMIN,
   ]),
+  // customRoute("/locationsituation", ListGuesser, [
+  //   Roles.ADMIN,
+  //   Roles.DG,
+  //   Roles.COMPTABLE_MIDELT,
+  //   Roles.SUP_COMP_MIDELT,
+  //   Roles.SUP_COMP,
+  //   Roles.COMPTABLE_PDT,
+  //   Roles.COMPTABLE,
+  //   Roles.SUP_ADMIN,
+  // ]),
 ];
 
 export const resourceConfig = [

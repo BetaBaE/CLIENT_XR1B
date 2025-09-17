@@ -9,6 +9,7 @@ import {
   useGetIdentity,
 } from "react-admin";
 import { useTheme } from "@mui/material/styles";
+import { Box, Typography } from "@mui/material";
 
 export const FicheNavetteEdit = (props) => {
   const theme = useTheme();
@@ -18,12 +19,37 @@ export const FicheNavetteEdit = (props) => {
     </Toolbar>
   );
 
+  const noForbiddenChars = (value) => {
+    if (!value) return undefined;
+
+    // Reject dash, underscore, space, or the word 'annuler'
+    if (/[ \-_]/.test(value)) {
+      return "Le champ ne doit pas contenir '-', '_' ou espace";
+    }
+    if (value.toLowerCase() === "annuler") {
+      return "Le mot 'annuler' est interdit";
+    }
+
+    return undefined;
+  };
+
   const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
   if (error) return <>Error</>;
   return (
     <Edit>
       <SimpleForm toolbar={<UserEditToolbar />}>
+        <Box mt={2}>
+          <Typography variant="body2" color="error" fontWeight="bold">
+            ⚠️ Annulation de Fiche Navette interdite !
+          </Typography>
+          <Typography variant="body2" color="error">
+            La Fiche Navette n'a aucun sens à être annulée seule.
+            <br /> Si vous devez annuler, merci d'annuler la{" "}
+            <strong>Facture</strong> ou l'<strong>Avance</strong> correspondante
+            .
+          </Typography>
+        </Box>
         <FormDataConsumer>
           {({ formData }) =>
             formData.ficheNavette !== "Annuler" && (
@@ -40,7 +66,10 @@ export const FicheNavetteEdit = (props) => {
                     },
                   }}
                   source="ficheNavette"
-                  validate={required("Numero FN est obligatoire")}
+                  validate={[
+                    required("Numero FN est obligatoire"),
+                    noForbiddenChars,
+                  ]}
                 />
                 {/* <SelectInput
                   source="annulation"
