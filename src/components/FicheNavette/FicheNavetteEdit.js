@@ -67,7 +67,7 @@ export const FicheNavetteEdit = (props) => {
                   }}
                   source="ficheNavette"
                   validate={[
-                    required("Numero FN est obligatoire"),
+                    // required("Numero FN est obligatoire"),
                     noForbiddenChars,
                   ]}
                 />
