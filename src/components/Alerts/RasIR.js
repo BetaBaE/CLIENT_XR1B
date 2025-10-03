@@ -6,12 +6,12 @@ import {
   TextField,
   useListContext,
 } from "react-admin";
-import RasTvaFilter from "./RasTvaFilter";
 import { createExporter } from "../GlobalFunction/CustomExportCsv";
+import RasIRFilter from "./RasIRFilter";
 
-export const RastvaList = () => {
-  const resource = "rastva";
-  const fileName = "Ras TVA";
+export const RasIRList = () => {
+  const resource = "rasir";
+  const fileName = "Ras IR";
 
   let activeExporter;
 
@@ -27,7 +27,7 @@ export const RastvaList = () => {
   return (
     <InfiniteList
       exporter={(data, fetchRelated, ctx) => activeExporter?.()}
-      filters={<RasTvaFilter />}
+      filters={<RasIRFilter />}
     >
       <ExporterBridge />
       <Datagrid bulkActionButtons={false}>
@@ -35,15 +35,15 @@ export const RastvaList = () => {
         <TextField source="Identifiant fiscal" />
         <TextField source="ICE" label="ICE" />
         <TextField source="nom" />
-        <TextField source="RefernceDOC" label="Refernce Document" />
-        <TextField source="CategorieFn" />
-        <DateField source="dateFactue" label="Date Facture" />
+        <TextField source="NumDoc" label="N° Document" />
+        {/* <TextField source="CategorieFn" /> */}
+        <DateField source="dateFacture" label="Date Facture" />
         <DateField source="DateOperation" label="Date Operation" />
-        <NumberField source="HT" label="HT" />
-        <TextField source="Pourcentage TVA" label="Pourcentage TVA" />
-        <NumberField source="TauxTva" label="TauxTva" />
-        <TextField source="Pourcentage Ras" label="Pourcentage Ras" />
-        <NumberField source="RaS" label="RaS" />
+        <NumberField source="TOTHTNET" label="HT" />
+        {/* <TextField source="Pourcentage TVA" label="Pourcentage TVA" />
+        <NumberField source="TauxTva" label="Taux TVA" />
+        <TextField source="Pourcentage Ras" /> */}
+        <NumberField source="RASIR" label="Ras IR" />
       </Datagrid>
     </InfiniteList>
   );

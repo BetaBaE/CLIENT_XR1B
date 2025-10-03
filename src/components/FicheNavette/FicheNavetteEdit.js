@@ -1,7 +1,6 @@
 import {
   Edit,
   FormDataConsumer,
-  required,
   SaveButton,
   SimpleForm,
   TextInput,
@@ -45,7 +44,7 @@ export const FicheNavetteEdit = (props) => {
           </Typography>
           <Typography variant="body2" color="error">
             La Fiche Navette n'a aucun sens à être annulée seule.
-            <br /> Si vous devez annuler, merci d'annuler la{" "}
+            <br /> Si vous devez annuler, merci d'annuler la
             <strong>Facture</strong> ou l'<strong>Avance</strong> correspondante
             .
           </Typography>

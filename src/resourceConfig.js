@@ -115,8 +115,8 @@ import { FacturesinternationalList } from "./components/FactureDevise/Facturesin
 import { FacturesinternationalEdit } from "./components/Facturesinternational/FacturesinternationalEdit.js";
 import { FacturesinternationalCreate } from "./components/Facturesinternational/FacturesinternationalCreate.js";
 import { FabcsamebcList } from "./components/Alerts/FaBCEcart.js";
-import { ListGuesser } from "react-admin";
 import { LocationsituationList } from "./components/Alerts/SituationLocation.js";
+import { RasIRList } from "./components/Alerts/RasIR.js";
 // import { FacturesinternationalList } from "./components/Facturesinternational/FacturesinternationalList.js";
 
 // Utility: helper to quickly declare read-only resources
@@ -579,6 +579,18 @@ export const resourceConfig = [
     ...readOnly,
   },
   {
+    name: "rasir",
+    viewRoles: [
+      Roles.ADMIN,
+      Roles.DG,
+      Roles.COMPTABLE_MIDELT,
+      Roles.COMPTABLE_PDT,
+      Roles.SUP_COMP_MIDELT,
+    ],
+    list: RasIRList,
+    ...readOnly,
+  },
+  {
     name: "getfacturedetails",
     viewRoles: [
       Roles.ADMIN,
@@ -771,6 +783,7 @@ export const resourceConfig = [
       Roles.COMPTABLE_PDT,
       Roles.COMPTABLE,
       Roles.SUP_ADMIN,
+      Roles.DIR_CONSULT,
     ],
     list: LocationsituationList,
     ...readOnly,

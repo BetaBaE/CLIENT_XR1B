@@ -230,6 +230,11 @@ export const CustomMenu = (props) => {
             leftIcon={<FaFileInvoiceDollar />}
           />
           <Menu.Item
+            to="/rasir"
+            primaryText="RAS IR"
+            leftIcon={<FaFileInvoiceDollar />}
+          />
+          <Menu.Item
             to="/gettvalog"
             primaryText="Log TVA"
             leftIcon={<FaFileInvoiceDollar />}

@@ -195,7 +195,7 @@ export const GetfacturedetailList = () => {
         expandSingle
         bulkActionButtons={false}
       >
-        <ExporterBridge />
+        <ExporterBridge sx={{ display: "none" }} />
         <TextField source="codechantier" />
         <TextField source="nom" />
         <TextField source="Fn" />
@@ -212,6 +212,7 @@ export const GetfacturedetailList = () => {
         <TextField source="RefPay" />
         <DateField source="DateOperation" />
         <NumberField source="Ras" />
+        <NumberField source="RasIR" label="Ras IR" />
         <TextField source="Bank" />
         <TextField source="idAvance" />
       </DatagridConfigurable>
