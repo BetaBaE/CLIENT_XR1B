@@ -157,7 +157,8 @@ export const RibtempoCreate = (props) => {
             { id: "Banco Sabadell", name: "Banco Sabadell Maroc" },
             { id: "La Caixa", name: "Caixabank" },
             { id: "Umnia bank", name: "Umnia bank" },
-            { id: " TGR", name: " Trésorerie Générale du Royaume" },
+            { id: "TGR", name: " Trésorerie Générale du Royaume" },
+            { id: "Bank Al Yousr", name: "Bank Al Yousr" },
             { id: "Bank International", name: "🌐 Bank International" },
           ]}
         />
