@@ -14,6 +14,7 @@ export const FournisseursList = () => {
         <TextField source="ICE" label="ICE" />
         <TextField source="Identifiantfiscal" label="identifiant fiscal" />
         <TextField source="mail" />
+        <TextField source="actif" />
         <TextField source="addresse" label="adresse" />
         <TextField source="echeancereel" />
         <TextField source="echeanceloi" label="echeanceloi" />

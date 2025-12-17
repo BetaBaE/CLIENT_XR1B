@@ -138,6 +138,11 @@ export const CustomMenu = (props) => {
             leftIcon={<TbReportMoney />}
           />
           <Menu.Item
+            to="card"
+            primaryText="Carte Bancaire"
+            leftIcon={<FaFolderOpen />}
+          />
+          <Menu.Item
             to="/print"
             primaryText="Imp. Documents"
             leftIcon={<FaPrint />}
@@ -169,6 +174,7 @@ export const CustomMenu = (props) => {
             primaryText="Virement"
             leftIcon={<FaFolderOpen />}
           />
+          
         </SubMenu>
       )}
       {can(permissions, [

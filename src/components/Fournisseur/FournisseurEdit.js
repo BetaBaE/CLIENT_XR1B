@@ -11,12 +11,14 @@ import {
 
 // Styles personnalisés pour les composants
 import { useTheme } from "@mui/material/styles";
+
 export const FournisseurEdit = () => {
   const theme = useTheme();
   // Application des styles
   const { isLoading, error } = useGetIdentity(); // Gestion de l'état de l'utilisateur
   if (isLoading) return <>Loading</>; // Affichage d'un message de chargement
   if (error) return <>Error</>; // Affichage d'une erreur si elle se produit
+  
   const UserEditToolbar = (props) => (
     <Toolbar {...props}>
       <SaveButton id="save" /> {/* Bouton de sauvegarde */}
@@ -97,9 +99,7 @@ export const FournisseurEdit = () => {
             { id: "personne physique", name: "personne physique" },
             { id: "personne morale", name: "personne morale" },
           ]}
-        >
-          {/* Choix de la catégorie du fournisseur */}
-        </SelectInput>
+        />
 
         <SelectInput
           sx={{
@@ -118,7 +118,8 @@ export const FournisseurEdit = () => {
             { id: "Oui", name: "Oui" },
             { id: "Non", name: "Non" },
           ]}
-        ></SelectInput>
+        />
+        
         <SelectInput
           sx={{
             width: 650,
@@ -131,6 +132,25 @@ export const FournisseurEdit = () => {
           }}
           source="RasIr"
           label="RAS IR"
+          validate={required()} // Validation requise
+          choices={[
+            { id: "Oui", name: "Oui" },
+            { id: "Non", name: "Non" },
+          ]}
+        />
+
+        <SelectInput
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
+          source="actif"
+          label="Actif"
           validate={required()} // Validation requise
           choices={[
             { id: "Oui", name: "Oui" },

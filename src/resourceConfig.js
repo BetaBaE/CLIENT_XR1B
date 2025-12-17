@@ -49,6 +49,10 @@ import { ChequeList } from "./components/Cheque/ChequeList";
 import { ChequeCreate } from "./components/Cheque/ChequeCreate";
 import { ChequeEdit } from "./components/Cheque/ChequeEdit";
 
+
+import { CardList } from "./components/Card/CardList";
+import { CardCreate } from "./components/Card/CardCreate";
+
 import { EspeceList } from "./components/Espece/EspeceList";
 import { EspeceCreate } from "./components/Espece/EspeceCreate";
 
@@ -787,5 +791,20 @@ export const resourceConfig = [
     ],
     list: LocationsituationList,
     ...readOnly,
+  },
+   {
+    name: "card",
+    viewRoles: RoleGroups.READ,
+    list: CardList,
+    create: CardCreate,
+    createRoles: [
+      Roles.ADMIN,
+      Roles.COMPTABLE_MIDELT,
+      Roles.SUP_COMP_MIDELT,
+      Roles.SUP_COMP,
+      Roles.COMPTABLE,
+      Roles.SUP_ADMIN,
+    ],
+    icon: FaCreditCard,
   },
 ];
