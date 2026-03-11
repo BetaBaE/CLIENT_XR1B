@@ -33,6 +33,7 @@ const FilterAttestationFournisseur = (props) => {
         sx={inputStyle}
         choices={[
           { id: "pas_attestation", name: "⚠️ Pas d'attestation" },
+          { id: "nouveau_fournisseur", name: "🆕 Nouveau fournisseur (< 5 mois)" },
           { id: "expire", name: "❌ Expiré" },
           { id: "expire_aujourdhui", name: "🚨 Expire aujourd'hui" },
           { id: "alerte", name: "⚡ Alerte (≤20 jours)" },
