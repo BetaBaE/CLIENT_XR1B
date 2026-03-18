@@ -201,6 +201,11 @@ export const CustomMenu = (props) => {
         "electricite",
       ]) && (
         <SubMenu primaryText="Alerte" leftIcon={<ChevronRightIcon />}>
+        <Menu.Item
+            to="/attestationsaisie"
+            primaryText="Inf 50K"
+            leftIcon={<FaFileInvoiceDollar />}
+          />
           <Menu.Item
             to="/alertattestationregfisc"
             primaryText="Attest Reg Fisc"

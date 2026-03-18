@@ -121,6 +121,7 @@ import { FacturesinternationalCreate } from "./components/Facturesinternational/
 import { FabcsamebcList } from "./components/Alerts/FaBCEcart.js";
 import { LocationsituationList } from "./components/Alerts/SituationLocation.js";
 import { RasIRList } from "./components/Alerts/RasIR.js";
+import { AttestationSaisieList } from "./components/Alerts/AttestationSaisieList.js";
 // import { FacturesinternationalList } from "./components/Facturesinternational/FacturesinternationalList.js";
 
 // Utility: helper to quickly declare read-only resources
@@ -556,6 +557,12 @@ export const resourceConfig = [
     name: "alertattestationregfisc",
     viewRoles: RoleGroups.READ_WITH_CONSULT,
     list: AlertAttestationRegFiscList,
+    ...readOnly,
+  },
+   {
+    name: "attestationsaisie",
+    viewRoles: RoleGroups.READ_WITH_CONSULT,
+    list: AttestationSaisieList,
     ...readOnly,
   },
   {
