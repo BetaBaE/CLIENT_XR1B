@@ -122,6 +122,7 @@ import { FabcsamebcList } from "./components/Alerts/FaBCEcart.js";
 import { LocationsituationList } from "./components/Alerts/SituationLocation.js";
 import { RasIRList } from "./components/Alerts/RasIR.js";
 import { AttestationSaisieList } from "./components/Alerts/AttestationSaisieList.js";
+import FactureDesignationPage from "./components/Analyse/Bilan/pages/FactureDesignationPage.js";
 // import { FacturesinternationalList } from "./components/Facturesinternational/FacturesinternationalList.js";
 
 // Utility: helper to quickly declare read-only resources
@@ -174,6 +175,12 @@ export const customRoutesConfig = [
     Roles.COMPTABLE,
     Roles.SUP_ADMIN,
   ]),
+  customRoute("/bilan_annuel", FactureDesignationPage, [
+    Roles.ADMIN,
+    Roles.DG,
+    Roles.SUP_COMP_MIDELT,
+    Roles.SUP_ADMIN,
+  ])
 ];
 
 export const resourceConfig = [

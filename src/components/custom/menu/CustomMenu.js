@@ -329,6 +329,19 @@ export const CustomMenu = (props) => {
           />
         </SubMenu>
       )}
+            {can(permissions, [
+        ...RoleGroups.ADMIN_DG,
+        Roles.SUP_COMP,
+        Roles.SUP_COMP_MIDELT,
+      ]) && (
+        <SubMenu primaryText="Bilan" leftIcon={<ChevronRightIcon />}>
+          <Menu.Item
+            to="/bilan_annuel"
+            primaryText="Bilan Annuel"
+            leftIcon={<FaFileInvoice />}
+          />
+        </SubMenu>
+      )}
       {can(permissions, RoleGroups.ADMIN_DG) && (
         <SubMenu
           primaryText="Gestion Utilisateurs"
