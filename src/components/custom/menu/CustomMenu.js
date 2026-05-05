@@ -51,6 +51,33 @@ export const CustomMenu = (props) => {
           />
         </SubMenu>
       )}
+      {can(permissions, [
+        Roles.ADMIN,
+        Roles.SUP_ADMIN,
+        Roles.SUP_COMP_MIDELT,
+        Roles.DG,
+      ]) && (
+        <SubMenu
+          primaryText="Facturation Client"
+          leftIcon={<ChevronRightIcon />}
+        >
+          <Menu.Item
+            to="marche"
+            primaryText="Marché"
+            leftIcon={<FaFileInvoiceDollar />}
+          />
+          <Menu.Item
+            to="caution"
+            primaryText="Caution"
+            leftIcon={<FaFileInvoiceDollar />}
+          />
+          <Menu.Item
+            to="factureclient"
+            primaryText="Facture Client"
+            leftIcon={<FaFileInvoiceDollar />}
+          />
+        </SubMenu>
+      )}
       {can(permissions, RoleGroups.READ_WITH_ACHA) && (
         <SubMenu
           primaryText="Section Fournisseur"

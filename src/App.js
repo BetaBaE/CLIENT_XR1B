@@ -22,7 +22,11 @@ const fetchJson = async (url, options = {}) => {
     requestHeaders.set("Content-Type", "application/json");
   }
 
-  const response = await fetch(url, { ...options, headers: requestHeaders });
+  const response = await fetch(url, {
+    ...options,
+    headers: requestHeaders,
+    credentials: "include",
+  });
   const text = await response.text();
   const o = {
     status: response.status,

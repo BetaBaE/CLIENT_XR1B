@@ -1,6 +1,11 @@
 //! import { AvanceRestituerDetatailList } from "./components/AvanceRestituerDetatail/AvanceRestituerDetatailList";
 import { Roles, RoleGroups } from "./utils/rbac";
-import { FaTruck, FaCreditCard } from "react-icons/fa";
+import {
+  FaTruck,
+  FaCreditCard,
+  FaShieldAlt,
+  FaFileInvoiceDollar,
+} from "react-icons/fa";
 
 import { FournisseursList } from "./components/Fournisseur/FournisseursList";
 import { FournisseurCreate } from "./components/Fournisseur/FournisseurCreate";
@@ -25,6 +30,15 @@ import { RibtempoCreate } from "./components/RIBtempo/RibtempoCreate";
 import { FactureSaisieList } from "./components/FactureSaisie/FactureSaisieList";
 import { FactureSaisieCreate } from "./components/FactureSaisie/FactureSaisieCreate";
 import { FactureSaisieEdit } from "./components/FactureSaisie/FactureSaisieEdit";
+import { MarcheList } from "./components/Marche/MarcheList";
+import { MarcheCreate } from "./components/Marche/MarcheCreate";
+import { MarcheEdit } from "./components/Marche/MarcheEdit";
+import { CautionList } from "./components/Caution/CautionList";
+import { CautionCreate } from "./components/Caution/CautionCreate";
+import { CautionEdit } from "./components/Caution/CautionEdit";
+import { FactureClientList } from "./components/FactureClient/FactureClientList";
+import { FactureClientCreate } from "./components/FactureClient/FactureClientCreate";
+import { FactureClientEdit } from "./components/FactureClient/FactureClientEdit";
 
 import { FicheNavetteList } from "./components/FicheNavette/FicheNavetteList";
 import { FicheNavetteCreate } from "./components/FicheNavette/FicheNavetteCreate";
@@ -303,6 +317,50 @@ export const resourceConfig = [
       Roles.COMPTABLE,
       Roles.SUP_ADMIN,
     ],
+  },
+  {
+    name: "marche",
+    viewRoles: [
+      Roles.ADMIN,
+      Roles.SUP_ADMIN,
+      Roles.SUP_COMP_MIDELT,
+      Roles.DG,
+    ],
+    list: MarcheList,
+    create: MarcheCreate,
+    createRoles: [Roles.ADMIN, Roles.SUP_ADMIN, Roles.SUP_COMP_MIDELT],
+    edit: MarcheEdit,
+    editRoles: [Roles.ADMIN, Roles.SUP_ADMIN, Roles.SUP_COMP_MIDELT],
+  },
+  {
+    name: "caution",
+    viewRoles: [
+      Roles.ADMIN,
+      Roles.SUP_ADMIN,
+      Roles.SUP_COMP_MIDELT,
+      Roles.DG,
+    ],
+    list: CautionList,
+    create: CautionCreate,
+    createRoles: [Roles.ADMIN, Roles.SUP_ADMIN, Roles.SUP_COMP_MIDELT],
+    edit: CautionEdit,
+    editRoles: [Roles.ADMIN, Roles.SUP_ADMIN, Roles.SUP_COMP_MIDELT],
+    icon: FaShieldAlt,
+  },
+  {
+    name: "factureclient",
+    viewRoles: [
+      Roles.ADMIN,
+      Roles.SUP_ADMIN,
+      Roles.SUP_COMP_MIDELT,
+      Roles.DG,
+    ],
+    list: FactureClientList,
+    create: FactureClientCreate,
+    createRoles: [Roles.ADMIN, Roles.SUP_ADMIN, Roles.SUP_COMP_MIDELT],
+    edit: FactureClientEdit,
+    editRoles: [Roles.ADMIN, Roles.SUP_ADMIN, Roles.SUP_COMP_MIDELT],
+    icon: FaFileInvoiceDollar,
   },
   {
     name: "FicheNavette",
