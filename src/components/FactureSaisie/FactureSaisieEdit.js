@@ -1,5 +1,6 @@
 import {
   AutocompleteInput,
+  BooleanInput,
   DateInput,
   Edit,
   required,
@@ -13,6 +14,7 @@ import {
   useRedirect,
 } from "react-admin";
 import { Grid } from "@mui/material";
+import { useFormContext } from "react-hook-form";
 import useFetchChantier from "../global/chantier";
 import apiUrl from "../../config";
 import useFetchDesignation from "../global/designation";
@@ -22,6 +24,44 @@ import { useInputStyleFilters } from "../global/DarkInputStyle";
 // import Skeleton from '@material-ui/lab/Skeleton';
 
 // Styles spécifiques pour ce composant
+
+const PapierRecuInput = ({ userDisplayName }) => {
+  const { setValue } = useFormContext();
+
+  const handlePapierRecuChange = async (event) => {
+    const checked = Boolean(event?.target?.checked);
+
+    if (!checked) {
+      setValue("papierRecu", false, { shouldDirty: true, shouldValidate: true });
+      return;
+    }
+
+    const result = await Swal.fire({
+      icon: "warning",
+      title: "Confirmation",
+      text: `M./Mme ${userDisplayName}, confirmez-vous cette action ?`,
+      showCancelButton: true,
+      confirmButtonText: "Oui",
+      cancelButtonText: "Non",
+    });
+
+    if (!result.isConfirmed) {
+      setValue("papierRecu", false, { shouldDirty: true, shouldValidate: true });
+      return;
+    }
+
+    setValue("papierRecu", true, { shouldDirty: true, shouldValidate: true });
+  };
+
+  return (
+    <BooleanInput
+      source="papierRecu"
+      label="Papier de la facture reçu"
+      sx={useInputStyleFilters}
+      onChange={handlePapierRecuChange}
+    />
+  );
+};
 
 export const FactureSaisieEdit = () => {
   const redirect = useRedirect();
@@ -100,7 +140,7 @@ export const FactureSaisieEdit = () => {
         // className={classes.formContainer}
         toolbar={<UserEditToolbar />}
       >
-        <Grid container>
+        <Grid container spacing={2}>
           <Grid item xs={4}>
             <TextInput
               defaultValue={identity.username}
@@ -296,6 +336,13 @@ export const FactureSaisieEdit = () => {
           ) : (
             ""
           )}
+          {permissions === "admin" ||
+          permissions === "comptable midelt" ||
+          permissions === "superviseur comptabilite midelt" ? (
+            <Grid item xs={4}>
+              <PapierRecuInput userDisplayName={identity?.username || "User"} />
+            </Grid>
+          ) : null}
         </Grid>
       </SimpleForm>
     </Edit>

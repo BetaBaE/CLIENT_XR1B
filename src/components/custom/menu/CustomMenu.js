@@ -253,6 +253,11 @@ export const CustomMenu = (props) => {
             primaryText="FA BC Ecart"
             leftIcon={<FaFileInvoiceDollar />}
           />
+          <Menu.Item
+            to="/factureAlerteSansPapier"
+            primaryText="Alerte sans papier"
+            leftIcon={<FaFileInvoiceDollar />}
+          />
         </SubMenu>
       )}
       {can(permissions, [

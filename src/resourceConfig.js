@@ -30,6 +30,8 @@ import { RibtempoCreate } from "./components/RIBtempo/RibtempoCreate";
 import { FactureSaisieList } from "./components/FactureSaisie/FactureSaisieList";
 import { FactureSaisieCreate } from "./components/FactureSaisie/FactureSaisieCreate";
 import { FactureSaisieEdit } from "./components/FactureSaisie/FactureSaisieEdit";
+import { FactureAlerteSansPapierList } from "./components/FactureSaisie/FactureAlerteSansPapierList";
+import { FactureAlerteSansPapierEdit } from "./components/FactureSaisie/FactureAlerteSansPapierEdit";
 import { MarcheList } from "./components/Marche/MarcheList";
 import { MarcheCreate } from "./components/Marche/MarcheCreate";
 import { MarcheEdit } from "./components/Marche/MarcheEdit";
@@ -310,6 +312,19 @@ export const resourceConfig = [
     create: FactureSaisieCreate,
     createRoles: [Roles.ADMIN, Roles.COMPTABLE_MIDELT, Roles.SUP_COMP_MIDELT],
     edit: FactureSaisieEdit,
+    editRoles: [
+      Roles.ADMIN,
+      Roles.COMPTABLE_MIDELT,
+      Roles.SUP_COMP_MIDELT,
+      Roles.COMPTABLE,
+      Roles.SUP_ADMIN,
+    ],
+  },
+  {
+    name: "factureAlerteSansPapier",
+    viewRoles: RoleGroups.READ_WITH_CONSULT,
+    list: FactureAlerteSansPapierList,
+    edit: FactureAlerteSansPapierEdit,
     editRoles: [
       Roles.ADMIN,
       Roles.COMPTABLE_MIDELT,

@@ -1,5 +1,6 @@
 import {
   AutocompleteInput,
+  BooleanInput,
   Create,
   DateInput,
   NumberInput,
@@ -163,6 +164,45 @@ const AutoDateInput = () => {
       sx={{ width: "98%" }}
       disabled={!startDate}
       label="Date Échéance"
+    />
+  );
+};
+
+const PapierRecuInput = ({ userDisplayName }) => {
+  const { setValue } = useFormContext();
+
+  const handlePapierRecuChange = async (event) => {
+    const checked = Boolean(event?.target?.checked);
+
+    if (!checked) {
+      setValue("papierRecu", false, { shouldDirty: true, shouldValidate: true });
+      return;
+    }
+
+    const result = await Swal.fire({
+      icon: "warning",
+      title: "Confirmation",
+      text: `M./Mme ${userDisplayName}, confirmez-vous cette action ?`,
+      showCancelButton: true,
+      confirmButtonText: "Oui",
+      cancelButtonText: "Non",
+    });
+
+    if (!result.isConfirmed) {
+      setValue("papierRecu", false, { shouldDirty: true, shouldValidate: true });
+      return;
+    }
+
+    setValue("papierRecu", true, { shouldDirty: true, shouldValidate: true });
+  };
+
+  return (
+    <BooleanInput
+      source="papierRecu"
+      label="Papier de la facture reçu"
+      defaultValue={false}
+      sx={{ width: "98%" }}
+      onChange={handlePapierRecuChange}
     />
   );
 };
@@ -563,7 +603,7 @@ export const FactureSaisieCreate = (props) => {
           width: "98%",
         }}
       >
-        <Grid container>
+        <Grid container spacing={2}>
           <Grid item md={6}>
             <TextInput
               defaultValue={identity.username}
@@ -714,7 +754,6 @@ export const FactureSaisieCreate = (props) => {
               choices={chantier_choices}
             />
           </Grid>
-
           <Grid item md={6}>
             <>
               {/* <DateInput
@@ -754,6 +793,9 @@ export const FactureSaisieCreate = (props) => {
           ) : (
             ""
           )}
+          <Grid item md={6}>
+            <PapierRecuInput userDisplayName={identity?.username || "User"} />
+          </Grid>
         </Grid>
       </SimpleForm>
     </Create>
