@@ -255,7 +255,7 @@ export const CustomMenu = (props) => {
           />
           <Menu.Item
             to="/factureAlerteSansPapier"
-            primaryText="Alerte sans papier"
+            primaryText="Facture sans papier"
             leftIcon={<FaFileInvoiceDollar />}
           />
         </SubMenu>

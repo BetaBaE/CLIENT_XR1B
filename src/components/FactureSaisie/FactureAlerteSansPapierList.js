@@ -7,6 +7,7 @@ import {
   NumberField,
   SelectColumnsButton,
   TextField,
+  TextInput,
   TopToolbar,
 } from "react-admin";
 
@@ -17,12 +18,23 @@ const AlerteListActions = () => (
   </TopToolbar>
 );
 
+const alerteFilters = [
+  <TextInput
+    key="numeroFacture"
+    source="numeroFacture"
+    label="numeroFacture"
+    alwaysOn
+  />,
+  <TextInput key="fournisseur" source="fournisseur" label="fournisseur" alwaysOn />,
+];
+
 export const FactureAlerteSansPapierList = () => {
   return (
     <List
       actions={<AlerteListActions />}
       title="Alerte - Factures sans papier reçu"
       exporter={false}
+      filters={alerteFilters}
     >
       <DatagridConfigurable rowClick="edit" bulkActionButtons={false}>
         <TextField source="LIBELLE" label="chantier" />
