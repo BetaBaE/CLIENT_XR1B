@@ -10,6 +10,7 @@ import {
   TextInput,
   TopToolbar,
 } from "react-admin";
+import { useInputStyleFilters } from "../global/DarkInputStyle";
 
 const AlerteListActions = () => (
   <TopToolbar>
@@ -18,17 +19,25 @@ const AlerteListActions = () => (
   </TopToolbar>
 );
 
-const alerteFilters = [
-  <TextInput
-    key="numeroFacture"
-    source="numeroFacture"
-    label="numeroFacture"
-    alwaysOn
-  />,
-  <TextInput key="fournisseur" source="fournisseur" label="fournisseur" alwaysOn />,
-];
-
 export const FactureAlerteSansPapierList = () => {
+  const filterInputSx = useInputStyleFilters();
+  const alerteFilters = [
+    <TextInput
+      key="numeroFacture"
+      source="numeroFacture"
+      label="numeroFacture"
+      alwaysOn
+      sx={filterInputSx}
+    />,
+    <TextInput
+      key="fournisseur"
+      source="fournisseur"
+      label="fournisseur"
+      alwaysOn
+      sx={filterInputSx}
+    />,
+  ];
+
   return (
     <List
       actions={<AlerteListActions />}
