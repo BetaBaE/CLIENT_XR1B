@@ -149,6 +149,25 @@ export const FournisseurEdit = () => {
               borderRadius: "4px",
             },
           }}
+          source="ExoServiceRas"
+          label="Exo Service RAS"
+          validate={required()}
+          choices={[
+            { id: "Oui", name: "Oui" },
+            { id: "Non", name: "Non" },
+          ]}
+        />
+
+        <SelectInput
+          sx={{
+            width: 650,
+            input: {
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+              borderRadius: "4px",
+            },
+          }}
           source="actif"
           label="Actif"
           validate={required()} // Validation requise

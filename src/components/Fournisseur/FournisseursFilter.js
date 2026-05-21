@@ -40,6 +40,22 @@ const FournisseursFilter = (props) => {
           { id: "Non", name: "Non" },
         ]}
       />
+      <SelectInput
+        sx={{
+          input: {
+            backgroundColor:
+              theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+            color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+            borderRadius: "4px",
+          },
+        }}
+        source="ExoServiceRas"
+        label="Exo Service RAS"
+        choices={[
+          { id: "Oui", name: "Oui" },
+          { id: "Non", name: "Non" },
+        ]}
+      />
     </Filter>
   );
 };
