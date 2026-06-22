@@ -94,7 +94,7 @@ export const AvanceForupdateEdit = (props) => {
   useEffect(() => {
     dataProvider
       .getList("fournisseurs", {
-        pagination: { page: 1, perPage: 3000 },
+        pagination: { page: 1, perPage: 4000 },
         sort: { field: "nom", order: "ASC" },
       })
       .then(({ data }) => {
@@ -122,7 +122,7 @@ export const AvanceForupdateEdit = (props) => {
   useEffect(() => {
     dataProvider1
       .getList("chantier", {
-        pagination: { page: 1, perPage: 3000 },
+        pagination: { page: 1, perPage: 4000 },
         sort: { field: "LIBELLE", order: "ASC" },
       })
       .then(({ data }) => {

@@ -39,7 +39,7 @@ export const AvanceCreate = () => {
       try {
         // Appel à l'API pour récupérer la liste des fournisseurs
         const response = await dataProvider.getList("getAllFournissuersClean", {
-          pagination: { page: 1, perPage: 3000 }, // Pagination pour récupérer tous les fournisseurs
+          pagination: { page: 1, perPage: 4000 }, // Pagination pour récupérer tous les fournisseurs
           sort: { field: "nom", order: "ASC" }, // Tri par nom ascendant
         });
         setFournisseur(response.data); // Mise à jour de l'état avec les données des fournisseurs

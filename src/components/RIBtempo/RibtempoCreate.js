@@ -25,7 +25,7 @@ export const RibtempoCreate = (props) => {
   useEffect(() => {
     dataProvider
       .getList("fournisseurs", {
-        pagination: { page: 1, perPage: 3000 },
+        pagination: { page: 1, perPage: 4000 },
         sort: { field: "nom", order: "ASC" },
       })
       .then(({ data }) => {
