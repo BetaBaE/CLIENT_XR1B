@@ -90,7 +90,7 @@ export const EspeceCreate = (props) => {
         name: `${CODEDOCUTIL} | ${chantier} | FN ${ficheNavette} | ${
           DateFacture === null ? "avance" : DateFacture?.split("T")[0]
         } | ${nom} | MontantAPaye ${MontantAPaye} DH | TTC ${TTC}DH | ${validation}`,
-
+        montantAPaye: MontantAPaye,
         categorie: CatFn,
       })
     );

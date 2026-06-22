@@ -39,7 +39,7 @@ export const FicheNavetteCreate = (props) => {
     const fetchFournisseurs = async () => {
       try {
         const response = await dataProvider.getList("fournisseurs", {
-          pagination: { page: 1, perPage: 3000 },
+          pagination: { page: 1, perPage: 4000 },
           sort: { field: "nom", order: "ASC" },
         });
         setFournisseur(response.data);
