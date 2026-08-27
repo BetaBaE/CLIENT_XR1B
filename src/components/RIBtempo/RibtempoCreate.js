@@ -3,12 +3,12 @@ import { useTheme } from "@mui/material/styles"; // Importation des hooks useEff
 import {
   AutocompleteInput,
   Create,
+  ReferenceInput,
   regex,
   required,
   SelectInput,
   SimpleForm,
   TextInput,
-  useDataProvider,
   useGetIdentity,
 } from "react-admin"; // Importation des composants nécessaires de React Admin
 
@@ -16,31 +16,8 @@ import {
 
 // Composant principal pour la création des RIB temporaire
 export const RibtempoCreate = (props) => {
-  const dataProvider = useDataProvider(); // Utilisation du dataProvider de React Admin
-  const [fournisseurs, setFournisseurs] = useState([]);
   const theme = useTheme();
   const [bank, setBank] = useState(""); // État pour stocker les fournisseurs
-
-  // Utilisation de useEffect pour charger la liste des fournisseurs au montage du composant
-  useEffect(() => {
-    dataProvider
-      .getList("fournisseurs", {
-        pagination: { page: 1, perPage: 4000 },
-        sort: { field: "nom", order: "ASC" },
-      })
-      .then(({ data }) => {
-        setFournisseurs(data); // Mise à jour de l'état avec les fournisseurs récupérés
-      })
-      .catch((error) => {
-        console.log(error); // Affichage de l'erreur en cas d'échec de la requête
-      });
-  }, [dataProvider]);
-
-  // Transformation des fournisseurs en choix pour le champ AutocompleteInput
-  let fournisseur_choices = fournisseurs.map(({ id, nom }) => ({
-    id: id,
-    name: nom,
-  }));
 
   // Validation personnalisée pour le champ RIB
   const validateRib = regex(
@@ -93,21 +70,29 @@ export const RibtempoCreate = (props) => {
           }}
           source="Redacteur"
         />
-        <AutocompleteInput
-          label="Fournisseur"
-          validate={required("Le fournisseur est obligatoire")}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
+        <ReferenceInput
           source="FournisseurId"
-          choices={fournisseur_choices}
-        />
+          reference="fournisseurs"
+          perPage={50}
+          sort={{ field: "nom", order: "ASC" }}
+        >
+          <AutocompleteInput
+            label="Fournisseur"
+            validate={required("Le fournisseur est obligatoire")}
+            sx={{
+              width: 650,
+              input: {
+                backgroundColor:
+                  theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                borderRadius: "4px",
+              },
+            }}
+            filterToQuery={(searchText) => ({ q: searchText })}
+            matchSuggestion={() => true}
+            optionText={(record) => (record?.id ? record.nom : "")}
+          />
+        </ReferenceInput>
         <TextInput
           validate={[validateRib, required("Le RIB est obligatoire")]}
           sx={{

@@ -4,6 +4,7 @@ import {
   Create,
   DateInput,
   NumberInput,
+  ReferenceInput,
   regex,
   required,
   SaveButton,
@@ -211,11 +212,7 @@ export const FactureSaisieCreate = (props) => {
   const notify = useNotify();
   const [dateecheance, setdateecheance] = useState(null);
   // const [inputDateEcheance, setInputDateEcheance] = useState(null);
-  const dataProvider1 = useDataProvider();
-  const dataProvider2 = useDataProvider();
-  const dataProvider = useDataProvider();
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
-  const [designation, setDesignation] = useState([]);
   const [FourRasIR, setFourRasIR] = useState("");
   const [fournisseurEche, setfournisseurEche] = useState(null);
   const [asideData, setAsideData] = useState({
@@ -228,8 +225,6 @@ export const FactureSaisieCreate = (props) => {
   const [loading, setLoading] = useState(false); // Loading state
   // const [newIdentity, setNewIdentity] = useState('');
   const [tva, setTVA] = useState([]);
-  const [fournisseur, setFournisseur] = useState([]);
-  const [chantier, setChantier] = useState([]);
   const { identity, isLoading: identityLoading } = useGetIdentity();
 
   // check facture deplication
@@ -335,66 +330,6 @@ export const FactureSaisieCreate = (props) => {
   useEffect(() => {
     // setInputDateEcheance(dateecheance);
   }, [dateecheance]);
-  useEffect(() => {
-    dataProvider2
-      .getList("chantier", {
-        pagination: { page: 1, perPage: 3000 },
-        sort: { field: "LIBELLE", order: "ASC" },
-      })
-      .then(({ data }) => {
-        setChantier(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [dataProvider2]);
-  let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
-    id: id,
-    name: `${LIBELLE} | ${id} `,
-  }));
-
-  useEffect(() => {
-    dataProvider1
-      .getList("designation", {
-        pagination: { page: 1, perPage: 3000 },
-        sort: { field: "id", order: "ASC" },
-      })
-
-      .then(({ data }) => {
-        setDesignation(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [dataProvider1]);
-
-  useEffect(() => {
-    dataProvider
-      .getList("getAllFournissuersClean", {
-        pagination: { page: 1, perPage: 10000 },
-        sort: { field: "id", order: "ASC" },
-      })
-
-      .then(({ data }) => {
-        setFournisseur(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [dataProvider]);
-
-  let fournisseur_choices = fournisseur.map(({ id, nom, CodeFournisseur }) => ({
-    id: id,
-    name: `${nom} | ${CodeFournisseur} `,
-  }));
-
-  let designation_choices = designation.map(
-    ({ id, designation, codeDesignation }) => ({
-      id: id,
-      name: `${codeDesignation}||${designation}`,
-    })
-  );
-
   const validateprice = regex(
     /[+-]?([0-9]*[.])?[0-9]+/,
     "ce prix  n'est pas au bon format"
@@ -643,30 +578,34 @@ export const FactureSaisieCreate = (props) => {
             />
           </Grid>
           <Grid item md={6}>
-            <AutocompleteInput
-              label="designation"
-              validate={required("selectionnez la designation")}
-              sx={useInputStyleFilters}
-              slotProps={{ input: { autoComplete: "off" } }}
+            <ReferenceInput
               source="iddesignation"
-              choices={designation_choices}
-              onChange={(e) => {
-                console.log("e", e);
-
-                if (!e) {
-                  setFournisseurIdField(true);
-                } else {
-                  setFournisseurIdField(false);
-                  getTVA(e);
-
-                  // Check if e is an array before using join
-                  const formattedDates = Array.isArray(e)
-                    ? e.join("gheghe")
-                    : e.toString();
-                  console.log("formattedDates", formattedDates); // Use formattedDates as needed
+              reference="designation"
+              perPage={50}
+              sort={{ field: "id", order: "ASC" }}
+            >
+              <AutocompleteInput
+                label="designation"
+                validate={required("selectionnez la designation")}
+                sx={useInputStyleFilters}
+                slotProps={{ input: { autoComplete: "off" } }}
+                filterToQuery={(searchText) => ({ q: searchText })}
+                matchSuggestion={() => true}
+                optionText={(record) =>
+                  record?.id
+                    ? `${record.codeDesignation}||${record.designation}`
+                    : ""
                 }
-              }}
-            />
+                onChange={(value) => {
+                  if (!value) {
+                    setFournisseurIdField(true);
+                  } else {
+                    setFournisseurIdField(false);
+                    getTVA(value);
+                  }
+                }}
+              />
+            </ReferenceInput>
           </Grid>
           <Grid item md={6}>
             <SelectInput
@@ -690,27 +629,33 @@ export const FactureSaisieCreate = (props) => {
             {/* {loading && <Typography>Loading...</Typography>} */}
           </Grid>
           <Grid item md={6}>
-            <AutocompleteInput
-              label="fournisseur"
-              validate={required("choisir le fournisseur")}
-              sx={useInputStyleFilters}
-              slotProps={{ input: { autoComplete: "off" } }}
+            <ReferenceInput
               source="idfournisseur"
-              choices={fournisseur_choices}
-              onChange={async (e) => {
-                if (e) {
-                  setIdf(e);
-                  const foundItem = fournisseur.find((item) => item.id === e);
-                  setFourRasIR(foundItem || null);
-                  setFormData({ ...formData, idfournisseur: e });
-                  await getAvancePayénonRestituer(e);
-                  await getFournisseurEcheance(e);
-
-                  // document.querySelector("input[name='dateecheance']").value =
-                  //   "";
+              reference="getAllFournissuersClean"
+              perPage={50}
+              sort={{ field: "nom", order: "ASC" }}
+            >
+              <AutocompleteInput
+                label="fournisseur"
+                validate={required("choisir le fournisseur")}
+                sx={useInputStyleFilters}
+                slotProps={{ input: { autoComplete: "off" } }}
+                filterToQuery={(searchText) => ({ q: searchText })}
+                matchSuggestion={() => true}
+                optionText={(record) =>
+                  record?.id ? `${record.nom} | ${record.CodeFournisseur} ` : ""
                 }
-              }}
-            />
+                onChange={async (value, record) => {
+                  if (value) {
+                    setIdf(value);
+                    setFourRasIR(record || null);
+                    setFormData({ ...formData, idfournisseur: value });
+                    await getAvancePayénonRestituer(value);
+                    await getFournisseurEcheance(value);
+                  }
+                }}
+              />
+            </ReferenceInput>
           </Grid>
           <Grid item md={6}>
             <SelectInput
@@ -746,13 +691,23 @@ export const FactureSaisieCreate = (props) => {
             />
           </Grid>
           <Grid item md={6}>
-            <AutocompleteInput
-              label="chantier"
-              sx={useInputStyleFilters}
-              slotProps={{ input: { autoComplete: "off" } }}
+            <ReferenceInput
               source="codechantier"
-              choices={chantier_choices}
-            />
+              reference="chantier"
+              perPage={50}
+              sort={{ field: "LIBELLE", order: "ASC" }}
+            >
+              <AutocompleteInput
+                label="chantier"
+                sx={useInputStyleFilters}
+                slotProps={{ input: { autoComplete: "off" } }}
+                filterToQuery={(searchText) => ({ q: searchText })}
+                matchSuggestion={() => true}
+                optionText={(record) =>
+                  record?.id ? `${record.LIBELLE} | ${record.id}` : ""
+                }
+              />
+            </ReferenceInput>
           </Grid>
           <Grid item md={6}>
             <>

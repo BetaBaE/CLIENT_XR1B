@@ -3,6 +3,7 @@ import {
   BooleanInput,
   DateInput,
   Edit,
+  ReferenceInput,
   required,
   SaveButton,
   SelectInput,
@@ -15,9 +16,6 @@ import {
 } from "react-admin";
 import { Grid } from "@mui/material";
 import { useFormContext } from "react-hook-form";
-import useFetchChantier from "../global/chantier";
-import apiUrl from "../../config";
-import useFetchDesignation from "../global/designation";
 import Swal from "sweetalert2";
 import { usePermissions } from "react-admin";
 import { useInputStyleFilters } from "../global/DarkInputStyle";
@@ -109,30 +107,11 @@ export const FactureSaisieEdit = () => {
   // Récupération de l'identité de l'utilisateur actuel
   const { isLoading, error } = useGetIdentity();
   const { identity, isLoading: identityLoading } = useGetIdentity();
-  const { chantier, loading, Error } = useFetchChantier(apiUrl);
-  const { designation, loadingDesignation, ErrorDesignation } =
-    useFetchDesignation(apiUrl);
 
   // Gestion des cas de chargement et d'erreur de récupération d'identité
   if (isLoading) return <>Chargement...</>;
-  if (loading) return <>Chargement...</>;
-  if (loadingDesignation) return <>Chargement...</>;
   if (identityLoading) return <>Chargement...</>;
   if (error) return <>Erreur</>;
-  if (ErrorDesignation) return <>Erreur</>;
-  if (Error) return <>Erreur</>;
-
-  let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
-    id: id,
-    name: `${LIBELLE} | ${id} `,
-  }));
-
-  let designation_choices = designation.map(
-    ({ id, designation, codeDesignation }) => ({
-      id: id,
-      name: `${codeDesignation}||${designation}`,
-    })
-  );
 
   return (
     <Edit>
@@ -230,16 +209,27 @@ export const FactureSaisieEdit = () => {
                 />
               </Grid>
               <Grid item xs={4}>
-                <AutocompleteInput
-                  validate={required("Ce champ est obligatoire")}
-                  // disabled={fournisseurIdField}
-                  sx={useInputStyleFilters}
-                  slotProps={{ input: { autoComplete: "off" } }}
+                <ReferenceInput
                   source="designation"
-                  choices={designation_choices}
-                  disabled={ControlEdit(record)}
-                  label="Designation"
-                />
+                  reference="designation"
+                  perPage={50}
+                  sort={{ field: "id", order: "ASC" }}
+                >
+                  <AutocompleteInput
+                    validate={required("Ce champ est obligatoire")}
+                    sx={useInputStyleFilters}
+                    slotProps={{ input: { autoComplete: "off" } }}
+                    disabled={ControlEdit(record)}
+                    label="Designation"
+                    filterToQuery={(searchText) => ({ q: searchText })}
+                    matchSuggestion={() => true}
+                    optionText={(record) =>
+                      record?.id
+                        ? `${record.codeDesignation}||${record.designation}`
+                        : ""
+                    }
+                  />
+                </ReferenceInput>
               </Grid>
               <Grid item xs={4}>
                 <SelectInput
@@ -266,13 +256,23 @@ export const FactureSaisieEdit = () => {
                 />
               </Grid>
               <Grid item xs={4}>
-                <AutocompleteInput
-                  label="chantier"
-                  sx={useInputStyleFilters}
-                  slotProps={{ input: { autoComplete: "off" } }}
+                <ReferenceInput
                   source="codeChantier"
-                  choices={chantier_choices}
-                />
+                  reference="chantier"
+                  perPage={50}
+                  sort={{ field: "LIBELLE", order: "ASC" }}
+                >
+                  <AutocompleteInput
+                    label="chantier"
+                    sx={useInputStyleFilters}
+                    slotProps={{ input: { autoComplete: "off" } }}
+                    filterToQuery={(searchText) => ({ q: searchText })}
+                    matchSuggestion={() => true}
+                    optionText={(record) =>
+                      record?.id ? `${record.LIBELLE} | ${record.id} ` : ""
+                    }
+                  />
+                </ReferenceInput>
               </Grid>
               <Grid item xs={4}>
                 <DateInput

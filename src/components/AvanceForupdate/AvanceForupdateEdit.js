@@ -14,6 +14,7 @@ import {
   useGetIdentity,
   useRedirect,
   AutocompleteInput,
+  ReferenceInput,
   DateInput,
 } from "react-admin";
 import { useTheme } from "@mui/material/styles";
@@ -24,7 +25,6 @@ import { Grid } from "@mui/material";
 export const AvanceForupdateEdit = (props) => {
   const theme = useTheme();
   // const { identity, isLoading: identityLoading } = useGetIdentity();
-  const [designation, setDesignation] = useState([]);
   const [ttc, setTTC] = useState(0);
 
   const [tvainput, setTVAinput] = useState("");
@@ -78,20 +78,6 @@ export const AvanceForupdateEdit = (props) => {
   //   return new Date(string).toLocaleDateString([], options);
   // }
   useEffect(() => {
-    dataProvider1
-      .getList("designation", {
-        pagination: { page: 1, perPage: 3000 },
-        sort: { field: "id", order: "ASC" },
-      })
-
-      .then(({ data }) => {
-        setDesignation(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [dataProvider1]);
-  useEffect(() => {
     dataProvider
       .getList("fournisseurs", {
         pagination: { page: 1, perPage: 4000 },
@@ -110,14 +96,6 @@ export const AvanceForupdateEdit = (props) => {
   //     .then((response) => response.json())
   //     .then((json) => setFacture(json));
   // };
-
-  let designation_choices = designation.map(
-    ({ id, designation, codeDesignation, PourcentageTVA }) => ({
-      id: id,
-      name: `${codeDesignation}||${designation}`,
-      percent: PourcentageTVA,
-    })
-  );
 
   useEffect(() => {
     dataProvider1
@@ -231,33 +209,42 @@ export const AvanceForupdateEdit = (props) => {
             />
           </Grid>
           <Grid item md={6}>
-            <AutocompleteInput
-              label="designation"
-              validate={required("selectionnez la designation")}
-              sx={{
-                width: 650,
-                input: {
-                  backgroundColor:
-                    theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-                  color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-                  borderRadius: "4px",
-                },
-              }}
-              slotProps={{
-  input: { autoComplete: "off" }
-}}
+            <ReferenceInput
               source="idDesignation"
-              choices={designation_choices}
-              onChange={(e) => {
-                // console.log(e);
-                let prc = designation_choices.find((item) => item.id === e);
-                console.log(prc.percent);
-                setPrctTVA(prc.percent);
-                setHT(ttc / prc.percent);
-                let newht = ttc / prc.percent;
-                setTVAinput(ttc - newht);
-              }}
-            />
+              reference="designation"
+              perPage={50}
+              sort={{ field: "id", order: "ASC" }}
+            >
+              <AutocompleteInput
+                label="designation"
+                validate={required("selectionnez la designation")}
+                sx={{
+                  width: 650,
+                  input: {
+                    backgroundColor:
+                      theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                    color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                    borderRadius: "4px",
+                  },
+                }}
+                slotProps={{ input: { autoComplete: "off" } }}
+                filterToQuery={(searchText) => ({ q: searchText })}
+                matchSuggestion={() => true}
+                optionText={(record) =>
+                  record?.id
+                    ? `${record.codeDesignation}||${record.designation}`
+                    : ""
+                }
+                onChange={(value, record) => {
+                  if (record?.PourcentageTVA) {
+                    const percent = record.PourcentageTVA;
+                    setPrctTVA(percent);
+                    setHT(ttc / percent);
+                    setTVAinput(ttc - ttc / percent);
+                  }
+                }}
+              />
+            </ReferenceInput>
           </Grid>
 
           <Grid item md={6}>

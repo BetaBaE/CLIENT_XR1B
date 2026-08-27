@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React from "react";
 import {
   AutocompleteInput,
   Create,
@@ -9,33 +8,13 @@ import {
   SelectInput,
   SimpleForm,
   TextInput,
-  useDataProvider,
+  ReferenceInput,
   useGetIdentity,
 } from "react-admin";
 
 const EcheanceLoiCreate = (props) => {
   const { identity, isLoading: identityLoading } = useGetIdentity();
 
-  const [fournisseur, setFournisseur] = useState([]);
-  const dataProvider = useDataProvider();
-  useEffect(() => {
-    dataProvider
-      .getList("fournisseurs", {
-        pagination: { page: 1, perPage: 10000 },
-        sort: { field: "id", order: "ASC" },
-      })
-
-      .then(({ data }) => {
-        setFournisseur(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [dataProvider]);
-  let fournisseur_choices = fournisseur.map(({ id, nom, CodeFournisseur }) => ({
-    id: id,
-    name: `${nom} | ${CodeFournisseur} `,
-  }));
   const { isLoading, error } = useGetIdentity();
   if (isLoading) return <>Loading</>;
   if (error) return <>Error</>;
@@ -55,13 +34,23 @@ const EcheanceLoiCreate = (props) => {
           }}
           source="Redacteur"
         ></TextInput>
-        <AutocompleteInput
-          label="fournisseur"
-          validate={required("choisir le fournisseur")}
-          sx={{ width: 650 }}
+        <ReferenceInput
           source="idfournisseur"
-          choices={fournisseur_choices}
-        />
+          reference="fournisseurs"
+          perPage={50}
+          sort={{ field: "nom", order: "ASC" }}
+        >
+          <AutocompleteInput
+            label="fournisseur"
+            validate={required("choisir le fournisseur")}
+            sx={{ width: 650 }}
+            filterToQuery={(searchText) => ({ q: searchText })}
+            matchSuggestion={() => true}
+            optionText={(record) =>
+              record?.id ? `${record.nom} | ${record.CodeFournisseur} ` : ""
+            }
+          />
+        </ReferenceInput>
         <DateInput
           source="dateecheance"
           label="date debut convention"

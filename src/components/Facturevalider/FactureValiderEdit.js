@@ -1,48 +1,22 @@
 import {
   AutocompleteInput,
   Edit,
+  ReferenceInput,
   regex,
   SelectInput,
   SimpleForm,
   TextInput,
-  useDataProvider,
   useGetIdentity,
 } from "react-admin";
 
-import { useEffect, useState } from "react";
-
 export const FactureValiderEdit = () => {
-  const [chantier, setChantier] = useState([]);
-
   const { identity, isLoading: identityLoading } = useGetIdentity();
-  const dataProvider = useDataProvider();
-
-  // Récupération des chantiers lors du montage du composant
-  useEffect(() => {
-    dataProvider
-      .getList("chantier", {
-        pagination: { page: 1, perPage: 3000 },
-        sort: { field: "LIBELLE", order: "ASC" },
-      })
-      .then(({ data }) => {
-        setChantier(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [dataProvider]);
 
   // Validation du bon de commande avec une expression régulière
   const validateBc = regex(
     /^CF[0-9]{3}[0-9]{3}$/,
     "Ce bon de commande n'est pas valide"
   );
-
-  // Transformation des chantiers pour le dropdown
-  const chantierChoices = chantier.map(({ id, LIBELLE }) => ({
-    id: id,
-    name: `${LIBELLE} | ${id}`,
-  }));
 
   return (
     <Edit>
@@ -67,12 +41,22 @@ export const FactureValiderEdit = () => {
           label="Bon de Commande"
           validate={validateBc} // Ajout de la validation ici
         />
-        <AutocompleteInput
-          label="Chantier"
+        <ReferenceInput
           source="codechantier"
-          choices={chantierChoices}
-          sx={{ width: 650 }}
-        />
+          reference="chantier"
+          perPage={50}
+          sort={{ field: "LIBELLE", order: "ASC" }}
+        >
+          <AutocompleteInput
+            label="Chantier"
+            sx={{ width: 650 }}
+            filterToQuery={(searchText) => ({ q: searchText })}
+            matchSuggestion={() => true}
+            optionText={(record) =>
+              record?.id ? `${record.LIBELLE} | ${record.id}` : ""
+            }
+          />
+        </ReferenceInput>
         <SelectInput
           sx={{ width: 650 }}
           source="CatFn"

@@ -1,13 +1,12 @@
 // Importation des modules et composants nécessaires depuis react et react-admin
-import { useState, useEffect } from "react";
 import {
   AutocompleteInput,
   Create,
   DateInput,
+  ReferenceInput,
   required,
   SimpleForm,
   TextInput,
-  useDataProvider,
   useGetIdentity,
 } from "react-admin";
 import { useInputStyleFilters } from "../global/DarkInputStyle";
@@ -37,33 +36,6 @@ const AttestationFournisseurCreate = (props) => {
   };
   // Récupération de l'identité de l'utilisateur courant
   const { identity } = useGetIdentity();
-  // Application des styles personnalisés
-
-  // Déclaration de l'état local pour les fournisseurs
-  const [fournisseur, setFournisseur] = useState([]);
-  // Récupération du dataProvider pour effectuer des requêtes
-  const dataProvider = useDataProvider();
-
-  // Utilisation de useEffect pour charger la liste des fournisseurs au montage du composant
-  useEffect(() => {
-    dataProvider
-      .getList("fournisseurs", {
-        pagination: { page: 1, perPage: 10000 },
-        sort: { field: "id", order: "ASC" },
-      })
-      .then(({ data }) => {
-        setFournisseur(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [dataProvider]);
-
-  // Transformation des données des fournisseurs pour l'AutocompleteInput
-  let fournisseur_choices = fournisseur.map(({ id, nom, CodeFournisseur }) => ({
-    id: id,
-    name: `${nom} | ${CodeFournisseur} `,
-  }));
 
   // Récupération de l'état de chargement et des erreurs pour l'identité de l'utilisateur
   const { isLoading, error } = useGetIdentity();
@@ -89,18 +61,28 @@ const AttestationFournisseurCreate = (props) => {
         />
 
         {/* Champ de saisie avec autocomplétion pour choisir un fournisseur */}
-        <AutocompleteInput
-          label="fournisseur"
-          validate={required("choisir le fournisseur")}
-          sx={useInputStyleFilters}
-          slotProps={{
-            input: {
-              autoComplete: "off",
-            },
-          }}
+        <ReferenceInput
           source="idfournisseur"
-          choices={fournisseur_choices}
-        />
+          reference="fournisseurs"
+          perPage={50}
+          sort={{ field: "nom", order: "ASC" }}
+        >
+          <AutocompleteInput
+            label="fournisseur"
+            validate={required("choisir le fournisseur")}
+            sx={useInputStyleFilters}
+            slotProps={{
+              input: {
+                autoComplete: "off",
+              },
+            }}
+            filterToQuery={(searchText) => ({ q: searchText })}
+            matchSuggestion={() => true}
+            optionText={(record) =>
+              record?.id ? `${record.nom} | ${record.CodeFournisseur} ` : ""
+            }
+          />
+        </ReferenceInput>
 
         {/* Champ de saisie de date pour la date de début de la convention */}
         <DateInput

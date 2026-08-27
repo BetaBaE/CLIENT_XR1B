@@ -4,11 +4,11 @@ import {
   AutocompleteInput,
   Create,
   DateInput,
+  ReferenceInput,
   required,
   SelectInput,
   SimpleForm,
   TextInput,
-  useDataProvider,
   useGetIdentity,
   useRedirect,
 } from "react-admin";
@@ -23,11 +23,9 @@ import apiUrl from "../../config";
 export const ChequeCreate = (props) => {
   const redirect = useRedirect();
   const { identity, isLoading: identityLoading, error } = useGetIdentity();
-  const dataProvider = useDataProvider();
   const theme = useTheme();
   // États pour gérer les données du formulaire
   const [orderVirement, setOrderVirement] = useState([]);
-  const [fournisseur, setFournisseur] = useState([]);
   const [facture, setFacture] = useState([]);
   const [sum, setSum] = useState("0.000");
   const [sumfacturewithfn, setSumfacturewithfn] = useState([]);
@@ -135,21 +133,6 @@ export const ChequeCreate = (props) => {
       });
   };
 
-  // Fetch tous les fournisseurs propres
-  useEffect(() => {
-    dataProvider
-      .getList("getAllFournissuersClean", {
-        pagination: { page: 1, perPage: 4000 },
-        sort: { field: "nom", order: "ASC" },
-      })
-      .then(({ data }) => {
-        setFournisseur(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [dataProvider]);
-
   // Fetch les factures par Fournisseur ID
   const getFactureByFourniseur = (id) => {
     fetch(`${apiUrl}/getfacturebyfournisseurid/${id}`)
@@ -158,13 +141,6 @@ export const ChequeCreate = (props) => {
   };
 
   // Préparation des choix pour les champs d'autocomplétion
-  const fournisseurs_choices = fournisseur.map(
-    ({ id, nom, CodeFournisseur, catFournisseur }) => ({
-      id: id,
-      name: `${nom} ${CodeFournisseur} ,${catFournisseur}`,
-      categorie: catFournisseur,
-    })
-  );
   let facture_choices = facture.map(
     ({
       id,
@@ -325,44 +301,49 @@ export const ChequeCreate = (props) => {
             },
           }}
         />
-        <AutocompleteInput
-          label="Fournisseur"
-          validate={required("Le fournisseur est obligatoire")}
-          sx={{
-            width: 650,
-            input: {
-              backgroundColor:
-                theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
-              color: theme.palette.mode === "dark" ? "#fff" : "inherit",
-              borderRadius: "4px",
-            },
-          }}
+        <ReferenceInput
           source="fournisseurId"
-          choices={fournisseurs_choices}
-          onChange={(e) => {
-            if (!e) {
-              setFournisseurIdField(true);
-              setSelectedSupplierFournisseurCategory("");
-            } else {
-              const selectedFournisseur = fournisseurs_choices.find(
-                (f) => f.id === e
-              );
-              getRestitByFourniseurId(e);
-              setFournisseurIdField(false);
-              getFactureByFourniseur(e);
-              getsumfacturewithfnByFourniseurId(e);
-              getsumfacturewithoutByFourniseurId(e);
-              getsumavanceByFourniseurId(e);
-              setSelectedSupplierFournisseurCategory(
-                selectedFournisseur?.categorie || ""
-              );
-              console.log(
-                "selectedFournisseur.catFournisseur",
-                selectedFournisseur
-              );
+          reference="getAllFournissuersClean"
+          perPage={50}
+          sort={{ field: "nom", order: "ASC" }}
+        >
+          <AutocompleteInput
+            label="Fournisseur"
+            validate={required("Le fournisseur est obligatoire")}
+            sx={{
+              width: 650,
+              input: {
+                backgroundColor:
+                  theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                color: theme.palette.mode === "dark" ? "#fff" : "inherit",
+                borderRadius: "4px",
+              },
+            }}
+            filterToQuery={(searchText) => ({ q: searchText })}
+            matchSuggestion={() => true}
+            optionText={(record) =>
+              record?.id
+                ? `${record.nom} ${record.CodeFournisseur} ,${record.catFournisseur}`
+                : ""
             }
-          }}
-        />
+            onChange={(value, record) => {
+              if (!value) {
+                setFournisseurIdField(true);
+                setSelectedSupplierFournisseurCategory("");
+              } else {
+                getRestitByFourniseurId(value);
+                setFournisseurIdField(false);
+                getFactureByFourniseur(value);
+                getsumfacturewithfnByFourniseurId(value);
+                getsumfacturewithoutByFourniseurId(value);
+                getsumavanceByFourniseurId(value);
+                setSelectedSupplierFournisseurCategory(
+                  record?.catFournisseur || ""
+                );
+              }
+            }}
+          />
+        </ReferenceInput>
         {sumfacturewithfn.length > 0 && (
           <div>
             La somme des montants des factures qui ont FN par fournisseur est de

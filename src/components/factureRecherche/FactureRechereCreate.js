@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   AutocompleteInput,
   Create,
+  ReferenceInput,
   required,
   SelectInput,
   regex,
   SimpleForm,
   TextInput,
-  useDataProvider,
   useGetIdentity,
   ArrayInput,
   SimpleFormIterator,
@@ -23,8 +23,6 @@ const formatDate = (string) => {
 
 export const FactureRechereCreate = (props) => {
   const [factureSelected, setFactureSelected] = useState(null); // Change to null
-  const dataProvider = useDataProvider();
-  const [fournisseur, setFournisseur] = useState([]);
   const [facture, setFacture] = useState([]);
   const [chantier, setChantier] = useState([]);
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
@@ -35,21 +33,6 @@ export const FactureRechereCreate = (props) => {
     useState("");
   const [selectedSupplierCategory, setSelectedSupplierCategory] = useState(""); // State for supplier category
   const { identity, isLoading: identityLoading } = useGetIdentity();
-
-  useEffect(() => {
-    const fetchFournisseurs = async () => {
-      try {
-        const response = await dataProvider.getList("fournisseurs", {
-          pagination: { page: 1, perPage: 3000 },
-          sort: { field: "nom", order: "ASC" },
-        });
-        setFournisseur(response.data);
-      } catch (error) {
-        console.error(error); // Use console.error for errors
-      }
-    };
-    fetchFournisseurs();
-  }, [dataProvider]);
 
   const fetchChantier = async () => {
     try {
@@ -85,14 +68,6 @@ export const FactureRechereCreate = (props) => {
         console.error(error); // Use console.error for errors
       });
   };
-
-  const fournisseurs_choices = fournisseur.map(
-    ({ id, nom, CodeFournisseur, catFournisseur }) => ({
-      id: id,
-      name: `${nom} | ${CodeFournisseur} `,
-      categorie: catFournisseur, // Add category to the choices
-    })
-  );
 
   const facture_choices = facture.map(
     ({ id, numeroFacture, TTC, DateFacture }) => ({
@@ -136,35 +111,38 @@ export const FactureRechereCreate = (props) => {
           source="fullName"
         />
 
-        <AutocompleteInput
-          label="Fournisseur"
-          validate={required("Le fournisseur est obligatoire")}
-          sx={{ width: 650 }}
+        <ReferenceInput
           source="idfournisseur"
-          choices={fournisseurs_choices}
-          onChange={(e) => {
-            if (!e) {
-              setFournisseurIdField(true);
-              setChantierIdField(false);
-              setFacture([]); // Clear facture when changing fournisseur
-              setFactureSelected(null); // Clear selected facture
-              setSelectedSupplierCategory(""); // Clear selected supplier category
-            } else {
-              const selectedFournisseur = fournisseurs_choices.find(
-                (f) => f.id === e
-              );
-              setFournisseurIdField(false);
-              setChantierIdField(true);
-              fetchFactureByFournisseur(e);
-              fetchChantier();
-              setSelectedSupplierCategory(selectedFournisseur.categorie); // Set selected supplier category
-              console.log(
-                "selectedFournisseur.catFournisseur",
-                selectedFournisseur
-              );
+          reference="fournisseurs"
+          perPage={50}
+          sort={{ field: "nom", order: "ASC" }}
+        >
+          <AutocompleteInput
+            label="Fournisseur"
+            validate={required("Le fournisseur est obligatoire")}
+            sx={{ width: 650 }}
+            filterToQuery={(searchText) => ({ q: searchText })}
+            matchSuggestion={() => true}
+            optionText={(record) =>
+              record?.id ? `${record.nom} | ${record.CodeFournisseur} ` : ""
             }
-          }}
-        />
+            onChange={(value, record) => {
+              if (!value) {
+                setFournisseurIdField(true);
+                setChantierIdField(false);
+                setFacture([]); // Clear facture when changing fournisseur
+                setFactureSelected(null); // Clear selected facture
+                setSelectedSupplierCategory(""); // Clear selected supplier category
+              } else {
+                setFournisseurIdField(false);
+                setChantierIdField(true);
+                fetchFactureByFournisseur(value);
+                fetchChantier();
+                setSelectedSupplierCategory(record?.catFournisseur || ""); // Set selected supplier category
+              }
+            }}
+          />
+        </ReferenceInput>
         <SelectInput
           disabled={fournisseurIdField}
           sx={{ width: 650 }}

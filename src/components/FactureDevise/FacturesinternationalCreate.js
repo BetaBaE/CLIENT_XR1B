@@ -4,63 +4,22 @@ import {
   Create,
   DateInput,
   NumberInput,
+  ReferenceInput,
   required,
   SelectInput,
   SimpleForm,
   TextInput,
-  useDataProvider,
   useGetIdentity,
 } from "react-admin";
 import { useInputStyleFilters } from "../global/DarkInputStyle";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import apiUrl from "../../config";
 
 export const FacturesinternationalCreate = () => {
   const { identity, isLoading, error } = useGetIdentity();
-  const dataProvider = useDataProvider();
-  const [chantier, setChantier] = useState([]);
-  const [dossierOuvert, setDossierOuvert] = useState([]);
   const requiredField = required("Ce champ est obligatoire");
   const [fournisseur, setFournisseur] = useState([]);
   const [loadingFournisseur, setLoadingFournisseur] = useState(false);
-
-  useEffect(() => {
-    // Fetch chantiers
-    dataProvider
-      .getList("chantier", {
-        pagination: { page: 1, perPage: 3000 },
-        sort: { field: "LIBELLE", order: "ASC" },
-      })
-      .then(({ data }) => {
-        setChantier(data);
-      })
-      .catch((error) => {
-        console.error("Error loading chantiers:", error);
-      });
-
-    // Fetch open dossiers
-    dataProvider
-      .getList("dossier", {
-        filter: { Etat: "Ouvert" }, // ✅ use "filter"
-        pagination: { page: 1, perPage: 3000 },
-        sort: { field: "id", order: "DESC" },
-      })
-      .then(({ data }) => {
-        setDossierOuvert(data);
-      })
-      .catch((error) => {
-        console.error("Error loading dossiers:", error);
-      });
-  }, [dataProvider]);
-  let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
-    id: id,
-    name: `${LIBELLE} | ${id} `,
-  }));
-
-  let dossier_choices = dossierOuvert.map(({ id, NumDossier, Etat }) => ({
-    id: id,
-    name: `${NumDossier} | ${Etat} `,
-  }));
 
   const fetchFournisseur = async (id) => {
     setLoadingFournisseur(true);
@@ -103,21 +62,32 @@ export const FacturesinternationalCreate = () => {
             />
           </Grid>
           <Grid item md={4}>
-            <SelectInput
+            <ReferenceInput
               source="idDossier"
-              label="N° Dossier"
-              choices={dossier_choices}
-              validate={requiredField}
-              slotProps={{
-                input: {
-                  autoComplete: "off",
-                },
-              }}
-              onChange={(e) => {
-                fetchFournisseur(e.target.value);
-              }}
-              sx={useInputStyleFilters}
-            />
+              reference="dossier"
+              filter={{ Etat: "Ouvert" }}
+              perPage={50}
+              sort={{ field: "id", order: "DESC" }}
+            >
+              <AutocompleteInput
+                label="N° Dossier"
+                validate={requiredField}
+                slotProps={{
+                  input: {
+                    autoComplete: "off",
+                  },
+                }}
+                filterToQuery={(searchText) => ({ q: searchText })}
+                matchSuggestion={() => true}
+                optionText={(record) =>
+                  record?.id ? `${record.NumDossier} | ${record.Etat} ` : ""
+                }
+                onChange={(value) => {
+                  fetchFournisseur(value);
+                }}
+                sx={useInputStyleFilters}
+              />
+            </ReferenceInput>
           </Grid>
           <Grid item md={4}>
             <SelectInput
@@ -266,18 +236,28 @@ export const FacturesinternationalCreate = () => {
           </Grid>
 
           <Grid item md={4}>
-            <AutocompleteInput
-              validate={requiredField}
-              label="Chantier"
+            <ReferenceInput
               source="codeChantier"
-              choices={chantier_choices}
-              slotProps={{
-                input: {
-                  autoComplete: "off",
-                },
-              }}
-              sx={useInputStyleFilters}
-            />
+              reference="chantier"
+              perPage={50}
+              sort={{ field: "LIBELLE", order: "ASC" }}
+            >
+              <AutocompleteInput
+                validate={requiredField}
+                label="Chantier"
+                filterToQuery={(searchText) => ({ q: searchText })}
+                matchSuggestion={() => true}
+                optionText={(record) =>
+                  record?.id ? `${record.LIBELLE} | ${record.id}` : ""
+                }
+                slotProps={{
+                  input: {
+                    autoComplete: "off",
+                  },
+                }}
+                sx={useInputStyleFilters}
+              />
+            </ReferenceInput>
           </Grid>
         </Grid>
       </SimpleForm>

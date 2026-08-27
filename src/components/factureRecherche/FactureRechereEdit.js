@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   AutocompleteInput,
   Edit,
+  ReferenceInput,
   required,
   SelectInput,
   SimpleForm,
@@ -9,7 +10,6 @@ import {
   FormDataConsumer,
   Toolbar,
   SaveButton,
-  useDataProvider,
   useRedirect,
   useGetIdentity,
 } from "react-admin";
@@ -24,12 +24,8 @@ export const FactureRechereEdit = (props) => {
     </Toolbar>
   );
 
-  const dataProvider1 = useDataProvider();
-  const [fournisseur, setFournisseur] = useState([]);
   const [facture, setFacture] = useState([{ id: "", BonCommande: "" }]);
-  const dataProvider = useDataProvider();
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
-  const [chantier, setChantier] = useState([]);
   const { identity, isLoading: identityLoading } = useGetIdentity();
 
   const redirect = useRedirect();
@@ -66,20 +62,6 @@ export const FactureRechereEdit = (props) => {
     return new Date(string).toLocaleDateString([], options);
   };
 
-  useEffect(() => {
-    dataProvider
-      .getList("fournisseurs", {
-        pagination: { page: 1, perPage: 4000 },
-        sort: { field: "nom", order: "ASC" },
-      })
-      .then(({ data }) => {
-        setFournisseur(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [dataProvider]);
-
   const getFactureByFournisseur = (id) => {
     let url = `${apiUrl}/facturebyfournisseur/` + id;
     fetch(url)
@@ -88,34 +70,9 @@ export const FactureRechereEdit = (props) => {
   };
 
   let facture_choices = { id: "", BonCommande: "" };
-  let fournisseurs_choices = fournisseur.map(
-    ({ id, nom, CodeFournisseur }) => ({
-      id: id,
-      name: `${nom} | ${CodeFournisseur} `,
-    })
-  );
   facture_choices = facture.map(({ id, numeroFacture, TTC, DateFacture }) => ({
     id: id,
     name: `${numeroFacture} | ${TTC} DH | ${formatDate(DateFacture)}`,
-  }));
-
-  useEffect(() => {
-    dataProvider1
-      .getList("chantier", {
-        pagination: { page: 1, perPage: 3000 },
-        sort: { field: "LIBELLE", order: "ASC" },
-      })
-      .then(({ data }) => {
-        setChantier(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [dataProvider1]);
-
-  let chantier_choices = chantier.map(({ id, LIBELLE }) => ({
-    id: id,
-    name: `${LIBELLE} | ${id} `,
   }));
 
   const { isLoading, error } = useGetIdentity();
@@ -138,28 +95,48 @@ export const FactureRechereEdit = (props) => {
           source="Validateur"
         ></TextInput>
 
-        <AutocompleteInput
-          label="chantier"
-          validate={required("Le fournisseur est obligatoire")}
-          sx={{ width: 650 }}
+        <ReferenceInput
           source="codechantier"
-          choices={chantier_choices}
-        />
-        <AutocompleteInput
-          label="Fournisseur"
-          validate={required("Le fournisseur est obligatoire")}
-          sx={{ width: 650 }}
-          source="idfournisseur"
-          choices={fournisseurs_choices}
-          onChange={(e) => {
-            if (!e) {
-              setFournisseurIdField(true);
-            } else {
-              setFournisseurIdField(false);
-              getFactureByFournisseur(e);
+          reference="chantier"
+          perPage={50}
+          sort={{ field: "LIBELLE", order: "ASC" }}
+        >
+          <AutocompleteInput
+            label="chantier"
+            validate={required("Le chantier est obligatoire")}
+            sx={{ width: 650 }}
+            filterToQuery={(searchText) => ({ q: searchText })}
+            matchSuggestion={() => true}
+            optionText={(record) =>
+              record?.id ? `${record.LIBELLE} | ${record.id}` : ""
             }
-          }}
-        />
+          />
+        </ReferenceInput>
+        <ReferenceInput
+          source="idfournisseur"
+          reference="fournisseurs"
+          perPage={50}
+          sort={{ field: "nom", order: "ASC" }}
+        >
+          <AutocompleteInput
+            label="Fournisseur"
+            validate={required("Le fournisseur est obligatoire")}
+            sx={{ width: 650 }}
+            filterToQuery={(searchText) => ({ q: searchText })}
+            matchSuggestion={() => true}
+            optionText={(record) =>
+              record?.id ? `${record.nom} | ${record.CodeFournisseur} ` : ""
+            }
+            onChange={(value) => {
+              if (!value) {
+                setFournisseurIdField(true);
+              } else {
+                setFournisseurIdField(false);
+                getFactureByFournisseur(value);
+              }
+            }}
+          />
+        </ReferenceInput>
         <SelectInput
           disabled={fournisseurIdField}
           sx={{ width: 650 }}

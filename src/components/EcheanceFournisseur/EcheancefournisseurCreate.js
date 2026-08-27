@@ -1,48 +1,36 @@
-import { useEffect, useState } from "react";
 import {
   AutocompleteInput,
   Create,
   NumberInput,
+  ReferenceInput,
   required,
   SimpleForm,
-  useDataProvider,
 } from "react-admin";
 import { useInputStyleFilters } from "../global/DarkInputStyle";
 export const EcheancefournisseurCreate = () => {
-  const dataProvider = useDataProvider();
-  const [fournisseur, setFournisseur] = useState([]);
-  useEffect(() => {
-    dataProvider
-      .getList("getAllFournissuersClean", {
-        pagination: { page: 1, perPage: 10000 },
-        sort: { field: "id", order: "ASC" },
-      })
-
-      .then(({ data }) => {
-        setFournisseur(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [dataProvider]);
-
-  let fournisseur_choices = fournisseur.map(({ id, nom, CodeFournisseur }) => ({
-    id: id,
-    name: `${nom} | ${CodeFournisseur} `,
-  }));
   return (
     <Create title="Créer une échéance fournisseur">
       <SimpleForm>
-        <AutocompleteInput
-          label="fournisseur"
-          validate={required("choisir le fournisseur")}
-          sx={useInputStyleFilters}
-          slotProps={{
-            input: { autoComplete: "off" },
-          }}
+        <ReferenceInput
           source="idFournisseur"
-          choices={fournisseur_choices}
-        />
+          reference="getAllFournissuersClean"
+          perPage={50}
+          sort={{ field: "nom", order: "ASC" }}
+        >
+          <AutocompleteInput
+            label="fournisseur"
+            validate={required("choisir le fournisseur")}
+            sx={useInputStyleFilters}
+            slotProps={{
+              input: { autoComplete: "off" },
+            }}
+            filterToQuery={(searchText) => ({ q: searchText })}
+            matchSuggestion={() => true}
+            optionText={(record) =>
+              record?.id ? `${record.nom} | ${record.CodeFournisseur} ` : ""
+            }
+          />
+        </ReferenceInput>
         {/* <NumberInput source="idFournisseur" label="Fournisseur" /> */}
         <NumberInput
           sx={useInputStyleFilters}

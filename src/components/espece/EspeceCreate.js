@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   AutocompleteArrayInput,
   AutocompleteInput,
   Create,
+  ReferenceInput,
   required,
   SimpleForm,
   TextInput,
   useRedirect,
-  useDataProvider,
   useGetIdentity,
 } from "react-admin";
 
@@ -18,9 +18,7 @@ import { useInputStyleFilters } from "../global/DarkInputStyle";
 export const EspeceCreate = (props) => {
   const redirect = useRedirect();
   const { identity, isLoading, error } = useGetIdentity(); // Single call
-  const [fournisseur, setFournisseur] = useState([]);
   const [facture, setFacture] = useState([{ id: "", BonCommande: "" }]);
-  const dataProvider = useDataProvider();
   const [fournisseurIdField, setFournisseurIdField] = useState(true);
   const [sum, setSum] = useState("0.000");
   const [sumfacturewithfn, setSumfacturewithfn] = useState([]);
@@ -42,17 +40,6 @@ export const EspeceCreate = (props) => {
   const sumfacturenotfnValue =
     sumfacturewithoutfn.length > 0 ? sumfacturewithoutfn[0].sum : "";
 
-  // Récupérer les fournisseurs au montage du composant
-  useEffect(() => {
-    dataProvider
-      .getList("getAllFournissuersClean", {
-        pagination: { page: 1, perPage: 4000 },
-        sort: { field: "nom", order: "ASC" },
-      })
-      .then(({ data }) => setFournisseur(data))
-      .catch((error) => console.log(error));
-  }, [dataProvider]);
-
   // Récupérer les factures par ID de fournisseur
   const getFactureByFourniseur = (id) => {
     fetch(`${apiUrl}/getfacturebyfournisseurid/${id}`)
@@ -60,15 +47,6 @@ export const EspeceCreate = (props) => {
       .then((json) => setFacture(json))
       .catch((error) => console.log(error));
   };
-
-  // Transformer les fournisseurs pour le dropdown
-  const fournisseurs_choices = fournisseur.map(
-    ({ id, nom, CodeFournisseur, catFournisseur }) => ({
-      id,
-      name: `${nom} ${CodeFournisseur} ,${catFournisseur}`,
-      categorie: catFournisseur,
-    })
-  );
 
   // Transformer les factures pour le dropdown
   let facture_choices = facture
@@ -198,32 +176,36 @@ export const EspeceCreate = (props) => {
           }}
           source="redacteur"
         />
-        <AutocompleteInput
-          label="Fournisseur"
-          validate={required("Le fournisseur est obligatoire")}
-          sx={useInputStyleFilters}
+        <ReferenceInput
           source="fournisseurId"
-          choices={fournisseurs_choices}
-          onChange={(e) => {
-            if (!e) {
-              setFournisseurIdField(true);
-              setSelectedSupplierFournisseurCategory("");
-            } else {
-              // const selectedFournisseur = fournisseurs_choices.find(
-              //   (f) => f.id === e
-              // );
-              setFournisseurIdField(false);
-              getFactureByFourniseur(e);
-              getsumfacturewithoutByFourniseurId(e);
-              getsumfacturewithfnByFourniseurId(e);
-
-              // getsumavanceByFourniseurId(e);
-              // setSelectedSupplierFournisseurCategory(
-              //   selectedFournisseur?.categorie || ""
-              // );
+          reference="getAllFournissuersClean"
+          perPage={50}
+          sort={{ field: "nom", order: "ASC" }}
+        >
+          <AutocompleteInput
+            label="Fournisseur"
+            validate={required("Le fournisseur est obligatoire")}
+            sx={useInputStyleFilters}
+            filterToQuery={(searchText) => ({ q: searchText })}
+            matchSuggestion={() => true}
+            optionText={(record) =>
+              record?.id
+                ? `${record.nom} ${record.CodeFournisseur} ,${record.catFournisseur}`
+                : ""
             }
-          }}
-        />
+            onChange={(value) => {
+              if (!value) {
+                setFournisseurIdField(true);
+                setSelectedSupplierFournisseurCategory("");
+              } else {
+                setFournisseurIdField(false);
+                getFactureByFourniseur(value);
+                getsumfacturewithoutByFourniseurId(value);
+                getsumfacturewithfnByFourniseurId(value);
+              }
+            }}
+          />
+        </ReferenceInput>
         {sumfactureValuefn && (
           <div>
             La somme des montants des factures avec FN est de :
