@@ -93,7 +93,7 @@ export const CustomMenu = (props) => {
             primaryText="Fournisseurs"
             leftIcon={<FaUserTie />}
           />
-          {!can(permissions, [Roles.ACHATEUR]) ? (
+          {!can(permissions, [Roles.ACHATEUR]) && (
             <>
               <Menu.Item
                 to="ribtempo"
@@ -110,15 +110,13 @@ export const CustomMenu = (props) => {
                 primaryText="Modalité Paiement"
                 leftIcon={<FaEquals />}
               />
-              <Menu.Item
-                to="Attestaion"
-                primaryText="Attestation Fiscalité"
-                leftIcon={<FaPaperPlane />}
-              />{" "}
             </>
-          ) : (
-            ""
           )}
+          <Menu.Item
+            to="Attestaion"
+            primaryText="Attestation Fiscalité"
+            leftIcon={<FaPaperPlane />}
+          />
         </SubMenu>
       )}
 

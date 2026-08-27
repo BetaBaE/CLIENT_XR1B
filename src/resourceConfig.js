@@ -246,7 +246,7 @@ export const resourceConfig = [
   },
   {
     name: "Attestaion",
-    viewRoles: RoleGroups.READ,
+    viewRoles: [...RoleGroups.READ, Roles.ACHATEUR],
     list: AttestationFournisseurList,
     create: AttestationFournisseurCreate,
     createRoles: [
