@@ -97,7 +97,7 @@ export const FactureRechereEdit = (props) => {
 
         <ReferenceInput
           source="codechantier"
-          reference="chantier"
+          reference="Chantier"
           perPage={50}
           sort={{ field: "LIBELLE", order: "ASC" }}
         >

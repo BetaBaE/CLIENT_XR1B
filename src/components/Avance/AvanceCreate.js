@@ -104,7 +104,7 @@ export const AvanceCreate = () => {
         {/* Sélecteur d'autocomplétion pour choisir un chantier */}
         <ReferenceInput
           source="codechantier"
-          reference="chantier"
+          reference="Chantier"
           perPage={50}
           sort={{ field: "LIBELLE", order: "ASC" }}
         >

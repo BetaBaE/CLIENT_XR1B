@@ -258,7 +258,7 @@ export const FactureSaisieEdit = () => {
               <Grid item xs={4}>
                 <ReferenceInput
                   source="codeChantier"
-                  reference="chantier"
+                  reference="Chantier"
                   perPage={50}
                   sort={{ field: "LIBELLE", order: "ASC" }}
                 >

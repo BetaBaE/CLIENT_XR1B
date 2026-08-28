@@ -238,7 +238,7 @@ export const FacturesinternationalCreate = () => {
           <Grid item md={4}>
             <ReferenceInput
               source="codeChantier"
-              reference="chantier"
+              reference="Chantier"
               perPage={50}
               sort={{ field: "LIBELLE", order: "ASC" }}
             >
