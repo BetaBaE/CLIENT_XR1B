@@ -43,7 +43,7 @@ export const FactureValiderEdit = () => {
         />
         <ReferenceInput
           source="codechantier"
-          reference="chantier"
+          reference="Chantier"
           perPage={50}
           sort={{ field: "LIBELLE", order: "ASC" }}
         >
