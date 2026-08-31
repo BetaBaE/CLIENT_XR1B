@@ -1,7 +1,7 @@
 import {
   Datagrid,
   DateField,
-  InfiniteList,
+  List,
   NumberField,
   TextField,
   useListContext,
@@ -21,12 +21,14 @@ export const RastvaList = () => {
       const exportFunction = createExporter(resource, fileName);
       return exportFunction(filterValues);
     };
-    return null; // invisible
+    return null;
   };
 
   return (
-    <InfiniteList
-      exporter={(data, fetchRelated, ctx) => activeExporter?.()}
+    <List
+      sort={{ field: "DateOperation", order: "DESC" }}
+      perPage={25}
+      exporter={() => activeExporter?.()}
       filters={<RasTvaFilter />}
     >
       <ExporterBridge />
@@ -45,6 +47,6 @@ export const RastvaList = () => {
         <TextField source="Pourcentage Ras" label="Pourcentage Ras" />
         <NumberField source="RaS" label="RaS" />
       </Datagrid>
-    </InfiniteList>
+    </List>
   );
 };
