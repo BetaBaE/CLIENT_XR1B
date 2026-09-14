@@ -7,6 +7,7 @@ import {
   Tooltip,
   BarChart,
   Bar,
+  Cell,
   Legend,
   ResponsiveContainer,
 } from "recharts";
@@ -103,7 +104,14 @@ const BarsSumFA = ({ nom }) => {
                 <Tooltip content={<CustomTooltip />} />
                 <Legend />
                 <CartesianGrid stroke="#eee" />
-                <Bar dataKey="NetApaye" fill="#0088FE" barSize={30} />
+                <Bar dataKey="NetApaye" fill="#0088FE" barSize={30}>
+                  {data.map((_, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={index === 1 ? "#E53935" : "#0088FE"}
+                    />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           );

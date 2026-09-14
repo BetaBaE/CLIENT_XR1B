@@ -10,10 +10,15 @@ import AvanceNoRestit from "./DataGrid/restitiBtFournisseur";
 import RibFournisseur from "./DataGrid/RibFournisseur";
 import DataFournisseur from "./DataGrid/dataFournisseur";
 import AttsFiscal from "./DataGrid/attsFiscal";
+import PaiementByMonth from "./DataGrid/PaiementByMonth";
+import DetailPaiementByMonth from "./DataGrid/DetailPaiementByMonth";
+import { formatNumber } from "../globalFunction";
 
 const StFournisseur = () => {
   const [inputValue, setInputValue] = useState("");
   const [dataToSend, setDataToSend] = useState(null);
+  const [selectedMois, setSelectedMois] = useState(null);
+  const [solde, setSolde] = useState(null);
   const [countries, setCountries] = useState([]);
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [currentFocus, setCurrentFocus] = useState(-1);
@@ -33,6 +38,30 @@ const StFournisseur = () => {
 
     fetchFourniseur();
   }, []);
+
+  useEffect(() => {
+    const fetchSolde = async () => {
+      if (!dataToSend) {
+        setSolde(null);
+        return;
+      }
+      try {
+        const fournisseur = encodeURIComponent(
+          JSON.stringify({ nom: dataToSend })
+        );
+        const response = await fetch(
+          `${apiUrl}/soldefournisseur?fournisseur=${fournisseur}`
+        );
+        const data = await response.json();
+        setSolde(Number(data.solde) || 0);
+      } catch (error) {
+        console.error("Error fetching solde:", error);
+        setSolde(null);
+      }
+    };
+
+    fetchSolde();
+  }, [dataToSend]);
 
   useEffect(() => {
     const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -83,7 +112,12 @@ const StFournisseur = () => {
   const handleSubmit = () => {
     if (inputValue.trim()) {
       setDataToSend(inputValue.trim());
+      setSelectedMois(null);
     }
+  };
+
+  const handleMoisClick = (mois) => {
+    setSelectedMois(mois);
   };
 
   return (
@@ -205,12 +239,55 @@ const StFournisseur = () => {
                 ? "Saisir le nom du fournisseur"
                 : `Aperçu des Paiements Pour : ${dataToSend} `
             }
+            subheader={
+              dataToSend != null && solde != null
+                ?<div style={{ fontSize: "1.2rem", fontWeight: "bold" }}>Solde : {formatNumber(solde)}</div> 
+                : undefined
+            }
           />
           <CardContent>
             {dataToSend == null ? (
               "Saisir le nom du fournisseur"
             ) : (
               <BarsSumFA nom={dataToSend} />
+            )}
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <Card>
+          <CardHeader
+            title={
+              dataToSend == null
+                ? "Saisir le nom du fournisseur"
+                : `Paiements par mois : ${dataToSend}`
+            }
+          />
+          <CardContent>
+            {dataToSend == null ? (
+              "Saisir le nom du fournisseur"
+            ) : (
+              <PaiementByMonth nom={dataToSend} onRowClick={handleMoisClick} />
+            )}
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <Card>
+          <CardHeader
+            title={
+              selectedMois == null
+                ? "Pressez une ligne dans Paiements par mois"
+                : `Détail paiements ${selectedMois} : ${dataToSend}`
+            }
+          />
+          <CardContent>
+            {selectedMois == null || dataToSend == null ? (
+              "Pressez une ligne dans Paiements par mois"
+            ) : (
+              <DetailPaiementByMonth nom={dataToSend} mois={selectedMois} />
             )}
           </CardContent>
         </Card>
