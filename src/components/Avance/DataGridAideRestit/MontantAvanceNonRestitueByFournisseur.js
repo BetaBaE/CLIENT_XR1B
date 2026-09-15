@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./styles.css"; // Import the CSS for styling
+import "../../global/customTable.css";
 // import { formatNumber } from "../../globalFunction";
 import apiUrl from "../../../config";
 import { formatNumber, truncateString } from "../../Analyse/globalFunction";

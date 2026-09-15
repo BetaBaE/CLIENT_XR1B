@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./styles.css"; // Import the CSS for styling
+import "../../../global/customTable.css";
 import apiUrl from "../../../../config";
 import { formatNumber } from "../../globalFunction";
 
@@ -101,7 +101,7 @@ const DetailEffetEcheance = ({ sommeEffet }) => {
                 <td>{item.dateecheance.split("T00")[0]}</td>
                 <td>{item.effet}</td>
                 <td>{item.BANK}</td>
-                <td style={{ textAlign: "right" }}>
+                <td className="my-custom-right-align">
                   {formatNumber(item.Montant)}
                 </td>
                 <td>{item.NOM}</td>

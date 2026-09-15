@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import apiUrl from "../../../../config";
-import "./styles.css";
+import "../../../global/customTable.css";
 import { formatNumber } from "../../globalFunction";
 
 const ClotureChantier = ({ onRowClick, chantier }) => {

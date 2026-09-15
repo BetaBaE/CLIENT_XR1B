@@ -1,0 +1,341 @@
+/**
+ * Shared styles for custom HTML tables (.my-custom-table*).
+ * Not used by react-admin <Datagrid>.
+ * Import: import "../../global/customTable.css" (adjust relative path).
+ */
+
+/* ===== Theme tokens ===== */
+.my-custom-table--light,
+.my-custom-table-small.my-custom-table--light,
+.my-custom-table-sf.my-custom-table--light {
+  --tbl-bg: #ffffff;
+  --tbl-header-bg: linear-gradient(180deg, #f0f4f8 0%, #e8eef5 100%);
+  --tbl-header-text: #1a2332;
+  --tbl-text: #2c3e50;
+  --tbl-muted: #6b7c93;
+  --tbl-border: rgba(109, 123, 152, 0.18);
+  --tbl-row-hover: rgba(0, 136, 254, 0.08);
+  --tbl-row-alt: #f4f6f9;
+  --tbl-accent: #0088fe;
+  --tbl-shadow: 0 2px 12px rgba(26, 35, 50, 0.06),
+    0 1px 3px rgba(26, 35, 50, 0.04);
+}
+
+.my-custom-table--dark,
+.my-custom-table-small.my-custom-table--dark,
+.my-custom-table-sf.my-custom-table--dark {
+  --tbl-bg: #1e1e1e;
+  --tbl-header-bg: linear-gradient(180deg, #2a2a2a 0%, #242424 100%);
+  --tbl-header-text: #f0f4f8;
+  --tbl-text: #e8eaed;
+  --tbl-muted: #9aa5b5;
+  --tbl-border: rgba(255, 255, 255, 0.12);
+  --tbl-row-hover: rgba(0, 136, 254, 0.2);
+  --tbl-row-alt: #2a2a2a;
+  --tbl-accent: #4da8ff;
+  --tbl-shadow: 0 2px 16px rgba(0, 0, 0, 0.35), 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+:root {
+  --tbl-bg: #ffffff;
+  --tbl-header-bg: linear-gradient(180deg, #f0f4f8 0%, #e8eef5 100%);
+  --tbl-header-text: #1a2332;
+  --tbl-text: #2c3e50;
+  --tbl-muted: #6b7c93;
+  --tbl-border: rgba(109, 123, 152, 0.18);
+  --tbl-row-hover: rgba(0, 136, 254, 0.08);
+  --tbl-row-alt: #f4f6f9;
+  --tbl-accent: #0088fe;
+  --tbl-shadow: 0 2px 12px rgba(26, 35, 50, 0.06),
+    0 1px 3px rgba(26, 35, 50, 0.04);
+  --tbl-radius: 10px;
+  --tbl-font: "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+body.dark,
+html.dark,
+[data-theme="dark"] {
+  --tbl-bg: #1e1e1e;
+  --tbl-header-bg: linear-gradient(180deg, #2a2a2a 0%, #242424 100%);
+  --tbl-header-text: #f0f4f8;
+  --tbl-text: #e8eaed;
+  --tbl-muted: #9aa5b5;
+  --tbl-border: rgba(255, 255, 255, 0.12);
+  --tbl-row-hover: rgba(0, 136, 254, 0.2);
+  --tbl-row-alt: #2a2a2a;
+  --tbl-accent: #4da8ff;
+  --tbl-shadow: 0 2px 16px rgba(0, 0, 0, 0.35), 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* ===== Shell ===== */
+.my-custom-table,
+.my-custom-table-small,
+.my-custom-table-sf {
+  display: flex;
+  height: 300px;
+  font-family: var(--tbl-font);
+  color: var(--tbl-text);
+  background: var(--tbl-bg);
+  border: 1px solid var(--tbl-border);
+  border-radius: var(--tbl-radius);
+  box-shadow: var(--tbl-shadow);
+  overflow: hidden;
+}
+
+.my-custom-table-small,
+.my-custom-table-sf {
+  height: 80px;
+}
+
+.table-container,
+.table-container-sf {
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: auto;
+  margin-right: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tbl-muted) transparent;
+}
+
+.table-container::-webkit-scrollbar,
+.table-container-sf::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.table-container::-webkit-scrollbar-track,
+.table-container-sf::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.table-container::-webkit-scrollbar-thumb,
+.table-container-sf::-webkit-scrollbar-thumb {
+  background: var(--tbl-muted);
+  border-radius: 999px;
+}
+
+.table-container:last-child,
+.table-container-sf:last-child {
+  margin-right: 0;
+}
+
+/* ===== Table ===== */
+.table-container table,
+.table-container-sf table,
+.my-custom-table table,
+.my-custom-table-small table,
+.my-custom-table-sf table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: inherit;
+  background: transparent;
+}
+
+.my-custom-table th,
+.my-custom-table td,
+.my-custom-table-small th,
+.my-custom-table-small td,
+.my-custom-table-sf th,
+.my-custom-table-sf td {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 0.875rem;
+  line-height: 1.35;
+  border: none;
+  border-bottom: 1px solid var(--tbl-border);
+  color: var(--tbl-text) !important;
+  background-color: transparent;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.my-custom-table th,
+.my-custom-table-small th,
+.my-custom-table-sf th {
+  cursor: pointer;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--tbl-header-bg) !important;
+  color: var(--tbl-header-text) !important;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--tbl-accent);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.my-custom-table th:hover,
+.my-custom-table-small th:hover,
+.my-custom-table-sf th:hover {
+  color: var(--tbl-accent) !important;
+}
+
+.my-custom-table tbody tr,
+.my-custom-table-small tbody tr,
+.my-custom-table-sf tbody tr {
+  background-color: var(--tbl-bg) !important;
+}
+
+.my-custom-table tbody tr:nth-child(even),
+.my-custom-table-small tbody tr:nth-child(even),
+.my-custom-table-sf tbody tr:nth-child(even),
+.my-custom-table tr:nth-child(even),
+.my-custom-table-small tr:nth-child(even),
+.my-custom-table-sf tr:nth-child(even) {
+  background-color: var(--tbl-row-alt) !important;
+}
+
+.my-custom-table tbody tr:nth-child(even) td,
+.my-custom-table-small tbody tr:nth-child(even) td,
+.my-custom-table-sf tbody tr:nth-child(even) td {
+  color: var(--tbl-text) !important;
+  background-color: transparent !important;
+}
+
+.my-custom-table tbody tr:hover,
+.my-custom-table-small tbody tr:hover,
+.my-custom-table-sf tbody tr:hover {
+  background-color: var(--tbl-row-hover) !important;
+}
+
+.my-custom-table tbody tr:hover td,
+.my-custom-table-small tbody tr:hover td,
+.my-custom-table-sf tbody tr:hover td {
+  color: var(--tbl-header-text) !important;
+}
+
+.my-custom-table tbody tr:last-child td,
+.my-custom-table-small tbody tr:last-child td,
+.my-custom-table-sf tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.my-custom-table tbody tr[style*="cursor: pointer"]:active {
+  background-color: rgba(0, 136, 254, 0.22) !important;
+}
+
+/* Dark modifier */
+.my-custom-table--dark,
+.my-custom-table-small.my-custom-table--dark,
+.my-custom-table-sf.my-custom-table--dark {
+  background: #1e1e1e !important;
+  color: #e8eaed !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.my-custom-table--dark tbody tr,
+.my-custom-table-small.my-custom-table--dark tbody tr,
+.my-custom-table-sf.my-custom-table--dark tbody tr {
+  background-color: #1e1e1e !important;
+}
+
+.my-custom-table--dark tbody tr:nth-child(even),
+.my-custom-table-small.my-custom-table--dark tbody tr:nth-child(even),
+.my-custom-table-sf.my-custom-table--dark tbody tr:nth-child(even),
+.my-custom-table--dark tr:nth-child(even),
+.my-custom-table-small.my-custom-table--dark tr:nth-child(even),
+.my-custom-table-sf.my-custom-table--dark tr:nth-child(even) {
+  background-color: #2a2a2a !important;
+}
+
+.my-custom-table--dark th,
+.my-custom-table--dark td,
+.my-custom-table-small.my-custom-table--dark th,
+.my-custom-table-small.my-custom-table--dark td,
+.my-custom-table-sf.my-custom-table--dark th,
+.my-custom-table-sf.my-custom-table--dark td {
+  color: #e8eaed !important;
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+.my-custom-table--dark th,
+.my-custom-table-small.my-custom-table--dark th,
+.my-custom-table-sf.my-custom-table--dark th {
+  color: #f0f4f8 !important;
+  background: linear-gradient(180deg, #2a2a2a 0%, #242424 100%) !important;
+  border-bottom: 2px solid #4da8ff;
+}
+
+.my-custom-table--dark tbody tr:hover,
+.my-custom-table-small.my-custom-table--dark tbody tr:hover,
+.my-custom-table-sf.my-custom-table--dark tbody tr:hover {
+  background-color: rgba(0, 136, 254, 0.22) !important;
+}
+
+/* Light modifier */
+.my-custom-table--light,
+.my-custom-table-small.my-custom-table--light,
+.my-custom-table-sf.my-custom-table--light {
+  background: #ffffff !important;
+  color: #2c3e50 !important;
+  border-color: rgba(109, 123, 152, 0.18) !important;
+}
+
+.my-custom-table--light tbody tr,
+.my-custom-table-small.my-custom-table--light tbody tr,
+.my-custom-table-sf.my-custom-table--light tbody tr {
+  background-color: #ffffff !important;
+}
+
+.my-custom-table--light tbody tr:nth-child(even),
+.my-custom-table-small.my-custom-table--light tbody tr:nth-child(even),
+.my-custom-table-sf.my-custom-table--light tbody tr:nth-child(even),
+.my-custom-table--light tr:nth-child(even),
+.my-custom-table-small.my-custom-table--light tr:nth-child(even),
+.my-custom-table-sf.my-custom-table--light tr:nth-child(even) {
+  background-color: #f4f6f9 !important;
+}
+
+.my-custom-table--light th,
+.my-custom-table--light td,
+.my-custom-table-small.my-custom-table--light th,
+.my-custom-table-small.my-custom-table--light td,
+.my-custom-table-sf.my-custom-table--light th,
+.my-custom-table-sf.my-custom-table--light td {
+  color: #2c3e50 !important;
+  border-bottom-color: rgba(109, 123, 152, 0.18);
+}
+
+.my-custom-table--light th,
+.my-custom-table-small.my-custom-table--light th,
+.my-custom-table-sf.my-custom-table--light th {
+  color: #1a2332 !important;
+  background: linear-gradient(180deg, #f0f4f8 0%, #e8eef5 100%) !important;
+  border-bottom: 2px solid #0088fe;
+}
+
+.my-custom-table--light tbody tr:hover,
+.my-custom-table-small.my-custom-table--light tbody tr:hover,
+.my-custom-table-sf.my-custom-table--light tbody tr:hover {
+  background-color: rgba(0, 136, 254, 0.08) !important;
+}
+
+/* ===== Utilities ===== */
+.my-custom-right-align,
+.my-custom-right-align-sf,
+.my-custom-table td[style*="text-align: right"],
+.my-custom-table-small td[style*="text-align: right"],
+.my-custom-table-sf td[style*="text-align: right"],
+.my-custom-table td[style*="text-align:right"],
+.my-custom-table-small td[style*="text-align:right"],
+.my-custom-table-sf td[style*="text-align:right"] {
+  text-align: right !important;
+  white-space: nowrap !important;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+.my-custom-table td.my-custom-nowrap,
+.my-custom-table-small td.my-custom-nowrap,
+.my-custom-table-sf td.my-custom-nowrap,
+.my-custom-nowrap {
+  white-space: nowrap !important;
+}
+
+.text-center {
+  text-align: center;
+}

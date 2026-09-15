@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import "./styles.css";
+import "../../../global/customTable.css";
 import apiUrl from "../../../../config";
 import { formatNumber } from "../../globalFunction";
+import { useTableThemeClass } from "../../../global/SyncThemeClass";
 
 const PaiementByMonth = ({ nom, onRowClick }) => {
+  const tableClass = useTableThemeClass("my-custom-table");
   const [dataTable1, setDataTable1] = useState([]);
   const [sortConfig1, setSortConfig1] = useState({
     key: "Mois",
@@ -72,7 +74,7 @@ const PaiementByMonth = ({ nom, onRowClick }) => {
   }
 
   return dataTable1.length > 0 ? (
-    <div className="my-custom-table">
+    <div className={tableClass}>
       <div className="table-container">
         <table>
           <thead>
@@ -91,7 +93,7 @@ const PaiementByMonth = ({ nom, onRowClick }) => {
                 style={{ cursor: "pointer" }}
               >
                 <td>{item.Mois}</td>
-                <td style={{ textAlign: "right" }}>
+                <td className="my-custom-right-align">
                   {formatNumber(item.MontantPaiement)}
                 </td>
               </tr>

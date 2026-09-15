@@ -6,7 +6,7 @@ import {
   useGetIdentity,
 } from "react-admin";
 import { required } from "react-admin";
-import "../Analyse/echencier/DataGrid/styles.css";
+import "../global/customTable.css";
 
 import Card from "@mui/material/Card";
 import { CardContent, CardHeader } from "@mui/material";

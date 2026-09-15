@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "./styles.css"; // Import the CSS for styling
+import "../../../global/customTable.css";
 import apiUrl from "../../../../config";
+import { formatNumber } from "../../globalFunction";
 
 // SortableTable component
 const FaSansFnByMonth = ({ onRowClickFnCount }) => {
@@ -83,10 +84,12 @@ const FaSansFnByMonth = ({ onRowClickFnCount }) => {
             {sortedData1.map((item) => (
               <tr key={item.id} onClick={() => onRowClickFnCount(`${item.id}`)}>
                 <td>{item.id}</td>
-                <td style={{ textAlign: "right" }}>{item.count}</td>
+                <td className="my-custom-right-align">{item.count}</td>
                 {/* <td>{item.MinDate.split("T00")[0]}</td>
                 <td>{item.MaxDate.split("T00")[0]}</td> */}
-                <td style={{ textAlign: "right" }}>{item.NetAPaye}</td>
+                <td className="my-custom-right-align">
+                  {formatNumber(item.NetAPaye ?? 0)}
+                </td>
               </tr>
             ))}
           </tbody>

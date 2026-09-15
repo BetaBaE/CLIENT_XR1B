@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import "./styles.css"; // Import the CSS for styling
+import "../../global/customTable.css";
 import apiUrl from "../../../config";
 import { formatNumber, truncateString } from "../../Analyse/globalFunction";
 

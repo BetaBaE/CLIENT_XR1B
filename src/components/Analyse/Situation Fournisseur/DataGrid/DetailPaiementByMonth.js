@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import "./styles.css";
+import "../../../global/customTable.css";
 import apiUrl from "../../../../config";
 import { formatNumber } from "../../globalFunction";
+import { useTableThemeClass } from "../../../global/SyncThemeClass";
 
 const DetailPaiementByMonth = ({ nom, mois }) => {
+  const tableClass = useTableThemeClass("my-custom-table");
   const [dataTable1, setDataTable1] = useState([]);
   const [sortConfig1, setSortConfig1] = useState({
     key: "DateDouc",
@@ -81,7 +83,7 @@ const DetailPaiementByMonth = ({ nom, mois }) => {
   }
 
   return dataTable1.length > 0 ? (
-    <div className="my-custom-table">
+    <div className={tableClass}>
       <div className="table-container">
         <table>
           <thead>
@@ -108,16 +110,16 @@ const DetailPaiementByMonth = ({ nom, mois }) => {
                     : ""}
                 </td>
                 <td>{item.CODECHT}</td>
-                <td style={{ textAlign: "right" }}>
+                <td className="my-custom-right-align">
                   {formatNumber(item.TOTALTTC || 0)}
                 </td>
-                <td style={{ textAlign: "right" }}>
+                <td className="my-custom-right-align">
                   {formatNumber(item.NETAPAYER || 0)}
                 </td>
-                <td style={{ textAlign: "right" }}>
+                <td className="my-custom-right-align">
                   {formatNumber(item.RAS || 0)}
                 </td>
-                <td style={{ textAlign: "right" }}>
+                <td className="my-custom-right-align">
                   {formatNumber(item.RasIR || 0)}
                 </td>
                 <td>{item.etat}</td>

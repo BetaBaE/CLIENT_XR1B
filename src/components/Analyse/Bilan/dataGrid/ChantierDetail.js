@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { formatNumber } from "../../globalFunction";
 import apiUrl from "../../../../config";
-import "./styles.css";
-
+import "../../../global/customTable.css";
 const ChantierDetail = ({ year, designationId }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);

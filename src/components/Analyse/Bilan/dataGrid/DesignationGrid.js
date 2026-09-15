@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { formatNumber } from "../../globalFunction";
-import "./styles.css";
-
+import "../../../global/customTable.css";
 const DesignationGrid = ({ data, loading, onRowClick, selectedCode }) => {
   const [sortConfig, setSortConfig] = useState({
     key: "total",

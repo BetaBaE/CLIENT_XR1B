@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import "../../../global/customTable.css";
 import { formatNumber, truncateString } from "../../globalFunction";
 import apiUrl from "../../../../config";
 

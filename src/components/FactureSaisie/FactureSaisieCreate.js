@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import apiUrl from "../../config";
 import { Box, Grid, Typography } from "@mui/material";
-import "../Analyse/echencier/DataGrid/styles.css";
+import "../global/customTable.css";
 import { useFormContext } from "react-hook-form";
 import { useInputStyleFilters } from "../global/DarkInputStyle";
 

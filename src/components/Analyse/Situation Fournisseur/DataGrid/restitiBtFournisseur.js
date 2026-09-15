@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import "./styles.css"; // Import the CSS for styling
+import "../../../global/customTable.css";
 
 import { formatNumber } from "../../globalFunction";
 import apiUrl from "../../../../config";
+import { useTableThemeClass } from "../../../global/SyncThemeClass";
 
 // SortableTable component
 const AvanceNoRestit = ({ nom }) => {
+  const tableClass = useTableThemeClass("my-custom-table-small");
   const [dataTable1, setDataTable1] = useState([]);
   const [sortConfig1, setSortConfig1] = useState({
     key: "id",
@@ -78,7 +80,7 @@ const AvanceNoRestit = ({ nom }) => {
   }
 
   return dataTable1.length > 0 ? (
-    <div className="my-custom-table-small">
+    <div className={tableClass}>
       <div className="table-container">
         <table>
           <thead>
