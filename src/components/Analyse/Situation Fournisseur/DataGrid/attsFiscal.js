@@ -20,7 +20,9 @@ const AttsFiscal = ({ nom }) => {
     const fetchData = async () => {
       try {
         const response1 = await fetch(
-          `${apiUrl}/attsfiscle?fournisseur=%7B%22nom%22%3A%22${nom}%22%7D&`
+          `${apiUrl}/attsfiscle?fournisseur=${encodeURIComponent(
+            JSON.stringify({ nom })
+          )}`
         );
         const result1 = await response1.json();
         const formattedData1 = result1.map((four) => ({

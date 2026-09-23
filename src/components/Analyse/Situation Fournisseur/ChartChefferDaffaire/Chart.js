@@ -82,7 +82,9 @@ const CustomTooltip = ({ active, payload }) => {
 const ChartChefferDaffaire = ({ nom }) => {
   const [loading, setLoading] = useState(true);
   const [dataWithPercentageChange, setDataWithPercentageChange] = useState([]);
-  const route = `chefferDAffaire?fournisseur=%7B%22nom%22%3A%22${nom}%22%7D&`;
+  const route = `chefferDAffaire?fournisseur=${encodeURIComponent(
+    JSON.stringify({ nom })
+  )}&`;
 
   const processChartData = (data) => {
     if (!data || data.length === 0) return [];

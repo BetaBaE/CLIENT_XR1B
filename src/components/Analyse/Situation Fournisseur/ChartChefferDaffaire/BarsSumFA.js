@@ -67,7 +67,9 @@ const CustomTooltip = ({ active, payload }) => {
 };
 
 const BarsSumFA = ({ nom }) => {
-  let route = `fastatebyFournisseur?fournisseur=%7B%22nom%22%3A%22${nom}%22%7D&`;
+  let route = `fastatebyFournisseur?fournisseur=${encodeURIComponent(
+    JSON.stringify({ nom })
+  )}&`;
   const [loading, setLoading] = useState(true);
   const [dataWithPercentageChange, setDataWithPercentageChange] = useState([]);
 
