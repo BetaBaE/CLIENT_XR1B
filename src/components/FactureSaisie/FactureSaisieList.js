@@ -66,6 +66,7 @@ export const FactureSaisieList = () => {
         />
         <DateField source="dateecheance" />
         <BooleanField source="papierRecu" label="Papier reçu" />
+        <TextField source="ForcerRas" label="Forcer RAS" />
       </DatagridConfigurable>
     </List>
   );

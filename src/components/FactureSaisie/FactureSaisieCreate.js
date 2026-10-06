@@ -749,6 +749,18 @@ export const FactureSaisieCreate = (props) => {
             ""
           )}
           <Grid item md={6}>
+            <SelectInput
+              sx={{ width: "98%" }}
+              source="ForcerRas"
+              label="Forcer RAS"
+              defaultValue="Non"
+              choices={[
+                { id: "Non", name: "Non" },
+                { id: "Oui", name: "Oui" },
+              ]}
+            />
+          </Grid>
+          <Grid item md={6}>
             <PapierRecuInput userDisplayName={identity?.username || "User"} />
           </Grid>
         </Grid>

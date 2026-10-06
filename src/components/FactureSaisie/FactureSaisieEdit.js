@@ -336,6 +336,19 @@ export const FactureSaisieEdit = () => {
           ) : (
             ""
           )}
+          <Grid item xs={4}>
+            <SelectInput
+              sx={useInputStyleFilters}
+              slotProps={{ input: { autoComplete: "off" } }}
+              source="ForcerRas"
+              label="Forcer RAS"
+              defaultValue="Non"
+              choices={[
+                { id: "Non", name: "Non" },
+                { id: "Oui", name: "Oui" },
+              ]}
+            />
+          </Grid>
           {permissions === "admin" ||
           permissions === "comptable midelt" ||
           permissions === "superviseur comptabilite midelt" ? (
