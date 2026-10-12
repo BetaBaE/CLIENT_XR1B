@@ -196,6 +196,7 @@ export const FicheNavetteCreate = (props) => {
               { id: "RH", name: "Ressource Humaine" },
               { id: "QUALITE", name: "Qualité" },
               { id: "MC", name: "Moyen commun" },
+              { id: "JURI", name: "Service juridique" },
             ]}
           />
         )}

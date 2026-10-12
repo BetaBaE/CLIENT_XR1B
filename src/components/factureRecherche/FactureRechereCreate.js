@@ -187,6 +187,7 @@ export const FactureRechereCreate = (props) => {
               { id: "RH", name: "Ressource Humaine" },
               { id: "QUALITE", name: "Qualité" }, // Fix typo
               { id: "MC", name: "Moyen commun" },
+              { id: "JURI", name: "Service juridique" },
             ]}
           />
         )}
